@@ -5,7 +5,7 @@ import '../styles/global.css'
 const App = ({ Component, pageProps }: AppProps) => (
   <>
     <Head>
-      <title>Paladin Hub</title>
+      <title>SpinOff - Feedback</title>
       <meta charSet='utf-8' />
       <meta name='mobile-web-app-capable' content='yes' />
       <meta name='apple-mobile-web-app-capable' content='yes' />
