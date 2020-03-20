@@ -11,8 +11,8 @@ const UnnecessarilyComplexTitle = ({ loaded }: Props) => (
   <Link href='/'>
     <a>
       <h1 className={loaded ? 'loaded' : ''}>
-        <span>Progressive</span>
-        <span>WebApp</span>
+        <span>SpinOff</span>
+        <span>Feedback</span>
       </h1>
 
       <style jsx>{`
