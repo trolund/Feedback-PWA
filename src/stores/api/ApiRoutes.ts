@@ -1,27 +1,41 @@
-const Routes = {
-  QuestionSetNames: "Api/QuestionSet/SetOnly",
-  QuestionSetById: (id: string) => `/Api/QuestionSet/${id}`,
-  Feedbackbatch: (id: string) => `/Api​/FeedbackBatch​/${id}`,
-  Categories: (companyId: string) => `/Api/Meeting/Categories/${companyId}`,
+const appendCategoriesParms = (inputStr: string, categories: string[]) => {
+  let returnStr = inputStr
+  const categoriesStr = categories.map(item => `&categories=${item}`)
+  returnStr += categoriesStr
+
+  return returnStr
+}
+
+const apiUrl = ''
+
+const ApiRoutes = {
+  CreateFeedbackBatch: () => `${apiUrl}/Api/FeedbackBatch`,
+  FetchQuestions: (meetingId: string) =>
+    `${apiUrl}/Api/Meeting/MeetingOpen/${meetingId}`,
+  QuestionSetNames: '/Api/QuestionSet/SetOnly',
+  QuestionSetById: (id: string) => `${apiUrl}/Api/QuestionSet/${id}`,
+  Feedbackbatch: (id: string) => `${apiUrl}/Api/FeedbackBatch/${id}`,
+  Categories: (companyId: string) =>
+    `${apiUrl}/Api/Meeting/Categories/${companyId}`,
   MeetingsByDates: (start: Date, end: Date) =>
-    `Api/Meeting/ByDate?start=${start.toISOString()}&end=${end.toISOString()}`,
+    `${apiUrl}Api/Meeting/ByDate?start=${start.toISOString()}&end=${end.toISOString()}`,
   Dashboard: (
     start: Date,
     end: Date,
     categories?: string[],
     searchWord?: string
   ) => {
-    var returnStr = `Api/FeedbackBatch/dashboard?start=${start.toISOString()}&end=${end.toISOString()}`;
+    let returnStr = `${apiUrl}/Api/FeedbackBatch/dashboard?start=${start.toISOString()}&end=${end.toISOString()}`
 
     if (categories) {
-      returnStr = appendCategoriesParms(returnStr, categories);
+      returnStr = appendCategoriesParms(returnStr, categories)
     }
 
     if (searchWord) {
-      returnStr = returnStr + `&searchWord=${searchWord}`;
+      returnStr += `&searchWord=${searchWord}`
     }
 
-    return returnStr;
+    return returnStr
   },
   DashboardMonth: (
     start: Date,
@@ -30,23 +44,16 @@ const Routes = {
     searchWord?: string,
     onlyOwnData: boolean = true
   ) => {
-    var returnStr = `Api/FeedbackBatch/dashboardMonth?start=${start.toISOString()}&end=${end.toISOString()}&onlyOwnData=${onlyOwnData}`;
+    let returnStr = `${apiUrl}/Api/FeedbackBatch/dashboardMonth?start=${start.toISOString()}&end=${end.toISOString()}&onlyOwnData=${onlyOwnData}`
     if (searchWord) {
-      returnStr = returnStr + `&searchWord=${searchWord}`;
+      returnStr += `&searchWord=${searchWord}`
     }
     if (categories) {
-      returnStr = appendCategoriesParms(returnStr, categories);
+      returnStr = appendCategoriesParms(returnStr, categories)
     }
 
-    return returnStr;
+    return returnStr
   }
-};
+}
 
-const appendCategoriesParms = (returnStr: string, categories: string[]) => {
-  const categoriesStr = categories.map(item => `&categories=${item}`);
-  returnStr = returnStr + categoriesStr;
-
-  return returnStr;
-};
-
-export default Routes;
+export default ApiRoutes

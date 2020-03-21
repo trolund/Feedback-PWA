@@ -1,5 +1,4 @@
-interface Category {
-  companyId?: number;
-  name?: string;
+export default interface Category {
+  companyId?: number
+  name?: string
 }
-export default Category;

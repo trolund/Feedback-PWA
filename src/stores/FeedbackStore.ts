@@ -1,57 +1,81 @@
-import { decorate, observable } from "mobx";
-import states from "./requestState";
-import authService from "../components/api-authorization/AuthorizeService";
-import { createContext } from "react";
-import MeetingModel from "../models/MeetingModel";
-import ApiRoutes from "../api/ApiRoutes";
-import QuestionSet from "../models/QuestionSet";
-import FeedbackBatch from "../models/FeedbackBatch";
+import { decorate, observable } from 'mobx'
+import { createContext } from 'react'
+import states from './requestState'
+import FeedbackBatch from '../models/FeedbackBatch'
+import ApiRoutes from './api/ApiRoutes'
+import FeedbackModel from '../models/FeedbackModel'
 
-const baseUrl =
-  process.env.NODE_ENV === "development" ? process.env.REACT_APP_BASE_URL : "";
+// import authService from '../components/api-authorization/AuthorizeService'
 
 class FeedbackStore {
   // status
-  state = states.DONE;
-  msg = "";
+  state = states.DONE
+
+  msg = ''
 
   // data
-  feedbackBatch: FeedbackBatch[] | null = null;
+  feedbackBatch: FeedbackBatch[] | null = null
 
-  constructor() {}
+  feedback: FeedbackModel[] = []
 
   async fetchFeedback(meetingId: string) {
-    this.state = states.LOADING;
+    this.state = states.LOADING
     try {
-      const url = `Api/FeedbackBatch/${meetingId}`; //ApiRoutes.Feedbackbatch(meetingId);
+      const url = `Api/FeedbackBatch/${meetingId}` // ApiRoutes.Feedbackbatch(meetingId);
 
-      const token = await authService.getAccessToken();
+      const token = '' // await authService.getAccessToken()
 
       const response = await fetch(url, {
-        method: "GET",
+        method: 'GET',
         headers: !token
           ? {}
           : {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json"
+              'Content-Type': 'application/json'
             },
-        redirect: "follow"
-      });
-      this.msg = response.statusText;
+        redirect: 'follow'
+      })
+      this.msg = response.statusText
 
-      const data: FeedbackBatch[] = await response.json();
+      const data: FeedbackBatch[] = await response.json()
 
-      this.feedbackBatch = data;
+      this.feedbackBatch = data
     } catch (e) {
-      this.state = states.FAILED;
-      this.msg = e.statusText;
-      this.feedbackBatch = null;
+      this.state = states.FAILED
+      this.msg = e.statusText
+      this.feedbackBatch = null
+    }
+  }
+
+  async createFeedbackBatch(feedback: FeedbackModel[], meetingId: string) {
+    this.state = states.LOADING
+
+    try {
+      const url = ApiRoutes.CreateFeedbackBatch()
+      const json = JSON.stringify({ meetingId, feedback })
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: json,
+        redirect: 'follow'
+      })
+
+      this.msg = response.statusText
+
+      // const data = await response.json()
+    } catch (e) {
+      this.state = states.FAILED
+      this.msg = e.statusText
     }
   }
 }
 
 decorate(FeedbackStore, {
   feedbackBatch: observable
-});
+})
 
-export const feedbackStore = createContext(new FeedbackStore());
+const feedbackStore = createContext(new FeedbackStore())
+
+export default feedbackStore

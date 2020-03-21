@@ -1,9 +1,7 @@
-import Question from "./Question";
+import Question from './Question'
 
-interface QuestionSet {
-  questionSetId: string;
-  name: string;
-  questions: Question[];
+export default interface QuestionSet {
+  questionSetId: string
+  name: string
+  questions: Question[]
 }
-
-export default QuestionSet;

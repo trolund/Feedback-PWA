@@ -1,8 +1,8 @@
 @import url('https://rsms.me/inter/inter.css');
-@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
 
 :root {
   --accent: #19896f;
+  --accent-dark: #19896f;
   --text: #eeeff1;
   --label: #8a8b8e;
   --surface: #313236;
@@ -71,7 +71,7 @@ body {
   -webkit-user-select: none;
 }
 
-button {
+.button {
   color: var(--text);
   font-family: var(--font);
   font-weight: var(--weight);
@@ -85,7 +85,17 @@ button {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
+  transition: all 0.3s;
+  text-decoration: none;
+  cursor: pointer;
 }
+
+.button:hover {
+  background: var(--accent-dark);
+  color: var(--text);
+  text-decoration: none;
+}
+
 
 input[type='text'],
 input[type='password'] {
@@ -131,4 +141,12 @@ select {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
 }
