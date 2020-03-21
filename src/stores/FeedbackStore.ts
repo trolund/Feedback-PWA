@@ -1,4 +1,4 @@
-import { decorate, observable } from 'mobx'
+import { observable, action } from 'mobx'
 import { createContext } from 'react'
 import states from './requestState'
 import FeedbackBatch from '../models/FeedbackBatch'
@@ -9,16 +9,28 @@ import FeedbackModel from '../models/FeedbackModel'
 
 class FeedbackStore {
   // status
-  state = states.DONE
+  @observable state = states.DONE
 
-  msg = ''
+  @observable msg = ''
 
   // data
-  feedbackBatch: FeedbackBatch[] | null = null
+  @observable feedbackBatch: FeedbackBatch[] = []
 
-  feedback: FeedbackModel[] = []
+  @observable feedback: FeedbackModel[] = []
 
-  async fetchFeedback(meetingId: string) {
+  @action setFeedbackItem = (item: FeedbackModel) => {
+    const oldElm = this.feedback.find(f => f.questionId === item.questionId)
+
+    if (oldElm) {
+      this.feedback = this.feedback.map(f =>
+        f.questionId !== item.questionId ? f : item
+      )
+    } else {
+      this.feedback.push(item)
+    }
+  }
+
+  @action fetchFeedback = async (meetingId: string) => {
     this.state = states.LOADING
     try {
       const url = `Api/FeedbackBatch/${meetingId}` // ApiRoutes.Feedbackbatch(meetingId);
@@ -47,7 +59,10 @@ class FeedbackStore {
     }
   }
 
-  async createFeedbackBatch(feedback: FeedbackModel[], meetingId: string) {
+  @action createFeedbackBatch = async (
+    feedback: FeedbackModel[],
+    meetingId: string
+  ) => {
     this.state = states.LOADING
 
     try {
@@ -72,9 +87,9 @@ class FeedbackStore {
   }
 }
 
-decorate(FeedbackStore, {
-  feedbackBatch: observable
-})
+// decorate(FeedbackStore, {
+//   feedbackBatch: observable
+// })
 
 const feedbackStore = createContext(new FeedbackStore())
 

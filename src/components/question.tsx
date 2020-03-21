@@ -1,27 +1,28 @@
 // import { useContext, useState, useEffect } from 'react'
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
 import { View } from 'react-view-pager'
-import VoteScale from '../models/vote'
-
-// import feedbackStore from '../stores/FeedbackStore'
-// import FeedbackModel from '../models/FeedbackModel'
-// import Smiley from './Smiley'
+import feedbackStore from '../stores/FeedbackStore'
+import FeedbackModel from '../models/FeedbackModel'
 
 interface IProp {
   question: string
   questionId: string
 }
-
-interface Smiley {
-  On: boolean
-  Img: string
-  Type: VoteScale
-}
-
-const Question: React.FC<IProp> = ({ question }) => {
-  //   const context = useContext(feedbackStore)
+const Question: React.FC<IProp> = observer(({ question, questionId }) => {
+  const { setFeedbackItem } = useContext(feedbackStore)
   const [answer, setAnswer] = useState(-1)
-  const [comment, setComment] = useState(null)
+  const [comment, setComment] = useState('')
+
+  useEffect(() => {
+    const feedbackItem: FeedbackModel = {
+      answer,
+      comment,
+      questionId
+    }
+    setFeedbackItem(feedbackItem)
+  }, [answer, comment, questionId, setFeedbackItem])
+
   return (
     <View className='view'>
       <div className='question'>
@@ -31,7 +32,7 @@ const Question: React.FC<IProp> = ({ question }) => {
       </div>
       <div className='flex-container'>
         <div
-          className={answer !== 0 ? 'one smiley' : 'one smiley selected'}
+          className={answer === 0 ? 'one smiley' : 'one smiley selected'}
           role='button'
           data-answer={0}
           tabIndex={0}
@@ -44,7 +45,7 @@ const Question: React.FC<IProp> = ({ question }) => {
           }
         />
         <div
-          className={answer !== 1 ? 'two smiley' : 'two smiley selected'}
+          className={answer === 1 ? 'two smiley' : 'two smiley selected'}
           role='button'
           data-answer={1}
           tabIndex={0}
@@ -57,7 +58,7 @@ const Question: React.FC<IProp> = ({ question }) => {
           }
         />
         <div
-          className={answer !== 2 ? 'three smiley' : 'three smiley selected'}
+          className={answer === 2 ? 'three smiley' : 'three smiley selected'}
           role='button'
           data-answer={2}
           tabIndex={0}
@@ -70,7 +71,7 @@ const Question: React.FC<IProp> = ({ question }) => {
           }
         />
         <div
-          className={answer !== 3 ? 'four smiley' : 'four smiley'}
+          className={answer === 3 ? 'four smiley' : 'four smiley'}
           role='button'
           data-answer={3}
           tabIndex={0}
@@ -156,13 +157,13 @@ const Question: React.FC<IProp> = ({ question }) => {
           border-radius: 15px;
           margin-top: 30px;
         }
-        .selected {
+        .smiley {
           box-sizing: border-box;
           border: 5px solid var(--label);
         }
       `}</style>
     </View>
   )
-}
+})
 
 export default Question

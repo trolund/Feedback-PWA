@@ -7,17 +7,22 @@ import questionStore from '../stores/QuestionStore'
 import states from '../stores/requestState'
 
 export default () => {
-  const { fetchQuestions, fetchState: state } = useContext(questionStore)
+  const { fetchQuestions } = useContext(questionStore)
+  const [errorMsg, setErrorMsg] = useState(null)
   const [meetingId, setMeetingId] = useState(null)
 
   const checkMeetingClickHandler = () => {
-    fetchQuestions(meetingId).then(() => {
-      if (state === states.DONE) Router.push('/survage')
+    fetchQuestions(meetingId).then((result: states) => {
+      if (result === states.DONE) {
+        Router.push('/survage')
+      } else {
+        setErrorMsg('Noget gik galt')
+      }
     })
   }
 
   return (
-    <Page showBottomNav={false} showHead={false}>
+    <Page showBottomNav={false} showHead={false} showBackButton={false}>
       <Section>
         <div className='logo' />
         <input
@@ -25,26 +30,44 @@ export default () => {
           placeholder='møde id'
           onChange={e => setMeetingId(e.target.value)}
         />
-        <Link href='/login' key='login'>
-          <a
-            title='login'
-            aria-label='login'
-            onClick={checkMeetingClickHandler}
-            onKeyDown={checkMeetingClickHandler}
-            role='button'
-            tabIndex={0}
-          >
-            Giv Feedback
-          </a>
-        </Link>
-        <Link href='/login' key='login'>
-          <a title='login' aria-label='login'>
-            login
-          </a>
-        </Link>
+        {errorMsg !== null && <p>{errorMsg}</p>}
+        <div className='center buttons'>
+          <Link href='/#' key='#'>
+            <a
+              title='login'
+              aria-label='login'
+              onClick={checkMeetingClickHandler}
+              onKeyDown={checkMeetingClickHandler}
+              role='button'
+              tabIndex={0}
+              className='center button'
+            >
+              Giv Feedback
+            </a>
+          </Link>
+          <Link href='/login' key='login'>
+            <a
+              title='login'
+              aria-label='login'
+              className='center button loginBtn'
+            >
+              login
+            </a>
+          </Link>
+        </div>
       </Section>
 
       <style jsx>{`
+        .buttons {
+          padding-top: 20px;
+          padding-bottom: 20px;
+        }
+        .loginBtn {
+          margin-top: 50px;
+        }
+        .button {
+          display: table;
+        }
         .logo {
           background-image: url('/images/logo.png');
           background-size: contain;

@@ -6,9 +6,10 @@ const appendCategoriesParms = (inputStr: string, categories: string[]) => {
   return returnStr
 }
 
-const apiUrl = ''
+const { apiUrl } = process.env
 
 const ApiRoutes = {
+  login: '/Api​/User​/authenticate',
   CreateFeedbackBatch: () => `${apiUrl}/Api/FeedbackBatch`,
   FetchQuestions: (meetingId: string) =>
     `${apiUrl}/Api/Meeting/MeetingOpen/${meetingId}`,
@@ -18,7 +19,7 @@ const ApiRoutes = {
   Categories: (companyId: string) =>
     `${apiUrl}/Api/Meeting/Categories/${companyId}`,
   MeetingsByDates: (start: Date, end: Date) =>
-    `${apiUrl}Api/Meeting/ByDate?start=${start.toISOString()}&end=${end.toISOString()}`,
+    `${apiUrl}/Api/Meeting/ByDate?start=${start.toISOString()}&end=${end.toISOString()}`,
   Dashboard: (
     start: Date,
     end: Date,

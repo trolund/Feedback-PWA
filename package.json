@@ -13,8 +13,10 @@
     "jsxSingleQuote": true
   },
   "dependencies": {
+    "@types/react-lottie": "^1.2.3",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
+    "mobx-react-lite": "^1.5.2",
     "next": "^9.2.1",
     "next-i18next": "^4.2.1",
     "next-pwa": "^2.0.2",
@@ -22,6 +24,7 @@
     "react-dom": "^16.12.0",
     "react-feather": "^2.0.3",
     "react-lottie": "^1.2.3",
+    "react-modal": "^3.11.2",
     "react-view-pager": "^0.6.0"
   },
   "devDependencies": {

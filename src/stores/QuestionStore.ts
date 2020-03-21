@@ -1,13 +1,11 @@
-import { observable, configure, action } from 'mobx'
+import { observable, action } from 'mobx'
 import { createContext } from 'react'
 import states from './requestState'
-
 // import authService from "../components/api-authorization/AuthorizeService";
-import questionTestData from './api/DummyData/questionTestData.json'
+
 import QuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
-
-configure({ enforceActions: true })
+// import questionTestData from './api/DummyData/questionTestData.json'
 
 class QuestionStore {
   @observable fetchState = null
@@ -17,13 +15,7 @@ class QuestionStore {
   // data
   @observable questions: QuestionSet = null
 
-  constructor() {
-    this.fetchState = states.DONE
-    this.msg = ''
-    this.questions = null
-  }
-
-  @action fetchQuestions = async (meetingId: string) => {
+  @action fetchQuestions = async (meetingId: string): Promise<states> => {
     this.fetchState = states.LOADING
     try {
       const url = ApiRoutes.FetchQuestions(meetingId)
@@ -32,19 +24,18 @@ class QuestionStore {
 
       this.msg = response.statusText
 
-      // const data = await response.json()
+      const data = await response.json()
 
-      const data: QuestionSet = questionTestData
+      // const data: QuestionSet = questionTestData
 
       this.questions = data
       this.fetchState = states.DONE
+      return states.DONE
     } catch (e) {
       this.fetchState = states.FAILED
-
-      console.log(e)
-
       this.msg = e.statusText ?? 'meeting not found or not open for feedback'
       this.questions = null
+      return states.FAILED
     }
   }
 }

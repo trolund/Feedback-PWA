@@ -11,7 +11,7 @@ export default () => {
   }
 
   return (
-    <Page>
+    <Page showBackButton={false}>
       <Section>
         <h2>Home</h2>
       </Section>

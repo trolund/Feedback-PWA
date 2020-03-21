@@ -2,6 +2,7 @@
 
 :root {
   --accent: #19896f;
+  --accent-low: #19896f2f;
   --accent-dark: #19896f;
   --text: #eeeff1;
   --label: #8a8b8e;
@@ -75,9 +76,10 @@ body {
   color: var(--text);
   font-family: var(--font);
   font-weight: var(--weight);
-  background: var(--accent);
-  padding: 10px;
+  background: var(--base);
+  padding: 15px;
   border-radius: 15px;
+  background: var(--accent-low);
   transition: var(--transition-colors);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -88,6 +90,7 @@ body {
   transition: all 0.3s;
   text-decoration: none;
   cursor: pointer;
+  border: solid 1px var(--accent);
 }
 
 .button:hover {
@@ -95,7 +98,6 @@ body {
   color: var(--text);
   text-decoration: none;
 }
-
 
 input[type='text'],
 input[type='password'] {
@@ -149,4 +151,9 @@ a {
 
 .float-left {
   float: left;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
 }

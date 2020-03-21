@@ -1,17 +1,26 @@
 import Head from 'next/head'
 import Appbar from './appbar'
 import BottomNav from './bottom-nav'
+import BackAppHeader from './backAppbar'
 
 type Props = {
   title?: string
   children: React.ReactNode
   showHead?: boolean
   showBottomNav?: boolean
+  showBackButton?: boolean
 }
 
-const Page = ({ title, children, showHead, showBottomNav }: Props) => {
+const Page = ({
+  title,
+  children,
+  showHead,
+  showBottomNav,
+  showBackButton
+}: Props) => {
   const showHeader = showHead === undefined ? true : showHead
-  const showBottomNaver = showHead === undefined ? true : showBottomNav
+  const showBottomNaver = showBottomNav === undefined ? true : showBottomNav
+  const showTheBackButton = showBackButton === undefined ? true : showBackButton
   return (
     <>
       {showHeader && (
@@ -22,6 +31,8 @@ const Page = ({ title, children, showHead, showBottomNav }: Props) => {
           <Appbar />
         </>
       )}
+
+      {showTheBackButton && <BackAppHeader />}
 
       <main>{children}</main>
 
