@@ -18,17 +18,17 @@ class AuthStore {
   }
 
   // constructor() {
-  //   // document.addEventListener('load', () => {
-  //   //   this.token = localStorage.getItem('token')
-  //   // })
-  // }
+  // //   // document.addEventListener('load', () => {
+  // //   //   this.token = localStorage.getItem('token')
+  // //   // })
+  // // }
 
   @action setState = (state: states) => {
     this.state = state
   }
 
   login = async (email: string, password: string) => {
-    // this.setState(states.LOADING)
+    this.state = states.LOADING
     try {
       const url = ApiRoutes.login
 
@@ -45,7 +45,7 @@ class AuthStore {
       this.msg = response.statusText
 
       this.user = await response.json()
-      console.log(this.user)
+      this.state = states.DONE
 
       this.token = this.user.token
       localStorage.setItem('token', this.user.token)
@@ -55,6 +55,7 @@ class AuthStore {
       // this.setState(states.FAILED)
       this.msg = e.statusText ?? 'User not found'
       this.user = null
+      this.state = states.FAILED
       return states.FAILED
     }
   }

@@ -9,7 +9,7 @@ const appendCategoriesParms = (inputStr: string, categories: string[]) => {
 const { apiUrl } = process.env
 
 const ApiRoutes = {
-  login: '/Api​/User​/authenticate',
+  login: `${apiUrl}/Api/User/authenticate`,
   CreateFeedbackBatch: () => `${apiUrl}/Api/FeedbackBatch`,
   FetchQuestions: (meetingId: string) =>
     `${apiUrl}/Api/Meeting/MeetingOpen/${meetingId}`,
