@@ -1,8 +1,6 @@
 import { observable, action } from 'mobx'
 import { createContext } from 'react'
 import states from './requestState'
-// import authService from "../components/api-authorization/AuthorizeService";
-
 import QuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
 // import questionTestData from './api/DummyData/questionTestData.json'

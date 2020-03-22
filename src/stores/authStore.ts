@@ -11,16 +11,24 @@ class AuthStore {
 
   @observable user: User = null
 
+  @observable token: string = null
+
   @computed getToken = (): string => {
     return this.user.token
   }
 
-  constructor() {
-    this.user = { token: localStorage.getItem('token') }
+  // constructor() {
+  //   // document.addEventListener('load', () => {
+  //   //   this.token = localStorage.getItem('token')
+  //   // })
+  // }
+
+  @action setState = (state: states) => {
+    this.state = state
   }
 
-  @action login = async (email: string, password: string) => {
-    this.state = states.LOADING
+  login = async (email: string, password: string) => {
+    // this.setState(states.LOADING)
     try {
       const url = ApiRoutes.login
 
@@ -37,11 +45,14 @@ class AuthStore {
       this.msg = response.statusText
 
       this.user = await response.json()
+      console.log(this.user)
+
+      this.token = this.user.token
       localStorage.setItem('token', this.user.token)
-      this.state = states.DONE
+      // this.setState(states.DONE)
       return states.DONE
     } catch (e) {
-      this.state = states.FAILED
+      // this.setState(states.FAILED)
       this.msg = e.statusText ?? 'User not found'
       this.user = null
       return states.FAILED

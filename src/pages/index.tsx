@@ -26,8 +26,9 @@ export default () => {
       <Section>
         <div className='logo' />
         <input
+          className='meeting-id-input'
           type='text'
-          placeholder='møde id'
+          placeholder='Møde ID'
           onChange={e => setMeetingId(e.target.value)}
         />
         {errorMsg !== null && <p>{errorMsg}</p>}
@@ -58,6 +59,9 @@ export default () => {
       </Section>
 
       <style jsx>{`
+        .meeting-id-input {
+          text-align: center;
+        }
         .buttons {
           padding-top: 20px;
           padding-bottom: 20px;
