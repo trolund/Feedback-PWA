@@ -1,59 +1,56 @@
-import { decorate, observable } from "mobx";
-import states from "./requestState";
-import authService from "../components/api-authorization/AuthorizeService";
-import { createContext } from "react";
-import MeetingModel from "../models/MeetingModel";
-import Meeting from "../pages/Meeting/Meeting";
-import IStore from "./IStore";
-import ApiRoutes from "../api/ApiRoutes";
-
-const baseUrl =
-  process.env.NODE_ENV === "development" ? process.env.REACT_APP_BASE_URL : ""; //Check if dev
+import { observable, action } from 'mobx'
+import { createContext } from 'react'
+import states from './requestState'
+import MeetingModel from '../models/MeetingModel'
+import IStore from './IStore'
+import AuthService from './api/authService'
+import ApiRoutes from './api/ApiRoutes'
 
 class MeetingStore implements IStore {
   // status
-  state = states.DONE;
-  meetingCreatedState = states.DONE;
-  msg = "";
+  @observable state = states.DONE
+
+  @observable meetingCreatedState = states.DONE
+
+  @observable msg = ''
 
   // data
-  meetings: MeetingModel[] = [];
-  meeting: MeetingModel | null = null;
+  @observable meetings: MeetingModel[] = []
 
-  constructor() {}
+  @observable meeting: MeetingModel | null = null
 
   // /Api/Meeting/ByDate
 
-  async create(entity: MeetingModel) {
-    this.meetingCreatedState = states.LOADING;
+  @action create = async (entity: MeetingModel) => {
+    this.meetingCreatedState = states.LOADING
     try {
-      const url = "Api/Meeting/Create";
-      const token = await authService.getAccessToken();
-      const json = JSON.stringify(entity);
-      console.log(json);
+      const url = 'Api/Meeting/Create'
+      const token = AuthService.getToken()
+      const json = JSON.stringify(entity)
+      console.log(json)
 
       const response = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: !token
           ? {}
           : {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json"
+              'Content-Type': 'application/json'
             },
         body: json,
-        redirect: "follow"
-      });
-      console.log(response);
-      this.msg = response.statusText;
+        redirect: 'follow'
+      })
+      console.log(response)
+      this.msg = response.statusText
       if (response.status === 200) {
-        this.meetingCreatedState = states.DONE;
+        this.meetingCreatedState = states.DONE
       } else {
-        this.meetingCreatedState = states.FAILED;
+        this.meetingCreatedState = states.FAILED
       }
     } catch (e) {
-      this.meetingCreatedState = states.FAILED;
-      this.msg = e.statusText;
-      this.meetings = [];
+      this.meetingCreatedState = states.FAILED
+      this.msg = e.statusText
+      this.meetings = []
     }
 
     //   async fetchUsers() {
@@ -77,169 +74,172 @@ class MeetingStore implements IStore {
     //     }
   }
 
-  async update(entity: MeetingModel) {
-    this.meetingCreatedState = states.LOADING;
+  @action update = async (entity: MeetingModel) => {
+    this.meetingCreatedState = states.LOADING
     try {
-      const url = "Api/Meeting";
-      const token = await authService.getAccessToken();
-      const json = JSON.stringify(entity);
+      const url = 'Api/Meeting'
+      const token = AuthService.getToken()
+      const json = JSON.stringify(entity)
       const response = await fetch(url, {
-        method: "PUT",
+        method: 'PUT',
         headers: !token
           ? {}
           : {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json"
+              'Content-Type': 'application/json'
             },
         body: json,
-        redirect: "follow"
-      });
+        redirect: 'follow'
+      })
 
-      this.msg = response.statusText;
+      this.msg = response.statusText
       if (response.status === 200) {
-        this.meetingCreatedState = states.DONE;
+        this.meetingCreatedState = states.DONE
       } else {
-        this.meetingCreatedState = states.FAILED;
+        this.meetingCreatedState = states.FAILED
       }
     } catch (e) {
-      this.meetingCreatedState = states.FAILED;
-      this.msg = e.statusText;
-      this.meetings = [];
+      this.meetingCreatedState = states.FAILED
+      this.msg = e.statusText
+      this.meetings = []
     }
   }
 
-  async delete(entity: MeetingModel) {
-    this.meetingCreatedState = states.LOADING;
+  @action delete = async (entity: MeetingModel) => {
+    this.meetingCreatedState = states.LOADING
     try {
-      const url = "Api/Meeting/Delete";
-      const token = await authService.getAccessToken();
-      const json = JSON.stringify(entity);
+      const url = 'Api/Meeting/Delete'
+      const token = AuthService.getToken()
+      const json = JSON.stringify(entity)
       const response = await fetch(url, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: !token
           ? {}
           : {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json"
+              'Content-Type': 'application/json'
             },
         body: json,
-        redirect: "follow"
-      });
+        redirect: 'follow'
+      })
 
-      this.msg = response.statusText;
+      this.msg = response.statusText
       if (response.status === 200) {
-        this.meetingCreatedState = states.DONE;
+        this.meetingCreatedState = states.DONE
       } else {
-        this.meetingCreatedState = states.FAILED;
+        this.meetingCreatedState = states.FAILED
       }
     } catch (e) {
-      this.meetingCreatedState = states.FAILED;
-      this.msg = e.statusText;
-      this.meetings = [];
+      this.meetingCreatedState = states.FAILED
+      this.msg = e.statusText
+      this.meetings = []
     }
   }
 
-  set updateDiscripton(newDisscription: string) {
+  @action updateDiscripton = (newDisscription: string) => {
     const model = {
       ...this.meeting,
       discription: newDisscription
-    } as MeetingModel;
-    this.meeting = model;
+    } as MeetingModel
+    this.meeting = model
   }
 
-  set updateName(name: string) {
+  updateName = (name: string) => {
     const model = {
       ...this.meeting,
-      name: name
-    } as MeetingModel;
-    this.meeting = model;
+      name
+    } as MeetingModel
+    this.meeting = model
   }
 
-  set updateStartTime(time: Date) {
+  @action updateStartTime = (time: Date) => {
     const model = {
       ...this.meeting,
       startTime: time
-    } as MeetingModel;
-    this.meeting = model;
+    } as MeetingModel
+    this.meeting = model
   }
 
-  set updateEndTime(time: Date) {
+  @action updateEndTime = (time: Date) => {
     const model = {
       ...this.meeting,
       endTime: time
-    } as MeetingModel;
-    this.meeting = model;
+    } as MeetingModel
+    this.meeting = model
   }
 
-  async fetchMeetings(start: Date, end: Date) {
-    this.state = states.LOADING;
+  @action fetchMeetings = async (start: Date, end: Date) => {
+    this.state = states.LOADING
     try {
-      const url = ApiRoutes.MeetingsByDates(start, end);
-      const token = await authService.getAccessToken();
+      const url = ApiRoutes.MeetingsByDates(start, end)
+      const token = AuthService.getToken()
       const response = await fetch(url, {
-        method: "GET",
+        method: 'GET',
         headers: !token
           ? {}
           : {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json"
+              'Content-Type': 'application/json'
             },
-        redirect: "follow"
-      });
+        redirect: 'follow'
+      })
 
-      this.msg = response.statusText;
-      this.state = states.DONE;
+      this.msg = response.statusText
+      this.state = states.DONE
 
-      const data = await response.json();
-      console.log("fetch mmeting response: ", data);
-      this.meetings = data;
+      const data = await response.json()
+      console.log('fetch mmeting response: ', data)
+      this.meetings = data
     } catch (e) {
-      this.state = states.FAILED;
-      this.msg = e.statusText;
-      this.meetings = [];
+      this.state = states.FAILED
+      this.msg = e.statusText
+      this.meetings = []
     }
   }
+
   // /Api/Meeting/ShortId/{id}
-  async fetchMeetingByShortId(id: string) {
-    this.state = states.LOADING;
+  @action fetchMeetingByShortId = async (id: string) => {
+    this.state = states.LOADING
     try {
-      const url = `Api/Meeting/ShortId/${id}`;
-      const token = await authService.getAccessToken();
+      const url = `Api/Meeting/ShortId/${id}`
+      const token = AuthService.getToken()
       const response = await fetch(url, {
-        method: "GET",
+        method: 'GET',
         headers: !token
           ? {}
           : {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json"
+              'Content-Type': 'application/json'
             },
-        redirect: "follow"
-      });
+        redirect: 'follow'
+      })
 
-      this.msg = response.statusText;
-      this.state = states.DONE;
+      this.msg = response.statusText
+      this.state = states.DONE
 
-      const data = await response.json();
-      console.log("fetch mmeting response: ", data);
-      this.meeting = data;
+      const data = await response.json()
+      console.log('fetch mmeting response: ', data)
+      this.meeting = data
     } catch (e) {
-      this.state = states.FAILED;
-      this.msg = e.statusText;
-      this.meeting = null;
+      this.state = states.FAILED
+      this.msg = e.statusText
+      this.meeting = null
     }
   }
 }
 
-decorate(MeetingStore, {
-  meetings: observable
-});
+// decorate(MeetingStore, {
+//   meetings: observable
+// })
 
-decorate(MeetingStore, {
-  meeting: observable
-});
+// decorate(MeetingStore, {
+//   meeting: observable
+// })
 
-decorate(MeetingStore, {
-  state: observable
-});
+// decorate(MeetingStore, {
+//   state: observable
+// })
 
-export const meetingStore = createContext(new MeetingStore());
+const meetingStore = createContext(new MeetingStore())
+
+export default meetingStore

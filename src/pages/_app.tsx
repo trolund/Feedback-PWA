@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { AppProps } from 'next/app'
+import { AnimatePresence } from 'framer-motion'
 import '../styles/global.css'
 // import { Provider } from 'mobx-react'
 
@@ -7,7 +8,7 @@ import '../styles/global.css'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <>
+    <AnimatePresence exitBeforeEnter>
       <Head>
         <title>Feedback</title>
         <meta charSet='utf-8' />
@@ -31,7 +32,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
 
       <Component {...pageProps} />
-    </>
+    </AnimatePresence>
   )
 }
 

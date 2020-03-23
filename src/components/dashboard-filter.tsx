@@ -2,13 +2,10 @@ import { observer } from 'mobx-react-lite'
 import { useState, useContext, useEffect } from 'react'
 import Select from 'react-select'
 import DatePicker from 'react-datepicker'
+import { FileText } from 'react-feather'
 import makeAnimated from 'react-select/animated'
 import dashboardStore from '../stores/dashboard-store'
-
-interface Tag {
-  label: string
-  value: string
-}
+import Tag from '../models/tag'
 
 const DashboardFilter = observer(() => {
   const [searchWord, setSearchWord] = useState('')
@@ -48,15 +45,11 @@ const DashboardFilter = observer(() => {
   // ]
 
   return (
-    <div className='card'>
-      <h5 className='card-header'>
-        Filter muligheder{' '}
-        <div className='checkbox'>
-          <label htmlFor='own-data'>
-            <input type='checkbox' id='own-data' /> Hvis kun min data
-          </label>
-        </div>
-      </h5>
+    <div>
+      <h4>Filter muligheder</h4>
+      <label htmlFor='own-data'>
+        <input type='checkbox' id='own-data' /> Hvis kun min data
+      </label>
       <div className='card-body'>
         <h5 className='card-title'>Søge ord</h5>
         <div className='card-text'>
@@ -126,7 +119,7 @@ const DashboardFilter = observer(() => {
           onClick={getData}
           onKeyDown={getData}
         >
-          Export
+          <FileText width={15} height={15} /> Export
         </a>
       </div>
       <style jsx>{`

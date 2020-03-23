@@ -28,7 +28,7 @@ class AuthStore {
   }
 
   login = async (email: string, password: string) => {
-    this.state = states.LOADING
+    // this.state = states.LOADING
     try {
       const url = ApiRoutes.login
 
@@ -45,7 +45,7 @@ class AuthStore {
       this.msg = response.statusText
 
       this.user = await response.json()
-      this.state = states.DONE
+      // this.state = states.DONE
 
       this.token = this.user.token
       localStorage.setItem('token', this.user.token)
@@ -55,7 +55,7 @@ class AuthStore {
       // this.setState(states.FAILED)
       this.msg = e.statusText ?? 'User not found'
       this.user = null
-      this.state = states.FAILED
+      // this.state = states.FAILED
       return states.FAILED
     }
   }

@@ -57,6 +57,7 @@ const BottomNav = () => {
           position: fixed;
           bottom: 0;
           transition: var(--transition-colors);
+          z-index: 99999;
         }
 
         nav > div {
