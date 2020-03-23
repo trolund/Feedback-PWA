@@ -18,6 +18,8 @@
   --base: #1f2022;
   --overflow: #101015;
 
+  --border-radius: 15px;
+
   --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Helvetica, Arial, sans-serif;
 

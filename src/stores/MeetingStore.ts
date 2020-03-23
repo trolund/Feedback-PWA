@@ -105,7 +105,7 @@ class MeetingStore implements IStore {
     }
   }
 
-  @action delete = async (entity: MeetingModel) => {
+  @action deleteMeeting = async (entity: MeetingModel) => {
     this.meetingCreatedState = states.LOADING
     try {
       const url = 'Api/Meeting/Delete'
@@ -201,7 +201,7 @@ class MeetingStore implements IStore {
   @action fetchMeetingByShortId = async (id: string) => {
     this.state = states.LOADING
     try {
-      const url = `Api/Meeting/ShortId/${id}`
+      const url = ApiRoutes.meetingByShortId(id)
       const token = AuthService.getToken()
       const response = await fetch(url, {
         method: 'GET',

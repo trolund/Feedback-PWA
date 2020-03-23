@@ -4,6 +4,7 @@ import states from './requestState'
 import FeedbackBatch from '../models/FeedbackBatch'
 import ApiRoutes from './api/ApiRoutes'
 import FeedbackModel from '../models/FeedbackModel'
+import AuthService from './api/authService'
 
 // import authService from '../components/api-authorization/AuthorizeService'
 
@@ -33,9 +34,9 @@ class FeedbackStore {
   @action fetchFeedback = async (meetingId: string) => {
     this.state = states.LOADING
     try {
-      const url = `Api/FeedbackBatch/${meetingId}` // ApiRoutes.Feedbackbatch(meetingId);
+      const url = ApiRoutes.Feedbackbatch(meetingId)
 
-      const token = '' // await authService.getAccessToken()
+      const token = AuthService.getToken()
 
       const response = await fetch(url, {
         method: 'GET',

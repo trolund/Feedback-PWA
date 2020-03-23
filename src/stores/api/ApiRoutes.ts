@@ -9,11 +9,13 @@ const appendCategoriesParms = (inputStr: string, categories: string[]) => {
 const { apiUrl } = process.env
 
 const ApiRoutes = {
+  qrcode: (mid: string) => `${apiUrl}/Api/Meeting/QrCode/${String(mid)}`,
+  meetingByShortId: (id: string) => `${apiUrl}/Api/Meeting/ShortId/${id}`,
   login: `${apiUrl}/Api/User/authenticate`,
   CreateFeedbackBatch: () => `${apiUrl}/Api/FeedbackBatch`,
   FetchQuestions: (meetingId: string) =>
     `${apiUrl}/Api/Meeting/MeetingOpen/${meetingId}`,
-  QuestionSetNames: '/Api/QuestionSet/SetOnly',
+  QuestionSetNames: `${apiUrl}/Api/QuestionSet/SetOnly`,
   QuestionSetById: (id: string) => `${apiUrl}/Api/QuestionSet/${id}`,
   Feedbackbatch: (id: string) => `${apiUrl}/Api/FeedbackBatch/${id}`,
   Categories: (companyId: string) =>
