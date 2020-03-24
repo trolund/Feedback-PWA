@@ -18,6 +18,10 @@ export default () => {
     })
   }
 
+  // useEffect(() => {
+  //   AuthService.redirectToLogin()
+  // }, [])
+
   return (
     <Page showHead={false} showBottomNav={false} showBackButton>
       <Section>
@@ -62,6 +66,17 @@ export default () => {
             className='button loginBtn'
           >
             login
+          </a>
+        </Link>
+        <Link href='/registration'>
+          <a
+            tabIndex={0}
+            role='button'
+            title='new user'
+            aria-label='login'
+            className='button loginBtn'
+          >
+            Opret bruger
           </a>
         </Link>
       </Section>

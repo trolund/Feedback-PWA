@@ -1,9 +1,10 @@
+import { Component } from 'react'
 import Head from 'next/head'
 import { motion } from 'framer-motion'
 import Appbar from './appbar'
 import BottomNav from './bottom-nav'
 
-import BackAppHeader from './backAppbar'
+// import BackAppHeader from './backAppbar'
 
 type Props = {
   title?: string
@@ -11,6 +12,7 @@ type Props = {
   showHead?: boolean
   showBottomNav?: boolean
   showBackButton?: boolean
+  component?: JSX.Element
 }
 
 const Page = ({
@@ -18,7 +20,8 @@ const Page = ({
   children,
   showHead,
   showBottomNav,
-  showBackButton
+  showBackButton,
+  component
 }: Props) => {
   const showHeader = showHead === undefined ? true : showHead
   const showBottomNaver = showBottomNav === undefined ? true : showBottomNav
@@ -30,11 +33,15 @@ const Page = ({
           <Head>
             <title>{title ? `WebApp | ${title}` : 'WebApp'}</title>
           </Head>
-          <Appbar />
+          <Appbar
+            title={title}
+            backBtn={showTheBackButton}
+            component={component}
+          />
         </>
       )}
 
-      {showTheBackButton && <BackAppHeader />}
+      {/* {showTheBackButton && <BackAppHeader />} */}
       <motion.div
         style={{ opacity: 0, marginTop: '-50px' }}
         animate={{ opacity: 1, marginTop: '0px' }}

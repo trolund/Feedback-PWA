@@ -9,6 +9,7 @@ const appendCategoriesParms = (inputStr: string, categories: string[]) => {
 const { apiUrl } = process.env
 
 const ApiRoutes = {
+  createUser: `${apiUrl}/Api/User/Post`,
   qrcode: (mid: string) => `${apiUrl}/Api/Meeting/QrCode/${String(mid)}`,
   meetingByShortId: (id: string) => `${apiUrl}/Api/Meeting/ShortId/${id}`,
   login: `${apiUrl}/Api/User/authenticate`,

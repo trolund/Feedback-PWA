@@ -1,35 +1,69 @@
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import UnnecessarilyComplexTitle from './unnecessarily-complex-title'
-import Avatar from './avatar'
-import ThemeButton from './theme-button'
+import Router from 'next/router'
+import { ArrowLeftCircle } from 'react-feather'
+// import Link from 'next/link'
+// import UnnecessarilyComplexTitle from './unnecessarily-complex-title'
+// import Avatar from './avatar'
+// import ThemeButton from './theme-button'
 
-const Header = () => {
-  const [loaded, setLoaded] = useState(false)
+type appbarProps = {
+  title?: string
+  backBtn?: boolean
+  component?: JSX.Element
+}
 
-  useEffect(() => {
-    setLoaded(true)
-  }, [])
+const Header = (props: appbarProps) => {
+  const { title, backBtn, component } = props
+  // const [loaded, setLoaded] = useState(false)
+
+  // useEffect(() => {
+  //   setLoaded(true)
+  // }, [])
+
+  const backClickHandler = () => {
+    Router.back()
+  }
 
   return (
     <header>
-      <UnnecessarilyComplexTitle loaded={loaded} />
+      {/* <UnnecessarilyComplexTitle loaded={loaded} /> */}
+      {backBtn && (
+        <a
+          role='button'
+          tabIndex={0}
+          title='Profile'
+          aria-label='Profile'
+          onClick={backClickHandler}
+          onKeyDown={backClickHandler}
+          className='float-left'
+          style={{ marginTop: '5px' }}
+        >
+          <ArrowLeftCircle fontSize='inherit' className='back-icon' />
+          <p className='back-text'>Back</p>
+        </a>
+      )}
+      {title && <h3>{title}</h3>}
+      <div className='float-right right-component'>{component}</div>
 
       <div style={{ flex: 1 }} />
 
       <nav>
-        <ThemeButton />
+        {/* <ThemeButton />
+        <div className='divider' /> */}
 
-        <div className='divider' />
-
-        <Link href='/profile'>
+        {/* <Link href='/profile'>
           <a title='Profile' aria-label='Profile'>
             <Avatar image='/images/avatar.jpg' />
           </a>
-        </Link>
+        </Link> */}
       </nav>
 
       <style jsx>{`
+        .right-component {
+          position: absolute;
+          text-align: center;
+          top: 25px;
+          right: 25px;
+        }
         header {
           padding: 0 var(--gap);
           padding-top: env(safe-area-inset-top);
@@ -44,6 +78,35 @@ const Header = () => {
           top: 0;
           left: 0;
           transition: var(--transition-colors);
+        }
+        .back-btn {
+          width: 150px;
+          height: 100%;
+          position: relative;
+          display: block;
+          margin: 20px;
+        }
+
+        .back-icon {
+          position: relative;
+          display: block;
+          margin: 15px;
+        }
+
+        .back-text {
+          display: inline;
+          margin-left: 10px;
+          position: absolute;
+        }
+
+        header h3 {
+          width: 50%;
+          margin: auto;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
         }
 
         nav {

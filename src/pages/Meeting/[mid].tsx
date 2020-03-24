@@ -123,7 +123,11 @@ const Post = observer(() => {
   }
 
   return (
-    <Page showBottomNav={false} showHead={false} showBackButton>
+    <Page
+      showBottomNav={false}
+      title={meeting?.name ?? 'loading...'}
+      showBackButton
+    >
       {state === states.DONE && (
         <Section>
           <div className='flex-container'>
@@ -253,7 +257,6 @@ const Post = observer(() => {
           min-width: 250px;
           max-width: 320px;
           margin-top: 10px;
-          color: white;
           text-align: center;
         }
         .flex-item-left {
@@ -262,7 +265,6 @@ const Post = observer(() => {
           min-width: 50%;
           width: 600px;
           margin-top: 10px;
-          color: white;
         }
       `}</style>
     </Page>

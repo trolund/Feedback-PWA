@@ -1,14 +1,17 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { observer } from 'mobx-react-lite'
+import { Filter } from 'react-feather'
 import Page from '../components/page'
 import Section from '../components/section'
 import DashboardFilter from '../components/dashboard-filter'
 import LineGraph from '../components/line-graph'
 import dashboardStore from '../stores/dashboard-store'
 import DashboardOverview from '../components/dashboard-overview'
+import img from '../../public/images/nofilter.svg'
 
 export default observer(() => {
   const { data, state } = useContext(dashboardStore)
+  const [showFilter, setShowFilter] = useState(false)
 
   // const myData = {
   //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -41,32 +44,72 @@ export default observer(() => {
   //   ]
   // }
 
-  return (
-    <Page showBackButton={false}>
-      <Section>
-        <h2>Home</h2>
-      </Section>
-      <section className='grid-container'>
-        <div className='item-a show'>
-          <DashboardFilter />
-        </div>
-        <div className='item-b'>
-          <LineGraph data={data} fetchState={state} showAllOfY={false} />
-        </div>
-        <div>
-          <DashboardOverview />
-        </div>
-      </section>
+  const ShowAndHideFilterBtn = () => {
+    return (
+      <a
+        role='button'
+        tabIndex={0}
+        className='float-right'
+        onClick={() => setShowFilter(!showFilter)}
+        onKeyDown={() => setShowFilter(!showFilter)}
+      >
+        {showFilter ? (
+          // eslint-disable-next-line global-require
+          <img
+            alt='nofilter'
+            className='nofilter'
+            style={{ height: '25px', width: '25px' }}
+            src={img}
+          />
+        ) : (
+          <Filter />
+        )}
+      </a>
+    )
+  }
 
+  return (
+    <Page
+      showBackButton={false}
+      component={<ShowAndHideFilterBtn />}
+      title='Home'
+    >
+      <Section>
+        <section className='grid-container'>
+          {showFilter && (
+            <div className='item-a filter'>
+              <DashboardFilter />
+            </div>
+          )}
+          <div className='item-b'>
+            <LineGraph data={data} fetchState={state} showAllOfY={false} />
+          </div>
+          <div>
+            <DashboardOverview />
+          </div>
+        </section>
+      </Section>
       <style jsx>{`
         @media only screen and (max-width: 800px) {
           .grid-container {
             display: block !important;
           }
+          .filter {
+            padding-top: 50px !important;
+            background-color: var(--surface);
+            border-radius: 0;
+            width: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            position: absolute;
+            border-radius: 0 !important;
+            border: none !important;
+          }
         }
-        .show {
+        .filter {
           border: solid 1px var(--text);
-          border-radius: 15px;
+          border-radius: var(--border-radius);
           padding: 15px;
         }
         .grid-container {

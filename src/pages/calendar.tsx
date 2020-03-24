@@ -1,7 +1,8 @@
 import dynamic from 'next/dynamic'
+import Router from 'next/router'
 import React, { useContext, useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { EventInput, Calendar as fullcalendar } from '@fullcalendar/core'
+import { EventInput, Component } from '@fullcalendar/core'
 import Page from '../components/page'
 import CalView from '../models/CalView'
 import questionSetStore from '../stores/QuestionSetStore'
@@ -133,25 +134,24 @@ const Calendar = observer(() => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function clickOnEvent(_e: any) {
-    // props.history.push({
-    //   pathname: `/møde/${e.event.id}`,
-    //   data: e.event // your data array of objects
-    // })
-    // calRef.current.next()
+  function clickOnEvent(event: any) {
+    Router.push(`/meeting/${event.event.id}`)
   }
 
+  const Seachbar = () => (
+    <input
+      type='search'
+      name='search'
+      id='search'
+      placeholder='Søg efter navne på møder'
+      value={searchWord}
+      onChange={e => setSearchWord(e.target.value)}
+      style={{ marginBottom: '10px' }}
+    />
+  )
+
   return (
-    <Page title='Calendar' showBackButton={false}>
-      <input
-        type='search'
-        name='search'
-        id='search'
-        placeholder='Søg efter navne på møder'
-        value={searchWord}
-        onChange={e => setSearchWord(e.target.value)}
-        style={{ marginBottom: '10px' }}
-      />
+    <Page title='Calendar' showBackButton={false} component={<Seachbar />}>
       <FullCalendarNoSSRWrapper
         trigger={e => console.log(e)}
         // viewHeight={5100}

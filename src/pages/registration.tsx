@@ -5,57 +5,87 @@ import Link from 'next/link'
 import Page from '../components/page'
 import Section from '../components/section'
 import authStore from '../stores/authStore'
+import Registration from '../models/Registration'
+import Company from '../models/Company'
 
 export default () => {
-  const [rememberme, setRememberme] = useState(false)
   const [newCompany, setNewCompany] = useState(false)
   const [companyName, setCompanyName] = useState(null)
   const [companyId, setCompanyId] = useState(null)
-  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const { login } = useContext(authStore)
+  const [passwordAgain, setPasswordAgain] = useState('')
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [email, setEmail] = useState('')
+  const { createUser } = useContext(authStore)
 
-  const loginHandler = () => {
-    login(username, password).then(res => {
+  const createUserClickHandler = () => {
+    const newModelCompany: any = {
+      company: { name: companyName } as Company
+    }
+
+    const exsitingCompany: any = {
+      companyId: Number(companyId)
+    }
+
+    const requesetedRoles: string[] = []
+
+    let model: Registration = {
+      email,
+      password,
+      passwordAgain,
+      firstname,
+      lastname,
+      requesetedRoles,
+      phone: '29456660'
+    }
+
+    if (newCompany) {
+      model = {
+        ...model,
+        ...newModelCompany
+      }
+      requesetedRoles.push('VAdmin')
+    } else {
+      model = {
+        ...model,
+        ...exsitingCompany
+      }
+      requesetedRoles.push('Facilitator')
+    }
+
+    createUser(model).then(res => {
+      console.log('====================================')
       console.log(res)
-      Router.push('/Home')
+      console.log('====================================')
     })
   }
 
   return (
-    <Page showHead={false} showBottomNav={false} showBackButton>
+    <Page title='Opret bruger' showBottomNav={false} showBackButton>
       <Section>
-        <h2 style={{ textAlign: 'center' }}>Opret bruger</h2>
         <input
           type='text'
           placeholder='Firstname'
-          value={username}
+          value={firstname}
           onChange={e => {
-            setUsername(e.target.value)
+            setFirstname(e.target.value)
           }}
         />
         <input
           type='text'
           placeholder='Lastname'
-          value={username}
+          value={lastname}
           onChange={e => {
-            setUsername(e.target.value)
-          }}
-        />
-        <input
-          type='text'
-          placeholder='Lastname'
-          value={username}
-          onChange={e => {
-            setUsername(e.target.value)
+            setLastname(e.target.value)
           }}
         />
         <input
           type='text'
           placeholder='Email'
-          value={username}
+          value={email}
           onChange={e => {
-            setUsername(e.target.value)
+            setEmail(e.target.value)
           }}
         />
         <input
@@ -69,21 +99,11 @@ export default () => {
         <input
           type='password'
           placeholder='Kodeord igen'
-          value={password}
+          value={passwordAgain}
           onChange={e => {
-            setPassword(e.target.value)
+            setPasswordAgain(e.target.value)
           }}
         />
-
-        <input
-          type='text'
-          placeholder='phone'
-          value={password}
-          onChange={e => {
-            setPassword(e.target.value)
-          }}
-        />
-
         <div className='toggle'>
           <input
             type='radio'
@@ -131,8 +151,8 @@ export default () => {
             role='button'
             title='login'
             aria-label='login'
-            onKeyDown={loginHandler}
-            onClick={loginHandler}
+            onKeyDown={createUserClickHandler}
+            onClick={createUserClickHandler}
             className='button loginBtn'
           >
             {newCompany ? 'Opret bruger og virksomhed' : 'Opret bruger'}
@@ -176,6 +196,7 @@ export default () => {
           margin-top: 30px;
           margin-left: auto;
           margin-right: auto;
+          text-align: center;
         }
         .toggle input {
           width: 0;
@@ -213,7 +234,7 @@ export default () => {
           border-left: none;
         }
         .toggle input:hover + label {
-          border-color: #213140;
+          background-color: var(--surface);
         }
         .toggle input:checked + label {
           background-color: var(--accent);
