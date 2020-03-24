@@ -10,6 +10,8 @@ class QuestionStore {
 
   @observable msg = null
 
+  @observable meetingId = null
+
   // data
   @observable questions: QuestionSet = null
 
@@ -28,11 +30,13 @@ class QuestionStore {
 
       this.questions = data
       this.fetchState = states.DONE
+      this.meetingId = meetingId
       return states.DONE
     } catch (e) {
       this.fetchState = states.FAILED
       this.msg = e.statusText ?? 'meeting not found or not open for feedback'
       this.questions = null
+      this.meetingId = null
       return states.FAILED
     }
   }

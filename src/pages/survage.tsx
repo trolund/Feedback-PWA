@@ -16,7 +16,7 @@ export default observer(() => {
   const [page, setPage] = useState(0)
   const [showOverlay, setShowOverlay] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
-  const { questions } = useContext(questionStore)
+  const { questions, meetingId } = useContext(questionStore)
   const { feedback, createFeedbackBatch, state } = useContext(feedbackStore)
 
   useEffect(() => {
@@ -42,7 +42,6 @@ export default observer(() => {
     if (page === questions.questions.length - 1) {
       if (isFeedbackReady()) {
         console.log('feedback send', feedback)
-        const meetingId = 'GP'
         createFeedbackBatch(feedback, meetingId).then(() => {
           if (state === states.DONE) {
             setShowOverlay(true)
