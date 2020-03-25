@@ -1,17 +1,22 @@
 import { observer } from 'mobx-react-lite'
 import { useState, useContext, useEffect } from 'react'
 import Select from 'react-select'
-import DatePicker from 'react-datepicker'
+// import DatePicker from 'react-datepicker'
+// import DatePicker from 'react-mobile-datepicker'
 import { FileText } from 'react-feather'
 import makeAnimated from 'react-select/animated'
 import dashboardStore from '../stores/dashboard-store'
 import Tag from '../models/tag'
+import CustomDatepicker from './custom-datepicker'
+import CustomCheckbox from './checkbox'
 
 const DashboardFilter = observer(() => {
   const [searchWord, setSearchWord] = useState('')
+  const [onlyOwnData, setonlyOwnData] = useState(false)
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   const [tags, setTags] = useState([] as Tag[])
+  const [startdateIsOpen, setstartdateIsOpen] = useState(false)
   const context = useContext(dashboardStore)
 
   useEffect(() => {
@@ -47,9 +52,11 @@ const DashboardFilter = observer(() => {
   return (
     <div>
       <h4>Filter muligheder</h4>
-      <label htmlFor='own-data'>
-        <input type='checkbox' id='own-data' /> Hvis kun min data
-      </label>
+      <CustomCheckbox
+        label='Hvis feedback fra mine møder.'
+        checked={onlyOwnData}
+        onChange={checked => setonlyOwnData(checked)}
+      />
       <div className='card-body'>
         <h5 className='card-title'>Søge ord</h5>
         <div className='card-text'>
@@ -66,40 +73,27 @@ const DashboardFilter = observer(() => {
             <Select options={tags} isMulti components={animatedComponents} />
             {/* <TagInput tags={tags} setTags={setTags} /> */}
           </div>
-          <DatePicker
-            selected={startDate}
-            onChange={(date: Date) => setStartDate(date)}
-          />
-          <DatePicker
-            selected={endDate}
-            onChange={(date: Date) => setEndDate(date)}
-          />
-
-          {/* <ReactDatePicker
-            showTimeSelect
-            timeFormat='HH:mm'
-            timeIntervals={15}
-            timeCaption='time'
-            dateFormat='MMMM d, yyyy h:mm aa'
-            className='datetime'
-            value={startDate.toISOString()}
-            onChange={e => {
-              if (e) setStartDate(e)
-            }}
-          /> */}
-
-          {/* <ReactDatePicker
-            showTimeSelect
-            timeFormat='HH:mm'
-            timeIntervals={15}
-            timeCaption='time'
-            dateFormat='MMMM d, yyyy h:mm aa'
-            className='datetime'
-            value={endDate.toISOString()}
-            onChange={e => {
-              if (e) setEndDate(e)
-            }}
-          /> */}
+          <div className='flex-container padding'>
+            <div>
+              <p>Start dato</p>
+              <CustomDatepicker
+                value={startDate}
+                onChange={date => {
+                  setStartDate(date)
+                }}
+              />
+            </div>
+            <div>
+              {' '}
+              <p>Slut dato</p>
+              <CustomDatepicker
+                value={startDate}
+                onChange={date => {
+                  setStartDate(date)
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div className='card-footer text-muted'>
@@ -123,6 +117,10 @@ const DashboardFilter = observer(() => {
         </a>
       </div>
       <style jsx>{`
+        .padding {
+          padding-top: 20px;
+          padding-bottom: 20px;
+        }
         .tagdiv {
           padding-top: 10px;
           padding-bottom: 10px;

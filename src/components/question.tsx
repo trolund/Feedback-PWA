@@ -157,8 +157,7 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
         }
         .selected {
           box-sizing: border-box;
-          border: 2px solid var(--surface);
-          transform: perspective(1.5px) translateZ(0);
+          border: 5px solid var(--surface);
         }
         /* Bounce In */
         .hvr-bounce-in {

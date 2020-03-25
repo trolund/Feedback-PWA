@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import Page from '../components/page'
 import Section from '../components/section'
 import authStore from '../stores/authStore'
+import ThemeButton from '../components/theme-button'
 
 const Profile = observer(() => {
   const { getUser } = useContext(authStore)
@@ -18,6 +19,7 @@ const Profile = observer(() => {
         <button type='button' className='button'>
           Logout
         </button>
+        <ThemeButton />
       </Section>
     </Page>
   )
