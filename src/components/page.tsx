@@ -1,8 +1,11 @@
-import { Component } from 'react'
+import { useEffect, useContext } from 'react'
 import Head from 'next/head'
 import { motion } from 'framer-motion'
 import Appbar from './appbar'
 import BottomNav from './bottom-nav'
+
+import AuthService from '../stores/api/authService'
+import authStore from '../stores/authStore'
 
 // import BackAppHeader from './backAppbar'
 
@@ -12,6 +15,7 @@ type Props = {
   showHead?: boolean
   showBottomNav?: boolean
   showBackButton?: boolean
+  fullscreen?: boolean
   component?: JSX.Element
 }
 
@@ -21,11 +25,20 @@ const Page = ({
   showHead,
   showBottomNav,
   showBackButton,
-  component
+  component,
+  fullscreen
 }: Props) => {
+  const { token } = useContext(authStore)
   const showHeader = showHead === undefined ? true : showHead
   const showBottomNaver = showBottomNav === undefined ? true : showBottomNav
   const showTheBackButton = showBackButton === undefined ? true : showBackButton
+  const fullscreenMain = fullscreen === undefined ? false : fullscreen
+
+  // rediret to the login page in case the token is expired.
+  useEffect(() => {
+    AuthService.redirectToLogin()
+  }, [token])
+
   return (
     <>
       {showHeader && (
@@ -46,7 +59,7 @@ const Page = ({
         style={{ opacity: 0, marginTop: '-50px' }}
         animate={{ opacity: 1, marginTop: '0px' }}
       >
-        <main>{children}</main>
+        <main style={fullscreenMain ? { padding: '0px' } : {}}>{children}</main>
       </motion.div>
       {showBottomNaver && <BottomNav />}
 

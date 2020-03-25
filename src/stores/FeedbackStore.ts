@@ -79,11 +79,13 @@ class FeedbackStore {
       })
 
       this.msg = response.statusText
-
+      this.state = states.DONE
       // const data = await response.json()
+      return states.DONE
     } catch (e) {
       this.state = states.FAILED
       this.msg = e.statusText
+      return states.FAILED
     }
   }
 }

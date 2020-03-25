@@ -1,31 +1,41 @@
-import { useState, useContext } from 'react'
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import { useState, useContext, useEffect } from 'react'
 import Router from 'next/router'
+import { observer } from 'mobx-react-lite'
 import Link from 'next/link'
 import Page from '../components/page'
 import Section from '../components/section'
 import authStore from '../stores/authStore'
+import states from '../stores/requestState'
+import CustomCheckbox from '../components/checkbox'
+import AuthService from '../stores/api/authService'
 
-export default () => {
+export default observer(() => {
   const [rememberme, setRememberme] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const { login } = useContext(authStore)
+  const [loginBtnDisabled, setLoginBtnDisabled] = useState(true)
+  const { login, state, msg } = useContext(authStore)
 
   const loginHandler = () => {
-    login(username, password).then(res => {
-      console.log(res)
-      Router.push('/Home')
+    login(username, password, rememberme).then(res => {
+      if (res === states.DONE) {
+        Router.push('/Home')
+      }
     })
   }
 
-  // useEffect(() => {
-  //   AuthService.redirectToLogin()
-  // }, [])
+  useEffect(() => {
+    AuthService.redirectToHome()
+  })
+
+  useEffect(() => {
+    setLoginBtnDisabled(!(username.length > 0 && password.length > 0))
+  }, [password.length, username.length])
 
   return (
-    <Page showHead={false} showBottomNav={false} showBackButton>
+    <Page showBottomNav={false} showBackButton title='login'>
       <Section>
-        <h2 style={{ textAlign: 'center' }}>Login</h2>
         <input
           type='text'
           placeholder='Email'
@@ -42,32 +52,28 @@ export default () => {
             setPassword(e.target.value)
           }}
         />
-        <li>
-          <p>Checkbox</p>
-          <input
-            className='styled-checkbox'
-            id='styled-checkbox-1'
-            type='checkbox'
-            checked={rememberme}
-            onChange={e =>
-              setRememberme(Boolean(e.target.getAttribute('checked')))
-            }
-            name='styled-checkbox-1'
+        <div className='center' style={{ width: '200px', marginTop: '25px' }}>
+          <CustomCheckbox
+            label='Remember me'
+            checked
+            onChange={checked => setRememberme(checked)}
           />
-        </li>
-        <Link href='#'>
-          <a
-            tabIndex={0}
-            role='button'
-            title='login'
-            aria-label='login'
-            onKeyDown={loginHandler}
-            onClick={loginHandler}
-            className='button loginBtn'
-          >
-            login
-          </a>
-        </Link>
+        </div>
+
+        {state === states.LOADING && <p className='center msg'>Loading</p>}
+        {state === states.FAILED && <p className='center msg'>{msg}</p>}
+        <button
+          tabIndex={0}
+          type='button'
+          title='login'
+          aria-label='login'
+          onKeyDown={loginHandler}
+          onClick={loginHandler}
+          className='button loginBtn center'
+          disabled={loginBtnDisabled}
+        >
+          login
+        </button>
         <Link href='/registration'>
           <a
             tabIndex={0}
@@ -96,7 +102,15 @@ export default () => {
           margin-left: auto;
           margin-right: auto;
         }
+
+        .msg {
+          text-align: center;
+        }
+
+        main {
+          background-color: darkslategrey !important;
+        }
       `}</style>
     </Page>
   )
-}
+})

@@ -1,9 +1,16 @@
 import { useState, useEffect } from 'react'
 import Router from 'next/router'
 import Lottie from 'react-lottie'
-import * as animationData from '../../public/Animations/success.json'
+import * as animationSuccess from '../../public/Animations/success.json'
+import * as animationError from '../../public/Animations/error.json'
+import AuthService from '../stores/api/authService'
 
-const FeedbackDoneOverlay = () => {
+type overlayProps = {
+  success: boolean
+  text: string
+}
+
+const FeedbackOverlay: React.FC<overlayProps> = ({ success, text }) => {
   const [isStopped] = useState(false)
   const [isPaused, setIsPaused] = useState(true)
 
@@ -14,14 +21,20 @@ const FeedbackDoneOverlay = () => {
   const defaultOptions = {
     loop: false,
     autoplay: true,
-    animationData: (animationData as any).default,
+    animationData: success
+      ? (animationSuccess as any).default
+      : (animationError as any).default,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice'
     }
   }
 
   const onComplete = () => {
-    Router.back()
+    if (AuthService.tokenValid()) {
+      Router.push('/home')
+    } else {
+      Router.push('/')
+    }
   }
 
   return (
@@ -35,7 +48,7 @@ const FeedbackDoneOverlay = () => {
           isPaused={isPaused}
           eventListeners={[{ eventName: 'complete', callback: onComplete }]}
         />
-        <h3>Tak for din besvarelse!</h3>
+        <h3>{text}</h3>
       </div>
       <style jsx>{`
         .ani {
@@ -65,4 +78,4 @@ const FeedbackDoneOverlay = () => {
   )
 }
 
-export default FeedbackDoneOverlay
+export default FeedbackOverlay

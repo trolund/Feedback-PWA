@@ -14,31 +14,29 @@ class AuthStore {
 
   @observable token: string = null
 
-  @computed getToken = (): string => {
-    return this.user.token
-  }
-
-  // constructor() {
-  // //   // document.addEventListener('load', () => {
-  // //   //   this.token = localStorage.getItem('token')
-  // //   // })
-  // // }
+  // @computed getToken = (): string => {
+  //   return this.user.token
+  // }
 
   @action setState = (state: states) => {
     this.state = state
   }
 
-  getUser = (): User => {
+  @action getUser = (): User => {
     const json = localStorage.getItem('user')
     return JSON.parse(json)
   }
 
-  login = async (email: string, password: string) => {
-    // this.state = states.LOADING
+  @action login = async (
+    email: string,
+    password: string,
+    rememberMe: boolean
+  ) => {
+    this.state = states.LOADING
     try {
       const url = ApiRoutes.login
 
-      const json = JSON.stringify({ email, password, rememberMe: true })
+      const json = JSON.stringify({ email, password, rememberMe })
 
       const response = await fetch(url, {
         method: 'POST',
@@ -50,24 +48,25 @@ class AuthStore {
 
       this.msg = response.statusText
 
-      this.user = await response.json()
-      // this.state = states.DONE
-
-      this.token = this.user.token
-      localStorage.setItem('token', this.user.token)
-      localStorage.setItem('user', JSON.stringify(this.user))
-      // this.setState(states.DONE)
-      return states.DONE
+      if (response.status === 200) {
+        this.user = await response.json()
+        this.token = this.user.token
+        localStorage.setItem('token', this.user.token)
+        localStorage.setItem('user', JSON.stringify(this.user))
+        this.state = states.DONE
+        return states.DONE
+      }
+      this.state = states.FAILED
+      return states.FAILED
     } catch (e) {
-      // this.setState(states.FAILED)
       this.msg = e.statusText ?? 'User not found'
       this.user = null
-      // this.state = states.FAILED
+      this.state = states.FAILED
       return states.FAILED
     }
   }
 
-  createUser = async (model: Registration) => {
+  @action createUser = async (model: Registration) => {
     // this.state = states.LOADING
     try {
       const url = ApiRoutes.createUser

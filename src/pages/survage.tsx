@@ -7,7 +7,7 @@ import Page from '../components/page'
 import feedbackStore from '../stores/FeedbackStore'
 import Question from '../components/question'
 import questionStore from '../stores/QuestionStore'
-import FeedbackDoneOverlay from '../components/FeedbackDoneOverlay'
+import FeedbackOverlay from '../components/FeedbackDoneOverlay'
 import states from '../stores/requestState'
 
 // import questionStore from '../stores/QuestionStore'
@@ -17,10 +17,13 @@ export default observer(() => {
   const [showOverlay, setShowOverlay] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const { questions, meetingId } = useContext(questionStore)
-  const { feedback, createFeedbackBatch, state } = useContext(feedbackStore)
+  const { feedback, createFeedbackBatch } = useContext(feedbackStore)
+
+  const [success, setSuccess] = useState(false)
+  const [overlayText, setOverlayText] = useState('')
 
   useEffect(() => {
-    if (!questions) Router.push('/')
+    if (!questions) Router.back()
   })
 
   const isFeedbackReady = () => {
@@ -41,9 +44,14 @@ export default observer(() => {
   const next = () => {
     if (page === questions.questions.length - 1) {
       if (isFeedbackReady()) {
-        console.log('feedback send', feedback)
-        createFeedbackBatch(feedback, meetingId).then(() => {
-          if (state === states.DONE) {
+        createFeedbackBatch(feedback, meetingId).then(res => {
+          if (res === states.DONE) {
+            setSuccess(true)
+            setOverlayText('Tak for din besvarelse')
+            setShowOverlay(true)
+          } else {
+            setSuccess(false)
+            setOverlayText('Der skete desværre en fejl')
             setShowOverlay(true)
           }
         })
@@ -119,7 +127,7 @@ export default observer(() => {
           }
         `}</style>
       </Page>
-      {showOverlay && <FeedbackDoneOverlay />}
+      {showOverlay && <FeedbackOverlay success={success} text={overlayText} />}
 
       <Modal
         isOpen={modalOpen}

@@ -46,6 +46,15 @@ export default () => {
               Giv Feedback
             </a>
           </Link>
+          <Link href='/scanner' key='scanner'>
+            <a
+              title='scanner'
+              aria-label='scanner'
+              className='center button loginBtn'
+            >
+              Scan meeting code
+            </a>
+          </Link>
           <Link href='/login' key='login'>
             <a
               title='login'

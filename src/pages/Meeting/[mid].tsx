@@ -2,6 +2,7 @@
 import { useContext, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { observer } from 'mobx-react-lite'
+import { QRCode } from 'react-qr-svg'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import meetingStore from '../../stores/MeetingStore'
@@ -15,6 +16,7 @@ import states from '../../stores/requestState'
 const Post = observer(() => {
   const router = useRouter()
   const { mid } = router.query
+  // const qr = new QRCode()
 
   const {
     meeting,
@@ -33,8 +35,6 @@ const Post = observer(() => {
   // const [discription, setDiscription] = useState(context.meeting?.discription);
   // const [topic, setTopic] = useState(context.meeting?.topic);
   // const [qSetId, setQSetId] = useState(context.meeting?.questionsSetId);
-
-  const qrURL = ApiRoutes.qrcode(String(mid))
 
   useEffect(() => {
     if (mid) {
@@ -203,7 +203,13 @@ const Post = observer(() => {
             <div className='flex-item-right'>
               <div className='qrbox'>
                 <h4>Qrkode</h4>
-                <img className='qrimg' src={qrURL} alt={String(mid)} />
+                <QRCode
+                  bgColor='var(--surface)'
+                  fgColor='var(--accent)'
+                  level='Q'
+                  style={{ width: 256 }}
+                  value={ApiRoutes.qrcode(String(mid))}
+                />
                 <p>
                   Brug denne unikke qrkode til let at give dine deltagere adgang
                   til at give dig feedback. kopier evt billede ind i et slide

@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useContext } from 'react'
-import Router from 'next/router'
 import Link from 'next/link'
 import Page from '../components/page'
 import Section from '../components/section'
