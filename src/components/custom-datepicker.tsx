@@ -4,11 +4,10 @@ import { useState, useEffect } from 'react'
 
 type Props = {
   onChange: (data: Date) => void
-  onSelect?: () => void
   value: Date
 }
 
-const CustomDatepicker = ({ value, onChange, onSelect }: Props) => {
+const CustomDatepicker = ({ value, onChange }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   const [dateValue, setDateValue] = useState(value)
 

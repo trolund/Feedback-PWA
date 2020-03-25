@@ -95,7 +95,7 @@ export default observer(() => {
             display: block !important;
           }
           .filter {
-            padding-top: 50px !important;
+            padding-top: 100px !important;
             background-color: var(--surface);
             border-radius: 0;
             width: 100%;
@@ -111,6 +111,7 @@ export default observer(() => {
           border: solid 1px var(--text);
           border-radius: var(--border-radius);
           padding: 15px;
+          z-index: 9;
         }
         .grid-container {
           display: grid;

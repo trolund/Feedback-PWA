@@ -6,7 +6,6 @@ const AuthService = {
   getToken: () => {
     try {
       const token = localStorage.getItem('token')
-      console.log('Token: ', token)
       return token
     } catch (e) {
       console.log(e)

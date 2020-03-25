@@ -16,7 +16,6 @@ const DashboardFilter = observer(() => {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   const [tags, setTags] = useState([] as Tag[])
-  const [startdateIsOpen, setstartdateIsOpen] = useState(false)
   const context = useContext(dashboardStore)
 
   useEffect(() => {
@@ -51,15 +50,17 @@ const DashboardFilter = observer(() => {
 
   return (
     <div>
-      <h4>Filter muligheder</h4>
-      <CustomCheckbox
-        label='Hvis feedback fra mine møder.'
-        checked={onlyOwnData}
-        onChange={checked => setonlyOwnData(checked)}
-      />
-      <div className='card-body'>
-        <h5 className='card-title'>Søge ord</h5>
-        <div className='card-text'>
+      <h3>Filter muligheder</h3>
+      <div className='float-right ownData'>
+        <CustomCheckbox
+          label='Hvis kun min feedback'
+          checked={onlyOwnData}
+          onChange={checked => setonlyOwnData(checked)}
+        />
+      </div>
+      <div className='flex-container'>
+        <div style={{ width: '250px' }}>
+          <p>Søgeord</p>
           <input
             type='text'
             name='searchWord'
@@ -68,35 +69,36 @@ const DashboardFilter = observer(() => {
             value={searchWord}
             onChange={e => setSearchWord(e.target.value)}
           />
+        </div>
+        <div style={{ width: '250px' }}>
           <div className='tagdiv'>
-            <h5 className='card-title'>Kategori</h5>
+            <p>Kategori</p>
             <Select options={tags} isMulti components={animatedComponents} />
             {/* <TagInput tags={tags} setTags={setTags} /> */}
           </div>
-          <div className='flex-container padding'>
-            <div>
-              <p>Start dato</p>
-              <CustomDatepicker
-                value={startDate}
-                onChange={date => {
-                  setStartDate(date)
-                }}
-              />
-            </div>
-            <div>
-              {' '}
-              <p>Slut dato</p>
-              <CustomDatepicker
-                value={startDate}
-                onChange={date => {
-                  setStartDate(date)
-                }}
-              />
-            </div>
-          </div>
         </div>
       </div>
-      <div className='card-footer text-muted'>
+      <div className='flex-container padding'>
+        <div>
+          <p>Start dato</p>
+          <CustomDatepicker
+            value={startDate}
+            onChange={date => {
+              setStartDate(date)
+            }}
+          />
+        </div>
+        <div>
+          <p>Slut dato</p>
+          <CustomDatepicker
+            value={endDate}
+            onChange={date => {
+              setEndDate(date)
+            }}
+          />
+        </div>
+      </div>
+      <div className=''>
         <a
           role='button'
           tabIndex={0}
@@ -117,6 +119,9 @@ const DashboardFilter = observer(() => {
         </a>
       </div>
       <style jsx>{`
+        .ownData {
+          margin-top: -30px;
+        }
         .padding {
           padding-top: 20px;
           padding-bottom: 20px;
