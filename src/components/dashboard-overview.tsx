@@ -34,7 +34,8 @@ const DashboardOverview = () => {
       {!showBarChart ? (
         <LineGraph data={data} fetchState={state} showAllOfY={false} />
       ) : (
-        <BarGraph data={data} fetchState={state} showAllOfY={false} />
+        // <BarGraph data={data} fetchState={state} showAllOfY={false} />
+        <p>wait?</p>
       )}
 
       <p className='card-footer text-muted'>

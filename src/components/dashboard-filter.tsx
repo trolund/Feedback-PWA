@@ -19,7 +19,7 @@ const DashboardFilter = observer(() => {
   const context = useContext(dashboardStore)
 
   useEffect(() => {
-    context.fetchDashboard(
+    context.fetchDashboardDate(
       startDate,
       endDate,
       tags.map(i => i.value),
@@ -28,7 +28,7 @@ const DashboardFilter = observer(() => {
   }, [searchWord, startDate, endDate, context, tags])
 
   const getData = () => {
-    context.fetchDashboard(
+    context.fetchDashboardDate(
       startDate,
       endDate,
       tags.map(i => i.value),

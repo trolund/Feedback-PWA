@@ -57,6 +57,23 @@ const ApiRoutes = {
     }
 
     return returnStr
+  },
+  DashboardDate: (
+    start: Date,
+    end: Date,
+    categories?: string[],
+    searchWord?: string,
+    onlyOwnData: boolean = true
+  ) => {
+    let returnStr = `${apiUrl}/Api/FeedbackBatch/dashboardDate?start=${start.toISOString()}&end=${end.toISOString()}&onlyOwnData=${onlyOwnData}`
+    if (searchWord) {
+      returnStr += `&searchWord=${searchWord}`
+    }
+    if (categories) {
+      returnStr = appendCategoriesParms(returnStr, categories)
+    }
+
+    return returnStr
   }
 }
 

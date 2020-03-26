@@ -11,7 +11,7 @@ import img from '../../public/images/nofilter.svg'
 
 export default observer(() => {
   const { data, state } = useContext(dashboardStore)
-  const [showFilter, setShowFilter] = useState(false)
+  const [showFilter, setShowFilter] = useState(true)
 
   // const myData = {
   //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
