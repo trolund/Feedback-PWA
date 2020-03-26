@@ -1,50 +1,18 @@
 import React, { useCallback, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
-import FeedbackMonth from '../models/FeedbackMonth'
 import states from '../stores/requestState'
+import GraphData from '../models/GraphData'
 
 interface BarGraphProps {
-  data: FeedbackMonth[] | null
+  data: GraphData | null
   fetchState: states
-  showAllOfY: boolean
 }
 
 const BarGraph: React.FC<BarGraphProps> = (props: BarGraphProps) => {
-  const [labels, setLabels] = useState([
-    'jan',
-    'feb',
-    'marts',
-    'april',
-    'may',
-    'juni',
-    'juli',
-    'aug',
-    'sep',
-    'okt',
-    'nov',
-    'dec'
-  ])
-  const { data, fetchState, showAllOfY } = props
+  const { data, fetchState } = props
+  const { labels, dataPoints } = data
 
   const height = 300
-
-  const avgData = useCallback(() => {
-    if (data) {
-      const returnData: number[] = []
-      for (let month: number = 1; month <= 12; month++) {
-        const num =
-          data
-            .filter(item => item.month === month)
-            .reduce((sum, item) => sum + item.answer, 0) / data.length
-        returnData.push(num)
-      }
-
-      return returnData
-    }
-    return [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  }, [data])
-
-  // const arrAvg = data.reduce((sum,item) => sum + item.answer, 0) / data.length
 
   const graphData = useCallback(
     (canvas: any) => {
@@ -65,12 +33,12 @@ const BarGraph: React.FC<BarGraphProps> = (props: BarGraphProps) => {
             pointStrokeColor: 'rgb(5, 107, 83)',
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ff6c23',
-            data: avgData()
+            data: dataPoints
           }
         ]
       }
     },
-    [avgData, labels]
+    [dataPoints, labels]
   )
 
   const options = {

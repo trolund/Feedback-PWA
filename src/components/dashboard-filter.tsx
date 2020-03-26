@@ -58,6 +58,13 @@ const DashboardFilter = observer(() => {
           onChange={checked => setonlyOwnData(checked)}
         />
       </div>
+      <div className='float-right ownData'>
+        <CustomCheckbox
+          label='Hvis kun relevant data'
+          checked={onlyOwnData}
+          onChange={checked => setonlyOwnData(checked)}
+        />
+      </div>
       <div className='flex-container'>
         <div style={{ width: '250px' }}>
           <p>Søgeord</p>

@@ -1,25 +1,27 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState } from 'react'
 import { PieChart, BarChart2 } from 'react-feather'
 import LineGraph from './line-graph'
-import dashboardStore from '../stores/dashboard-store'
-import BarGraph from './bar-chart'
+// import dashboardStore from '../stores/dashboard-store'
+// import BarGraph from './bar-chart'
 import Rating from './Rating'
+import GraphData from '../models/GraphData'
+import states from '../stores/requestState'
+import BarGraph from './bar-chart'
 
-const DashboardOverview = () => {
-  const [loaded, setLoaded] = useState(false)
+type overviewprops = {
+  graphData: GraphData
+  fetchState: states
+}
+
+const DashboardOverview = (props: overviewprops) => {
   const [showBarChart, setShowBarChart] = useState(false)
-  const { data, state } = useContext(dashboardStore)
-
-  useEffect(() => {
-    setLoaded(true)
-  }, [])
-
+  const { graphData, fetchState } = props
   return (
     <>
       <Rating />
 
-      <h5 className='card-title card-header'>
-        Udvikling{' '}
+      <h5>
+        Udvikling
         <div
           role='button'
           tabIndex={0}
@@ -32,14 +34,17 @@ const DashboardOverview = () => {
       </h5>
 
       {!showBarChart ? (
-        <LineGraph data={data} fetchState={state} showAllOfY={false} />
+        <LineGraph
+          data={graphData}
+          fetchState={fetchState}
+          showAllOfY={false}
+        />
       ) : (
-        // <BarGraph data={data} fetchState={state} showAllOfY={false} />
-        <p>wait?</p>
+        <BarGraph data={graphData} fetchState={fetchState} />
       )}
 
       <p className='card-footer text-muted'>
-        Bygger på <b>{data?.length}</b> tilbagemeldinger
+        Bygger på <b>{graphData.numberOfProcessedItems}</b> tilbagemeldinger
       </p>
       <style jsx>{`
         header {

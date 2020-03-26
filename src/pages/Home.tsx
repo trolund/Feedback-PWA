@@ -1,48 +1,23 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Filter } from 'react-feather'
 import Page from '../components/page'
 import Section from '../components/section'
 import DashboardFilter from '../components/dashboard-filter'
-import LineGraph from '../components/line-graph'
 import dashboardStore from '../stores/dashboard-store'
 import DashboardOverview from '../components/dashboard-overview'
 import img from '../../public/images/nofilter.svg'
+import CalculationService from '../services/calculationService'
 
 export default observer(() => {
   const { data, state } = useContext(dashboardStore)
   const [showFilter, setShowFilter] = useState(true)
+  const calculationService = new CalculationService()
 
-  // const myData = {
-  //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  //   datasets: [
-  //     {
-  //       label: 'Progress',
-  //       backgroundColor: [
-  //         '#FF6384',
-  //         '#36A2EB',
-  //         '#FFCE56',
-  //         'rgb(23, 161, 129)',
-  //         'rgb(163, 161, 129)',
-  //         'rgb(263, 61, 129)',
-  //         'rgb(163, 261, 129)'
-  //       ],
-  //       hoverBackgroundColor: [
-  //         '#FF6384',
-  //         '#36A2EB',
-  //         '#FFCE56',
-  //         'rgb(23, 161, 129)',
-  //         'rgb(163, 161, 129)',
-  //         'rgb(263, 61, 129)',
-  //         'rgb(163, 261, 129)'
-  //       ],
-  //       borderColor: 'rgba(255,99,132,1)',
-  //       borderWidth: 1,
-  //       hoverBorderColor: 'rgba(255,99,132,1)',
-  //       data: [65, 59, 80, 81, 56, 55, 40]
-  //     }
-  //   ]
-  // }
+  const graphdata = useCallback(() => calculationService.calGraphData(data), [
+    calculationService,
+    data
+  ])
 
   const ShowAndHideFilterBtn = () => {
     return (
@@ -82,10 +57,7 @@ export default observer(() => {
             </div>
           )}
           <div className='item-b'>
-            <LineGraph data={data} fetchState={state} showAllOfY={false} />
-          </div>
-          <div>
-            <DashboardOverview />
+            <DashboardOverview graphData={graphdata()} fetchState={state} />
           </div>
         </section>
       </Section>
