@@ -1,11 +1,24 @@
-import { observable } from 'mobx'
+import { observable, action } from 'mobx'
 import { createContext } from 'react'
 import ApiRoutes from './api/ApiRoutes'
 import states from './requestState'
 import AuthService from './api/authService'
 import FeedbackDate from '../models/FeedbackDate'
+import Tag from '../models/tag'
 
 class DashboardStore {
+  @observable startdate: Date = new Date()
+
+  @observable enddate: Date = new Date()
+
+  @observable cutoff: boolean = true
+
+  @observable searchWord: string = ''
+
+  @observable tags: Tag[] = []
+
+  @observable ownData: boolean = true
+
   // status
   @observable state = states.DONE
 
@@ -13,6 +26,34 @@ class DashboardStore {
 
   // data
   @observable data: FeedbackDate[] | null = null
+
+  @action setStartdate = (newDate: Date) => {
+    this.startdate = newDate
+  }
+
+  @action setEnddate = (newDate: Date) => {
+    this.enddate = newDate
+  }
+
+  @action setOwnData = (bool: boolean) => {
+    this.ownData = bool
+  }
+
+  @action setCutOff = (bool: boolean) => {
+    this.cutoff = bool
+  }
+
+  @action setSearchWord = (word: string) => {
+    this.searchWord = word
+  }
+
+  @action setTags = (tags: Tag[]) => {
+    this.tags = tags
+  }
+
+  @action setState = (state: states) => {
+    this.state = state
+  }
 
   // async fetchDashboard(
   //   start: Date,
@@ -48,7 +89,7 @@ class DashboardStore {
   //   }
   // }
 
-  async fetchDashboardDate(
+  @action async fetchDashboardDate(
     start: Date,
     end: Date,
     categories?: string[],
@@ -74,9 +115,11 @@ class DashboardStore {
 
       const data: FeedbackDate[] = await response.json()
       this.state = states.DONE
+
       this.data = data
     } catch (e) {
       this.state = states.FAILED
+
       this.msg = e.statusText
       this.data = null
     }

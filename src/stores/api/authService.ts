@@ -2,72 +2,18 @@ import Router from 'next/router'
 import jwtDecode from 'jwt-decode'
 import TokenModel from '../../models/TokenModel'
 
-const AuthService = {
-  getToken: () => {
+class AuthService {
+  getToken = (): string => {
     try {
       const token = localStorage.getItem('token')
       return token
     } catch (e) {
       console.log(e)
     }
-  },
+    return null
+  }
 
-  redirectToLogin: () => {
-    try {
-      const obj: any = jwtDecode(localStorage.getItem('token'))
-      if (obj) {
-        const date: number = obj.exp
-        if (date <= Date.now() / 1000) Router.push('/login')
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  },
-  redirectToHome: () => {
-    try {
-      const obj: any = jwtDecode(localStorage.getItem('token'))
-      if (obj) {
-        const date: number = obj.exp
-        if (date >= Date.now() / 1000) Router.push('/home')
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  },
-  tokenValid: (): boolean => {
-    try {
-      const obj: any = jwtDecode(localStorage.getItem('token'))
-      if (obj) {
-        const date: number = obj.exp
-        return date >= Date.now() / 1000
-      }
-      return false
-    } catch (e) {
-      console.log(e)
-    }
-  },
-  getRoles: (): string[] => {
-    const token: TokenModel = this?.parseJwt(this?.getToken())
-    return token.role
-  },
-
-  getUserId: (): string => {
-    const token: TokenModel = this?.parseJwt(this?.getToken())
-    return token.sub
-  },
-
-  getExp: (): number => {
-    const token: TokenModel = this?.parseJwt(this?.getToken())
-    console.log('exp:', token.exp)
-    return token.exp
-  },
-
-  getTokenModel(): TokenModel {
-    const token: TokenModel = this?.parseJwt(this?.getToken())
-    return token
-  },
-
-  parseJwt: (token: string) => {
+  parseJwt = (token: string) => {
     const base64Url = token.split('.')[1]
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
     const jsonPayload = decodeURIComponent(
@@ -80,6 +26,73 @@ const AuthService = {
     )
     return JSON.parse(jsonPayload)
   }
+
+  redirectToLogin = () => {
+    try {
+      const obj: any = jwtDecode(localStorage.getItem('token'))
+      if (obj) {
+        const date: number = obj.exp
+        if (date <= Date.now() / 1000) Router.push('/login')
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  redirectToHome = () => {
+    try {
+      const obj: any = jwtDecode(localStorage.getItem('token'))
+      if (obj) {
+        const date: number = obj.exp
+        if (date >= Date.now() / 1000) Router.push('/home')
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  tokenValid = (): boolean => {
+    try {
+      const obj: any = jwtDecode(localStorage.getItem('token'))
+      if (obj) {
+        const date: number = obj.exp
+        return date >= Date.now() / 1000
+      }
+      return false
+    } catch (e) {
+      console.log(e)
+    }
+    return null
+  }
+
+  getRoles = (): string[] => {
+    const token: TokenModel = this?.parseJwt(this.getToken())
+    return token.role
+  }
+
+  getUserId = (): string => {
+    const token: TokenModel = this?.parseJwt(this.getToken())
+    return token.sub
+  }
+
+  getExp = (): number => {
+    const token: TokenModel = this?.parseJwt(this.getToken())
+    console.log('exp:', token.exp)
+    return token.exp
+  }
+
+  getCompanyId = (): number => {
+    const token: TokenModel = this?.parseJwt(this.getToken())
+    console.log('CID:', token.CID)
+    return token.CID
+  }
+
+  getTokenModel = (): TokenModel => {
+    const token: TokenModel = this?.parseJwt(this.getToken())
+    return token
+  }
 }
 
-export default AuthService
+const authService = new AuthService()
+
+export default authService

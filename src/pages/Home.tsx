@@ -50,22 +50,19 @@ export default observer(() => {
       title='Home'
     >
       <Section>
-        <section className='grid-container'>
+        <section className='flex-container'>
           {showFilter && (
-            <div className='item-a filter'>
+            <div className='filter'>
               <DashboardFilter />
             </div>
           )}
-          <div className='item-b'>
+          <div className='charts'>
             <DashboardOverview graphData={graphdata()} fetchState={state} />
           </div>
         </section>
       </Section>
       <style jsx>{`
-        @media only screen and (max-width: 800px) {
-          .grid-container {
-            display: block !important;
-          }
+        @media only screen and (max-width: 900px) {
           .filter {
             padding-top: 100px !important;
             background-color: var(--surface);
@@ -78,17 +75,25 @@ export default observer(() => {
             border-radius: 0 !important;
             border: none !important;
           }
+
+          .charts {
+            margin: 5px;
+            width: 100%;
+          }
         }
         .filter {
           border: solid 1px var(--text);
           border-radius: var(--border-radius);
           padding: 15px;
           z-index: 9;
+          padding: 10px;
+          max-height: 400px;
+          flex: 1;
         }
-        .grid-container {
-          display: grid;
-          grid-template-columns: calc(50% - 0.51em) calc(50% - 0.51em);
-          grid-gap: 1rem;
+
+        .charts {
+          padding: 20px;
+          flex: 1;
         }
 
         .item-a {

@@ -187,7 +187,7 @@ a {
    * flex-direction: row;
    * flex-wrap: wrap;
    */
-  flex-flow: row wrap;
+  flex-flow: wrap;
 
   /* Then we define how is distributed the remaining space */
   justify-content: space-around;
@@ -212,6 +212,7 @@ a {
   border-top: 1px solid var(--accent) !important;
   border-bottom: 1px solid var(--accent) !important;
 }
+
 .datepicker.default .datepicker-navbar-btn {
   color: var(--accent) !important;
 }

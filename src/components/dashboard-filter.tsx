@@ -1,36 +1,55 @@
 import { observer } from 'mobx-react-lite'
-import { useState, useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import Select from 'react-select'
 // import DatePicker from 'react-datepicker'
 // import DatePicker from 'react-mobile-datepicker'
 import { FileText } from 'react-feather'
 import makeAnimated from 'react-select/animated'
 import dashboardStore from '../stores/dashboard-store'
-import Tag from '../models/tag'
+// import Tag from '../models/tag'
 import CustomDatepicker from './custom-datepicker'
 import CustomCheckbox from './checkbox'
+import categoriesStore from '../stores/CategoriesStore'
+import authService from '../stores/api/authService'
 
 const DashboardFilter = observer(() => {
-  const [searchWord, setSearchWord] = useState('')
-  const [onlyOwnData, setonlyOwnData] = useState(false)
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState(new Date())
-  const [tags, setTags] = useState([] as Tag[])
+  // const [searchWord, setSearchWord] = useState('')
+  // const [onlyOwnData, setonlyOwnData] = useState(false)
+  // const [startDate, setStartDate] = useState(new Date())
+  // const [endDate, setEndDate] = useState(new Date())
+  // const [tags, setTags] = useState([] as Tag[])
+  const {
+    startdate,
+    enddate,
+    cutoff,
+    ownData,
+    searchWord,
+    tags,
+    setCutOff,
+    setOwnData,
+    setEnddate,
+    setSearchWord,
+    setStartdate,
+    setTags
+  } = useContext(dashboardStore)
+
   const context = useContext(dashboardStore)
+  const categoriesContext = useContext(categoriesStore)
 
   useEffect(() => {
     context.fetchDashboardDate(
-      startDate,
-      endDate,
+      startdate,
+      enddate,
       tags.map(i => i.value),
       searchWord
     )
-  }, [searchWord, startDate, endDate, context, tags])
+    // categoriesContext.fetchCategories(String(authService.getCompanyId()))
+  }, [searchWord, tags, startdate, enddate, context, categoriesContext])
 
   const getData = () => {
     context.fetchDashboardDate(
-      startDate,
-      endDate,
+      startdate,
+      enddate,
       tags.map(i => i.value),
       searchWord
     )
@@ -54,15 +73,15 @@ const DashboardFilter = observer(() => {
       <div className='float-right ownData'>
         <CustomCheckbox
           label='Hvis kun min feedback'
-          checked={onlyOwnData}
-          onChange={checked => setonlyOwnData(checked)}
+          checked={ownData}
+          onChange={checked => setOwnData(checked)}
         />
       </div>
       <div className='float-right ownData'>
         <CustomCheckbox
           label='Hvis kun relevant data'
-          checked={onlyOwnData}
-          onChange={checked => setonlyOwnData(checked)}
+          checked={cutoff}
+          onChange={checked => setCutOff(checked)}
         />
       </div>
       <div className='flex-container'>
@@ -80,7 +99,12 @@ const DashboardFilter = observer(() => {
         <div style={{ width: '250px' }}>
           <div className='tagdiv'>
             <p>Kategori</p>
-            <Select options={tags} isMulti components={animatedComponents} />
+            <Select
+              options={categoriesContext.categories}
+              isMulti
+              components={animatedComponents}
+              // onChange={tag => setTags(tag)}
+            />
             {/* <TagInput tags={tags} setTags={setTags} /> */}
           </div>
         </div>
@@ -89,18 +113,18 @@ const DashboardFilter = observer(() => {
         <div>
           <p>Start dato</p>
           <CustomDatepicker
-            value={startDate}
+            value={startdate}
             onChange={date => {
-              setStartDate(date)
+              setStartdate(date)
             }}
           />
         </div>
         <div>
           <p>Slut dato</p>
           <CustomDatepicker
-            value={endDate}
+            value={enddate}
             onChange={date => {
-              setEndDate(date)
+              setEnddate(date)
             }}
           />
         </div>
