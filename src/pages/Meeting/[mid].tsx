@@ -46,6 +46,9 @@ const Post = observer(() => {
 
   useEffect(() => {
     if (meeting) {
+      console.log('====================================')
+      console.log(meeting)
+      console.log('====================================')
       setDate(new Date(meeting?.startTime))
       setStartTime(new Date(meeting?.startTime))
       setEndTime(new Date(meeting?.endTime))
@@ -128,7 +131,6 @@ const Post = observer(() => {
   const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
     datePart.setMinutes(timePart.getMinutes())
     datePart.setHours(timePart.getHours())
-    datePart.setSeconds(0)
     return datePart
   }
 
@@ -136,6 +138,9 @@ const Post = observer(() => {
     if (meeting) {
       meeting.endTime = spliceDateAndTime(date, endTime)
       meeting.startTime = spliceDateAndTime(date, startTime)
+      console.log('====================================')
+      console.log(meeting)
+      console.log('====================================')
       update(meeting)
     }
   }

@@ -1,15 +1,33 @@
 import Page from '../components/page'
 import Section from '../components/section'
-import FakeList from '../components/fake-list'
+import UserList from '../components/fake-list'
+import User from '../models/User'
 
-const Tasks = () => (
-  <Page title='Tasks'>
-    <Section>
-      <h2>Tasks</h2>
-    </Section>
+const Tasks = () => {
+  const dummyList: User[] = [
+    {
+      companyId: 1,
+      firstname: 'Troels',
+      lastname: 'Lund',
+      roles: ['Admin', 'VAdmin']
+    },
+    {
+      companyId: 1,
+      firstname: 'Emil',
+      lastname: 'Lund',
+      roles: ['Admin']
+    }
+  ]
 
-    <FakeList />
-  </Page>
-)
+  return (
+    <Page title='Tasks'>
+      <Section>
+        <h2>Tasks</h2>
+      </Section>
+
+      <UserList userlist={dummyList} />
+    </Page>
+  )
+}
 
 export default Tasks

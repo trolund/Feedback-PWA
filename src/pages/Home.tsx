@@ -65,7 +65,7 @@ export default observer(() => {
         @media only screen and (max-width: 900px) {
           .filter {
             padding-top: 100px !important;
-            background-color: var(--surface);
+            background-color: var(--divider);
             border-radius: 0;
             width: 100%;
             top: 0;
@@ -82,12 +82,12 @@ export default observer(() => {
           }
         }
         .filter {
-          border: solid 1px var(--text);
+          border: solid 1px var(--divider);
           border-radius: var(--border-radius);
           padding: 15px;
           z-index: 9;
           padding: 10px;
-          max-height: 400px;
+          max-height: 650px;
           flex: 1;
         }
 

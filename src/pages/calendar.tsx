@@ -17,6 +17,7 @@ import states from '../stores/requestState'
 import Tag from '../models/tag'
 import CustomDatepicker from '../components/custom-datepicker'
 import CustomTimepicker from '../components/custom-timepicker'
+import Seachbar from '../components/search-bar'
 
 const FullCalendarNoSSRWrapper = dynamic({
   modules: () =>
@@ -261,20 +262,9 @@ const Calendar = observer(() => {
     Router.push(`/meeting/${event.event.id}`)
   }
 
-  const Seachbar = () => (
-    <input
-      type='search'
-      name='search'
-      id='search'
-      placeholder='Søg efter navne på møder'
-      value={searchWord}
-      onChange={e => setSearchWord(e.target.value)}
-      style={{ marginBottom: '10px' }}
-    />
-  )
-
   return (
-    <Page title='Calendar' showBackButton={false} component={<Seachbar />}>
+    <Page title='Calendar' showBackButton={false}>
+      <Seachbar value={searchWord} setValue={setSearchWord} />
       <CreateMeetingModal
         questionContext={questionContext}
         setQuestionSet={setQuestionSet}

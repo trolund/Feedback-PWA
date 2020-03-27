@@ -1,19 +1,22 @@
-import Avatar from './avatar'
-import { getPlaceholderName } from '../helpers'
+import { User as UserIcon, UserCheck, UserMinus } from 'react-feather'
+import User from '../models/User'
 
-const FakeList = () => {
-  const data = []
+type UserList = {
+  userlist: User[]
+}
 
-  for (let i = 0; i < 10; i++) {
-    data.push(getPlaceholderName())
-  }
-
+const UserList: React.FC<UserList> = ({ userlist }) => {
   return (
     <ul>
-      {data.map(item => (
-        <li key={item}>
-          <Avatar>{item}</Avatar>
-          <h4>{item}</h4>
+      {userlist.map(item => (
+        <li key={item.token}>
+          {/* <Avatar>{item}</Avatar> */}
+          <UserIcon />
+          <h4>{item.firstname}</h4>
+          <h4>{item.lastname}</h4>
+          <h4>{item.companyId}</h4>
+          <UserMinus />
+          <UserMinus />
         </li>
       ))}
 
@@ -42,4 +45,4 @@ const FakeList = () => {
   )
 }
 
-export default FakeList
+export default UserList

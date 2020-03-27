@@ -81,13 +81,13 @@ body {
 }
 
 .button {
-  color: var(--text);
+  color: whitesmoke;
   font-family: var(--font);
   font-weight: var(--weight);
   background: var(--base);
   padding: 15px;
   border-radius: 15px;
-  background: var(--accent-low);
+  background: var(--accent);
   transition: var(--transition-colors);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -103,8 +103,6 @@ body {
 
 .button:hover {
   background: var(--accent-dark);
-  color: var(--text);
-  text-decoration: none;
 }
 
 .button:disabled,
@@ -115,17 +113,48 @@ body {
 }
 
 input[type='text'],
-input[type='password'] {
+input[type='password'],
+input[type='search'],
+textarea {
   color: var(--text);
   padding: var(--gap-small);
   background: var(--base);
   display: flex;
   align-items: center;
   transition: var(--transition-colors);
-  border-color: var(--label);
+  border-color: var(--divider);
   border: 1px solid;
-  border-radius: 15px;
+  border-radius: var(--border-radius);
   background-color: var(--surface);
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  font-size: inherit;
+  line-height: 1;
+  font-family: inherit;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  -webkit-appearance: none;
+  margin: 0px;
+  padding: 16px 16px 16px 52px;
+  border-width: 0px;
+  border-style: initial;
+  border-color: initial;
+  border-image: initial;
+  outline: 0px;
+}
+
+input:focus,
+textarea:focus {
+  outline: 0px;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+input[type='search']::before {
+  font-family: 'Inter';
+  position: relative;
+  left: -5px;
+  content: ' \e9c1';
 }
 
 input:disabled {
@@ -137,18 +166,18 @@ input[type='password']:hover {
   background-color: var(--surface-hover);
 }
 
-textarea {
+/* textarea {
   color: var(--text);
   padding: var(--gap-small);
   background: var(--base);
   display: flex;
   align-items: center;
   transition: var(--transition-colors);
-  border-color: var(--label);
+  border-color: var(--divider);
   border: 1px solid;
   border-radius: 15px;
   background-color: var(--surface);
-}
+} */
 
 textarea:hover {
   background-color: var(--surface-hover);
@@ -261,4 +290,10 @@ a {
   transform: translate(-50%, -50%);
   background-color: var(--surface);
   border-radius: var(--border-radius);
+}
+
+/* calander */
+
+.fc-time-grid tbody {
+  padding-bottom: 150px !important;
 }

@@ -60,25 +60,11 @@ const DashboardFilter = observer(() => {
   return (
     <div>
       <h3>Filter muligheder</h3>
-      <div className='float-right ownData'>
-        <CustomCheckbox
-          label='Hvis kun min feedback'
-          checked={ownData}
-          onChange={checked => setOwnData(checked)}
-        />
-      </div>
-      <div className='float-right ownData'>
-        <CustomCheckbox
-          label='Hvis kun relevant data'
-          checked={cutoff}
-          onChange={checked => setCutOff(checked)}
-        />
-      </div>
       <div className='flex-container'>
-        <div style={{ width: '250px' }}>
+        <div>
           <p>Søgeord</p>
           <input
-            type='text'
+            type='search'
             name='searchWord'
             id='name'
             placeholder="Ord som enden er en del af navnet eller beskrivelse på mødet, fx 'HR' "
@@ -122,6 +108,22 @@ const DashboardFilter = observer(() => {
           />
         </div>
       </div>
+      <div className='flex-container padding'>
+        <div className='ownData'>
+          <CustomCheckbox
+            label='Hvis kun min feedback'
+            checked={ownData}
+            onChange={checked => setOwnData(checked)}
+          />
+        </div>
+        <div className='ownData'>
+          <CustomCheckbox
+            label='Hvis kun relevant data'
+            checked={cutoff}
+            onChange={checked => setCutOff(checked)}
+          />
+        </div>
+      </div>
       <div className=''>
         <a
           role='button'
@@ -144,7 +146,7 @@ const DashboardFilter = observer(() => {
       </div>
       <style jsx>{`
         .ownData {
-          margin-top: -30px;
+          padding: 5px;
         }
         .padding {
           padding-top: 20px;
@@ -155,11 +157,13 @@ const DashboardFilter = observer(() => {
           padding-bottom: 10px;
         }
 
-        .checkbox {
+         {
+          /* .checkbox {
           float: right;
           font-size: 0.7em;
           margin-top: auto;
           margin-bottom: auto;
+        } */
         }
       `}</style>
     </div>
