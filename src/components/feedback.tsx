@@ -37,10 +37,13 @@ const FeedbackView = observer((props: IProp) => {
   const commentTitelBar = (title: string, count: number) => {
     return (
       <div className='d-flex flex-row bd-highlight'>
-        <p className='flex-grow-1' style={{ marginBottom: '0px' }}>
+        <p
+          className='flex-grow-1'
+          style={{ marginBottom: '0px', marginLeft: '50px' }}
+        >
           {title}
         </p>
-        <p style={{ marginBottom: '0px' }}>{count}</p>
+        <p style={{ marginBottom: '0px', marginTop: '-25px' }}>{count}</p>
       </div>
     )
   }
@@ -48,8 +51,8 @@ const FeedbackView = observer((props: IProp) => {
   return (
     <div>
       <div className='feedback-header'>
-        <h2 className='float-left'>Feedback på spørgsmålene</h2>
-        <div className='float-right'>
+        <h2 className='float-left'>Tilbagemeldinger</h2>
+        <div className='float-right counter-container'>
           Antal besvarelser
           <h2 className='align-middle counter'>{props.count}</h2>
         </div>
@@ -57,7 +60,7 @@ const FeedbackView = observer((props: IProp) => {
       <div>
         <nav>
           <span
-            className='tab-btn'
+            className={activeTab !== 1 ? 'tab-btn-selected tab-btn' : 'tab-btn'}
             role='button'
             tabIndex={0}
             onKeyDown={() => {}}
@@ -68,7 +71,7 @@ const FeedbackView = observer((props: IProp) => {
             Feedback
           </span>
           <span
-            className='tab-btn'
+            className={activeTab !== 2 ? 'tab-btn-selected tab-btn' : 'tab-btn'}
             role='button'
             tabIndex={0}
             onKeyDown={() => {}}
@@ -145,9 +148,7 @@ const FeedbackView = observer((props: IProp) => {
 
         <div className='end-result'>
           <h2>Overodtnet resultat</h2>
-
           <CircularProgressbar
-            className='result center'
             styles={buildStyles({
               textColor: 'var(--accent)',
               pathColor: 'var(--accent)',
@@ -163,12 +164,38 @@ const FeedbackView = observer((props: IProp) => {
       </div>
 
       <style jsx>{`
+        @media only screen and (max-width: 440px) {
+          .counter-container {
+            float: center;
+            width: 100%;
+            padding: 10px;
+            margin: 10px;
+          }
+          .end-result {
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+
+        .tab-content {
+          padding-top: 25px;
+        }
+
         .tab-btn {
           border: solid var(--label) 1px;
           border-top-right-radius: var(--border-radius);
           border-top-left-radius: var(--border-radius);
           border-bottom: none;
           padding: 15px;
+        }
+
+        .tab-btn-selected {
+          background: linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(12, 62, 51, 0.4108018207282913) 99%
+          );
+          opacity: 0.5;
         }
         .questions {
           padding-top: 20px;
@@ -184,24 +211,24 @@ const FeedbackView = observer((props: IProp) => {
           border-bottom: #19896f solid 5px;
         }
 
-        .result {
-          text-align: center;
-          width: 200px;
-          height: 200px;
-        }
-
         .end-result {
           padding-top: 25px;
+          padding-bottom: 25px;
           max-width: 250px;
           max-height: 250px;
+          margin-left: auto;
+          margin-right: auto;
         }
-
+      `}</style>
+      <style jsx global>{`
         .Collapsible {
-          background-color: #19896f33;
-          border-radius: 5px;
-          /* border-bottom: #19896f solid 2px;
-  border-left: #19896f solid 2px;
-  border-right: #19896f solid 2px; */
+          background-color: #19896f;
+          border-radius: var(--border-radius);
+           {
+            /* border-bottom: #19896f solid 2px;
+          border-left: #19896f solid 2px;
+          border-right: #19896f solid 2px; */
+          }
         }
 
         .collapsible-content {
@@ -240,11 +267,12 @@ const FeedbackView = observer((props: IProp) => {
           padding-left: 20px;
           background-color: #19896f;
           display: block;
-          border-radius: 5px;
+          border-radius: var(--border-radius);
           margin-top: 5px;
           color: whitesmoke;
         }
-
+         {
+          /* 
         .Collapsible__trigger::after {
           content: attr(data-count);
           width: 20px;
@@ -255,6 +283,12 @@ const FeedbackView = observer((props: IProp) => {
           display: block;
 
           color: whitesmoke;
+        } */
+        }
+
+        .Collapsible__contentOuter {
+          margin: 0px !important;
+          width: 100%;
         }
 
         .comment {

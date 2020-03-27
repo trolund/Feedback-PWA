@@ -15,7 +15,7 @@ class DashboardStore {
 
   @observable searchWord: string = ''
 
-  @observable tags: Tag[] = []
+  @observable tags: string[] = []
 
   @observable ownData: boolean = true
 
@@ -47,7 +47,9 @@ class DashboardStore {
     this.searchWord = word
   }
 
-  @action setTags = (tags: Tag[]) => {
+  @action setTags = (tags: string[]) => {
+    console.log('set tags:', tags)
+
     this.tags = tags
   }
 

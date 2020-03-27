@@ -1,12 +1,12 @@
 {
-  "short_name": "Penguins",
-  "name": "Penguins Inc.",
+  "short_name": "Feedback",
+  "name": "SpinOff - Feedback",
   "description": "Showcasing the best penguins in town",
   "icons": [
     {
       "src": "/images/icon-192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "180x180"
     },
     {
       "src": "/images/icon-512.png",
@@ -15,9 +15,9 @@
     }
   ],
   "start_url": "/?source=pwa",
-  "background_color": "#457ef7",
+  "background_color": "#eeeff1",
   "orientation": "portrait",
   "display": "standalone",
   "scope": "/",
-  "theme_color": "#457ef7"
+  "theme_color": "#19896f"
 }

@@ -2,7 +2,9 @@ import dynamic from 'next/dynamic'
 import Router from 'next/router'
 import React, { useContext, useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { EventInput, Component } from '@fullcalendar/core'
+import { EventInput } from '@fullcalendar/core'
+import Modal from 'react-awesome-modal'
+import { X } from 'react-feather'
 import Page from '../components/page'
 import CalView from '../models/CalView'
 import questionSetStore from '../stores/QuestionSetStore'
@@ -13,6 +15,8 @@ import Category from '../models/Category'
 import MeetingModel from '../models/MeetingModel'
 import states from '../stores/requestState'
 import Tag from '../models/tag'
+import CustomDatepicker from '../components/custom-datepicker'
+import CustomTimepicker from '../components/custom-timepicker'
 
 const FullCalendarNoSSRWrapper = dynamic({
   modules: () =>
@@ -32,14 +36,126 @@ const FullCalendarNoSSRWrapper = dynamic({
   loading: () => <p>loading..</p>
 })
 
+const CreateMeetingModal = ({
+  modalOpen,
+  setModalOpen,
+  name,
+  setName,
+  discription,
+  setDiscription,
+  date,
+  setDate,
+  startTime,
+  setStartTime,
+  endTime,
+  setEndTime,
+  setQuestionSet,
+  questionContext,
+  createMeeting,
+  toggle
+}) => {
+  return (
+    <Modal
+      className='modal'
+      onClickAway={() => () => setModalOpen(false)}
+      visible={modalOpen}
+      // onAfterOpen={afterOpenModal}
+      // onRequestClose={closeModal}
+      // style={modalStyles}
+      contentLabel='Example Modal'
+    >
+      <h2>Besvarelse ikke klar!</h2>
+      <button type='button' tabIndex={0} onClick={() => setModalOpen(false)}>
+        <X /> close
+      </button>
+      <input
+        type='text'
+        name='name'
+        id='name'
+        placeholder='Navn på mødet'
+        required
+        value={name}
+        onChange={e => setName(e.target.value)}
+      />
+      <input
+        type='textarea'
+        name='text'
+        id='exampleText'
+        value={discription}
+        onChange={e => setDiscription(e.target.value)}
+      />
+      <div style={{ marginBottom: '20px' }} className='flex-container'>
+        <div>
+          <label htmlFor='exampleText'>Dato</label>
+          <CustomDatepicker
+            value={date}
+            onChange={newDate => {
+              setDate(newDate)
+            }}
+          />
+        </div>
+        <div>
+          {' '}
+          <label htmlFor='exampleText'>Start tidspunkt</label>
+          <CustomTimepicker
+            value={startTime}
+            onChange={newTime => {
+              setStartTime(newTime)
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor='exampleText'>Slut tidspunkt</label>
+          <CustomTimepicker
+            value={endTime}
+            onChange={newTime => {
+              setEndTime(newTime)
+            }}
+          />
+        </div>
+      </div>
+      <select
+        name='select'
+        id='exampleSelect'
+        onChange={e => {
+          console.log(e.target)
+
+          setQuestionSet(e.target.value)
+        }}
+      >
+        <option>- Vælg spørgsmåls sæt -</option>
+        {questionContext.QSetNames.map(item => (
+          <option key={item.questionSetId} value={item.questionSetId}>
+            {item.name}
+          </option>
+        ))}
+      </select>
+      <button type='button' color='secondary' onClick={toggle}>
+        Fortryd
+      </button>
+      <button
+        type='button'
+        color='primary'
+        onClick={() => {
+          createMeeting()
+          toggle()
+        }}
+      >
+        Opret møde
+      </button>{' '}
+    </Modal>
+  )
+}
+
 const Calendar = observer(() => {
   const questionContext = useContext(questionSetStore)
   const meetingStoreContext = useContext(meetingStore)
   const categoriesContext = useContext(categoriesStore)
-  const [modal, setModal] = useState(false)
-  const toggle = () => setModal(!modal)
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState(new Date())
+  const [modalOpen, setModalOpen] = useState(false)
+  const toggle = () => setModalOpen(!modalOpen)
+  const [date, setDate] = useState(new Date())
+  const [startTime, setStartTime] = useState(new Date())
+  const [endTime, setEndTime] = useState(new Date())
   const [name, setName] = useState('')
   const [discription, setDiscription] = useState('')
   const [questionSet, setQuestionSet] = useState('')
@@ -91,11 +207,18 @@ const Calendar = observer(() => {
       })
   }, [calViewProp, meetingStoreContext])
 
+  const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
+    datePart.setMinutes(timePart.getMinutes())
+    datePart.setHours(timePart.getHours())
+    datePart.setSeconds(0)
+    return datePart
+  }
+
   function createMeeting() {
     const meeting: MeetingModel = {
       discription,
-      endTime: endDate,
-      startTime: startDate,
+      endTime: spliceDateAndTime(date, endTime),
+      startTime: spliceDateAndTime(date, startTime),
       name,
       topic: 'emne',
       questionsSetId: questionSet,
@@ -152,6 +275,24 @@ const Calendar = observer(() => {
 
   return (
     <Page title='Calendar' showBackButton={false} component={<Seachbar />}>
+      <CreateMeetingModal
+        questionContext={questionContext}
+        setQuestionSet={setQuestionSet}
+        endTime={endTime}
+        setEndTime={setEndTime}
+        startTime={startTime}
+        setStartTime={setStartTime}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        date={date}
+        setDate={setDate}
+        discription={discription}
+        setDiscription={setDiscription}
+        name={name}
+        setName={setName}
+        createMeeting={createMeeting}
+        toggle={toggle}
+      />
       <FullCalendarNoSSRWrapper
         trigger={e => console.log(e)}
         // viewHeight={5100}
@@ -168,12 +309,12 @@ const Calendar = observer(() => {
             // other view-specific options here
           }
         }}
-        // customButtons={{
-        //   myCustomButton: {
-        //     text: 'Tilføj møde',
-        //     click: () => toggle()
-        //   }
-        // }}
+        customButtons={{
+          myCustomButton: {
+            text: 'Tilføj møde',
+            click: () => toggle()
+          }
+        }}
         defaultView='dayGridMonth'
         weekends
         events={events.filter(filterEvents)}
@@ -203,17 +344,12 @@ const Calendar = observer(() => {
           max-height: 80vh !important;
         }
 
-
-           @media only screen and (max-width: 650px) {
+        @media only screen and (max-width: 650px) {
           .fc-toolbar,
           .fc-header-toolbar {
             font-size: 0.8rem;
             margin-top: -20px;
           }
-
-          {/* .fc-scroller {
-            overflow: visible !important;
-          } */}
 
           .fc-center h2 {
             font-size: 1.2em;
@@ -224,13 +360,12 @@ const Calendar = observer(() => {
             border-bottom-right-radius: 0px;
           }
 
-
-          .fc-left .fc-button-group{
+          .fc-left .fc-button-group {
             position: absolute;
             width: 100%;
           }
 
-          .fc-left .fc-button-group button{
+          .fc-left .fc-button-group button {
             border-radius: 0px;
           }
 
@@ -241,7 +376,35 @@ const Calendar = observer(() => {
           .fc-header-toolbar {
             height: 80px;
           }
-        
+        }
+
+        .fc-button-primary:not(:disabled):active,
+        .fc-button-primary:not(:disabled).fc-button-active {
+          background-color: var(--accent);
+          color: #fff;
+          box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
+          border: none !important;
+        }
+
+        .fc-button-active {
+          background-color: var(--accent-dark) !important;
+        }
+
+        .fc-button-group button {
+          box-sizing: border-box;
+          background-color: var(--accent);
+          box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+          -webkit-transition: border-color 0.15s ease-out, color 0.25s ease-out,
+            background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+          transition: border-color 0.15s ease-out, color 0.25s ease-out,
+            background-color 0.15s ease-out, box-shadow 0.15s ease-out; 
+          }
+          .fc-event {
+            background-color: var(--accent) ;
+            border-color: var(--accent);
+            padding: 5px,
+          }
+        }
       `}</style>
     </Page>
   )

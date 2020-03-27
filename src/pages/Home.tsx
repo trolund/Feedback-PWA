@@ -10,14 +10,14 @@ import img from '../../public/images/nofilter.svg'
 import CalculationService from '../services/calculationService'
 
 export default observer(() => {
-  const { data, state } = useContext(dashboardStore)
+  const { data, state, ownData } = useContext(dashboardStore)
   const [showFilter, setShowFilter] = useState(true)
   const calculationService = new CalculationService()
 
-  const graphdata = useCallback(() => calculationService.calGraphData(data), [
-    calculationService,
-    data
-  ])
+  const graphdata = useCallback(
+    () => calculationService.calGraphData(data, ownData),
+    [calculationService, data, ownData]
+  )
 
   const ShowAndHideFilterBtn = () => {
     return (

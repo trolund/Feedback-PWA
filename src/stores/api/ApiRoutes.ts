@@ -9,6 +9,9 @@ const appendCategoriesParms = (inputStr: string, categories: string[]) => {
 const { apiUrl } = process.env
 
 const ApiRoutes = {
+  createMeeting: `${apiUrl}/Api/Meeting/Create`,
+  updateMeeting: `${apiUrl}/Api/Meeting`,
+  deleteMeeting: `${apiUrl}/Api/Meeting/Delete`,
   createUser: `${apiUrl}/Api/User/Post`,
   qrcode: (mid: string) => `/feedback/${String(mid)}`,
   meetingByShortId: (id: string) => `${apiUrl}/Api/Meeting/ShortId/${id}`,

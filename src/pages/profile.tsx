@@ -4,9 +4,11 @@ import Page from '../components/page'
 import Section from '../components/section'
 import authStore from '../stores/authStore'
 import ThemeButton from '../components/theme-button'
+import authService from '../stores/api/authService'
 
 const Profile = observer(() => {
   const { getUser } = useContext(authStore)
+
   const user = getUser()
   return (
     <Page title='Profile'>
@@ -20,6 +22,13 @@ const Profile = observer(() => {
           Logout
         </button>
         <ThemeButton />
+        <button
+          type='button'
+          className='button'
+          onClick={() => authService.logout()}
+        >
+          Logout
+        </button>
       </Section>
     </Page>
   )

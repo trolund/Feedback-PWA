@@ -7,7 +7,7 @@
 :root {
   --accent: #19896f;
   --accent-low: #19896f2f;
-  --accent-dark: #19896f;
+  --accent-dark: #126451;
   --text: #eeeff1;
   --label: #8a8b8e;
   --surface: #313236;
@@ -128,8 +128,29 @@ input[type='password'] {
   background-color: var(--surface);
 }
 
+input:disabled {
+  color: var(--accent-dark);
+}
+
 input[type='text']:hover,
 input[type='password']:hover {
+  background-color: var(--surface-hover);
+}
+
+textarea {
+  color: var(--text);
+  padding: var(--gap-small);
+  background: var(--base);
+  display: flex;
+  align-items: center;
+  transition: var(--transition-colors);
+  border-color: var(--label);
+  border: 1px solid;
+  border-radius: 15px;
+  background-color: var(--surface);
+}
+
+textarea:hover {
   background-color: var(--surface-hover);
 }
 
@@ -223,4 +244,21 @@ a {
 
 .datepicker.default .datepicker-scroll li {
   color: var(--text) !important;
+}
+
+.datepicker-modal {
+  position: fixed !important;
+  z-index: 99990 !important;
+}
+
+/* modal */
+
+.modal {
+  z-index: 999;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--surface);
+  border-radius: var(--border-radius);
 }

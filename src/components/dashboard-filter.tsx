@@ -37,22 +37,12 @@ const DashboardFilter = observer(() => {
   const categoriesContext = useContext(categoriesStore)
 
   useEffect(() => {
-    context.fetchDashboardDate(
-      startdate,
-      enddate,
-      tags.map(i => i.value),
-      searchWord
-    )
-    // categoriesContext.fetchCategories(String(authService.getCompanyId()))
+    context.fetchDashboardDate(startdate, enddate, tags, searchWord)
+    categoriesContext.fetchCategories(String(authService.getCompanyId()))
   }, [searchWord, tags, startdate, enddate, context, categoriesContext])
 
   const getData = () => {
-    context.fetchDashboardDate(
-      startdate,
-      enddate,
-      tags.map(i => i.value),
-      searchWord
-    )
+    context.fetchDashboardDate(startdate, enddate, tags, searchWord)
   }
 
   const animatedComponents = makeAnimated()
@@ -100,12 +90,15 @@ const DashboardFilter = observer(() => {
           <div className='tagdiv'>
             <p>Kategori</p>
             <Select
-              options={categoriesContext.categories}
+              options={categoriesContext?.categories?.map(cat => ({
+                label: cat.name,
+                value: cat.name
+              }))}
               isMulti
               components={animatedComponents}
-              // onChange={tag => setTags(tag)}
+              onChange={tag => setTags(tag?.map(item => item.value))}
             />
-            {/* <TagInput tags={tags} setTags={setTags} /> */}
+            {/* <TagInput tags={tags} setTags={setTags} /> setTags(tag?.map(item => item.name))*/}
           </div>
         </div>
       </div>

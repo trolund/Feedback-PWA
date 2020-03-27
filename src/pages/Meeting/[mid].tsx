@@ -1,6 +1,8 @@
+/* eslint-disable import/no-duplicates */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useContext, useEffect, useCallback } from 'react'
+import { useContext, useEffect, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
+import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
 import { QRCode } from 'react-qr-svg'
 import Page from '../../components/page'
@@ -12,6 +14,8 @@ import FeedbackView from '../../components/feedback'
 import Feedback from '../../models/Feedback'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import states from '../../stores/requestState'
+import CustomDatepicker from '../../components/custom-datepicker'
+import CustomTimepicker from '../../components/custom-timepicker'
 
 const Post = observer(() => {
   const router = useRouter()
@@ -23,18 +27,30 @@ const Post = observer(() => {
     fetchMeetingByShortId,
     deleteMeeting,
     update,
-    state
+    state,
+    setDiscription,
+    setTitle
   } = useContext(meetingStore)
   const feedbackcontext = useContext(feedbackStore)
   const questionSetContext = useContext(questionSetStore)
 
+  console.log('meeting: ', meeting)
+
   // const propsMeetingdata: any = (props.location as any).data;
-  // const [title, setTitle] = useState(context.meeting?.name);
-  // const [startDate, setStartDate] = useState(context.meeting?.startTime);
-  // const [endDate, setEndDate] = useState(context.meeting?.endTime);
-  // const [discription, setDiscription] = useState(context.meeting?.discription);
-  // const [topic, setTopic] = useState(context.meeting?.topic);
-  // const [qSetId, setQSetId] = useState(context.meeting?.questionsSetId);
+  const [date, setDate] = useState(new Date())
+  const [startTime, setStartTime] = useState(new Date())
+  const [endTime, setEndTime] = useState(new Date())
+  // const [discription, setDiscription] = useState(meeting?.discription ?? '')
+  // const [topic, setTopic] = useState(context.meeting?.topic)
+  // const [qSetId, setQSetId] = useState(context.meeting?.questionsSetId)
+
+  useEffect(() => {
+    if (meeting) {
+      setDate(new Date(meeting?.startTime))
+      setStartTime(new Date(meeting?.startTime))
+      setEndTime(new Date(meeting?.endTime))
+    }
+  }, [meeting])
 
   useEffect(() => {
     if (mid) {
@@ -109,16 +125,25 @@ const Post = observer(() => {
     return theFeedback || []
   }
 
+  const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
+    datePart.setMinutes(timePart.getMinutes())
+    datePart.setHours(timePart.getHours())
+    datePart.setSeconds(0)
+    return datePart
+  }
+
   const updateMeetingClickHandler = () => {
-    const model = meeting
-    if (model) update(model)
+    if (meeting) {
+      meeting.endTime = spliceDateAndTime(date, endTime)
+      meeting.startTime = spliceDateAndTime(date, startTime)
+      update(meeting)
+    }
   }
 
   const deleteMeetingClickHandler = () => {
-    const model = meeting
-    if (model) {
-      deleteMeeting(model)
-      //  props.history.push('/møder')
+    if (meeting) {
+      deleteMeeting(meeting)
+      Router.push('/møder')
     }
   }
 
@@ -131,6 +156,22 @@ const Post = observer(() => {
       {state === states.DONE && (
         <Section>
           <div className='flex-container'>
+            <div className='btn-group'>
+              <button
+                type='button'
+                className='button'
+                onClick={updateMeetingClickHandler}
+              >
+                Gem
+              </button>
+              <button
+                type='button'
+                className='button'
+                onClick={deleteMeetingClickHandler}
+              >
+                Slet
+              </button>
+            </div>
             <div className='flex-item-left'>
               {' '}
               <form>
@@ -150,48 +191,47 @@ const Post = observer(() => {
                   id='name'
                   placeholder='Navn på mødet'
                   value={meeting?.name}
-                  // onChange={e => (context.updateName = e.target.value)}
+                  onChange={e => setTitle(e.target.value)}
                 />
                 <label htmlFor='exampleText'>Beskrivelse</label>
                 <textarea
                   name='text'
                   id='exampleText'
                   value={meeting?.discription}
-                  // onChange={e => (context.updateDiscripton = e.target.value)}
+                  onChange={e => setDiscription(e.target.value)}
                 />
-                <div style={{ marginBottom: '20px' }}>
-                  <label htmlFor='exampleText'>Start tidspunkt</label>
-                  <br />
-                  {/* <DatePicker
-              showTimeSelect
-              timeFormat='HH:mm'
-              timeIntervals={15}
-              timeCaption='time'
-              dateFormat='MMMM d, yyyy h:mm aa'
-              className='datetime'
-              value={
-                context.meeting ? context.meeting?.startTime.toString() : ''
-              }
-              onChange={e => {
-                if (e) context.updateStartTime = e
-              }}
-            /> */}
-                </div>
-                <div>
-                  <label htmlFor='exampleText'>Slut tidspunkt</label>
-                  <br />
-                  {/* <DatePicker
-              showTimeSelect
-              timeFormat='HH:mm'
-              timeIntervals={15}
-              timeCaption='time'
-              dateFormat='MMMM d, yyyy h:mm aa'
-              className='datetime'
-              value={context.meeting ? context.meeting?.endTime.toString() : ''}
-              onChange={e => {
-                if (e) context.updateEndTime = e
-              }}
-            /> */}
+                <div
+                  style={{ marginBottom: '20px' }}
+                  className='flex-container'
+                >
+                  <div>
+                    <label htmlFor='exampleText'>Dato</label>
+                    <CustomDatepicker
+                      value={date}
+                      onChange={newDate => {
+                        setDate(newDate)
+                      }}
+                    />
+                  </div>
+                  <div>
+                    {' '}
+                    <label htmlFor='exampleText'>Start tidspunkt</label>
+                    <CustomTimepicker
+                      value={startTime}
+                      onChange={newTime => {
+                        setStartTime(newTime)
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor='exampleText'>Slut tidspunkt</label>
+                    <CustomTimepicker
+                      value={endTime}
+                      onChange={newTime => {
+                        setEndTime(newTime)
+                      }}
+                    />
+                  </div>
                 </div>
               </form>
               <FeedbackView
@@ -213,7 +253,10 @@ const Post = observer(() => {
                 <p>
                   Brug denne unikke qrkode til let at give dine deltagere adgang
                   til at give dig feedback. kopier evt billede ind i et slide
-                  show eller hav denne side klar.
+                  show eller hav denne side klar. eller brug{' '}
+                  <a href={ApiRoutes.qrcode(String(mid))}>
+                    {ApiRoutes.qrcode(String(mid))}
+                  </a>
                 </p>
               </div>
             </div>
@@ -232,6 +275,15 @@ const Post = observer(() => {
       )}
 
       <style jsx>{`
+        .btn-group {
+          height: 60px;
+          position: absolute;
+          float: right;
+          padding: 5px;
+          margin-top: -25px;
+          margin-left: 160px;
+          text-align: center;
+        }
         .qrimg {
           max-width: 170px;
           max-height: 1670px;

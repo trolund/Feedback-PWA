@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import Router from 'next/router'
 import Modal from 'react-modal'
 import { ViewPager, Frame, Track } from 'react-view-pager'
+import { X } from 'react-feather'
 import Page from '../components/page'
 import feedbackStore from '../stores/FeedbackStore'
 import Question from '../components/question'
@@ -139,26 +140,11 @@ export default observer(() => {
       >
         <h2>Besvarelse ikke klar!</h2>
         <button type='button' tabIndex={0} onClick={() => setModalOpen(false)}>
-          close
+          <X /> close
         </button>
         <div>
           Du skal besvare alle spørgsmål før du kan sende din besvarelse.
         </div>
-        <form>
-          <input />
-          <button type='button' tabIndex={0}>
-            tab navigation
-          </button>
-          <button type='button' tabIndex={0}>
-            stays
-          </button>
-          <button type='button' tabIndex={0}>
-            inside
-          </button>
-          <button type='button' tabIndex={0}>
-            the modal
-          </button>
-        </form>
         <style jsx>{`
            {
             /* .ReactModal__Overlay {

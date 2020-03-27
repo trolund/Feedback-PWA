@@ -24,7 +24,7 @@ class MeetingStore implements IStore {
   @action create = async (entity: MeetingModel) => {
     this.meetingCreatedState = states.LOADING
     try {
-      const url = 'Api/Meeting/Create'
+      const url = ApiRoutes.createMeeting
       const token = AuthService.getToken()
       const json = JSON.stringify(entity)
       console.log(json)
@@ -74,10 +74,18 @@ class MeetingStore implements IStore {
     //     }
   }
 
+  @action setDiscription = (dis: string) => {
+    this.meeting.discription = dis
+  }
+
+  @action setTitle = (title: string) => {
+    this.meeting.name = title
+  }
+
   @action update = async (entity: MeetingModel) => {
     this.meetingCreatedState = states.LOADING
     try {
-      const url = 'Api/Meeting'
+      const url = ApiRoutes.updateMeeting
       const token = AuthService.getToken()
       const json = JSON.stringify(entity)
       const response = await fetch(url, {
@@ -108,7 +116,7 @@ class MeetingStore implements IStore {
   @action deleteMeeting = async (entity: MeetingModel) => {
     this.meetingCreatedState = states.LOADING
     try {
-      const url = 'Api/Meeting/Delete'
+      const url = ApiRoutes.deleteMeeting
       const token = AuthService.getToken()
       const json = JSON.stringify(entity)
       const response = await fetch(url, {
@@ -217,8 +225,8 @@ class MeetingStore implements IStore {
       this.msg = response.statusText
       this.state = states.DONE
 
-      const data = await response.json()
-      console.log('fetch mmeting response: ', data)
+      const data: MeetingModel = await response.json()
+      // console.log('fetch mmeting response: ', data)
       this.meeting = data
     } catch (e) {
       this.state = states.FAILED
