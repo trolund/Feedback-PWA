@@ -168,6 +168,8 @@ export default () => {
         }
         input {
           margin-top: 20px;
+          margin-left: auto;
+          margin-right: auto;
         }
 
         a {

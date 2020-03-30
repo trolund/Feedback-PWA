@@ -1,5 +1,5 @@
 import Router from 'next/router'
-import { ArrowLeftCircle } from 'react-feather'
+import { ChevronLeft } from 'react-feather'
 
 const BackAppHeader = () => {
   const backClickHandler = () => {
@@ -18,7 +18,7 @@ const BackAppHeader = () => {
           onKeyDown={backClickHandler}
           className='float-left'
         >
-          <ArrowLeftCircle fontSize='inherit' />
+          <ChevronLeft fontSize='inherit' />
           <p>Back</p>
         </a>
       </nav>

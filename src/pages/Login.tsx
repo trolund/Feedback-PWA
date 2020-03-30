@@ -87,7 +87,7 @@ export default observer(() => {
         </Link>
       </Section>
 
-      <style jsx>{`
+      <style jsx global>{`
         .loginBtn {
           margin-top: 50px;
         }
@@ -95,7 +95,9 @@ export default observer(() => {
           display: table;
         }
         input {
-          margin-top: 20px;
+          margin-top: 20px !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
         }
 
         a {
@@ -104,7 +106,7 @@ export default observer(() => {
         }
 
         .msg {
-          text-align: center;
+          text-align: center !important;
         }
 
         main {

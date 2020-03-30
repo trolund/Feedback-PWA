@@ -17,24 +17,23 @@ const CustomDatepicker = ({ value, onChange }: Props) => {
 
   return (
     <>
-      <div
-        role='button'
-        tabIndex={0}
-        className='container'
-        onKeyDown={() => setIsOpen(!isOpen)}
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <div className='container'>
         <input
-          readOnly
           value={dateValue.toLocaleDateString()}
           style={{ paddingLeft: '50px' }}
+          // onChange={e => onChange(new Date(e.target.value))}
+          readOnly
         />
         <Calendar
           style={{
-            marginTop: '-33px',
+            marginTop: '-37px',
             position: 'absolute',
             marginLeft: '15px'
           }}
+          role='button'
+          tabIndex={0}
+          onKeyDown={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(!isOpen)}
         />
       </div>
       <DatePicker
@@ -74,20 +73,22 @@ const CustomDatepicker = ({ value, onChange }: Props) => {
           border-radius: var(--border-radius);
           width: 160px;
           color: var(--text);
-          padding: var(--gap-small);
+          padding: 16px 16px 16px 16px;
           background: var(--base);
           display: flex;
           align-items: center;
           transition: var(--transition-colors);
-          border-color: var(--label);
-          border: 1px solid;
-          border-radius: 15px;
+          border: 0px solid;
           background-color: var(--surface);
-          user-select: none;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+            rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+          outline: 0px;
         }
 
-        .container input:hover {
+         {
+          /* .container input:hover {
           background-color: var(--surface-hover);
+        } */
         }
         .container {
           width: 160px;

@@ -9,6 +9,7 @@ const appendCategoriesParms = (inputStr: string, categories: string[]) => {
 const { apiUrl } = process.env
 
 const ApiRoutes = {
+  createQuestionSet: `${apiUrl}/Api/QuestionSet`,
   createMeeting: `${apiUrl}/Api/Meeting/Create`,
   updateMeeting: `${apiUrl}/Api/Meeting`,
   deleteMeeting: `${apiUrl}/Api/Meeting/Delete`,

@@ -22,7 +22,12 @@ export default () => {
   }
 
   return (
-    <Page showBottomNav={false} showHead={false} showBackButton={false}>
+    <Page
+      showBottomNav={false}
+      showHead={false}
+      showBackButton={false}
+      bgColor='darkslategrey'
+    >
       <Section>
         <div className='logo' />
         <input
@@ -31,7 +36,7 @@ export default () => {
           placeholder='Møde ID'
           onChange={e => setMeetingId(e.target.value)}
         />
-        {errorMsg !== null && <p>{errorMsg}</p>}
+        {errorMsg !== null && <p className='msg'>{errorMsg}</p>}
         <div className='center buttons'>
           <Link href='/#' key='#'>
             <a
@@ -68,6 +73,13 @@ export default () => {
       </Section>
 
       <style jsx>{`
+        .msg {
+          text-align: center !important;
+        }
+        input {
+          margin-left: auto;
+          margin-right: auto;
+        }
         .meeting-id-input {
           text-align: center;
         }

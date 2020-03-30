@@ -19,6 +19,7 @@ export default observer(() => {
   const [modalOpen, setModalOpen] = useState(false)
   const { questions, meetingId } = useContext(questionStore)
   const { feedback, createFeedbackBatch } = useContext(feedbackStore)
+  const [enableNext, setEnableNext] = useState(true)
 
   const [success, setSuccess] = useState(false)
   const [overlayText, setOverlayText] = useState('')
@@ -27,12 +28,27 @@ export default observer(() => {
     if (!questions) Router.back()
   })
 
+  // useEffect(() => {
+  //   if (feedback[page].answer !== -1) {
+  //     setEnableNext(false)
+  //   }
+  // }, [feedback, page])
+
+  // const onViewChange = (pageNumber: number) => {
+  //   if (feedback[page].answer === -1) {
+  //     setEnableNext(true)
+  //   } else {
+  //     setEnableNext(false)
+  //   }
+  //   setPage(pageNumber)
+  // }
+
   const isFeedbackReady = () => {
     return feedback.every(item => item.answer >= 0)
   }
 
   const increment = () => {
-    if (page < questions.questions.length - 1) {
+    if (page < questions.questions.length - 1 && feedback[page].answer > -1) {
       setPage(page + 1)
     }
   }
@@ -79,13 +95,15 @@ export default observer(() => {
             <Track
               // ref={(c: number) => setPage(c)}
               // viewsToShow={1}
+              swipe={false}
               currentView={page}
-              // onViewChange={(pageNumber: number) => setPage(pageNumber)}
+              // onViewChange={onViewChange}
               className='track'
             >
               {questions !== null &&
                 questions.questions.map(item => (
                   <Question
+                    // setNextenable={setEnableNext}
                     key={item.questionId}
                     question={item.theQuestion}
                     questionId={item.questionId}
@@ -94,29 +112,45 @@ export default observer(() => {
             </Track>
           </Frame>
           <nav className='pager-controls'>
-            <a
-              className='pager-control pager-control--prev button float-left'
-              tabIndex={0}
-              role='button'
-              onKeyDown={() => prev()}
-              onClick={() => prev()}
-            >
-              Prev
-            </a>
-            <a
+            {page !== 0 && (
+              <button
+                type='button'
+                className='pager-control pager-control--prev button float-left'
+                tabIndex={0}
+                onKeyDown={() => prev()}
+                onClick={() => prev()}
+              >
+                tilbage
+              </button>
+            )}
+            <button
+              type='button'
               className='pager-control pager-control--next button float-right'
               tabIndex={0}
-              role='button'
               onKeyDown={() => next()}
               onClick={() => next()}
+              disabled={feedback[page]?.answer === -1}
             >
-              Next
-            </a>
+              {page === questions.questions.length - 1
+                ? 'Send besvarelse'
+                : 'Næste'}
+            </button>
           </nav>
         </ViewPager>
+        <style jsx global>{`
+          .frame {
+            height: 80% !important;
+            padding-bottom: 10px;
+          }
+        `}</style>
         <style jsx>{`
           .pager-controls {
             padding: 30px;
+            position: fixed;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            width: 100%;
           }
           .pager-control {
             text-align: center;

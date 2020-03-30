@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 import Router from 'next/router'
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { EventInput } from '@fullcalendar/core'
 import Modal from 'react-awesome-modal'
@@ -18,6 +18,7 @@ import Tag from '../models/tag'
 import CustomDatepicker from '../components/custom-datepicker'
 import CustomTimepicker from '../components/custom-timepicker'
 import Seachbar from '../components/search-bar'
+import SearchBtn from '../components/search-btn'
 
 const FullCalendarNoSSRWrapper = dynamic({
   modules: () =>
@@ -65,7 +66,7 @@ const CreateMeetingModal = ({
       // style={modalStyles}
       contentLabel='Example Modal'
     >
-      <h2>Besvarelse ikke klar!</h2>
+      <h2>Opret møde</h2>
       <button type='button' tabIndex={0} onClick={() => setModalOpen(false)}>
         <X /> close
       </button>
@@ -166,6 +167,7 @@ const Calendar = observer(() => {
   const [searchWord, setSearchWord] = useState('')
   const init: Tag[] = []
   const [tags, setTags] = useState(init)
+  const [inputOpen, setInputOpen] = useState(false)
 
   function mapEvents(myevents: MeetingModel[]) {
     return myevents.map(item => {
@@ -182,16 +184,21 @@ const Calendar = observer(() => {
     })
   }
 
-  function filterEvents(item: EventInput) {
-    if (searchWord.length >= 1) {
-      if (item.title?.toLowerCase().includes(searchWord.toLowerCase())) {
+  // function filterEvents(item: EventInput) {}
+
+  const filterEventsCallback = useCallback(
+    (item: EventInput) => {
+      if (searchWord.length >= 1 && inputOpen) {
+        if (item.title?.toLowerCase().includes(searchWord.toLowerCase())) {
+          return item
+        }
+      } else {
         return item
       }
-    } else {
-      return item
-    }
-    return null
-  }
+      return null
+    },
+    [inputOpen, searchWord]
+  )
 
   useEffect(() => {
     categoriesContext.fetchCategories('1')
@@ -263,8 +270,19 @@ const Calendar = observer(() => {
   }
 
   return (
-    <Page title='Calendar' showBackButton={false}>
-      <Seachbar value={searchWord} setValue={setSearchWord} />
+    <Page
+      title='Calendar'
+      showBackButton={false}
+      component={
+        <SearchBtn
+          inputOpen={inputOpen}
+          setInputOpen={setInputOpen}
+          searchWord={searchWord}
+          setSearchWord={setSearchWord}
+        />
+      }
+    >
+      {/* <Seachbar value={searchWord} setValue={setSearchWord} /> */}
       <CreateMeetingModal
         questionContext={questionContext}
         setQuestionSet={setQuestionSet}
@@ -283,50 +301,52 @@ const Calendar = observer(() => {
         createMeeting={createMeeting}
         toggle={toggle}
       />
-      <FullCalendarNoSSRWrapper
-        trigger={e => console.log(e)}
-        // viewHeight={5100}
-        // header={false}
-        header={{
-          right: 'prev,next today myCustomButton',
-          left: 'dayGridMonth,timeGridWeek,listWeek',
-          center: 'title'
-        }}
-        views={{
-          dayGridMonth: {
-            // name of view
-            // titleFormat: { year: "numeric", month: "2-digit", day: "2-digit" }
-            // other view-specific options here
-          }
-        }}
-        customButtons={{
-          myCustomButton: {
-            text: 'Tilføj møde',
-            click: () => toggle()
-          }
-        }}
-        defaultView='dayGridMonth'
-        weekends
-        events={events.filter(filterEvents)}
-        weekNumbers={false}
-        listDayFormat
-        // themeSystem='bootstrap'
-        eventClick={(event: any) => {
-          clickOnEvent(event)
-        }}
-        datesRender={e => setCalViewProp(e.view)}
-        // dayRender={e => console.log("dayRender ", e)}
-        dateClick={info => {
-          // alert("Clicked on: " + info.dateStr);
-          // alert(
-          //   "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
-          // );
-          // alert("Current view: " + info.view.type);
-          // change the day's background color just for fun
-          // eslint-disable-next-line no-param-reassign
-          info.dayEl.style.backgroundColor = 'red'
-        }}
-      />
+      <div className='cal-container'>
+        <FullCalendarNoSSRWrapper
+          trigger={e => console.log(e)}
+          // viewHeight={5100}
+          // header={false}
+          header={{
+            right: 'prev,next today myCustomButton',
+            left: 'dayGridMonth,timeGridWeek,listWeek',
+            center: 'title'
+          }}
+          views={{
+            dayGridMonth: {
+              // name of view
+              // titleFormat: { year: "numeric", month: "2-digit", day: "2-digit" }
+              // other view-specific options here
+            }
+          }}
+          customButtons={{
+            myCustomButton: {
+              text: 'Tilføj møde',
+              click: () => toggle()
+            }
+          }}
+          defaultView='dayGridMonth'
+          weekends
+          events={events.filter(filterEventsCallback)}
+          weekNumbers={false}
+          listDayFormat
+          // themeSystem='bootstrap'
+          eventClick={(event: any) => {
+            clickOnEvent(event)
+          }}
+          datesRender={e => setCalViewProp(e.view)}
+          // dayRender={e => console.log("dayRender ", e)}
+          dateClick={info => {
+            // alert("Clicked on: " + info.dateStr);
+            // alert(
+            //   "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
+            // );
+            // alert("Current view: " + info.view.type);
+            // change the day's background color just for fun
+            // eslint-disable-next-line no-param-reassign
+            info.dayEl.style.backgroundColor = 'red'
+          }}
+        />
+      </div>
 
       <style jsx global>{`
         .fc-scroller {
@@ -393,6 +413,18 @@ const Calendar = observer(() => {
             background-color: var(--accent) ;
             border-color: var(--accent);
             padding: 5px,
+          }
+
+          .cal-container {
+            height: calc(100% - 150px)
+          }
+
+          .fc-row {
+            height: auto !important;
+          }
+
+          .fc-today {
+            background-color: var(--surface) !important;
           }
         }
       `}</style>

@@ -1,5 +1,5 @@
 export default interface Question {
-  questionId: string
+  questionId?: string
   questionSetId?: string
   theQuestion: string
 }

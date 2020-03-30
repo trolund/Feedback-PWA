@@ -19,6 +19,7 @@ interface IProp {
   question: string
   questionId: string
 }
+
 const Question: React.FC<IProp> = observer(({ question, questionId }) => {
   const { setFeedbackItem } = useContext(feedbackStore)
   const [answer, setAnswer] = useState(-1)
@@ -52,6 +53,10 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
     }
   ]
 
+  const smileyClick = (e: any) => {
+    setAnswer(e.currentTarget.attributes['data-answer'].value)
+  }
+
   return (
     <View className='view'>
       <div className='question'>
@@ -65,31 +70,23 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
             <div
               role='button'
               data-answer={item.value}
-              className='smiley selected hvr-bounce-in'
+              className='smiley hvr-bounce-in'
               tabIndex={0}
               aria-label='zero'
               style={{ backgroundImage: `url(${item.img})` }}
-              onKeyDown={e =>
-                setAnswer(e.currentTarget.attributes['data-answer'].value)
-              }
-              onClick={e =>
-                setAnswer(e.currentTarget.attributes['data-answer'].value)
-              }
+              onKeyDown={smileyClick}
+              onClick={smileyClick}
             />
           ) : (
             <div
               role='button'
               data-answer={item.value}
-              className='smiley hvr-bounce-in'
+              className='smiley not-selected hvr-bounce-in'
               tabIndex={0}
               aria-label='zero'
               style={{ backgroundImage: `url(${item.img})` }}
-              onKeyDown={e =>
-                setAnswer(e.currentTarget.attributes['data-answer'].value)
-              }
-              onClick={e =>
-                setAnswer(e.currentTarget.attributes['data-answer'].value)
-              }
+              onKeyDown={smileyClick}
+              onClick={smileyClick}
             />
           )
         )}
@@ -101,6 +98,13 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
         onChange={val => setComment(val.target.value)}
       />
       <style jsx>{`
+        @media only screen and (max-width: 350px) {
+          .smiley {
+            width: 55px !important;
+            height: 55px !important;
+            margin: 2px !important;
+          }
+        }
         .question {
           width: 100%;
           text-align: center;
@@ -150,14 +154,13 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
           display: flex;
           align-items: center;
           transition: var(--transition-colors);
-          border-color: var(--fg);
-          border: 1px solid;
           border-radius: 15px;
           margin-top: 30px;
         }
-        .selected {
+        .not-selected {
           box-sizing: border-box;
           border: 5px solid var(--surface);
+          opacity: 0.5;
         }
         /* Bounce In */
         .hvr-bounce-in {

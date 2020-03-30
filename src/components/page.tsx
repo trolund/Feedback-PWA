@@ -17,6 +17,7 @@ type Props = {
   showBackButton?: boolean
   fullscreen?: boolean
   component?: JSX.Element
+  bgColor?: string
 }
 
 const Page = ({
@@ -26,13 +27,15 @@ const Page = ({
   showBottomNav,
   showBackButton,
   component,
-  fullscreen
+  fullscreen,
+  bgColor
 }: Props) => {
   const { token } = useContext(authStore)
   const showHeader = showHead === undefined ? true : showHead
   const showBottomNaver = showBottomNav === undefined ? true : showBottomNav
   const showTheBackButton = showBackButton === undefined ? true : showBackButton
   const fullscreenMain = fullscreen === undefined ? false : fullscreen
+  const bgStyle = bgColor ? { backgroundColor: bgColor } : {}
 
   // rediret to the login page in case the token is expired.
   useEffect(() => {
@@ -44,7 +47,7 @@ const Page = ({
       {showHeader && (
         <>
           <Head>
-            <title>{title ? `WebApp | ${title}` : 'WebApp'}</title>
+            <title>{title ? `SpinOff | ${title}` : 'SpinOff'}</title>
           </Head>
           <Appbar
             title={title}
@@ -59,7 +62,13 @@ const Page = ({
         style={{ opacity: 0, marginTop: '-50px' }}
         animate={{ opacity: 1, marginTop: '0px' }}
       >
-        <main style={fullscreenMain ? { padding: '0px' } : {}}>{children}</main>
+        <main
+          style={
+            fullscreenMain ? { padding: '0px', ...bgStyle } : { ...bgStyle }
+          }
+        >
+          {children}
+        </main>
       </motion.div>
       {showBottomNaver && <BottomNav />}
 
