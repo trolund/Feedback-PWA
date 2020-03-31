@@ -113,29 +113,31 @@ export default observer(() => {
             </Track>
           </Frame>
           <nav className='pager-controls'>
-            {page !== 0 && (
+            <div className='controller-container'>
+              {page !== 0 && (
+                <button
+                  type='button'
+                  className='pager-control pager-control--prev button float-left'
+                  tabIndex={0}
+                  onKeyDown={() => prev()}
+                  onClick={() => prev()}
+                >
+                  tilbage
+                </button>
+              )}
               <button
                 type='button'
-                className='pager-control pager-control--prev button float-left'
+                className='pager-control pager-control--next button float-right'
                 tabIndex={0}
-                onKeyDown={() => prev()}
-                onClick={() => prev()}
+                onKeyDown={() => next()}
+                onClick={() => next()}
+                disabled={feedback[page]?.answer === -1}
               >
-                tilbage
+                {page === questions.questions.length - 1
+                  ? 'Send besvarelse'
+                  : 'Næste'}
               </button>
-            )}
-            <button
-              type='button'
-              className='pager-control pager-control--next button float-right'
-              tabIndex={0}
-              onKeyDown={() => next()}
-              onClick={() => next()}
-              disabled={feedback[page]?.answer === -1}
-            >
-              {page === questions.questions.length - 1
-                ? 'Send besvarelse'
-                : 'Næste'}
-            </button>
+            </div>
           </nav>
         </ViewPager>
         <style jsx global>{`
@@ -145,6 +147,12 @@ export default observer(() => {
           }
         `}</style>
         <style jsx>{`
+          .controller-container {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+
           .pager-controls {
             padding: 30px;
             position: fixed;
