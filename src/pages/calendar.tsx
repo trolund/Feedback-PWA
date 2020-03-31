@@ -17,26 +17,9 @@ import states from '../stores/requestState'
 import Tag from '../models/tag'
 import CustomDatepicker from '../components/custom-datepicker'
 import CustomTimepicker from '../components/custom-timepicker'
-import Seachbar from '../components/search-bar'
 import SearchBtn from '../components/search-btn'
 
-const FullCalendarNoSSRWrapper = dynamic({
-  modules: () =>
-    ({
-      calendar: import('@fullcalendar/react'),
-      timeGridPlugin: import('@fullcalendar/timegrid'),
-      interactionPlugin: import('@fullcalendar/interaction'),
-      dayGridPlugin: import('@fullcalendar/daygrid'),
-      listPlugin: import('@fullcalendar/list')
-      // momentPlugin: import('@fullcalendar/moment'),
-      // momentTimezonePlugin: import('@fullcalendar/moment-timezone')
-    } as any),
-  render: (props: any, { calendar: Calendar, ...plugins }) => (
-    <Calendar {...props} plugins={Object.values(plugins)} />
-  ),
-  ssr: false,
-  loading: () => <p>loading..</p>
-})
+let FullCalendarNoSSRWrapper
 
 const CreateMeetingModal = ({
   modalOpen,
@@ -149,12 +132,12 @@ const CreateMeetingModal = ({
   )
 }
 
-const Calendar = observer(() => {
+const CalendarView = observer(() => {
   const questionContext = useContext(questionSetStore)
   const meetingStoreContext = useContext(meetingStore)
   const categoriesContext = useContext(categoriesStore)
   const [modalOpen, setModalOpen] = useState(false)
-  const toggle = () => setModalOpen(!modalOpen)
+  const toggle = useCallback(() => setModalOpen(!modalOpen), [modalOpen])
   const [date, setDate] = useState(new Date())
   const [startTime, setStartTime] = useState(new Date())
   const [endTime, setEndTime] = useState(new Date())
@@ -168,6 +151,28 @@ const Calendar = observer(() => {
   const init: Tag[] = []
   const [tags, setTags] = useState(init)
   const [inputOpen, setInputOpen] = useState(false)
+
+  const [showCal, setShowCal] = useState(false)
+
+  useEffect(() => {
+    FullCalendarNoSSRWrapper = dynamic({
+      modules: () =>
+        ({
+          calendar: import('@fullcalendar/react'),
+          timeGridPlugin: import('@fullcalendar/timegrid'),
+          interactionPlugin: import('@fullcalendar/interaction'),
+          dayGridPlugin: import('@fullcalendar/daygrid'),
+          listPlugin: import('@fullcalendar/list')
+          // momentPlugin: import('@fullcalendar/moment'),
+          // momentTimezonePlugin: import('@fullcalendar/moment-timezone')
+        } as any),
+      render: (props: any, { calendar: Calendar, ...plugins }) => (
+        <Calendar {...props} plugins={Object.values(plugins)} />
+      ),
+      ssr: false
+    })
+    setShowCal(true)
+  }, [])
 
   function mapEvents(myevents: MeetingModel[]) {
     return myevents.map(item => {
@@ -269,6 +274,56 @@ const Calendar = observer(() => {
     Router.push(`/meeting/${event.event.id}`)
   }
 
+  const showCalendar = useCallback(() => {
+    if (!showCal) return <div>Loading ...</div>
+    return (
+      <FullCalendarNoSSRWrapper
+        trigger={e => console.log(e)}
+        // viewHeight={5100}
+        // header={false}
+        header={{
+          right: 'prev,next today myCustomButton',
+          left: 'dayGridMonth,timeGridWeek,listWeek',
+          center: 'title'
+        }}
+        views={{
+          dayGridMonth: {
+            // name of view
+            // titleFormat: { year: "numeric", month: "2-digit", day: "2-digit" }
+            // other view-specific options here
+          }
+        }}
+        customButtons={{
+          myCustomButton: {
+            text: 'Tilføj møde',
+            click: () => toggle()
+          }
+        }}
+        defaultView='dayGridMonth'
+        weekends
+        events={events.filter(filterEventsCallback)}
+        weekNumbers={false}
+        listDayFormat
+        // themeSystem='bootstrap'
+        eventClick={(event: any) => {
+          clickOnEvent(event)
+        }}
+        datesRender={e => setCalViewProp(e.view)}
+        // dayRender={e => console.log("dayRender ", e)}
+        dateClick={info => {
+          // alert("Clicked on: " + info.dateStr);
+          // alert(
+          //   "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
+          // );
+          // alert("Current view: " + info.view.type);
+          // change the day's background color just for fun
+          // eslint-disable-next-line no-param-reassign
+          info.dayEl.style.backgroundColor = 'red'
+        }}
+      />
+    )
+  }, [events, filterEventsCallback, showCal, toggle])
+
   return (
     <Page
       title='Calendar'
@@ -301,52 +356,7 @@ const Calendar = observer(() => {
         createMeeting={createMeeting}
         toggle={toggle}
       />
-      <div className='cal-container'>
-        <FullCalendarNoSSRWrapper
-          trigger={e => console.log(e)}
-          // viewHeight={5100}
-          // header={false}
-          header={{
-            right: 'prev,next today myCustomButton',
-            left: 'dayGridMonth,timeGridWeek,listWeek',
-            center: 'title'
-          }}
-          views={{
-            dayGridMonth: {
-              // name of view
-              // titleFormat: { year: "numeric", month: "2-digit", day: "2-digit" }
-              // other view-specific options here
-            }
-          }}
-          customButtons={{
-            myCustomButton: {
-              text: 'Tilføj møde',
-              click: () => toggle()
-            }
-          }}
-          defaultView='dayGridMonth'
-          weekends
-          events={events.filter(filterEventsCallback)}
-          weekNumbers={false}
-          listDayFormat
-          // themeSystem='bootstrap'
-          eventClick={(event: any) => {
-            clickOnEvent(event)
-          }}
-          datesRender={e => setCalViewProp(e.view)}
-          // dayRender={e => console.log("dayRender ", e)}
-          dateClick={info => {
-            // alert("Clicked on: " + info.dateStr);
-            // alert(
-            //   "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
-            // );
-            // alert("Current view: " + info.view.type);
-            // change the day's background color just for fun
-            // eslint-disable-next-line no-param-reassign
-            info.dayEl.style.backgroundColor = 'red'
-          }}
-        />
-      </div>
+      <div className='cal-container'>{showCalendar()}</div>
 
       <style jsx global>{`
         .fc-scroller {
@@ -432,4 +442,4 @@ const Calendar = observer(() => {
   )
 })
 
-export default Calendar
+export default CalendarView

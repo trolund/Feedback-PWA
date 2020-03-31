@@ -7,6 +7,7 @@ import Section from '../components/section'
 import authStore from '../stores/authStore'
 import ThemeButton from '../components/theme-button'
 import authService from '../stores/api/authService'
+import User from '../models/User'
 
 const Profile = observer(() => {
   const { getUser } = useContext(authStore)
@@ -14,8 +15,8 @@ const Profile = observer(() => {
   const SettingsBtn = () => {
     return <Settings onClick={() => Router.push('/settings')} />
   }
-
-  const user = getUser()
+  let user: User = { companyId: 0, firstname: '?', lastname: '?', roles: [] }
+  if (typeof window !== 'undefined') user = getUser()
   return (
     <Page title='Profile' component={<SettingsBtn />}>
       <Section>

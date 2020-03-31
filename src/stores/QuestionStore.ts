@@ -13,7 +13,11 @@ class QuestionStore {
   @observable meetingId = null
 
   // data
-  @observable questions: QuestionSet = null
+  @observable questions: QuestionSet = {
+    name: 'unnown',
+    questionSetId: '',
+    questions: []
+  }
 
   @action fetchQuestions = async (meetingId: string): Promise<states> => {
     this.fetchState = states.LOADING

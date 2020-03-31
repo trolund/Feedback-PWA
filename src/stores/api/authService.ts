@@ -3,12 +3,16 @@ import jwtDecode from 'jwt-decode'
 import TokenModel from '../../models/TokenModel'
 
 class AuthService {
+  isServer = typeof window === 'undefined'
+
   getToken = (): string => {
-    try {
-      const token = localStorage.getItem('token')
-      return token
-    } catch (e) {
-      console.log(e)
+    if (!this.isServer) {
+      try {
+        const token = localStorage.getItem('token')
+        return token
+      } catch (e) {
+        console.log(e)
+      }
     }
     return null
   }
@@ -37,39 +41,45 @@ class AuthService {
   }
 
   redirectToLogin = () => {
-    try {
-      const obj: any = jwtDecode(localStorage.getItem('token'))
-      if (obj) {
-        const date: number = obj.exp
-        if (date <= Date.now() / 1000) Router.push('/login')
+    if (!this.isServer) {
+      try {
+        const obj: any = jwtDecode(localStorage.getItem('token'))
+        if (obj) {
+          const date: number = obj.exp
+          if (date <= Date.now() / 1000) Router.push('/login')
+        }
+      } catch (e) {
+        console.log(e)
       }
-    } catch (e) {
-      console.log(e)
     }
   }
 
   redirectToHome = () => {
-    try {
-      const obj: any = jwtDecode(localStorage.getItem('token'))
-      if (obj) {
-        const date: number = obj.exp
-        if (date >= Date.now() / 1000) Router.push('/home')
+    if (!this.isServer) {
+      try {
+        const obj: any = jwtDecode(localStorage.getItem('token'))
+        if (obj) {
+          const date: number = obj.exp
+          if (date >= Date.now() / 1000) Router.push('/home')
+        }
+      } catch (e) {
+        console.log(e)
       }
-    } catch (e) {
-      console.log(e)
     }
   }
 
   tokenValid = (): boolean => {
-    try {
-      const obj: any = jwtDecode(localStorage.getItem('token'))
-      if (obj) {
-        const date: number = obj.exp
-        return date >= Date.now() / 1000
+    if (!this.isServer) {
+      try {
+        const obj: any = jwtDecode(localStorage.getItem('token'))
+        if (obj) {
+          const date: number = obj.exp
+          return date >= Date.now() / 1000
+        }
+        return false
+      } catch (e) {
+        console.log(e)
       }
-      return false
-    } catch (e) {
-      console.log(e)
     }
     return null
   }

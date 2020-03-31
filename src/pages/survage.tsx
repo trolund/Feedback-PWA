@@ -11,15 +11,12 @@ import questionStore from '../stores/QuestionStore'
 import FeedbackOverlay from '../components/FeedbackDoneOverlay'
 import states from '../stores/requestState'
 
-// import questionStore from '../stores/QuestionStore'
-
 export default observer(() => {
   const [page, setPage] = useState(0)
   const [showOverlay, setShowOverlay] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const { questions, meetingId } = useContext(questionStore)
   const { feedback, createFeedbackBatch } = useContext(feedbackStore)
-  const [enableNext, setEnableNext] = useState(true)
 
   const [success, setSuccess] = useState(false)
   const [overlayText, setOverlayText] = useState('')
@@ -48,7 +45,11 @@ export default observer(() => {
   }
 
   const increment = () => {
-    if (page < questions.questions.length - 1 && feedback[page].answer > -1) {
+    if (
+      questions !== null &&
+      page < questions?.questions.length - 1 &&
+      feedback[page].answer > -1
+    ) {
       setPage(page + 1)
     }
   }
@@ -59,7 +60,7 @@ export default observer(() => {
   }
 
   const next = () => {
-    if (page === questions.questions.length - 1) {
+    if (questions !== null && page === questions?.questions.length - 1) {
       if (isFeedbackReady()) {
         createFeedbackBatch(feedback, meetingId).then(res => {
           if (res === states.DONE) {
@@ -101,7 +102,7 @@ export default observer(() => {
               className='track'
             >
               {questions !== null &&
-                questions.questions.map(item => (
+                questions?.questions.map(item => (
                   <Question
                     // setNextenable={setEnableNext}
                     key={item.questionId}
