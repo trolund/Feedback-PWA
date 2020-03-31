@@ -5,8 +5,8 @@ import { useRouter } from 'next/router'
 import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
 import { QRCode } from 'react-qr-svg'
-import Select from 'react-select/src/Select'
-import makeAnimated from 'react-select/animated'
+// import Select from 'react-select/src/Select'
+// import makeAnimated from 'react-select/animated'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import meetingStore from '../../stores/MeetingStore'
@@ -19,7 +19,7 @@ import states from '../../stores/requestState'
 import CustomDatepicker from '../../components/custom-datepicker'
 import CustomTimepicker from '../../components/custom-timepicker'
 
-import categoriesStore from '../../stores/CategoriesStore'
+// import categoriesStore from '../../stores/CategoriesStore'
 
 const Post = observer(() => {
   const router = useRouter()
@@ -44,7 +44,7 @@ const Post = observer(() => {
   const [date, setDate] = useState(new Date())
   const [startTime, setStartTime] = useState(new Date())
   const [endTime, setEndTime] = useState(new Date())
-  const categoriesContext = useContext(categoriesStore)
+  // const categoriesContext = useContext(categoriesStore)
   // const [discription, setDiscription] = useState(meeting?.discription ?? '')
   // const [topic, setTopic] = useState(context.meeting?.topic)
   // const [qSetId, setQSetId] = useState(context.meeting?.questionsSetId)
@@ -157,7 +157,7 @@ const Post = observer(() => {
     }
   }
 
-  const animatedComponents = makeAnimated()
+  // const animatedComponents = makeAnimated()
 
   return (
     <Page
@@ -245,15 +245,15 @@ const Post = observer(() => {
                     />
                   </div>
                 </div>
-                <Select
+                {/* <Select
                   options={categoriesContext?.categories?.map(cat => ({
                     label: cat.name,
                     value: cat.name
                   }))}
                   isMulti
                   components={animatedComponents}
-                  onChange={tag => setTags(tag?.map(item => item.value))}
-                />
+                  // onChange={tag => setTags(tag?.map(item => item.value))}
+                /> */}
               </form>
               <FeedbackView
                 feedback={feedback()}
