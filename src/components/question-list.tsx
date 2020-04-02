@@ -15,7 +15,7 @@ const QuestionList: React.FC<QuestionListProps> = ({
 }) => {
   return (
     <ul>
-      {questionList.map((item, index: number) => (
+      {questionList?.map((item, index: number) => (
         <li key={index}>
           <b>{index + 1}</b>
           <input

@@ -1,9 +1,7 @@
-import Category from "./Category";
+import Category from './Category'
 
-interface MeetingCategory {
-  meetingId?: number;
-  categoryId?: string;
-  category: Category;
+export default interface MeetingCategory {
+  meetingId?: string
+  categoryId?: string
+  category: Category
 }
-
-export default MeetingCategory;

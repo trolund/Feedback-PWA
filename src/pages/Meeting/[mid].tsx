@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
 import { QRCode } from 'react-qr-svg'
+import { Save, Trash } from 'react-feather'
 // import Select from 'react-select/src/Select'
 // import makeAnimated from 'react-select/animated'
 import Page from '../../components/page'
@@ -18,6 +19,9 @@ import ApiRoutes from '../../stores/api/ApiRoutes'
 import states from '../../stores/requestState'
 import CustomDatepicker from '../../components/custom-datepicker'
 import CustomTimepicker from '../../components/custom-timepicker'
+import CategoriesPicker from '../../components/categories-picker'
+import categoriesStore from '../../stores/CategoriesStore'
+import authService from '../../stores/api/authService'
 
 // import categoriesStore from '../../stores/CategoriesStore'
 
@@ -33,10 +37,13 @@ const Post = observer(() => {
     update,
     state,
     setDiscription,
-    setTitle
+    setTitle,
+    setTags,
+    getTags
   } = useContext(meetingStore)
   const feedbackcontext = useContext(feedbackStore)
   const questionSetContext = useContext(questionSetStore)
+  const categoriesContext = useContext(categoriesStore)
 
   console.log('meeting: ', meeting)
 
@@ -61,11 +68,12 @@ const Post = observer(() => {
   }, [meeting])
 
   useEffect(() => {
+    categoriesContext.fetchCategories(String(authService.getCompanyId()))
     if (mid) {
       fetchMeetingByShortId(String(mid))
       feedbackcontext.fetchFeedback(String(mid))
     }
-  }, [feedbackcontext, fetchMeetingByShortId, mid])
+  }, [categoriesContext, feedbackcontext, fetchMeetingByShortId, mid])
 
   useEffect(() => {
     if (meeting?.questionsSetId)
@@ -167,23 +175,39 @@ const Post = observer(() => {
     >
       {state === states.DONE && (
         <Section>
+          <div className='btn-group'>
+            <button
+              type='button'
+              className='button'
+              onClick={updateMeetingClickHandler}
+            >
+              <Save
+                style={{
+                  height: '20px',
+                  width: '20px',
+                  marginRight: '7px',
+                  marginTop: '2px'
+                }}
+              />
+              Gem
+            </button>
+            <button
+              type='button'
+              className='button'
+              onClick={deleteMeetingClickHandler}
+            >
+              <Trash
+                style={{
+                  height: '20px',
+                  width: '20px',
+                  marginRight: '7px',
+                  marginTop: '2px'
+                }}
+              />
+              Slet
+            </button>
+          </div>
           <div className='flex-container'>
-            <div className='btn-group'>
-              <button
-                type='button'
-                className='button'
-                onClick={updateMeetingClickHandler}
-              >
-                Gem
-              </button>
-              <button
-                type='button'
-                className='button'
-                onClick={deleteMeetingClickHandler}
-              >
-                Slet
-              </button>
-            </div>
             <div className='flex-item-left'>
               {' '}
               <form>
@@ -245,6 +269,13 @@ const Post = observer(() => {
                     />
                   </div>
                 </div>
+                <CategoriesPicker
+                  values={getTags()}
+                  categories={categoriesContext?.categories}
+                  setTags={tags =>
+                    setTags(tags, String(authService.getCompanyId()))
+                  }
+                />
                 {/* <Select
                   options={categoriesContext?.categories?.map(cat => ({
                     label: cat.name,
@@ -255,6 +286,7 @@ const Post = observer(() => {
                   // onChange={tag => setTags(tag?.map(item => item.value))}
                 /> */}
               </form>
+              <hr />
               <FeedbackView
                 feedback={feedback()}
                 count={count}
@@ -298,12 +330,11 @@ const Post = observer(() => {
       <style jsx>{`
         .btn-group {
           height: 60px;
-          position: absolute;
-          float: right;
-          padding: 5px;
-          margin-top: -25px;
-          margin-left: 160px;
-          text-align: center;
+          text-align: right;
+        }
+
+        .btn-group button {
+          margin-left: 5px;
         }
         .qrimg {
           max-width: 170px;

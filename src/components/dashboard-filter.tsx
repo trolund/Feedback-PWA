@@ -1,16 +1,15 @@
 import { observer } from 'mobx-react-lite'
 import { useContext, useEffect } from 'react'
-import Select from 'react-select'
 // import DatePicker from 'react-datepicker'
 // import DatePicker from 'react-mobile-datepicker'
 import { FileText } from 'react-feather'
-import makeAnimated from 'react-select/animated'
 import dashboardStore from '../stores/dashboard-store'
 // import Tag from '../models/tag'
 import CustomDatepicker from './custom-datepicker'
 import CustomCheckbox from './checkbox'
 import categoriesStore from '../stores/CategoriesStore'
 import authService from '../stores/api/authService'
+import CategoriesPicker from './categories-picker'
 
 const DashboardFilter = observer(() => {
   // const [searchWord, setSearchWord] = useState('')
@@ -45,18 +44,6 @@ const DashboardFilter = observer(() => {
     context.fetchDashboardDate(startdate, enddate, tags, searchWord)
   }
 
-  const animatedComponents = makeAnimated()
-
-  // const Countries = [
-  //   { label: 'Albania', value: 'Albania' },
-  //   { label: 'Argentina', value: 54 },
-  //   { label: 'Austria', value: 43 },
-  //   { label: 'Cocos Islands', value: 61 },
-  //   { label: 'Kuwait', value: 965 },
-  //   { label: 'Sweden', value: 46 },
-  //   { label: 'Venezuela', value: 58 }
-  // ]
-
   return (
     <div>
       <h3>Filter muligheder</h3>
@@ -75,14 +62,11 @@ const DashboardFilter = observer(() => {
         <div style={{ width: '250px' }}>
           <div className='tagdiv'>
             <p>Kategori</p>
-            <Select
-              options={categoriesContext?.categories?.map(cat => ({
-                label: cat.name,
-                value: cat.name
-              }))}
-              isMulti
-              components={animatedComponents}
-              onChange={tag => setTags(tag?.map(item => item.value))}
+            <CategoriesPicker
+              categories={categoriesContext?.categories}
+              setTags={selectedTags =>
+                setTags(selectedTags.map(item => item.value))
+              }
             />
             {/* <TagInput tags={tags} setTags={setTags} /> setTags(tag?.map(item => item.name))*/}
           </div>

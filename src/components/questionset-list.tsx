@@ -1,19 +1,44 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 /* eslint-disable react/no-array-index-key */
-import { User as UserIcon, UserCheck, UserMinus } from 'react-feather'
+import Link from 'next/link'
+import { Trash } from 'react-feather'
 import QuestionSet from '../models/QuestionSet'
 
 type QuestionList = {
   questionSetlist: QuestionSet[]
+  deleteFunc: (qSetId: string, index: number) => void
 }
 
-const QuestionSetList: React.FC<QuestionList> = ({ questionSetlist }) => {
+const QuestionSetList: React.FC<QuestionList> = ({
+  questionSetlist,
+  deleteFunc
+}) => {
   return (
     <ul>
-      {questionSetlist.map((item, index) => (
-        <li key={index}>
-          {item.name} - {item.questions.length}
-        </li>
-      ))}
+      {questionSetlist ? (
+        questionSetlist?.map((item, index) => (
+          <li key={index}>
+            <Link
+              href='/questionsets/[setid]'
+              as={`/questionsets/${item.questionSetId}`}
+            >
+              <>
+                {item.name} - {item.questions.length}{' '}
+                <div
+                  role='button'
+                  tabIndex={0}
+                  onClick={() => deleteFunc(item.questionSetId, index)}
+                  onKeyDown={() => deleteFunc(item.questionSetId, index)}
+                >
+                  <Trash />
+                </div>
+              </>
+            </Link>
+          </li>
+        ))
+      ) : (
+        <p>No content</p>
+      )}
 
       <style jsx>{`
         li {

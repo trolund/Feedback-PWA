@@ -126,7 +126,8 @@ textarea {
   border: 1px solid;
   border-radius: var(--border-radius);
   background-color: var(--surface);
-  display: -ms-flexbox; /* IE10 */
+  display: -ms-flexbox;
+  /* IE10 */
   display: flex;
   font-size: inherit;
   line-height: 1;
@@ -297,4 +298,10 @@ a {
 
 .fc-time-grid tbody {
   padding-bottom: 150px !important;
+}
+
+
+hr {
+  opacity: 0.5;
+  margin: 30px;
 }

@@ -5,6 +5,8 @@ import MeetingModel from '../models/MeetingModel'
 import IStore from './IStore'
 import AuthService from './api/authService'
 import ApiRoutes from './api/ApiRoutes'
+import MeetingCategory from '../models/MeetingCategory'
+import OptionsValue from '../models/OptionsValue'
 
 class MeetingStore implements IStore {
   // status
@@ -52,26 +54,6 @@ class MeetingStore implements IStore {
       this.msg = e.statusText
       this.meetings = []
     }
-
-    //   async fetchUsers() {
-    //     this.state = states.LOADING;
-    //     try {
-    //       const url = baseUrl + "/Create";
-    //       const token = await authService.getAccessToken();
-
-    //       const response = await fetch(url, {
-    //         headers: !token ? {} : { Authorization: `Bearer ${token}` }
-    //       });
-    //       console.log(response);
-    //       this.msg = response.statusText;
-
-    //       const data = await response.json();
-    //       this.meetings = data;
-    //     } catch (e) {
-    //       this.state = states.FAILED;
-    //       this.msg = e.statusText;
-    //       this.meetings = [];
-    //     }
   }
 
   @action setDiscription = (dis: string) => {
@@ -80,6 +62,21 @@ class MeetingStore implements IStore {
 
   @action setTitle = (title: string) => {
     this.meeting.name = title
+  }
+
+  @action setTags = (tags: OptionsValue[], companyId: string) => {
+    this.meeting.meetingCategories = tags.map(item => {
+      const cat: MeetingCategory = {
+        meetingId: this.meeting.shortId,
+        category: { categoryId: item.value, companyId: Number(companyId) }
+      }
+
+      return cat
+    })
+  }
+
+  @action getTags = () => {
+    return this.meeting?.meetingCategories.flatMap(item => item.category)
   }
 
   @action update = async (entity: MeetingModel) => {
@@ -226,7 +223,7 @@ class MeetingStore implements IStore {
       this.state = states.DONE
 
       const data: MeetingModel = await response.json()
-      // console.log('fetch mmeting response: ', data)
+      console.log('fetch mmeting response: ', data)
       this.meeting = data
     } catch (e) {
       this.state = states.FAILED

@@ -20,7 +20,7 @@ class QuestionSetStore {
     this.fetchQuestionSetNames()
   }
 
-  @action async fetchQuestionSetNames() {
+  @action fetchQuestionSetNames = async () => {
     this.state = states.LOADING
     try {
       const url = ApiRoutes.QuestionSetNames
@@ -40,7 +40,7 @@ class QuestionSetStore {
     }
   }
 
-  async fetchQuestionSet(questionId: string) {
+  @action fetchQuestionSet = async (questionId: string) => {
     this.state = states.LOADING
     try {
       const url = ApiRoutes.QuestionSetById(questionId)
