@@ -29,6 +29,7 @@ const Scanner = observer(() => {
       />
       <style jsx>{`
         .container {
+          padding-top: 50px;
           position: absolute;
           min-width: 100%;
           min-height: 100%;

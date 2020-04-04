@@ -1,20 +1,37 @@
 import { useContext, useState } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
+import { observer } from 'mobx-react-lite'
+import Lottie from 'react-lottie'
+import { Loader } from 'react-feather'
 import Page from '../components/page'
 import Section from '../components/section'
 import questionStore from '../stores/QuestionStore'
+import * as loading from '../../public/Animations/loading.json'
 import states from '../stores/requestState'
 
-export default () => {
-  const { fetchQuestions } = useContext(questionStore)
+// import states from '../stores/requestState'
+
+export default observer(() => {
+  const { fetchQuestions, isMeetingOpen, fetchState } = useContext(
+    questionStore
+  )
   const [errorMsg, setErrorMsg] = useState(null)
   const [meetingId, setMeetingId] = useState(null)
 
+  const defaultOptions = {
+    loop: false,
+    autoplay: true,
+    animationData: (loading as any).default,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  }
+
   const checkMeetingClickHandler = () => {
-    fetchQuestions(meetingId).then((result: states) => {
-      if (result === states.DONE) {
-        Router.push('/survage')
+    isMeetingOpen(meetingId).then((result: boolean) => {
+      if (result) {
+        Router.push(`/feedback/${meetingId}`)
       } else {
         setErrorMsg('Noget gik galt')
       }
@@ -34,23 +51,27 @@ export default () => {
           className='meeting-id-input'
           type='text'
           placeholder='Møde ID'
+          value={meetingId}
           onChange={e => setMeetingId(e.target.value)}
         />
-        {errorMsg !== null && <p className='msg'>{errorMsg}</p>}
+        <p className='msg'>{errorMsg ?? ''}</p>
         <div className='center buttons'>
-          <Link href='/#' key='#'>
-            <a
-              title='login'
-              aria-label='login'
-              onClick={checkMeetingClickHandler}
-              onKeyDown={checkMeetingClickHandler}
-              role='button'
-              tabIndex={0}
-              className='center button'
-            >
-              Giv Feedback
-            </a>
-          </Link>
+          <a
+            title='login'
+            aria-label='login'
+            onClick={checkMeetingClickHandler}
+            onKeyDown={checkMeetingClickHandler}
+            role='button'
+            tabIndex={0}
+            className='center button'
+          >
+            {fetchState === states.LOADING && (
+              <Lottie options={defaultOptions} height={25} width={25} />
+              // <Loader />
+            )}
+            Giv Feedback
+          </a>
+
           <Link href='/scanner' key='scanner'>
             <a
               title='scanner'
@@ -106,4 +127,4 @@ export default () => {
       `}</style>
     </Page>
   )
-}
+})

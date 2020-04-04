@@ -1,4 +1,5 @@
-import { observable, computed, action } from 'mobx'
+import { observable, action } from 'mobx'
+import { Cookies } from 'react-cookie'
 import { createContext } from 'react'
 import User from '../models/User'
 import states from './requestState'
@@ -6,6 +7,8 @@ import ApiRoutes from './api/ApiRoutes'
 import Registration from '../models/Registration'
 
 class AuthStore {
+  cookies = new Cookies()
+
   @observable state: states = states.DONE
 
   @observable msg: string = ''
@@ -53,6 +56,8 @@ class AuthStore {
         this.token = this.user.token
         localStorage.setItem('token', this.user.token)
         localStorage.setItem('user', JSON.stringify(this.user))
+
+        this.cookies.set('jwttoken', this.user.token)
         this.state = states.DONE
         return states.DONE
       }

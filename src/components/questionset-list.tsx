@@ -16,26 +16,29 @@ const QuestionSetList: React.FC<QuestionList> = ({
   return (
     <ul>
       {questionSetlist ? (
-        questionSetlist?.map((item, index) => (
-          <li key={index}>
-            <Link
-              href='/questionsets/[setid]'
-              as={`/questionsets/${item.questionSetId}`}
-            >
-              <>
-                {item.name} - {item.questions.length}{' '}
-                <div
+        questionSetlist?.map((item, index) => {
+          return (
+            <li key={index}>
+              <Link
+                href='/questionsets/[setid]'
+                as={`/questionsets/${item?.questionSetId}`}
+              >
+                <a>
+                  <Trash />
+                  {item.name} - {item.questions.length}
+                  {/* <div
                   role='button'
                   tabIndex={0}
                   onClick={() => deleteFunc(item.questionSetId, index)}
                   onKeyDown={() => deleteFunc(item.questionSetId, index)}
                 >
                   <Trash />
-                </div>
-              </>
-            </Link>
-          </li>
-        ))
+                </div> */}
+                </a>
+              </Link>
+            </li>
+          )
+        })
       ) : (
         <p>No content</p>
       )}

@@ -3,6 +3,8 @@ import { useState, useContext, useEffect } from 'react'
 import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
 import Link from 'next/link'
+import cookies from 'next-cookies'
+import { NextPage } from 'next'
 import Page from '../components/page'
 import Section from '../components/section'
 import authStore from '../stores/authStore'
@@ -10,7 +12,7 @@ import states from '../stores/requestState'
 import CustomCheckbox from '../components/checkbox'
 import AuthService from '../stores/api/authService'
 
-export default observer(() => {
+const Login: NextPage = observer(() => {
   const [rememberme, setRememberme] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -27,7 +29,7 @@ export default observer(() => {
 
   useEffect(() => {
     AuthService.redirectToHome()
-  })
+  }, [])
 
   useEffect(() => {
     setLoginBtnDisabled(!(username.length > 0 && password.length > 0))
@@ -116,3 +118,15 @@ export default observer(() => {
     </Page>
   )
 })
+
+Login.getInitialProps = async ctx => {
+  const { jwttoken } = cookies(ctx)
+
+  if (ctx.res && AuthService.tokenValid(jwttoken)) {
+    ctx.res.writeHead(302, { Location: '/home' })
+    ctx.res.end()
+  }
+  return {}
+}
+
+export default Login

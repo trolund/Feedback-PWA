@@ -1,27 +1,35 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState } from 'react'
+import fetch from 'isomorphic-unfetch'
 import { observer } from 'mobx-react-lite'
+import { NextPage } from 'next'
 import { Plus } from 'react-feather'
+import cookies from 'next-cookies'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import QuestionSetList from '../../components/questionset-list'
 import QuestionSet from '../../models/QuestionSet'
 import questionSetStore from '../../stores/QuestionSetStore'
+import ApiRoutes from '../../stores/api/ApiRoutes'
 
-const AllQuestionSets = observer(() => {
-  const { fetchQuestionSetNames, QSetNames } = useContext(questionSetStore)
+type pageProps = {
+  initPageProps: QuestionSet[]
+}
 
-  const initlist: QuestionSet[] = [
-    { name: 'item', questionSetId: '', questions: [] },
-    { name: 'item', questionSetId: '', questions: [] },
-    { name: 'item', questionSetId: '', questions: [] }
-  ]
-  const [list, setList] = useState(initlist)
+const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
+  // const { fetchQuestionSetNames, QSetNames } = useContext(questionSetStore)
 
-  useEffect(() => {
-    fetchQuestionSetNames().then(() => {
-      setList(QSetNames)
-    })
-  }, [QSetNames, fetchQuestionSetNames])
+  // const initlist: QuestionSet[] = [
+  //   { name: 'item', questionSetId: '', questions: [] },
+  //   { name: 'item', questionSetId: '', questions: [] },
+  //   { name: 'item', questionSetId: '', questions: [] }
+  // ]
+  const [list, setList] = useState(initPageProps)
+
+  // useEffect(() => {
+  //   fetchQuestionSetNames().then(() => {
+  //     setList(QSetNames)
+  //   })
+  // }, [QSetNames, fetchQuestionSetNames])
 
   const addQuestion = () => {
     list.push({ name: 'new', questionSetId: null, questions: [] })
@@ -66,5 +74,22 @@ const AllQuestionSets = observer(() => {
     </Page>
   )
 })
+
+AllQuestionSets.getInitialProps = async ctx => {
+  const { jwttoken } = cookies(ctx)
+  const url = ApiRoutes.QuestionSetNames
+  let data: QuestionSet[] | null = null
+  try {
+    const response = await fetch(url, {
+      headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
+    })
+    data = await response.json()
+  } catch (e) {
+    console.error(e)
+  }
+  return {
+    initPageProps: data
+  }
+}
 
 export default AllQuestionSets

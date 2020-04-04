@@ -1,11 +1,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useContext } from 'react'
+import Router from 'next/router'
 import Link from 'next/link'
 import Page from '../components/page'
 import Section from '../components/section'
 import authStore from '../stores/authStore'
 import Registration from '../models/Registration'
 import Company from '../models/Company'
+import * as mail from '../../public/Animations/mail.json'
+import AnimationOverlay from '../components/animation-overlay'
+import states from '../stores/requestState'
 
 export default () => {
   const [newCompany, setNewCompany] = useState(false)
@@ -16,6 +20,7 @@ export default () => {
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
   const [email, setEmail] = useState('')
+  const [showOverlay, setShowOverlay] = useState(false)
   const { createUser } = useContext(authStore)
 
   const createUserClickHandler = () => {
@@ -54,10 +59,18 @@ export default () => {
     }
 
     createUser(model).then(res => {
-      console.log('====================================')
-      console.log(res)
-      console.log('====================================')
+      if (res === states.DONE) {
+        setShowOverlay(true)
+      }
     })
+  }
+
+  // const createUserClickHandler = () => {
+  //   setShowOverlay(true)
+  // }
+
+  const onAnimationComplete = () => {
+    Router.push('/login')
   }
 
   return (
@@ -158,7 +171,13 @@ export default () => {
           </a>
         </Link>
       </Section>
-
+      {showOverlay && (
+        <AnimationOverlay
+          text='Aktiverings link er afsendt til dig.'
+          animation={mail}
+          onComplete={onAnimationComplete}
+        />
+      )}
       <style jsx>{`
         .loginBtn {
           margin-top: 50px;

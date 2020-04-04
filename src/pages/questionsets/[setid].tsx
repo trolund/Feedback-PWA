@@ -1,44 +1,55 @@
-import { useState, useEffect, useContext } from 'react'
-import { useRouter } from 'next/router'
+/* eslint-disable func-names */
+import { useState, useContext, useEffect } from 'react'
 import { NextPage } from 'next'
 import { observer } from 'mobx-react-lite'
 import { Plus } from 'react-feather'
+import { useRouter } from 'next/router'
+import cookies from 'next-cookies'
+import fetch from 'isomorphic-unfetch'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import QuestionList from '../../components/question-list'
-import questionSetStore from '../../stores/QuestionSetStore'
-import QuestionSet from '../../models/QuestionSet'
 
-const QuestionSetPage: NextPage = observer(() => {
+import QuestionSet from '../../models/QuestionSet'
+import ApiRoutes from '../../stores/api/ApiRoutes'
+import questionSetStore from '../../stores/QuestionSetStore'
+
+type pageProps = {
+  initQSet: QuestionSet
+}
+
+const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   const router = useRouter()
   const { setid } = router.query
-  const [name, setname] = useState('')
-  const [qset, setQset] = useState({} as QuestionSet)
+  const [qset, setQset] = useState(initQSet)
+  const [name, setMame] = useState(initQSet?.name)
   const { fetchQuestionSet, state, qSet } = useContext(questionSetStore)
 
   useEffect(() => {
-    fetchQuestionSet(String(setid)).then(() => {
-      setQset(qset as QuestionSet)
-    })
+    if (qset === null) {
+      fetchQuestionSet(String(setid)).then(() => {
+        setQset(qset as QuestionSet)
+      })
+    }
   }, [fetchQuestionSet, qset, setid])
 
   const addQuestion = () => {
     qset.questions.push({ theQuestion: '' })
-    setQset({ ...qSet, questions: [...qset.questions] })
+    setQset({ ...qset, questions: [...qset.questions] })
   }
 
   const deleteQuestion = (index: number) => {
     qset.questions.splice(index, 1)
-    setQset({ ...qSet, questions: [...qset.questions] })
+    setQset({ ...qset, questions: [...qset.questions] })
   }
 
   const itemChange = (newQuestion: string, index: number) => {
     qset.questions[index].theQuestion = newQuestion
-    setQset({ ...qSet, questions: [...qset.questions] })
+    setQset({ ...qset, questions: [...qset.questions] })
   }
 
   return (
-    <Page title='Nyt spørgsmålssæt' component={<Plus onClick={addQuestion} />}>
+    <Page title={qset?.name} component={<Plus onClick={addQuestion} />}>
       <Section>
         <div className='topbar'>
           <button type='button' className='button float-right'>
@@ -50,7 +61,7 @@ const QuestionSetPage: NextPage = observer(() => {
             type='text'
             placeholder='Sæt navn'
             value={name}
-            onChange={e => setname(e.target.value)}
+            onChange={e => setMame(e.target.value)}
           />
           {/* <Picker
             optionGroups={companies.optionGroups}
@@ -59,11 +70,12 @@ const QuestionSetPage: NextPage = observer(() => {
           /> */}
         </div>
         <QuestionList
-          questionList={qset.questions}
+          questionList={qset?.questions}
           deleteFunc={deleteQuestion}
           changeItemFunc={itemChange}
         />
       </Section>
+
       <style jsx>{`
         @media only screen and (max-width: 400px) {
           .name {
@@ -89,15 +101,23 @@ const QuestionSetPage: NextPage = observer(() => {
   )
 })
 
-QuestionSetPage.getInitialProps = async function() {
-  const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-  const data = await res.json()
-
-  console.log(`Show data fetched. Count: ${data.length}`)
-
+QuestionSetPage.getInitialProps = async function(ctx) {
+  const { jwttoken } = cookies(ctx)
+  const { query } = ctx
+  const { setid } = query
+  const url = ApiRoutes.QuestionSetById(String(setid))
+  let data: QuestionSet | null = null
+  try {
+    const response = await fetch(url, {
+      headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
+    })
+    data = await response.json()
+  } catch (e) {
+    console.error(e)
+  }
   return {
-    shows: data.map(entry => entry.show)
+    initQSet: data
   }
 }
 
-export default QuestionSet
+export default QuestionSetPage

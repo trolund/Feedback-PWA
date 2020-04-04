@@ -1,3 +1,11 @@
+// const { apiUrl } = process.env.apiUrl
+
+const isServer = () => typeof window === 'undefined'
+const apiUrl = () => {
+  if (!isServer) return process.env.API_URL
+  return process.env.apiUrl
+}
+
 const appendCategoriesParms = (inputStr: string, categories: string[]) => {
   let returnStr = inputStr
   const categoriesStr = categories.map(item => `&categories=${item}`)
@@ -6,34 +14,34 @@ const appendCategoriesParms = (inputStr: string, categories: string[]) => {
   return returnStr
 }
 
-const { apiUrl } = process.env
-
 const ApiRoutes = {
-  createQuestionSet: `${apiUrl}/Api/QuestionSet`,
-  createMeeting: `${apiUrl}/Api/Meeting/Create`,
-  updateMeeting: `${apiUrl}/Api/Meeting`,
-  deleteMeeting: `${apiUrl}/Api/Meeting/Delete`,
-  createUser: `${apiUrl}/Api/User/Post`,
+  createQuestionSet: `${apiUrl()}/Api/QuestionSet`,
+  createMeeting: `${apiUrl()}/Api/Meeting/Create`,
+  updateMeeting: `${apiUrl()}/Api/Meeting`,
+  deleteMeeting: `${apiUrl()}/Api/Meeting/Delete`,
+  createUser: `${apiUrl()}/Api/User/Post`,
   qrcode: (mid: string) => `/feedback/${String(mid)}`,
-  meetingByShortId: (id: string) => `${apiUrl}/Api/Meeting/ShortId/${id}`,
-  login: `${apiUrl}/Api/User/authenticate`,
-  CreateFeedbackBatch: () => `${apiUrl}/Api/FeedbackBatch`,
+  meetingByShortId: (id: string) => `${apiUrl()}/Api/Meeting/ShortId/${id}`,
+  login: `${apiUrl()}/Api/User/authenticate`,
+  CreateFeedbackBatch: () => `${apiUrl()}/Api/FeedbackBatch`,
   FetchQuestions: (meetingId: string) =>
-    `${apiUrl}/Api/Meeting/MeetingOpen/${meetingId}`,
-  QuestionSetNames: `${apiUrl}/Api/QuestionSet/SetOnly`,
-  QuestionSetById: (id: string) => `${apiUrl}/Api/QuestionSet/${id}`,
-  Feedbackbatch: (id: string) => `${apiUrl}/Api/FeedbackBatch/${id}`,
+    `${apiUrl()}/Api/Meeting/MeetingOpen/${meetingId}`,
+  isMeetingOpen: (meetingId: string) =>
+    `${apiUrl()}/Api/Meeting/IsMeetingOpen/${meetingId}`,
+  QuestionSetNames: `${apiUrl()}/Api/QuestionSet/SetOnly`,
+  QuestionSetById: (id: string) => `${apiUrl()}/Api/QuestionSet/${id}`,
+  Feedbackbatch: (id: string) => `${apiUrl()}/Api/FeedbackBatch/${id}`,
   Categories: (companyId: string) =>
-    `${apiUrl}/Api/Meeting/Categories/${companyId}`,
+    `${apiUrl()}/Api/Meeting/Categories/${companyId}`,
   MeetingsByDates: (start: Date, end: Date) =>
-    `${apiUrl}/Api/Meeting/ByDate?start=${start.toISOString()}&end=${end.toISOString()}`,
+    `${apiUrl()}/Api/Meeting/ByDate?start=${start.toISOString()}&end=${end.toISOString()}`,
   Dashboard: (
     start: Date,
     end: Date,
     categories?: string[],
     searchWord?: string
   ) => {
-    let returnStr = `${apiUrl}/Api/FeedbackBatch/dashboard?start=${start.toISOString()}&end=${end.toISOString()}`
+    let returnStr = `${apiUrl()}/Api/FeedbackBatch/dashboard?start=${start.toISOString()}&end=${end.toISOString()}`
 
     if (categories) {
       returnStr = appendCategoriesParms(returnStr, categories)
@@ -52,7 +60,7 @@ const ApiRoutes = {
     searchWord?: string,
     onlyOwnData: boolean = true
   ) => {
-    let returnStr = `${apiUrl}/Api/FeedbackBatch/dashboardMonth?start=${start.toISOString()}&end=${end.toISOString()}&onlyOwnData=${onlyOwnData}`
+    let returnStr = `${apiUrl()}/Api/FeedbackBatch/dashboardMonth?start=${start.toISOString()}&end=${end.toISOString()}&onlyOwnData=${onlyOwnData}`
     if (searchWord) {
       returnStr += `&searchWord=${searchWord}`
     }
@@ -69,7 +77,7 @@ const ApiRoutes = {
     searchWord?: string,
     onlyOwnData: boolean = true
   ) => {
-    let returnStr = `${apiUrl}/Api/FeedbackBatch/dashboardDate?start=${start.toISOString()}&end=${end.toISOString()}&onlyOwnData=${onlyOwnData}`
+    let returnStr = `${apiUrl()}/Api/FeedbackBatch/dashboardDate?start=${start.toISOString()}&end=${end.toISOString()}&onlyOwnData=${onlyOwnData}`
     if (searchWord) {
       returnStr += `&searchWord=${searchWord}`
     }

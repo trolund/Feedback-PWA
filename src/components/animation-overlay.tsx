@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react'
-import Router from 'next/router'
 import Lottie from 'react-lottie'
-import * as animationSuccess from '../../public/Animations/success.json'
-import * as animationError from '../../public/Animations/error.json'
-import AuthService from '../stores/api/authService'
 
 type overlayProps = {
-  success: boolean
+  animation: any
   text: string
+  onComplete?: () => void
 }
 
-const FeedbackOverlay: React.FC<overlayProps> = ({ success, text }) => {
+const AnimationOverlay: React.FC<overlayProps> = ({
+  animation,
+  text,
+  onComplete
+}) => {
   const [isStopped] = useState(false)
   const [isPaused, setIsPaused] = useState(true)
 
@@ -21,19 +22,9 @@ const FeedbackOverlay: React.FC<overlayProps> = ({ success, text }) => {
   const defaultOptions = {
     loop: false,
     autoplay: true,
-    animationData: success
-      ? (animationSuccess as any).default
-      : (animationError as any).default,
+    animationData: animation.default,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice'
-    }
-  }
-
-  const onComplete = () => {
-    if (AuthService.savedTokenValid()) {
-      Router.push('/home')
-    } else {
-      Router.push('/')
     }
   }
 
@@ -70,7 +61,7 @@ const FeedbackOverlay: React.FC<overlayProps> = ({ success, text }) => {
           width: 100%;
           top: 0;
           left: 0;
-          z-index: 100;
+          z-index: 1000;
           background: var(--base);
         }
       `}</style>
@@ -78,4 +69,4 @@ const FeedbackOverlay: React.FC<overlayProps> = ({ success, text }) => {
   )
 }
 
-export default FeedbackOverlay
+export default AnimationOverlay

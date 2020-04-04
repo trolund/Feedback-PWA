@@ -6,7 +6,7 @@ import ApiRoutes from './api/ApiRoutes'
 // import questionTestData from './api/DummyData/questionTestData.json'
 
 class QuestionStore {
-  @observable fetchState = null
+  @observable fetchState: states | null = null
 
   @observable msg = null
 
@@ -42,6 +42,32 @@ class QuestionStore {
       this.questions = null
       this.meetingId = null
       return states.FAILED
+    }
+  }
+
+  @action isMeetingOpen = async (meetingId: string): Promise<boolean> => {
+    this.fetchState = states.LOADING
+    try {
+      const url = ApiRoutes.isMeetingOpen(meetingId)
+
+      const response = await fetch(url)
+
+      this.msg = response.statusText
+
+      // const data = await response.json()
+
+      this.fetchState = states.DONE
+      this.meetingId = meetingId
+      if (response.status === 200) {
+        return true
+      }
+      return false
+    } catch (e) {
+      this.fetchState = states.FAILED
+      this.msg = e.statusText ?? 'meeting not found or not open for feedback'
+      this.questions = null
+      this.meetingId = null
+      return false
     }
   }
 }

@@ -1,17 +1,19 @@
 {
   "short_name": "Feedback",
   "name": "SpinOff - Feedback",
-  "description": "Showcasing the best penguins in town",
+  "description": "Providing easy feedback for all events",
   "icons": [
     {
-      "src": "/images/icon-192.png",
+      "src": "manifest-icon-192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "sizes": "180x180"
+      "purpose": "maskable any"
     },
     {
-      "src": "/images/icon-512.png",
+      "src": "manifest-icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "maskable any"
     }
   ],
   "start_url": "/?source=pwa",
