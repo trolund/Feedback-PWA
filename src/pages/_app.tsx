@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { AppProps } from 'next/app'
 import '../styles/global.css'
+import 'react-toastify/dist/ReactToastify.css'
 // import { Provider } from 'mobx-react'
 
 // import initializeStore from '../stores/stores'

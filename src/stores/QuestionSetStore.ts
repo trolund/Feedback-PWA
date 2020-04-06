@@ -1,4 +1,4 @@
-import { decorate, observable, action } from 'mobx'
+import { observable, action } from 'mobx'
 import { createContext } from 'react'
 import states from './requestState'
 import QuestionSet from '../models/QuestionSet'

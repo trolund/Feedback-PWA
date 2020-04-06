@@ -1,9 +1,11 @@
+/* eslint-disable no-console */
 require('dotenv').config()
 const withPWA = require('next-pwa')
+// const withOffline = require('next-offline')
 // const withSass = require('@zeit/next-sass')
 const withImages = require('next-images')
 
-console.log('Api_url ', process.env.API_URL)
+console.debug('Api_url ', process.env.API_URL)
 
 module.exports = withImages(
   withPWA({

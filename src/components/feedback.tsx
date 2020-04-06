@@ -104,48 +104,44 @@ const FeedbackView = observer((props: IProp) => {
         )}
         {activeTab === 2 && (
           <div className='tab-content'>
-            {(props.feedback?.length ?? 0) > 0 ? (
-              props.feedback
-                ?.sort(sortQuestions)
-                .map((item: Feedback, index) => {
-                  if (item.comments.length > 0) {
-                    return (
-                      <Collapsible
-                        key={index}
-                        trigger={commentTitelBar(
-                          item.question,
-                          item.comments.length
-                        )}
-                      >
-                        <div className='collapsible-content'>
-                          {item.comments.map((comment: string) => (
-                            <div key={comment} className='comment'>
-                              <MessageCircle className='float-left' />
-                              <li style={{ listStyle: 'none' }}>
-                                <p
-                                  style={{
-                                    marginLeft: '40px',
-                                    marginBottom: '0px'
-                                  }}
-                                >
-                                  {comment}
-                                </p>
-                              </li>
-                            </div>
-                          ))}
-                        </div>
-                      </Collapsible>
-                    )
-                  }
-                  return null
-                })
-            ) : (
-              <p>loading...</p>
-              //   <FeedbackLoading loading={props.feedbackLoading} />
-            )}
+            {props.feedback
+              ?.sort(sortQuestions)
+              .map((item: Feedback, index) => {
+                if (item.comments?.length > 0) {
+                  return (
+                    <Collapsible
+                      key={index}
+                      trigger={commentTitelBar(
+                        item.question,
+                        item.comments.length
+                      )}
+                    >
+                      <div className='collapsible-content'>
+                        {item.comments.map((comment: string) => (
+                          <div key={comment} className='comment'>
+                            <MessageCircle className='float-left' />
+                            <li style={{ listStyle: 'none' }}>
+                              <p
+                                style={{
+                                  marginLeft: '40px',
+                                  marginBottom: '0px'
+                                }}
+                              >
+                                {comment}
+                              </p>
+                            </li>
+                          </div>
+                        ))}
+                      </div>
+                    </Collapsible>
+                  )
+                }
+                return null
+              })}
           </div>
         )}
-
+        {props.feedback.reduce((a, b) => a + b.comments?.length ?? 0, 0) ===
+          0 && <p>Ingen Kommentare</p>}
         <div className='end-result'>
           <h2>Overodtnet resultat</h2>
           <CircularProgressbar

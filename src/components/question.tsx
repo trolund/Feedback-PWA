@@ -68,6 +68,7 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
         {smileys.map(item =>
           Number(answer) === Number(item.value) ? (
             <div
+              key={item.value}
               role='button'
               data-answer={item.value}
               className='smiley hvr-bounce-in'
@@ -79,6 +80,7 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
             />
           ) : (
             <div
+              key={item.value}
               role='button'
               data-answer={item.value}
               className='smiley not-selected hvr-bounce-in'

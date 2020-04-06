@@ -5,7 +5,6 @@ import MeetingModel from '../models/MeetingModel'
 import IStore from './IStore'
 import AuthService from './api/authService'
 import ApiRoutes from './api/ApiRoutes'
-import MeetingCategory from '../models/MeetingCategory'
 import OptionsValue from '../models/OptionsValue'
 
 class MeetingStore implements IStore {
@@ -22,6 +21,10 @@ class MeetingStore implements IStore {
   @observable meeting: MeetingModel | null = null
 
   // /Api/Meeting/ByDate
+
+  @action setMeeting = (meeting: MeetingModel) => {
+    this.meeting = meeting
+  }
 
   @action create = async (entity: MeetingModel) => {
     this.meetingCreatedState = states.LOADING
@@ -64,19 +67,21 @@ class MeetingStore implements IStore {
     this.meeting.name = title
   }
 
-  @action setTags = (tags: OptionsValue[], companyId: string) => {
-    this.meeting.meetingCategories = tags.map(item => {
-      const cat: MeetingCategory = {
-        meetingId: this.meeting.shortId,
-        category: { categoryId: item.value, companyId: Number(companyId) }
-      }
+  // @action setTags = (tags: OptionsValue[], companyId: string) => {
+  //   this.meeting.meetingCategories = tags.map(item => {
+  //     const cat: MeetingCategory = {
+  //       meetingId: this.meeting.shortId
+  //       // category: { categoryId: item.value, companyId: Number(companyId) }
+  //     }
 
-      return cat
-    })
-  }
+  //     return cat
+  //   })
+  // }
 
   @action getTags = () => {
-    return this.meeting?.meetingCategories.flatMap(item => item.category)
+    return this.meeting?.meetingCategories.map(
+      item => ({ label: item.name, value: item.categoryId } as OptionsValue)
+    )
   }
 
   @action update = async (entity: MeetingModel) => {
@@ -100,13 +105,15 @@ class MeetingStore implements IStore {
       this.msg = response.statusText
       if (response.status === 200) {
         this.meetingCreatedState = states.DONE
-      } else {
-        this.meetingCreatedState = states.FAILED
+        return states.DONE
       }
+      this.meetingCreatedState = states.FAILED
+      return states.FAILED
     } catch (e) {
       this.meetingCreatedState = states.FAILED
       this.msg = e.statusText
       this.meetings = []
+      return states.FAILED
     }
   }
 

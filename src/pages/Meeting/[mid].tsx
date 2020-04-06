@@ -6,8 +6,10 @@ import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
 import { QRCode } from 'react-qr-svg'
 import { Save, Trash } from 'react-feather'
-// import Select from 'react-select/src/Select'
-// import makeAnimated from 'react-select/animated'
+import { NextPage, NextPageContext } from 'next'
+import cookies from 'next-cookies'
+import fetch from 'isomorphic-unfetch'
+import { toast } from 'react-toastify'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import meetingStore from '../../stores/MeetingStore'
@@ -21,159 +23,146 @@ import CustomDatepicker from '../../components/custom-datepicker'
 import CustomTimepicker from '../../components/custom-timepicker'
 import CategoriesPicker from '../../components/categories-picker'
 import categoriesStore from '../../stores/CategoriesStore'
+import MeetingModel from '../../models/MeetingModel'
+import FeedbackBatch from '../../models/FeedbackBatch'
+import CustomToast from '../../components/custom-Toast'
+import MeetingCategory from '../../models/MeetingCategory'
 import authService from '../../stores/api/authService'
 
 // import categoriesStore from '../../stores/CategoriesStore'
 
-const Post = observer(() => {
-  const router = useRouter()
-  const { mid } = router.query
-  // const qr = new QRCode()
+type initMeetingProps = {
+  initMeeting: MeetingModel
+  intitFeedback: FeedbackBatch[]
+}
 
-  const {
-    meeting,
-    fetchMeetingByShortId,
-    deleteMeeting,
-    update,
-    state,
-    setDiscription,
-    setTitle,
-    setTags,
-    getTags
-  } = useContext(meetingStore)
-  const feedbackcontext = useContext(feedbackStore)
-  const questionSetContext = useContext(questionSetStore)
-  const categoriesContext = useContext(categoriesStore)
+const Post: NextPage = observer(
+  ({ initMeeting, intitFeedback }: initMeetingProps) => {
+    const router = useRouter()
+    const { mid } = router.query
+    // const qr = new QRCode()
 
-  console.log('meeting: ', meeting)
+    const { deleteMeeting, update, state, getTags } = useContext(meetingStore)
+    const [feedbackBatch] = useState(intitFeedback)
+    const feedbackcontext = useContext(feedbackStore)
+    const questionSetContext = useContext(questionSetStore)
+    const categoriesContext = useContext(categoriesStore)
+    const [meeting, setMeeting] = useState(initMeeting)
+    // const [questions, setQuestions] = useState(initialState)
 
-  // const propsMeetingdata: any = (props.location as any).data;
-  const [date, setDate] = useState(new Date())
-  const [startTime, setStartTime] = useState(new Date())
-  const [endTime, setEndTime] = useState(new Date())
-  // const categoriesContext = useContext(categoriesStore)
-  // const [discription, setDiscription] = useState(meeting?.discription ?? '')
-  // const [topic, setTopic] = useState(context.meeting?.topic)
-  // const [qSetId, setQSetId] = useState(context.meeting?.questionsSetId)
+    // const propsMeetingdata: any = (props.location as any).data;
+    const [date, setDate] = useState(new Date())
+    const [startTime, setStartTime] = useState(new Date())
+    const [endTime, setEndTime] = useState(new Date())
+    // const categoriesContext = useContext(categoriesStore)
+    // const [discription, setDiscription] = useState(meeting?.discription ?? '')
+    // const [topic, setTopic] = useState(context.meeting?.topic)
+    // const [qSetId, setQSetId] = useState(context.meeting?.questionsSetId)
 
-  useEffect(() => {
-    if (meeting) {
-      console.log('====================================')
-      console.log(meeting)
-      console.log('====================================')
-      setDate(new Date(meeting?.startTime))
-      setStartTime(new Date(meeting?.startTime))
-      setEndTime(new Date(meeting?.endTime))
-    }
-  }, [meeting])
+    useEffect(() => {
+      if (meeting) {
+        setDate(new Date(meeting?.startTime))
+        setStartTime(new Date(meeting?.startTime))
+        setEndTime(new Date(meeting?.endTime))
+      }
+    }, [meeting])
 
-  useEffect(() => {
-    categoriesContext.fetchCategories(String(authService.getCompanyId()))
-    if (mid) {
-      fetchMeetingByShortId(String(mid))
-      feedbackcontext.fetchFeedback(String(mid))
-    }
-  }, [categoriesContext, feedbackcontext, fetchMeetingByShortId, mid])
+    useEffect(() => {
+      categoriesContext.fetchCategories(String(authService.getCompanyId()))
+      // if (mid) {
+      //   fetchMeetingByShortId(String(mid))
+      //   feedbackcontext.fetchFeedback(String(mid))
+      // }
+    }, [categoriesContext, feedbackcontext, mid])
 
-  useEffect(() => {
-    if (meeting?.questionsSetId)
-      questionSetContext.fetchQuestionSet(meeting?.questionsSetId)
-  }, [meeting, questionSetContext])
+    useEffect(() => {
+      if (meeting?.questionsSetId)
+        questionSetContext.fetchQuestionSet(meeting?.questionsSetId)
+    }, [meeting, questionSetContext])
 
-  const count = useCallback(
-    () =>
-      feedbackcontext.feedbackBatch ? feedbackcontext.feedbackBatch?.length : 0,
-    [feedbackcontext.feedbackBatch]
-  )()
+    const count = useCallback(
+      () => (feedbackBatch ? feedbackBatch?.length : 0),
+      [feedbackBatch]
+    )()
 
-  // const getAvg = (questionId: string) =>
-  //   feedbackcontext.feedbackBatch
-  //     ? feedbackcontext.feedbackBatch.reduce((sumAvg, batchItem) => {
-  //         return batchItem.feedback.reduce((avg, item, _, { length }) => {
-  //           if (questionId === item.questionId) {
-  //             return avg + item.answer / length
-  //           }
-  //           return avg
-  //         }, 0)
-  //       }, 0)
-  //     : 0
+    const getAvg = useCallback(
+      (questionId: string) => {
+        const returnAvg = feedbackBatch
+          ?.map(i => i.feedback)
+          .flat()
+          .filter(x => x.questionId === questionId)
+          .reduce((avg, item, _, { length }) => {
+            return avg + item.answer / length
+          }, 0)
 
-  const getAvg = useCallback(
-    (questionId: string) => {
-      const returnAvg = feedbackcontext.feedbackBatch
-        ?.map(i => i.feedback)
-        .flat()
-        .filter(x => x.questionId === questionId)
-        .reduce((avg, item, _, { length }) => {
-          return avg + item.answer / length
-        }, 0)
+        return returnAvg || 0
+      },
+      [feedbackBatch]
+    )
 
-      return returnAvg || 0
-    },
-    [feedbackcontext.feedbackBatch]
-  )
-
-  const getComments = useCallback(
-    (questionId: string) => {
-      return feedbackcontext.feedbackBatch
-        ?.map(batch =>
-          batch.feedback.map(feed =>
-            feed.questionId === questionId ? feed.comment : null
+    const getComments = useCallback(
+      (questionId: string) => {
+        return feedbackBatch
+          ?.map(batch =>
+            batch.feedback.map(feed =>
+              feed.questionId === questionId ? feed.comment : null
+            )
           )
-        )
-        .flat()
-        .filter(s => s !== null)
-        .filter(s => s?.length! > 1)
-    },
-    [feedbackcontext.feedbackBatch]
-  )
+          .flat()
+          .filter(s => s !== null)
+          .filter(s => s?.length! > 1)
+      },
+      [feedbackBatch]
+    )
 
-  const feedback = () => {
-    const { qSet } = questionSetContext
+    const feedback = useCallback(() => {
+      const { qSet } = questionSetContext
 
-    const theFeedback = qSet?.questions.map(item => {
-      return {
-        question: item.theQuestion,
-        comments: getComments(item.questionId),
-        voteAVG: getAvg(item.questionId)
-      } as Feedback
-    })
-    return theFeedback || []
-  }
+      const theFeedback = qSet?.questions.map(item => {
+        return {
+          question: item.theQuestion,
+          comments: getComments(item.questionId),
+          voteAVG: getAvg(item.questionId)
+        } as Feedback
+      })
+      return theFeedback || []
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getAvg, getComments, questionSetContext])
 
-  const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
-    datePart.setMinutes(timePart.getMinutes())
-    datePart.setHours(timePart.getHours())
-    return datePart
-  }
-
-  const updateMeetingClickHandler = () => {
-    if (meeting) {
-      meeting.endTime = spliceDateAndTime(date, endTime)
-      meeting.startTime = spliceDateAndTime(date, startTime)
-      console.log('====================================')
-      console.log(meeting)
-      console.log('====================================')
-      update(meeting)
+    const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
+      datePart.setMinutes(timePart.getMinutes())
+      datePart.setHours(timePart.getHours())
+      return datePart
     }
-  }
 
-  const deleteMeetingClickHandler = () => {
-    if (meeting) {
-      deleteMeeting(meeting)
-      Router.push('/møder')
+    const updateMeetingClickHandler = () => {
+      if (meeting) {
+        meeting.endTime = spliceDateAndTime(date, endTime)
+        meeting.startTime = spliceDateAndTime(date, startTime)
+        console.log('====================================')
+        console.log('top update', meeting)
+        console.log('====================================')
+        update(meeting).then(res => {
+          if (res === states.DONE) toast('Møde er slettet!')
+          else toast('Der skete en fejl ved updatering af mødet.')
+        })
+      }
     }
-  }
 
-  // const animatedComponents = makeAnimated()
+    const deleteMeetingClickHandler = () => {
+      if (meeting) {
+        deleteMeeting(meeting)
+        toast('Møde er slettet!')
+        Router.push('/møder')
+      }
+    }
 
-  return (
-    <Page
-      showBottomNav={false}
-      title={meeting?.name ?? 'loading...'}
-      showBackButton
-    >
-      {state === states.DONE && (
+    return (
+      <Page
+        showBottomNav={false}
+        title={meeting?.name ?? 'loading...'}
+        showBackButton
+      >
         <Section>
           <div className='btn-group'>
             <button
@@ -227,14 +216,18 @@ const Post = observer(() => {
                   id='name'
                   placeholder='Navn på mødet'
                   value={meeting?.name}
-                  onChange={e => setTitle(e.target.value)}
+                  onChange={e =>
+                    setMeeting({ ...meeting, name: e.target.value })
+                  }
                 />
                 <label htmlFor='exampleText'>Beskrivelse</label>
                 <textarea
                   name='text'
                   id='exampleText'
                   value={meeting?.discription}
-                  onChange={e => setDiscription(e.target.value)}
+                  onChange={e =>
+                    setMeeting({ ...meeting, discription: e.target.value })
+                  }
                 />
                 <div
                   style={{ marginBottom: '20px' }}
@@ -273,18 +266,19 @@ const Post = observer(() => {
                   values={getTags()}
                   categories={categoriesContext?.categories}
                   setTags={tags =>
-                    setTags(tags, String(authService.getCompanyId()))
+                    setMeeting({
+                      ...meeting,
+                      meetingCategories: tags.map(
+                        item =>
+                          ({
+                            meetingId: meeting.shortId,
+                            categoryId: item.value,
+                            name: item.label
+                          } as MeetingCategory)
+                      )
+                    })
                   }
                 />
-                {/* <Select
-                  options={categoriesContext?.categories?.map(cat => ({
-                    label: cat.name,
-                    value: cat.name
-                  }))}
-                  isMulti
-                  components={animatedComponents}
-                  // onChange={tag => setTags(tag?.map(item => item.value))}
-                /> */}
               </form>
               <hr />
               <FeedbackView
@@ -315,70 +309,125 @@ const Post = observer(() => {
             </div>
           </div>
         </Section>
-      )}
 
-      {state === states.LOADING && <p>loading</p>}
-      {state === states.FAILED && (
-        <div className='center'>
-          <b>404</b>
-          <p>
-            Mødet med id <b>{mid}</b> er ikke fundet.
-          </p>
-        </div>
-      )}
+        {state === states.LOADING && <p>loading</p>}
+        {state === states.FAILED && (
+          <div className='center'>
+            <b>404</b>
+            <p>
+              Mødet med id <b>{mid}</b> er ikke fundet.
+            </p>
+          </div>
+        )}
 
-      <style jsx>{`
-        .btn-group {
-          height: 60px;
-          text-align: right;
-        }
+        <style jsx>{`
+          .btn-group {
+            height: 60px;
+            text-align: right;
+          }
 
-        .btn-group button {
-          margin-left: 5px;
-        }
-        .qrimg {
-          max-width: 170px;
-          max-height: 1670px;
-        }
+          .btn-group button {
+            margin-left: 5px;
+          }
+          .qrimg {
+            max-width: 170px;
+            max-height: 1670px;
+          }
 
-        .qrbox {
-          float: right;
-          border: solid rgb(193, 204, 218) 1px;
-          border-radius: 5px;
-          padding: 15px;
-        }
+          .qrbox {
+            float: right;
+            border: solid rgb(193, 204, 218) 1px;
+            border-radius: 5px;
+            padding: 15px;
+          }
 
-        .qrbox p {
-          font-style: italic;
-          font-size: 1rem;
-        }
+          .qrbox p {
+            font-style: italic;
+            font-size: 1rem;
+          }
 
-        textarea {
-          min-width: 100%;
-          max-width: 100%;
-          min-height: 100px;
-        }
-        input {
-          min-width: 100%;
-        }
-        .flex-item-right {
-          flex: 1 auto;
-          padding: 5px;
-          min-width: 250px;
-          max-width: 320px;
-          margin-top: 10px;
-          text-align: center;
-        }
-        .flex-item-left {
-          flex-grow: 1;
-          padding: 5px;
-          min-width: 50%;
-          width: 600px;
-          margin-top: 10px;
-        }
-      `}</style>
-    </Page>
-  )
-})
+          textarea {
+            min-width: 100%;
+            max-width: 100%;
+            min-height: 100px;
+          }
+          input {
+            min-width: 100%;
+          }
+          .flex-item-right {
+            flex: 1 auto;
+            padding: 5px;
+            min-width: 250px;
+            max-width: 320px;
+            margin-top: 10px;
+            text-align: center;
+          }
+          .flex-item-left {
+            flex-grow: 1;
+            padding: 5px;
+            min-width: 50%;
+            width: 600px;
+            margin-top: 10px;
+          }
+        `}</style>
+        <CustomToast />
+      </Page>
+    )
+  }
+)
+
+export async function getServerSideProps(ctx: NextPageContext) {
+  const { jwttoken } = cookies(ctx)
+  const { query } = ctx
+  const { mid } = query
+  let data: MeetingModel | null = null
+  let feedbackData: FeedbackBatch[] | null = null
+  try {
+    const response = await fetch(ApiRoutes.meetingByShortId(String(mid)), {
+      headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
+    })
+    data = await response.json()
+    const feedbackResponse = await fetch(ApiRoutes.Feedbackbatch(String(mid)), {
+      headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
+    })
+    feedbackData = await feedbackResponse.json()
+    console.log(feedbackData)
+  } catch (e) {
+    console.error(e)
+  }
+  return {
+    props: {
+      initMeeting: data,
+      intitFeedback: feedbackData
+    }
+  }
+}
+
+// Post.getInitialProps = async ctx => {
+//   const { jwttoken } = cookies(ctx)
+//   const { query } = ctx
+//   const { mid } = query
+//   let data: MeetingModel | null = null
+//   let feedbackData: FeedbackBatch[] | null = null
+//   try {
+//     const response = await fetch(ApiRoutes.meetingByShortId(String(mid)), {
+//       headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
+//     })
+//     data = await response.json()
+
+//     const feedbackResponse = await fetch(ApiRoutes.Feedbackbatch(String(mid)), {
+//       headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
+//     })
+//     data = await response.json()
+//     feedbackData = await feedbackResponse.json()
+//     console.log(feedbackData)
+//   } catch (e) {
+//     console.error(e)
+//   }
+//   return {
+//     initMeeting: data,
+//     intitFeedback: feedbackData
+//   }
+// }
 
 export default Post

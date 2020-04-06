@@ -3,12 +3,11 @@ import makeAnimated from 'react-select/animated'
 import { observer } from 'mobx-react-lite'
 import Category from '../models/Category'
 import OptionsValue from '../models/OptionsValue'
-import MeetingModel from '../models/MeetingModel'
 
 type Props = {
   categories: Category[]
   setTags: (values: OptionsValue[]) => void
-  values?: Category[]
+  values?: OptionsValue[]
 }
 
 // https://react-select.com/styles
@@ -19,20 +18,7 @@ export default observer(({ categories, setTags, values }: Props) => {
   return (
     <>
       <Select
-        defaultValue={
-          values
-            ? [
-                ...values.map(item => {
-                  console.log('item', item)
-
-                  return {
-                    value: item.categoryId,
-                    label: item.name
-                  } as OptionsValue
-                })
-              ]
-            : [{ label: 'hej', value: 'hej' }]
-        }
+        defaultValue={values}
         options={categories?.map(
           cat =>
             ({
