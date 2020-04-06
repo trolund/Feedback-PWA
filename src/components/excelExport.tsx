@@ -10,10 +10,18 @@ type excelDataset = {
 }
 
 const DashboardExcelDownload = ({ data }: excelDataset) => {
+  const exportData = data?.map(item => {
+    return {
+      answer: item.answer,
+      date: item.date,
+      categories: item.categories.join(',')
+    }
+  })
+
   return (
     <ExcelFile>
       <ExcelSheet
-        data={data}
+        data={exportData}
         name='Feedback'
         // element={
         //   <a role='button' tabIndex={0} className='button float-right'>
@@ -23,6 +31,7 @@ const DashboardExcelDownload = ({ data }: excelDataset) => {
       >
         <ExcelColumn label='Dato' value='date' />
         <ExcelColumn label='Tilbagemelding' value='answer' />
+        <ExcelColumn label='Kategorier' value='categories' />
       </ExcelSheet>
     </ExcelFile>
   )
