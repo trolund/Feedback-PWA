@@ -2,13 +2,13 @@ import { useState } from 'react'
 import fetch from 'isomorphic-unfetch'
 import { observer } from 'mobx-react-lite'
 import { NextPage } from 'next'
+import Router from 'next/router'
 import { Plus } from 'react-feather'
 import cookies from 'next-cookies'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import QuestionSetList from '../../components/questionset-list'
 import QuestionSet from '../../models/QuestionSet'
-import questionSetStore from '../../stores/QuestionSetStore'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 
 type pageProps = {
@@ -16,24 +16,10 @@ type pageProps = {
 }
 
 const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
-  // const { fetchQuestionSetNames, QSetNames } = useContext(questionSetStore)
-
-  // const initlist: QuestionSet[] = [
-  //   { name: 'item', questionSetId: '', questions: [] },
-  //   { name: 'item', questionSetId: '', questions: [] },
-  //   { name: 'item', questionSetId: '', questions: [] }
-  // ]
   const [list, setList] = useState(initPageProps)
 
-  // useEffect(() => {
-  //   fetchQuestionSetNames().then(() => {
-  //     setList(QSetNames)
-  //   })
-  // }, [QSetNames, fetchQuestionSetNames])
-
-  const addQuestion = () => {
-    list.push({ name: 'new', questionSetId: null, questions: [] })
-    setList([...list])
+  const addQuestionSetClickHandler = () => {
+    Router.push(`/questionsets/new`)
   }
 
   const deleteQuestion = (qSetId: string, index: number) => {
@@ -41,12 +27,11 @@ const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
     setList([...list])
   }
 
-  // const onItemClick = (qSetId: string) => {
-  //   Router.push(`/questionsets/${qSetId}`)
-  // }
-
   return (
-    <Page title='Alle spørgsmålssæt' component={<Plus onClick={addQuestion} />}>
+    <Page
+      title='Alle spørgsmålssæt'
+      component={<Plus onClick={addQuestionSetClickHandler} />}
+    >
       <Section>
         <QuestionSetList questionSetlist={list} deleteFunc={deleteQuestion} />
       </Section>

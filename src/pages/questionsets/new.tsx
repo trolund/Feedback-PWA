@@ -1,51 +1,67 @@
-import { useState } from 'react'
+/* eslint-disable func-names */
+import { useState, useContext } from 'react'
+import { NextPage } from 'next'
 import { observer } from 'mobx-react-lite'
-import { Plus } from 'react-feather'
+import { Plus, Save } from 'react-feather'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import QuestionList from '../../components/question-list'
-import Question from '../../models/Question'
 
-const NewQuestionSet = observer(() => {
-  const initlist: Question[] = [
-    { theQuestion: 'hej' },
-    { theQuestion: 'hej' },
-    { theQuestion: 'hej' },
-    { theQuestion: 'hej' }
-  ]
+import QuestionSet from '../../models/QuestionSet'
+import questionSetStore from '../../stores/QuestionSetStore'
 
-  const [name, setname] = useState('')
-  const [list, setList] = useState(initlist)
+const QuestionSetPage: NextPage = observer(() => {
+  const newQset = {
+    name: '',
+    questions: []
+  } as QuestionSet
+  const [qset, setQset] = useState(newQset)
+  const { createQuestionSet } = useContext(questionSetStore)
 
   const addQuestion = () => {
-    list.push({ theQuestion: '' })
-    setList([...list])
+    qset.questions.push({ theQuestion: '' })
+    setQset({ ...qset, questions: [...qset.questions] })
   }
 
   const deleteQuestion = (index: number) => {
-    list.splice(index, 1)
-    setList([...list])
+    qset.questions.splice(index, 1)
+    setQset({ ...qset, questions: [...qset.questions] })
   }
 
   const itemChange = (newQuestion: string, index: number) => {
-    list[index].theQuestion = newQuestion
-    setList([...list])
+    qset.questions[index].theQuestion = newQuestion
+    setQset({ ...qset, questions: [...qset.questions] })
+  }
+
+  const createClickHandler = () => {
+    createQuestionSet(qset)
   }
 
   return (
-    <Page title='Nyt spørgsmålssæt' component={<Plus onClick={addQuestion} />}>
+    <Page title={qset?.name} component={<Plus onClick={addQuestion} />}>
       <Section>
         <div className='topbar'>
-          <button type='button' className='button float-right'>
-            Gem
+          <button
+            type='button'
+            className='button float-right'
+            onClick={createClickHandler}
+          >
+            <Save
+              style={{
+                height: '20px',
+                width: '20px',
+                marginRight: '7px',
+                marginTop: '2px'
+              }}
+            />
+            Opret
           </button>
-
           <input
             className='float-left name'
             type='text'
             placeholder='Sæt navn'
-            value={name}
-            onChange={e => setname(e.target.value)}
+            value={qset.name}
+            onChange={e => setQset({ ...qset, name: e.target.value })}
           />
           {/* <Picker
             optionGroups={companies.optionGroups}
@@ -54,11 +70,12 @@ const NewQuestionSet = observer(() => {
           /> */}
         </div>
         <QuestionList
-          questionList={list}
+          questionList={qset?.questions}
           deleteFunc={deleteQuestion}
           changeItemFunc={itemChange}
         />
       </Section>
+
       <style jsx>{`
         @media only screen and (max-width: 400px) {
           .name {
@@ -84,4 +101,4 @@ const NewQuestionSet = observer(() => {
   )
 })
 
-export default NewQuestionSet
+export default QuestionSetPage

@@ -59,11 +59,82 @@ class QuestionSetStore {
       this.qSet = null
     }
   }
-}
 
-// decorate(QuestionSetStore, {
-//   QSetNames: observable
-// })
+  @action updateQuestionSet = async (entity: QuestionSet) => {
+    this.state = states.LOADING
+    try {
+      const url = ApiRoutes.updateQuestionSet
+      const token = AuthService.getToken()
+      const json = JSON.stringify(entity)
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: !token
+          ? {}
+          : {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+        body: json,
+        redirect: 'follow'
+      })
+      this.msg = response.statusText
+    } catch (e) {
+      this.state = states.FAILED
+      this.msg = e.statusText
+    }
+  }
+
+  @action deleteQuestionSet = async (entity: QuestionSet) => {
+    this.state = states.LOADING
+    try {
+      const url = ApiRoutes.updateQuestionSet
+      const token = AuthService.getToken()
+      const json = JSON.stringify(entity)
+
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: !token
+          ? {}
+          : {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+        body: json,
+        redirect: 'follow'
+      })
+      this.msg = response.statusText
+    } catch (e) {
+      this.state = states.FAILED
+      this.msg = e.statusText
+    }
+  }
+
+  @action createQuestionSet = async (entity: QuestionSet) => {
+    this.state = states.LOADING
+    try {
+      const url = ApiRoutes.updateQuestionSet
+      const token = AuthService.getToken()
+      const json = JSON.stringify(entity)
+
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: !token
+          ? {}
+          : {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+        body: json,
+        redirect: 'follow'
+      })
+      this.msg = response.statusText
+    } catch (e) {
+      this.state = states.FAILED
+      this.msg = e.statusText
+    }
+  }
+}
 
 const questionSetStore = createContext(new QuestionSetStore())
 

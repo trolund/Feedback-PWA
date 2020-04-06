@@ -2,14 +2,13 @@
 import { useState, useContext, useEffect } from 'react'
 import { NextPage } from 'next'
 import { observer } from 'mobx-react-lite'
-import { Plus } from 'react-feather'
+import { Plus, Save, Trash } from 'react-feather'
 import { useRouter } from 'next/router'
 import cookies from 'next-cookies'
 import fetch from 'isomorphic-unfetch'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import QuestionList from '../../components/question-list'
-
 import QuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import questionSetStore from '../../stores/QuestionSetStore'
@@ -22,8 +21,10 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   const router = useRouter()
   const { setid } = router.query
   const [qset, setQset] = useState(initQSet)
-  const [name, setMame] = useState(initQSet?.name)
-  const { fetchQuestionSet, state, qSet } = useContext(questionSetStore)
+  // const [name, setName] = useState(initQSet?.name)
+  const { fetchQuestionSet, updateQuestionSet, deleteQuestionSet } = useContext(
+    questionSetStore
+  )
 
   useEffect(() => {
     if (qset === null) {
@@ -48,11 +49,46 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
     setQset({ ...qset, questions: [...qset.questions] })
   }
 
+  const updateClickHandler = () => {
+    updateQuestionSet(qset)
+  }
+
+  const deleteClickHandler = () => {
+    deleteQuestionSet(qset)
+  }
+
   return (
     <Page title={qset?.name} component={<Plus onClick={addQuestion} />}>
       <Section>
         <div className='topbar'>
-          <button type='button' className='button float-right'>
+          <button
+            type='button'
+            className='button float-right'
+            onClick={deleteClickHandler}
+          >
+            <Trash
+              style={{
+                height: '20px',
+                width: '20px',
+                marginRight: '7px',
+                marginTop: '2px'
+              }}
+            />
+            slet
+          </button>
+          <button
+            type='button'
+            className='button float-right'
+            onClick={updateClickHandler}
+          >
+            <Save
+              style={{
+                height: '20px',
+                width: '20px',
+                marginRight: '7px',
+                marginTop: '2px'
+              }}
+            />
             Gem
           </button>
 
@@ -60,8 +96,8 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
             className='float-left name'
             type='text'
             placeholder='Sæt navn'
-            value={name}
-            onChange={e => setMame(e.target.value)}
+            value={qset.name}
+            onChange={e => setQset({ ...qset, name: e.target.value })}
           />
           {/* <Picker
             optionGroups={companies.optionGroups}
