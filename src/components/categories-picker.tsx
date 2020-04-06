@@ -1,6 +1,7 @@
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 import { observer } from 'mobx-react-lite'
+import { useState, useEffect } from 'react'
 import Category from '../models/Category'
 import OptionsValue from '../models/OptionsValue'
 
@@ -8,17 +9,24 @@ type Props = {
   categories: Category[]
   setTags: (values: OptionsValue[]) => void
   values?: OptionsValue[]
+  loading: boolean
 }
 
 // https://react-select.com/styles
 
-export default observer(({ categories, setTags, values }: Props) => {
+export default observer(({ categories, setTags, values, loading }: Props) => {
   const animatedComponents = makeAnimated()
+  const [categoriesValues, SetCategoriesValues] = useState(values)
+
+  useEffect(() => {
+    SetCategoriesValues(values)
+  }, [values])
 
   return (
     <>
       <Select
-        defaultValue={values}
+        isLoading={loading}
+        defaultValue={categoriesValues}
         options={categories?.map(
           cat =>
             ({

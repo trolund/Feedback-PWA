@@ -138,6 +138,11 @@ class AuthService {
     return token.CID
   }
 
+  getCompanyIdWithToken = (inputtoken: string): number => {
+    const token: TokenModel = this?.parseJwt(inputtoken)
+    return token.CID
+  }
+
   getTokenModel = (): TokenModel => {
     const token: TokenModel = this?.parseJwt(this.getToken())
     return token

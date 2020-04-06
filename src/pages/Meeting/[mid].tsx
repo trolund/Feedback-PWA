@@ -28,6 +28,7 @@ import FeedbackBatch from '../../models/FeedbackBatch'
 import CustomToast from '../../components/custom-Toast'
 import MeetingCategory from '../../models/MeetingCategory'
 import authService from '../../stores/api/authService'
+import OptionsValue from '../../models/OptionsValue'
 
 // import categoriesStore from '../../stores/CategoriesStore'
 
@@ -42,12 +43,13 @@ const Post: NextPage = observer(
     const { mid } = router.query
     // const qr = new QRCode()
 
-    const { deleteMeeting, update, state, getTags } = useContext(meetingStore)
+    const { deleteMeeting, update, state } = useContext(meetingStore)
     const [feedbackBatch] = useState(intitFeedback)
     const feedbackcontext = useContext(feedbackStore)
     const questionSetContext = useContext(questionSetStore)
     const categoriesContext = useContext(categoriesStore)
     const [meeting, setMeeting] = useState(initMeeting)
+    const [meetingCategories, setMeetingCategories] = useState([])
     // const [questions, setQuestions] = useState(initialState)
 
     // const propsMeetingdata: any = (props.location as any).data;
@@ -68,7 +70,11 @@ const Post: NextPage = observer(
     }, [meeting])
 
     useEffect(() => {
-      categoriesContext.fetchCategories(String(authService.getCompanyId()))
+      categoriesContext
+        .fetchCategories(String(authService.getCompanyId()))
+        .then(() => {
+          setMeetingCategories(categoriesContext.categories)
+        })
       // if (mid) {
       //   fetchMeetingByShortId(String(mid))
       //   feedbackcontext.fetchFeedback(String(mid))
@@ -156,6 +162,10 @@ const Post: NextPage = observer(
         Router.push('/møder')
       }
     }
+
+    // const getMeetingCategories = useCallback(() => {
+    //   return
+    // }, [categoriesContext, meeting.meetingCategories])
 
     return (
       <Page
@@ -263,7 +273,17 @@ const Post: NextPage = observer(
                   </div>
                 </div>
                 <CategoriesPicker
-                  values={getTags()}
+                  loading={categoriesContext.state === states.LOADING}
+                  values={meeting.meetingCategories.map(
+                    item =>
+                      ({
+                        label:
+                          meetingCategories?.filter(
+                            i => i.categoryId === item.categoryId
+                          )[0]?.name ?? 'Henter...',
+                        value: item.categoryId
+                      } as OptionsValue)
+                  )}
                   categories={categoriesContext?.categories}
                   setTags={tags =>
                     setMeeting({

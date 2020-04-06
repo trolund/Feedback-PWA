@@ -91,12 +91,12 @@ class DashboardStore {
   //   }
   // }
 
-  @action async fetchDashboardDate(
+  @action fetchDashboardDate = async (
     start: Date,
     end: Date,
     categories?: string[],
     searchWord?: string
-  ) {
+  ) => {
     this.state = states.LOADING
     try {
       const url = ApiRoutes.DashboardDate(start, end, categories, searchWord)

@@ -8,6 +8,8 @@ import CustomCheckbox from './checkbox'
 import categoriesStore from '../stores/CategoriesStore'
 import authService from '../stores/api/authService'
 import CategoriesPicker from './categories-picker'
+import states from '../stores/requestState'
+import DashboardExcelDownload from './excelExport'
 
 const DashboardFilter = observer(() => {
   // const [searchWord, setSearchWord] = useState('')
@@ -32,15 +34,36 @@ const DashboardFilter = observer(() => {
 
   const context = useContext(dashboardStore)
   const categoriesContext = useContext(categoriesStore)
+  const { data, fetchDashboardDate } = useContext(dashboardStore)
 
   useEffect(() => {
-    context.fetchDashboardDate(startdate, enddate, tags, searchWord)
+    fetchDashboardDate(startdate, enddate, tags, searchWord)
     categoriesContext.fetchCategories(String(authService.getCompanyId()))
-  }, [searchWord, tags, startdate, enddate, context, categoriesContext])
+  }, [
+    searchWord,
+    tags,
+    startdate,
+    enddate,
+    context,
+    categoriesContext,
+    fetchDashboardDate
+  ])
 
   const getData = () => {
-    context.fetchDashboardDate(startdate, enddate, tags, searchWord)
+    fetchDashboardDate(startdate, enddate, tags, searchWord)
   }
+
+  // const ExportExcel = (): JSX.Element => (
+  //   <a
+  //     role='button'
+  //     tabIndex={0}
+  //     className='button float-left'
+  //     onClick={getData}
+  //     onKeyDown={getData}
+  //   >
+  //     <FileText width={15} height={15} /> Export
+  //   </a>
+  // )
 
   return (
     <div>
@@ -61,6 +84,7 @@ const DashboardFilter = observer(() => {
           <div className='tagdiv'>
             <p>Kategori</p>
             <CategoriesPicker
+              loading={categoriesContext.state === states.LOADING}
               categories={categoriesContext?.categories}
               setTags={selectedTags =>
                 setTags(selectedTags.map(item => item.value))
@@ -116,15 +140,8 @@ const DashboardFilter = observer(() => {
         >
           Filter data
         </a>
-        <a
-          role='button'
-          tabIndex={0}
-          className='button float-left'
-          onClick={getData}
-          onKeyDown={getData}
-        >
-          <FileText width={15} height={15} /> Export
-        </a>
+
+        <DashboardExcelDownload data={data} />
       </div>
       <style jsx>{`
         .ownData {

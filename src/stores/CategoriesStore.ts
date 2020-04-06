@@ -36,6 +36,7 @@ class CategoriesStore {
       const data: Category[] = await response.json()
 
       this.categories = data
+      this.state = states.DONE
     } catch (e) {
       this.state = states.FAILED
       this.msg = e.statusText
