@@ -2,9 +2,8 @@ import { observable, action } from 'mobx'
 import { createContext } from 'react'
 import ApiRoutes from './api/ApiRoutes'
 import states from './requestState'
-import AuthService from './api/authService'
+import AuthService from '../services/authService'
 import FeedbackDate from '../models/FeedbackDate'
-import Tag from '../models/tag'
 
 class DashboardStore {
   @observable startdate: Date = new Date()

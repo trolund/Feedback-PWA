@@ -10,7 +10,7 @@ import Section from '../components/section'
 import authStore from '../stores/authStore'
 import states from '../stores/requestState'
 import CustomCheckbox from '../components/checkbox'
-import AuthService from '../stores/api/authService'
+import AuthService from '../services/authService'
 
 const Login: NextPage = observer(() => {
   const [rememberme, setRememberme] = useState(false)

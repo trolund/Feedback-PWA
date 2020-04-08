@@ -3,7 +3,7 @@ import { createContext } from 'react'
 import states from './requestState'
 import MeetingModel from '../models/MeetingModel'
 import IStore from './IStore'
-import AuthService from './api/authService'
+import AuthService from '../services/authService'
 import ApiRoutes from './api/ApiRoutes'
 import OptionsValue from '../models/OptionsValue'
 

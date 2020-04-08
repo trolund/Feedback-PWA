@@ -6,7 +6,7 @@ import Page from '../components/page'
 import Section from '../components/section'
 import authStore from '../stores/authStore'
 import ThemeButton from '../components/theme-button'
-import authService from '../stores/api/authService'
+import authService from '../services/authService'
 import User from '../models/User'
 
 const Profile = observer(() => {

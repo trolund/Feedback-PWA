@@ -3,7 +3,7 @@ import { createContext } from 'react'
 import states from './requestState'
 import QuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
-import AuthService from './api/authService'
+import AuthService from '../services/authService'
 
 class QuestionSetStore {
   // status
@@ -104,9 +104,12 @@ class QuestionSetStore {
         redirect: 'follow'
       })
       this.msg = response.statusText
+      return states.DONE
     } catch (e) {
       this.state = states.FAILED
+
       this.msg = e.statusText
+      return states.FAILED
     }
   }
 
@@ -129,9 +132,11 @@ class QuestionSetStore {
         redirect: 'follow'
       })
       this.msg = response.statusText
+      return states.DONE
     } catch (e) {
       this.state = states.FAILED
       this.msg = e.statusText
+      return states.FAILED
     }
   }
 }

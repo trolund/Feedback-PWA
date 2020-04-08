@@ -4,7 +4,7 @@ import states from './requestState'
 import FeedbackBatch from '../models/FeedbackBatch'
 import ApiRoutes from './api/ApiRoutes'
 import FeedbackModel from '../models/FeedbackModel'
-import AuthService from './api/authService'
+import AuthService from '../services/authService'
 
 // import authService from '../components/api-authorization/AuthorizeService'
 

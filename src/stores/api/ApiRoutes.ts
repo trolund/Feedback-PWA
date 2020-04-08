@@ -15,6 +15,7 @@ const appendCategoriesParms = (inputStr: string, categories: string[]) => {
 }
 
 const ApiRoutes = {
+  updateUserAdmin: `${apiUrl()}/Api/User/userAdmin`,
   updateQuestionSet: `${apiUrl()}/Api/QuestionSet`,
   createQuestionSet: `${apiUrl()}/Api/QuestionSet`,
   createMeeting: `${apiUrl()}/Api/Meeting/Create`,

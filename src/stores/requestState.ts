@@ -1,6 +1,6 @@
 enum states {
-  LOADING = "LOAD",
-  DONE = "DONE",
-  FAILED = "FAILED"
+  LOADING = 'LOAD',
+  DONE = 'DONE',
+  FAILED = 'FAILED'
 }
-export default states;
+export default states

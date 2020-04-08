@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite'
 import { Plus, Save, Trash } from 'react-feather'
 import { useRouter } from 'next/router'
 import cookies from 'next-cookies'
+import { toast } from 'react-toastify'
 import fetch from 'isomorphic-unfetch'
 import Page from '../../components/page'
 import Section from '../../components/section'
@@ -12,6 +13,8 @@ import QuestionList from '../../components/question-list'
 import QuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import questionSetStore from '../../stores/QuestionSetStore'
+import states from '../../stores/requestState'
+import CustomToast from '../../components/custom-Toast'
 
 type pageProps = {
   initQSet: QuestionSet
@@ -54,11 +57,19 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   }
 
   const deleteClickHandler = () => {
-    deleteQuestionSet(qset)
+    deleteQuestionSet(qset).then(res => {
+      if (res === states.DONE) {
+        toast('Spørgsmåls sæt er slettet!')
+        router.push('/questionsets')
+      } else {
+        toast('Der skete en fejl ved sletningen.')
+      }
+    })
   }
 
   return (
     <Page title={qset?.name} component={<Plus onClick={addQuestion} />}>
+      <CustomToast />
       <Section>
         <div className='topbar'>
           <button

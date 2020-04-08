@@ -1,16 +1,19 @@
 /* eslint-disable func-names */
 import { useState, useContext } from 'react'
 import { NextPage } from 'next'
+import { toast } from 'react-toastify'
 import { observer } from 'mobx-react-lite'
 import { Plus, Save } from 'react-feather'
+import { useRouter } from 'next/router'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import QuestionList from '../../components/question-list'
-
 import QuestionSet from '../../models/QuestionSet'
 import questionSetStore from '../../stores/QuestionSetStore'
+import states from '../../stores/requestState'
 
 const QuestionSetPage: NextPage = observer(() => {
+  const router = useRouter()
   const newQset = {
     name: '',
     questions: []
@@ -34,7 +37,14 @@ const QuestionSetPage: NextPage = observer(() => {
   }
 
   const createClickHandler = () => {
-    createQuestionSet(qset)
+    createQuestionSet(qset).then(res => {
+      if (res === states.DONE) {
+        toast('Sæt er oprettet og nu bruges.')
+        router.push('/questionsets')
+      } else {
+        toast('Der skete en fjel ved opretelsen, prøv igen.')
+      }
+    })
   }
 
   return (

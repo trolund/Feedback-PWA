@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Appbar from './appbar'
 import BottomNav from './bottom-nav'
 
-import AuthService from '../stores/api/authService'
+import AuthService from '../services/authService'
 import authStore from '../stores/authStore'
 
 // import BackAppHeader from './backAppbar'

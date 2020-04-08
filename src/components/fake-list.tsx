@@ -1,4 +1,4 @@
-import { User as UserIcon, UserCheck, UserMinus } from 'react-feather'
+import { User as UserIcon, UserMinus } from 'react-feather'
 import User from '../models/User'
 
 type UserList = {

@@ -6,7 +6,7 @@ import dashboardStore from '../stores/dashboard-store'
 import CustomDatepicker from './custom-datepicker'
 import CustomCheckbox from './checkbox'
 import categoriesStore from '../stores/CategoriesStore'
-import authService from '../stores/api/authService'
+import authService from '../services/authService'
 import CategoriesPicker from './categories-picker'
 import states from '../stores/requestState'
 import DashboardExcelDownload from './excelExport'
@@ -52,18 +52,6 @@ const DashboardFilter = observer(() => {
   const getData = () => {
     fetchDashboardDate(startdate, enddate, tags, searchWord)
   }
-
-  // const ExportExcel = (): JSX.Element => (
-  //   <a
-  //     role='button'
-  //     tabIndex={0}
-  //     className='button float-left'
-  //     onClick={getData}
-  //     onKeyDown={getData}
-  //   >
-  //     <FileText width={15} height={15} /> Export
-  //   </a>
-  // )
 
   return (
     <div>

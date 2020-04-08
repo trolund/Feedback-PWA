@@ -3,7 +3,7 @@ import { createContext } from 'react'
 import states from './requestState'
 import Category from '../models/Category'
 import ApiRoutes from './api/ApiRoutes'
-import AuthService from './api/authService'
+import AuthService from '../services/authService'
 
 class CategoriesStore {
   // status

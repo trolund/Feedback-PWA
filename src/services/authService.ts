@@ -1,7 +1,7 @@
 import Router from 'next/router'
 import jwtDecode from 'jwt-decode'
 import { Cookies } from 'react-cookie'
-import TokenModel from '../../models/TokenModel'
+import TokenModel from '../models/TokenModel'
 
 const cookies = new Cookies()
 

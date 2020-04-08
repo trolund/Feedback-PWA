@@ -206,7 +206,7 @@ const CalendarView = observer(() => {
   )
 
   useEffect(() => {
-    categoriesContext.fetchCategories('1')
+    categoriesContext.fetchCategories('1') // TODO get company id
   }, [categoriesContext])
 
   useEffect(() => {

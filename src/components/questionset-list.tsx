@@ -24,16 +24,15 @@ const QuestionSetList: React.FC<QuestionList> = ({
                 as={`/questionsets/${item?.questionSetId}`}
               >
                 <a>
-                  <Trash />
-                  {item.name} - {item.questions.length}
-                  {/* <div
-                  role='button'
-                  tabIndex={0}
-                  onClick={() => deleteFunc(item.questionSetId, index)}
-                  onKeyDown={() => deleteFunc(item.questionSetId, index)}
-                >
-                  <Trash />
-                </div> */}
+                  <b className='qnumber'>{item.questions.length}</b>
+                  <p className='name'>{item.name}</p>
+                  <Trash
+                    className='del-btn'
+                    role='button'
+                    tabIndex={0}
+                    onClick={() => deleteFunc(item.questionSetId, index)}
+                    onKeyDown={() => deleteFunc(item.questionSetId, index)}
+                  />
                 </a>
               </Link>
             </li>
@@ -44,6 +43,23 @@ const QuestionSetList: React.FC<QuestionList> = ({
       )}
 
       <style jsx>{`
+        .del-btn {
+          float: right;
+        }
+        .name {
+          margin-right: 20px;
+          display: flex;
+          float: left;
+          width: 70%;
+        }
+        b {
+          margin-right: 40px;
+        }
+
+        a {
+          width: 100%;
+        }
+
         li {
           color: var(--fg);
           padding: var(--gap-small);
@@ -51,6 +67,7 @@ const QuestionSetList: React.FC<QuestionList> = ({
           display: flex;
           align-items: center;
           transition: var(--transition-colors);
+          width: 100%;
         }
 
         li:not(:last-child) {

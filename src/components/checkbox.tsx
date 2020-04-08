@@ -1,27 +1,37 @@
 import { useState, useEffect } from 'react'
 import { Check } from 'react-feather'
+import states from '../stores/requestState'
 
 type initState = {
   checked: boolean
   label: string
+  noLabel?: boolean
   onChange?: (checked: boolean) => void
 }
 
 const CustomCheckbox = (props: initState) => {
-  const { checked, label, onChange } = props
+  const { checked, label, onChange, noLabel } = props
   const [state, setState] = useState(checked)
-
-  useEffect(() => {
-    if (onChange) onChange(state)
-  }, [onChange, state])
+  let showLabel = false
+  if (noLabel !== null) {
+    showLabel = noLabel
+  }
 
   return (
     <div
       className='container'
       role='button'
       tabIndex={0}
-      onKeyDown={() => setState(!state)}
-      onClick={() => setState(!state)}
+      onKeyDown={() => {
+        const newVal = !state
+        setState(newVal)
+        onChange(newVal)
+      }}
+      onClick={() => {
+        const newVal = !state
+        setState(newVal)
+        onChange(newVal)
+      }}
     >
       <div
         className='box'
@@ -34,7 +44,7 @@ const CustomCheckbox = (props: initState) => {
       <style jsx>{`
         .container {
           width: auto;
-          max-width: 250px;
+          max-width: ${showLabel ? '25px' : '250px'};
           text-align: center;
         }
         .box {

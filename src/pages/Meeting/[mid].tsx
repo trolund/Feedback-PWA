@@ -27,7 +27,7 @@ import MeetingModel from '../../models/MeetingModel'
 import FeedbackBatch from '../../models/FeedbackBatch'
 import CustomToast from '../../components/custom-Toast'
 import MeetingCategory from '../../models/MeetingCategory'
-import authService from '../../stores/api/authService'
+import authService from '../../services/authService'
 import OptionsValue from '../../models/OptionsValue'
 
 // import categoriesStore from '../../stores/CategoriesStore'
