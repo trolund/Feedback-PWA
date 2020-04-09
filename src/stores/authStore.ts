@@ -5,6 +5,7 @@ import User from '../models/User'
 import states from './requestState'
 import ApiRoutes from './api/ApiRoutes'
 import Registration from '../models/Registration'
+import authService from '../services/authService'
 
 class AuthStore {
   cookies = new Cookies()
@@ -66,6 +67,43 @@ class AuthStore {
     } catch (e) {
       this.msg = e.statusText ?? 'User not found'
       this.user = null
+      this.state = states.FAILED
+      return states.FAILED
+    }
+  }
+
+  @action signout = async () => {
+    this.state = states.LOADING
+    try {
+      const url = ApiRoutes.signout
+
+      const token = authService.getToken()
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: !token
+          ? {}
+          : {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+      })
+
+      this.msg = response.statusText
+
+      localStorage.setItem('token', null)
+      localStorage.setItem('user', null)
+      this.cookies.set('jwttoken', null)
+      this.user = null
+
+      this.state = states.DONE
+      return states.DONE
+    } catch (e) {
+      this.msg = e.statusText ?? 'User not signout'
+      this.user = null
+      localStorage.setItem('token', null)
+      localStorage.setItem('user', null)
+      this.cookies.set('jwttoken', null)
       this.state = states.FAILED
       return states.FAILED
     }

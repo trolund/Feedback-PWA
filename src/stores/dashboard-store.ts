@@ -6,7 +6,7 @@ import AuthService from '../services/authService'
 import FeedbackDate from '../models/FeedbackDate'
 
 class DashboardStore {
-  @observable startdate: Date = new Date()
+  @observable startdate: Date = new Date('2019-01-08T10:09:30.000Z')
 
   @observable enddate: Date = new Date()
 
@@ -94,11 +94,18 @@ class DashboardStore {
     start: Date,
     end: Date,
     categories?: string[],
-    searchWord?: string
+    searchWord?: string,
+    ownData?: boolean
   ) => {
     this.state = states.LOADING
     try {
-      const url = ApiRoutes.DashboardDate(start, end, categories, searchWord)
+      const url = ApiRoutes.DashboardDate(
+        start,
+        end,
+        categories,
+        searchWord,
+        ownData
+      )
 
       const token = AuthService.getToken()
 

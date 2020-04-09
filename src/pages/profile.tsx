@@ -10,7 +10,7 @@ import authService from '../services/authService'
 import User from '../models/User'
 
 const Profile = observer(() => {
-  const { getUser } = useContext(authStore)
+  const { getUser, signout } = useContext(authStore)
 
   const SettingsBtn = () => {
     return <Settings onClick={() => Router.push('/settings')} />
@@ -25,14 +25,14 @@ const Profile = observer(() => {
         <input placeholder='Lastname' value={user.lastname} />
         <input placeholder='Firstname' value={user.companyId} />
         <input placeholder='Firstname' value={user.roles} />
-        <button type='button' className='button'>
-          Logout
-        </button>
         <ThemeButton />
         <button
           type='button'
           className='button'
-          onClick={() => authService.logout()}
+          onClick={() => {
+            signout()
+            Router.push('/')
+          }}
         >
           Logout
         </button>

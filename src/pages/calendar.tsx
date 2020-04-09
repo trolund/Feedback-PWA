@@ -21,116 +21,116 @@ import SearchBtn from '../components/search-btn'
 
 let FullCalendarNoSSRWrapper
 
-const CreateMeetingModal = ({
-  modalOpen,
-  setModalOpen,
-  name,
-  setName,
-  discription,
-  setDiscription,
-  date,
-  setDate,
-  startTime,
-  setStartTime,
-  endTime,
-  setEndTime,
-  setQuestionSet,
-  questionContext,
-  createMeeting,
-  toggle
-}) => {
-  return (
-    <Modal
-      className='modal'
-      onClickAway={() => () => setModalOpen(false)}
-      visible={modalOpen}
-      // onAfterOpen={afterOpenModal}
-      // onRequestClose={closeModal}
-      // style={modalStyles}
-      contentLabel='Example Modal'
-    >
-      <h2>Opret møde</h2>
-      <button type='button' tabIndex={0} onClick={() => setModalOpen(false)}>
-        <X /> close
-      </button>
-      <input
-        type='text'
-        name='name'
-        id='name'
-        placeholder='Navn på mødet'
-        required
-        value={name}
-        onChange={e => setName(e.target.value)}
-      />
-      <input
-        type='textarea'
-        name='text'
-        id='exampleText'
-        value={discription}
-        onChange={e => setDiscription(e.target.value)}
-      />
-      <div style={{ marginBottom: '20px' }} className='flex-container'>
-        <div>
-          <label htmlFor='exampleText'>Dato</label>
-          <CustomDatepicker
-            value={date}
-            onChange={newDate => {
-              setDate(newDate)
-            }}
-          />
-        </div>
-        <div>
-          {' '}
-          <label htmlFor='exampleText'>Start tidspunkt</label>
-          <CustomTimepicker
-            value={startTime}
-            onChange={newTime => {
-              setStartTime(newTime)
-            }}
-          />
-        </div>
-        <div>
-          <label htmlFor='exampleText'>Slut tidspunkt</label>
-          <CustomTimepicker
-            value={endTime}
-            onChange={newTime => {
-              setEndTime(newTime)
-            }}
-          />
-        </div>
-      </div>
-      <select
-        name='select'
-        id='exampleSelect'
-        onChange={e => {
-          console.log(e.target)
+// const CreateMeetingModal = ({
+//   modalOpen,
+//   setModalOpen,
+//   name,
+//   setName,
+//   discription,
+//   setDiscription,
+//   date,
+//   setDate,
+//   startTime,
+//   setStartTime,
+//   endTime,
+//   setEndTime,
+//   setQuestionSet,
+//   questionContext,
+//   createMeeting,
+//   toggle
+// }) => {
+//   return (
+//     <Modal
+//       className='modal'
+//       onClickAway={() => () => setModalOpen(false)}
+//       visible={modalOpen}
+//       // onAfterOpen={afterOpenModal}
+//       // onRequestClose={closeModal}
+//       // style={modalStyles}
+//       contentLabel='Example Modal'
+//     >
+//       <h2>Opret møde</h2>
+//       <button type='button' tabIndex={0} onClick={() => setModalOpen(false)}>
+//         <X /> close
+//       </button>
+//       <input
+//         type='text'
+//         name='name'
+//         id='name'
+//         placeholder='Navn på mødet'
+//         required
+//         value={name}
+//         onChange={e => setName(e.target.value)}
+//       />
+//       <input
+//         type='textarea'
+//         name='text'
+//         id='exampleText'
+//         value={discription}
+//         onChange={e => setDiscription(e.target.value)}
+//       />
+//       <div style={{ marginBottom: '20px' }} className='flex-container'>
+//         <div>
+//           <label htmlFor='exampleText'>Dato</label>
+//           <CustomDatepicker
+//             value={date}
+//             onChange={newDate => {
+//               setDate(newDate)
+//             }}
+//           />
+//         </div>
+//         <div>
+//           {' '}
+//           <label htmlFor='exampleText'>Start tidspunkt</label>
+//           <CustomTimepicker
+//             value={startTime}
+//             onChange={newTime => {
+//               setStartTime(newTime)
+//             }}
+//           />
+//         </div>
+//         <div>
+//           <label htmlFor='exampleText'>Slut tidspunkt</label>
+//           <CustomTimepicker
+//             value={endTime}
+//             onChange={newTime => {
+//               setEndTime(newTime)
+//             }}
+//           />
+//         </div>
+//       </div>
+//       <select
+//         name='select'
+//         id='exampleSelect'
+//         onChange={e => {
+//           console.log(e.target)
 
-          setQuestionSet(e.target.value)
-        }}
-      >
-        <option>- Vælg spørgsmåls sæt -</option>
-        {questionContext.QSetNames.map(item => (
-          <option key={item.questionSetId} value={item.questionSetId}>
-            {item.name}
-          </option>
-        ))}
-      </select>
-      <button type='button' color='secondary' onClick={toggle}>
-        Fortryd
-      </button>
-      <button
-        type='button'
-        color='primary'
-        onClick={() => {
-          createMeeting()
-          toggle()
-        }}
-      >
-        Opret møde
-      </button>{' '}
-    </Modal>
-  )
-}
+//           setQuestionSet(e.target.value)
+//         }}
+//       >
+//         <option>- Vælg spørgsmåls sæt -</option>
+//         {questionContext.QSetNames.map(item => (
+//           <option key={item.questionSetId} value={item.questionSetId}>
+//             {item.name}
+//           </option>
+//         ))}
+//       </select>
+//       <button type='button' color='secondary' onClick={toggle}>
+//         Fortryd
+//       </button>
+//       <button
+//         type='button'
+//         color='primary'
+//         onClick={() => {
+//           createMeeting()
+//           toggle()
+//         }}
+//       >
+//         Opret møde
+//       </button>{' '}
+//     </Modal>
+//   )
+// }
 
 const CalendarView = observer(() => {
   const questionContext = useContext(questionSetStore)
@@ -220,54 +220,54 @@ const CalendarView = observer(() => {
       })
   }, [calViewProp, meetingStoreContext])
 
-  const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
-    datePart.setMinutes(timePart.getMinutes())
-    datePart.setHours(timePart.getHours())
-    datePart.setSeconds(0)
-    return datePart
-  }
+  // const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
+  //   datePart.setMinutes(timePart.getMinutes())
+  //   datePart.setHours(timePart.getHours())
+  //   datePart.setSeconds(0)
+  //   return datePart
+  // }
 
-  function createMeeting() {
-    const meeting: MeetingModel = {
-      discription,
-      endTime: spliceDateAndTime(date, endTime),
-      startTime: spliceDateAndTime(date, startTime),
-      name,
-      topic: 'emne',
-      questionsSetId: questionSet,
-      location: 'et sted',
-      meetingCategories: tags.map(
-        tag =>
-          ({
-            category: { name: tag.value, companyId: 1 } as Category
-          } as MeetingCategory)
-      )
-    }
-    meetingStoreContext.create(meeting).then(() => {
-      if (meetingStoreContext.meetingCreatedState === states.DONE) {
-        setEvnets([
-          ...events,
-          {
-            id: meeting.questionsSetId,
-            title: meeting.name,
-            date: meeting.startTime,
-            color: 'red'
-          } as EventInput
-        ])
+  // function createMeeting() {
+  //   const meeting: MeetingModel = {
+  //     discription,
+  //     endTime: spliceDateAndTime(date, endTime),
+  //     startTime: spliceDateAndTime(date, startTime),
+  //     name,
+  //     topic: 'emne',
+  //     questionsSetId: questionSet,
+  //     location: 'et sted',
+  //     meetingCategories: tags.map(
+  //       tag =>
+  //         ({
+  //           category: { name: tag.value, companyId: 1 } as Category
+  //         } as MeetingCategory)
+  //     )
+  //   }
+  //   meetingStoreContext.create(meeting).then(() => {
+  //     if (meetingStoreContext.meetingCreatedState === states.DONE) {
+  //       setEvnets([
+  //         ...events,
+  //         {
+  //           id: meeting.questionsSetId,
+  //           title: meeting.name,
+  //           date: meeting.startTime,
+  //           color: 'red'
+  //         } as EventInput
+  //       ])
 
-        window.setTimeout(() => {
-          meetingStoreContext
-            .fetchMeetings(
-              (calViewProp as CalView).activeStart,
-              (calViewProp as CalView).activeEnd
-            )
-            .then(() => {
-              setEvnets(mapEvents(meetingStoreContext.meetings))
-            })
-        }, 1500)
-      }
-    })
-  }
+  //       window.setTimeout(() => {
+  //         meetingStoreContext
+  //           .fetchMeetings(
+  //             (calViewProp as CalView).activeStart,
+  //             (calViewProp as CalView).activeEnd
+  //           )
+  //           .then(() => {
+  //             setEvnets(mapEvents(meetingStoreContext.meetings))
+  //           })
+  //       }, 1500)
+  //     }
+  //   })
+  // }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function clickOnEvent(event: any) {
@@ -296,7 +296,7 @@ const CalendarView = observer(() => {
         customButtons={{
           myCustomButton: {
             text: 'Tilføj møde',
-            click: () => toggle()
+            click: () => Router.push('/meeting/new')
           }
         }}
         defaultView='dayGridMonth'
@@ -338,7 +338,7 @@ const CalendarView = observer(() => {
       }
     >
       {/* <Seachbar value={searchWord} setValue={setSearchWord} /> */}
-      <CreateMeetingModal
+      {/* <CreateMeetingModal
         questionContext={questionContext}
         setQuestionSet={setQuestionSet}
         endTime={endTime}
@@ -355,7 +355,7 @@ const CalendarView = observer(() => {
         setName={setName}
         createMeeting={createMeeting}
         toggle={toggle}
-      />
+      /> */}
       <div className='cal-container'>{showCalendar()}</div>
 
       <style jsx global>{`

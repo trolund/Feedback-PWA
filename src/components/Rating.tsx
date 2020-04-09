@@ -25,12 +25,12 @@ const Rating: React.FC<IProp> = observer(() => {
   )
 
   const conf = useCallback(
-    () => context.data?.filter(i => i.categories.includes('konference')).length,
+    () => context.data?.filter(i => i.categories.includes('Foredrag')).length,
     [context.data]
   )
 
   const myData = {
-    labels: ['Møder', 'Undervisning', 'Konferancer'],
+    labels: ['Møder', 'Undervisning', 'Foredrag'],
     datasets: [
       {
         label: 'Progress',
@@ -95,7 +95,7 @@ const Rating: React.FC<IProp> = observer(() => {
             Undervisning: <b className='Spinoffprimary-dark'>{classroom()}</b>
           </div>
           <div className='col'>
-            Konferancer: <b className='Spinoffprimary-dark'>{conf()}</b>
+            Foredrag: <b className='Spinoffprimary-dark'>{conf()}</b>
           </div>
         </div>
 

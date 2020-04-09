@@ -37,7 +37,7 @@ const DashboardFilter = observer(() => {
   const { data, fetchDashboardDate } = useContext(dashboardStore)
 
   useEffect(() => {
-    fetchDashboardDate(startdate, enddate, tags, searchWord)
+    fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
     categoriesContext.fetchCategories(String(authService.getCompanyId()))
   }, [
     searchWord,
@@ -46,11 +46,12 @@ const DashboardFilter = observer(() => {
     enddate,
     context,
     categoriesContext,
-    fetchDashboardDate
+    fetchDashboardDate,
+    ownData
   ])
 
   const getData = () => {
-    fetchDashboardDate(startdate, enddate, tags, searchWord)
+    fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
   }
 
   return (

@@ -58,10 +58,9 @@ class CalculationService {
       }
     })
 
-    const startCutIndex: number = tempData.findIndex(item => item > 0)
-    const endCutIndex: number = tempData.reverse().findIndex(item => item > 0)
-
     if (cutofGraphEnds) {
+      const startCutIndex: number = tempData.findIndex(item => item > 0)
+      const endCutIndex: number = tempData.reverse().findIndex(item => item > 0)
       const dataPoints = tempData
         .reverse()
         .slice(startCutIndex, tempData.length - endCutIndex)
