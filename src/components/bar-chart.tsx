@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Bar } from 'react-chartjs-2'
 import states from '../stores/requestState'
 import GraphData from '../models/GraphData'
@@ -6,10 +6,11 @@ import GraphData from '../models/GraphData'
 interface BarGraphProps {
   data: GraphData | null
   fetchState: states
+  useFixedXAxis: boolean
 }
 
 const BarGraph: React.FC<BarGraphProps> = (props: BarGraphProps) => {
-  const { data, fetchState } = props
+  const { data, useFixedXAxis } = props
   const { labels, dataPoints } = data
 
   const height = 300
@@ -41,19 +42,53 @@ const BarGraph: React.FC<BarGraphProps> = (props: BarGraphProps) => {
     [dataPoints, labels]
   )
 
-  const options = {
-    responsive: true,
-    datasetStrokeWidth: 3,
-    pointDotStrokeWidth: 4,
-    scaleLabel: "<%= Number(value).toFixed(0).replace('.', ',') + '°C'%>",
-    legend: {
-      display: false
+  const graphOptions = useCallback(() => {
+    const { dataPoints } = data
+
+    const autoScaleOptions = {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              max: Math.max(...dataPoints),
+              min: Math.min(...dataPoints)
+            }
+          }
+        ]
+      }
     }
-  }
+
+    const fixedScaleOptions = {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              max: 3,
+              min: 0
+            }
+          }
+        ]
+      }
+    }
+
+    const options = {
+      responsive: true,
+      datasetStrokeWidth: 3,
+      pointDotStrokeWidth: 4,
+      scaleLabel: "<%= Number(value).toFixed(0).replace('.', ',') + '°C'%>",
+      legend: {
+        display: false
+      }
+    }
+
+    return useFixedXAxis
+      ? { ...options, ...fixedScaleOptions }
+      : { ...options, ...autoScaleOptions }
+  }, [data, useFixedXAxis])
 
   return (
     <div className='line-chart'>
-      <Bar data={graphData} options={options} />
+      <Bar data={graphData} options={graphOptions()} />
     </div>
   )
 }

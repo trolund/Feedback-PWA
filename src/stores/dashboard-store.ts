@@ -4,6 +4,7 @@ import ApiRoutes from './api/ApiRoutes'
 import states from './requestState'
 import AuthService from '../services/authService'
 import FeedbackDate from '../models/FeedbackDate'
+import GraphXScale from '../models/GraphXScale'
 
 class DashboardStore {
   @observable startdate: Date = new Date('2019-01-08T10:09:30.000Z')
@@ -11,6 +12,12 @@ class DashboardStore {
   @observable enddate: Date = new Date()
 
   @observable cutoff: boolean = true
+
+  @observable useFixedYAxis: boolean = true
+
+  @observable xAxisScale: GraphXScale = GraphXScale.weeks
+
+  @observable useSkipZero: boolean = true
 
   @observable searchWord: string = ''
 
@@ -25,6 +32,10 @@ class DashboardStore {
 
   // data
   @observable data: FeedbackDate[] | null = null
+
+  @action setXAxisScale = (value: GraphXScale) => {
+    this.xAxisScale = value
+  }
 
   @action setStartdate = (newDate: Date) => {
     this.startdate = newDate
@@ -42,8 +53,16 @@ class DashboardStore {
     this.cutoff = bool
   }
 
+  @action setFixedYAxis = (bool: boolean) => {
+    this.useFixedYAxis = bool
+  }
+
   @action setSearchWord = (word: string) => {
     this.searchWord = word
+  }
+
+  @action setSkipZero = (value: boolean) => {
+    this.useSkipZero = value
   }
 
   @action setTags = (tags: string[]) => {

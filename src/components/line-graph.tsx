@@ -7,7 +7,7 @@ import GraphData from '../models/GraphData'
 interface LineGraphProps {
   data: GraphData | null
   fetchState: states
-  showAllOfY: boolean
+  useFixedXAxis: boolean
 }
 
 const LineGraph: React.FC<LineGraphProps> = (props: LineGraphProps) => {
@@ -27,7 +27,7 @@ const LineGraph: React.FC<LineGraphProps> = (props: LineGraphProps) => {
   // ])
   // const [avgData, setAvgData] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
-  const { data } = props
+  const { data, useFixedXAxis } = props
 
   const height = 300
 
@@ -176,19 +176,53 @@ const LineGraph: React.FC<LineGraphProps> = (props: LineGraphProps) => {
     [data]
   )
 
-  const options = {
-    responsive: true,
-    datasetStrokeWidth: 3,
-    pointDotStrokeWidth: 4,
-    scaleLabel: "<%= Number(value).toFixed(0).replace('.', ',') + '°C'%>",
-    legend: {
-      display: false
+  const graphOptions = useCallback(() => {
+    const { dataPoints } = data
+
+    const autoScaleOptions = {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              max: Math.max(...dataPoints),
+              min: Math.min(...dataPoints)
+            }
+          }
+        ]
+      }
     }
-  }
+
+    const fixedScaleOptions = {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              max: 3,
+              min: 0
+            }
+          }
+        ]
+      }
+    }
+
+    const options = {
+      responsive: true,
+      datasetStrokeWidth: 3,
+      pointDotStrokeWidth: 4,
+      scaleLabel: "<%= Number(value).toFixed(0).replace('.', ',') + '°C'%>",
+      legend: {
+        display: false
+      }
+    }
+
+    return useFixedXAxis
+      ? { ...options, ...fixedScaleOptions }
+      : { ...options, ...autoScaleOptions }
+  }, [data, useFixedXAxis])
 
   return (
     <div className='line-chart'>
-      <Line data={graphData} options={options} />
+      <Line data={graphData} options={graphOptions()} />
       <style jsx>{`
         .line-chart {
           width: 100%;

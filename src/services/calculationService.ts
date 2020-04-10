@@ -1,5 +1,7 @@
+/* eslint-disable no-continue */
 import FeedbackDate from '../models/FeedbackDate'
 import GraphData from '../models/GraphData'
+import GraphXScale from '../models/GraphXScale'
 
 class CalculationService {
   monthNames = [
@@ -21,9 +23,43 @@ class CalculationService {
     return self.indexOf(value) === index
   }
 
+  getWeekNumber = (input: Date) => {
+    const d = new Date(input)
+    // Copy date so don't modify original
+    d.setHours(0, 0, 0)
+    // Set to nearest Thursday: current date + 4 - current day number
+    // Make Sunday's day number 7
+    d.setDate(d.getDate() + 4 - (d.getDay() || 7))
+    // Get first day of year
+    const yearStart = new Date(d.getFullYear(), 0, 1)
+    // Calculate full weeks to nearest Thursday
+    const weekNo = Math.ceil(
+      ((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
+    )
+    // Return array of year and week number
+    return weekNo
+  }
+
+  weeksInYear = (year: number) => {
+    const month = 11
+    let day = 31
+    let week: number
+
+    // Find week that 31 Dec is in. If is first week, reduce date until
+    // get previous week.
+    do {
+      const d: Date = new Date(year, month, day--)
+      week = this.getWeekNumber(d)
+    } while (week === 1)
+
+    return week
+  }
+
   calGraphData = (
     data: FeedbackDate[],
-    cutofGraphEnds: boolean = true
+    cutofGraphEnds: boolean = true,
+    Xscale: GraphXScale,
+    skipZeroValues: boolean
   ): GraphData => {
     // hvis der ikke er noget data send Tom dummy data.
     if (!data) {
@@ -36,25 +72,52 @@ class CalculationService {
 
     const tempData: number[] = []
     const tempLabels: string[] = []
+
     const allYears: number[] = data.map(item =>
       new Date(item.date).getFullYear()
     )
     const uniqueYears = allYears.filter(this.onlyUnique).sort()
 
     uniqueYears.forEach(year => {
-      for (let month: number = 0; month <= 11; ++month) {
-        const values = data.filter(
-          item =>
-            new Date(item.date).getMonth() === month &&
-            new Date(item.date).getFullYear() === year
-        )
+      if (Xscale === GraphXScale.mounths) {
+        for (let month: number = 0; month <= 11; ++month) {
+          const values = data.filter(
+            item =>
+              new Date(item.date).getMonth() === month &&
+              new Date(item.date).getFullYear() === year
+          )
 
-        const num =
-          values.reduce((sum, item) => sum + item.answer, 0) /
-          (values.length + 1)
+          const num =
+            values.reduce((sum, item) => sum + item.answer, 0) /
+            (values.length + 1)
 
-        tempData.push(num)
-        tempLabels.push(`${this.monthNames[month]} ${year}`)
+          if (skipZeroValues && num === 0) {
+            continue
+          }
+
+          tempData.push(num)
+          tempLabels.push(`${this.monthNames[month]} ${year}`)
+        }
+      } else if (Xscale === GraphXScale.weeks) {
+        const weeks = this.weeksInYear(year) - 1
+        for (let week: number = 1; week <= weeks; ++week) {
+          const values = data.filter(
+            item =>
+              this.getWeekNumber(item.date) === week &&
+              new Date(item.date).getFullYear() === year
+          )
+
+          const num =
+            values.reduce((sum, item) => sum + item.answer, 0) /
+            (values.length + 1)
+
+          if (skipZeroValues && num === 0) {
+            continue
+          }
+
+          tempData.push(num)
+          tempLabels.push(`${week} ${year}`)
+        }
       }
     })
 

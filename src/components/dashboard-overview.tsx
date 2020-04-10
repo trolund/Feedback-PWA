@@ -11,15 +11,18 @@ import BarGraph from './bar-chart'
 type overviewprops = {
   graphData: GraphData
   fetchState: states
+  useFixedXAxis: boolean
 }
 
 const DashboardOverview = (props: overviewprops) => {
   const [showBarChart, setShowBarChart] = useState(false)
-  const { graphData, fetchState } = props
+  const { graphData, fetchState, useFixedXAxis } = props
   return (
     <>
       <Rating />
-
+      <p className='card-footer text-muted'>
+        Bygger på <b>{graphData.numberOfProcessedItems}</b> tilbagemeldinger
+      </p>
       <h5>
         Udvikling
         <div
@@ -37,15 +40,15 @@ const DashboardOverview = (props: overviewprops) => {
         <LineGraph
           data={graphData}
           fetchState={fetchState}
-          showAllOfY={false}
+          useFixedXAxis={useFixedXAxis}
         />
       ) : (
-        <BarGraph data={graphData} fetchState={fetchState} />
+        <BarGraph
+          data={graphData}
+          fetchState={fetchState}
+          useFixedXAxis={useFixedXAxis}
+        />
       )}
-
-      <p className='card-footer text-muted'>
-        Bygger på <b>{graphData.numberOfProcessedItems}</b> tilbagemeldinger
-      </p>
       <style jsx>{`
         header {
           padding: 0 var(--gap);

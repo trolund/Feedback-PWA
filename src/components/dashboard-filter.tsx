@@ -1,15 +1,19 @@
 import { observer } from 'mobx-react-lite'
 import { useContext, useEffect } from 'react'
-import { FileText } from 'react-feather'
+import Select from 'react-select'
 import dashboardStore from '../stores/dashboard-store'
+
 // import Tag from '../models/tag'
 import CustomDatepicker from './custom-datepicker'
 import CustomCheckbox from './checkbox'
+
 import categoriesStore from '../stores/CategoriesStore'
 import authService from '../services/authService'
 import CategoriesPicker from './categories-picker'
 import states from '../stores/requestState'
 import DashboardExcelDownload from './excelExport'
+import GraphXScale from '../models/GraphXScale'
+import OptionsValue from '../models/OptionsValue'
 
 const DashboardFilter = observer(() => {
   // const [searchWord, setSearchWord] = useState('')
@@ -29,12 +33,18 @@ const DashboardFilter = observer(() => {
     setEnddate,
     setSearchWord,
     setStartdate,
-    setTags
+    setTags,
+    setFixedYAxis,
+    useFixedYAxis,
+    setSkipZero,
+    useSkipZero
   } = useContext(dashboardStore)
 
   const context = useContext(dashboardStore)
   const categoriesContext = useContext(categoriesStore)
-  const { data, fetchDashboardDate } = useContext(dashboardStore)
+  const { data, fetchDashboardDate, setXAxisScale, xAxisScale } = useContext(
+    dashboardStore
+  )
 
   useEffect(() => {
     fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
@@ -67,6 +77,29 @@ const DashboardFilter = observer(() => {
             placeholder="Ord som enden er en del af navnet eller beskrivelse på mødet, fx 'HR' "
             value={searchWord}
             onChange={e => setSearchWord(e.target.value)}
+          />
+          <Select
+            className='basic-single'
+            classNamePrefix='select'
+            options={
+              [
+                { label: 'Uger', value: String(Number(GraphXScale.weeks)) },
+                { label: 'Måneder', value: String(Number(GraphXScale.mounths)) }
+              ] as OptionsValue[]
+            }
+            onChange={(value: OptionsValue) =>
+              setXAxisScale(Number(value.value))
+            }
+            // defaultValue={() =>
+            //   xAxisScale === GraphXScale.weeks
+            //     ? [{ label: 'Uger', value: String(Number(GraphXScale.weeks)) }]
+            //     : [
+            //         {
+            //           label: 'Måneder',
+            //           value: String(Number(GraphXScale.mounths))
+            //         }
+            //       ]
+            // }
           />
         </div>
         <div style={{ width: '250px' }}>
@@ -116,6 +149,20 @@ const DashboardFilter = observer(() => {
             label='Hvis kun relevant data'
             checked={cutoff}
             onChange={checked => setCutOff(checked)}
+          />
+        </div>
+        <div className='ownData'>
+          <CustomCheckbox
+            label='Statisk Y-akse'
+            checked={useFixedYAxis}
+            onChange={checked => setFixedYAxis(checked)}
+          />
+        </div>
+        <div className='ownData'>
+          <CustomCheckbox
+            label='udenlad nul-værdier'
+            checked={useSkipZero}
+            onChange={checked => setSkipZero(checked)}
           />
         </div>
       </div>

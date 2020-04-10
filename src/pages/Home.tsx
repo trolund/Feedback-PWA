@@ -10,13 +10,21 @@ import img from '../../public/images/nofilter.svg'
 import CalculationService from '../services/calculationService'
 
 export default observer(() => {
-  const { data, state, cutoff } = useContext(dashboardStore)
+  const {
+    data,
+    state,
+    cutoff,
+    useFixedYAxis,
+    useSkipZero,
+    xAxisScale
+  } = useContext(dashboardStore)
   const [showFilter, setShowFilter] = useState(true)
   const calculationService = new CalculationService()
 
   const graphdata = useCallback(
-    () => calculationService.calGraphData(data, cutoff),
-    [calculationService, cutoff, data]
+    () =>
+      calculationService.calGraphData(data, cutoff, xAxisScale, useSkipZero),
+    [calculationService, cutoff, data, useSkipZero, xAxisScale]
   )
 
   const ShowAndHideFilterBtn = () => {
@@ -57,7 +65,11 @@ export default observer(() => {
             </div>
           )}
           <div className='charts'>
-            <DashboardOverview graphData={graphdata()} fetchState={state} />
+            <DashboardOverview
+              graphData={graphdata()}
+              fetchState={state}
+              useFixedXAxis={useFixedYAxis}
+            />
           </div>
         </section>
       </Section>
