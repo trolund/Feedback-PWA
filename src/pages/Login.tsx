@@ -27,9 +27,9 @@ const Login: NextPage = observer(() => {
     })
   }
 
-  useEffect(() => {
-    AuthService.redirectToHome()
-  }, [])
+  // useEffect(() => {
+  //   AuthService.redirectToHome()
+  // }, [])
 
   useEffect(() => {
     setLoginBtnDisabled(!(username.length > 0 && password.length > 0))

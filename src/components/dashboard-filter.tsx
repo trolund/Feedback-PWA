@@ -42,9 +42,7 @@ const DashboardFilter = observer(() => {
 
   const context = useContext(dashboardStore)
   const categoriesContext = useContext(categoriesStore)
-  const { data, fetchDashboardDate, setXAxisScale, xAxisScale } = useContext(
-    dashboardStore
-  )
+  const { data, fetchDashboardDate, setXAxisScale } = useContext(dashboardStore)
 
   useEffect(() => {
     fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
@@ -160,7 +158,7 @@ const DashboardFilter = observer(() => {
         </div>
         <div className='ownData'>
           <CustomCheckbox
-            label='udenlad nul-værdier'
+            label='Undlad nul-værdier'
             checked={useSkipZero}
             onChange={checked => setSkipZero(checked)}
           />
