@@ -8,7 +8,7 @@ import Page from '../../components/page'
 import Section from '../../components/section'
 import questionSetStore from '../../stores/QuestionSetStore'
 import meetingStore from '../../stores/MeetingStore'
-import states from '../../stores/requestState'
+import FetchStates from '../../stores/requestState'
 import CustomDatepicker from '../../components/custom-datepicker'
 import MeetingModel from '../../models/MeetingModel'
 import CustomTimepicker from '../../components/custom-timepicker'
@@ -128,7 +128,7 @@ const newMeetingPage = observer(() => {
           onChange={e => setMeeting({ ...meeting, name: e.target.value })}
         />
         <CategoriesPicker
-          loading={categoriesContext.state === states.LOADING}
+          loading={categoriesContext.state === FetchStates.LOADING}
           values={meeting.meetingCategories?.map(
             item =>
               ({

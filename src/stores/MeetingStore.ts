@@ -1,16 +1,16 @@
 import { observable, action } from 'mobx'
 import { createContext } from 'react'
-import states from './requestState'
+import FetchStates from './requestState'
 import MeetingModel from '../models/MeetingModel'
-import AuthService from '../services/authService'
+import { getToken } from '../services/authService'
 import ApiRoutes from './api/ApiRoutes'
 import OptionsValue from '../models/OptionsValue'
 
 class MeetingStore {
   // status
-  @observable state = states.DONE
+  @observable state = FetchStates.DONE
 
-  @observable meetingCreatedState = states.DONE
+  @observable meetingCreatedState = FetchStates.DONE
 
   @observable msg = ''
 
@@ -26,10 +26,10 @@ class MeetingStore {
   }
 
   @action create = async (entity: MeetingModel) => {
-    this.meetingCreatedState = states.LOADING
+    this.meetingCreatedState = FetchStates.LOADING
     try {
       const url = ApiRoutes.createMeeting
-      const token = AuthService.getToken()
+      const token = getToken()
       const json = JSON.stringify(entity)
       console.log(json)
 
@@ -47,12 +47,12 @@ class MeetingStore {
       console.log(response)
       this.msg = response.statusText
       if (response.status === 200) {
-        this.meetingCreatedState = states.DONE
+        this.meetingCreatedState = FetchStates.DONE
       } else {
-        this.meetingCreatedState = states.FAILED
+        this.meetingCreatedState = FetchStates.FAILED
       }
     } catch (e) {
-      this.meetingCreatedState = states.FAILED
+      this.meetingCreatedState = FetchStates.FAILED
       this.msg = e.statusText
       this.meetings = []
     }
@@ -84,10 +84,10 @@ class MeetingStore {
   }
 
   @action update = async (entity: MeetingModel) => {
-    this.meetingCreatedState = states.LOADING
+    this.meetingCreatedState = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateMeeting
-      const token = AuthService.getToken()
+      const token = getToken()
       const json = JSON.stringify(entity)
       const response = await fetch(url, {
         method: 'PUT',
@@ -103,24 +103,24 @@ class MeetingStore {
 
       this.msg = response.statusText
       if (response.status === 200) {
-        this.meetingCreatedState = states.DONE
-        return states.DONE
+        this.meetingCreatedState = FetchStates.DONE
+        return FetchStates.DONE
       }
-      this.meetingCreatedState = states.FAILED
-      return states.FAILED
+      this.meetingCreatedState = FetchStates.FAILED
+      return FetchStates.FAILED
     } catch (e) {
-      this.meetingCreatedState = states.FAILED
+      this.meetingCreatedState = FetchStates.FAILED
       this.msg = e.statusText
       this.meetings = []
-      return states.FAILED
+      return FetchStates.FAILED
     }
   }
 
   @action deleteMeeting = async (entity: MeetingModel) => {
-    this.meetingCreatedState = states.LOADING
+    this.meetingCreatedState = FetchStates.LOADING
     try {
       const url = ApiRoutes.deleteMeeting
-      const token = AuthService.getToken()
+      const token = getToken()
       const json = JSON.stringify(entity)
       const response = await fetch(url, {
         method: 'DELETE',
@@ -136,12 +136,12 @@ class MeetingStore {
 
       this.msg = response.statusText
       if (response.status === 200) {
-        this.meetingCreatedState = states.DONE
+        this.meetingCreatedState = FetchStates.DONE
       } else {
-        this.meetingCreatedState = states.FAILED
+        this.meetingCreatedState = FetchStates.FAILED
       }
     } catch (e) {
-      this.meetingCreatedState = states.FAILED
+      this.meetingCreatedState = FetchStates.FAILED
       this.msg = e.statusText
       this.meetings = []
     }
@@ -180,10 +180,10 @@ class MeetingStore {
   }
 
   @action fetchMeetings = async (start: Date, end: Date) => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.MeetingsByDates(start, end)
-      const token = AuthService.getToken()
+      const token = getToken()
       const response = await fetch(url, {
         method: 'GET',
         headers: !token
@@ -196,13 +196,13 @@ class MeetingStore {
       })
 
       this.msg = response.statusText
-      this.state = states.DONE
+      this.state = FetchStates.DONE
 
       const data = await response.json()
       console.log('fetch mmeting response: ', data)
       this.meetings = data
     } catch (e) {
-      this.state = states.FAILED
+      this.state = FetchStates.FAILED
       this.msg = e.statusText
       this.meetings = []
     }
@@ -210,10 +210,10 @@ class MeetingStore {
 
   // /Api/Meeting/ShortId/{id}
   @action fetchMeetingByShortId = async (id: string) => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.meetingByShortId(id)
-      const token = AuthService.getToken()
+      const token = getToken()
       const response = await fetch(url, {
         method: 'GET',
         headers: !token
@@ -226,13 +226,13 @@ class MeetingStore {
       })
 
       this.msg = response.statusText
-      this.state = states.DONE
+      this.state = FetchStates.DONE
 
       const data: MeetingModel = await response.json()
       console.log('fetch mmeting response: ', data)
       this.meeting = data
     } catch (e) {
-      this.state = states.FAILED
+      this.state = FetchStates.FAILED
       this.msg = e.statusText
       this.meeting = null
     }

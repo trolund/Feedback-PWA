@@ -9,7 +9,7 @@ import feedbackStore from '../stores/FeedbackStore'
 import Question from '../components/question'
 import questionStore from '../stores/QuestionStore'
 import FeedbackOverlay from '../components/FeedbackDoneOverlay'
-import states from '../stores/requestState'
+import FetchStates from '../stores/requestState'
 
 export default observer(() => {
   const [page, setPage] = useState(0)
@@ -63,7 +63,7 @@ export default observer(() => {
     if (questions !== null && page === questions?.questions.length - 1) {
       if (isFeedbackReady()) {
         createFeedbackBatch(feedback, meetingId).then(res => {
-          if (res === states.DONE) {
+          if (res === FetchStates.DONE) {
             setSuccess(true)
             setOverlayText('Tak for din besvarelse')
             setShowOverlay(true)

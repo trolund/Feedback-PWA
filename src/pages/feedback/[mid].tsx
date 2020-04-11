@@ -5,14 +5,14 @@ import Modal from 'react-modal'
 import { ViewPager, Frame, Track } from 'react-view-pager'
 import { NextPage } from 'next'
 import { X } from 'react-feather'
-import states from '../../stores/requestState'
+import fetch from 'isomorphic-unfetch'
+import FetchStates from '../../stores/requestState'
 import Question from '../../components/question'
 import Page from '../../components/page'
 import FeedbackOverlay from '../../components/FeedbackDoneOverlay'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import QuestionSet from '../../models/QuestionSet'
 import feedbackStore from '../../stores/FeedbackStore'
-import questionStore from '../../stores/QuestionStore'
 
 type FeedbackInitProps = {
   initQuestions: QuestionSet
@@ -27,13 +27,13 @@ const Feedback: NextPage = observer(({ initQuestions }: FeedbackInitProps) => {
   // const { meetingId } = useContext(questionStore)
   const { feedback, createFeedbackBatch } = useContext(feedbackStore)
 
-  const [questions, setTheQuestions] = useState(initQuestions)
+  const [questions] = useState(initQuestions)
 
   const [success, setSuccess] = useState(false)
   const [overlayText, setOverlayText] = useState('')
 
   useEffect(() => {
-    if (!questions) Router.back()
+    if (questions?.questions?.length === 0 || !questions) Router.back()
   })
 
   // useEffect(() => {
@@ -74,7 +74,7 @@ const Feedback: NextPage = observer(({ initQuestions }: FeedbackInitProps) => {
     if (questions !== null && page === questions?.questions.length - 1) {
       if (isFeedbackReady()) {
         createFeedbackBatch(feedback, String(mid)).then(res => {
-          if (res === states.DONE) {
+          if (res === FetchStates.DONE) {
             setSuccess(true)
             setOverlayText('Tak for din besvarelse')
             setShowOverlay(true)

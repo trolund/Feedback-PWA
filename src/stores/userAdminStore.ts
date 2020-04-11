@@ -1,20 +1,20 @@
 import { observable, action } from 'mobx'
 import { createContext } from 'react'
-import states from './requestState'
+import FetchStates from './requestState'
 import ApiRoutes from './api/ApiRoutes'
 import UserAdmin from '../models/user-admin'
 import userAdminQuery from '../models/userAdminQuery'
 import AuthService from '../services/authService'
 
 class UserAdminStore {
-  @observable fetchState: states | null = null
+  @observable fetchState: FetchStates | null = null
 
   @observable msg = null
 
   @observable users: UserAdmin[] = null
 
-  @action fetchUsers = async (query: userAdminQuery): Promise<states> => {
-    this.fetchState = states.LOADING
+  @action fetchUsers = async (query: userAdminQuery): Promise<FetchStates> => {
+    this.fetchState = FetchStates.LOADING
     try {
       const url = new URL(ApiRoutes.updateUserAdmin)
       url.search = new URLSearchParams({
@@ -41,19 +41,21 @@ class UserAdminStore {
       console.log(response, data)
 
       this.users = data
-      this.fetchState = states.DONE
-      return states.DONE
+      this.fetchState = FetchStates.DONE
+      return FetchStates.DONE
     } catch (e) {
-      this.fetchState = states.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       this.users = null
       console.error(e)
-      return states.FAILED
+      return FetchStates.FAILED
     }
   }
 
-  @action updateUsers = async (usersToUpdate: UserAdmin[]): Promise<states> => {
-    this.fetchState = states.LOADING
+  @action updateUsers = async (
+    usersToUpdate: UserAdmin[]
+  ): Promise<FetchStates> => {
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateUserAdmin
       const token = AuthService.getToken()
@@ -74,13 +76,13 @@ class UserAdminStore {
       const data = await response.json()
 
       this.users = data
-      this.fetchState = states.DONE
-      return states.DONE
+      this.fetchState = FetchStates.DONE
+      return FetchStates.DONE
     } catch (e) {
-      this.fetchState = states.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       this.users = null
-      return states.FAILED
+      return FetchStates.FAILED
     }
   }
 }

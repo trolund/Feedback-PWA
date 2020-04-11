@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
 import { Line } from 'react-chartjs-2'
-import states from '../stores/requestState'
+import FetchStates from '../stores/requestState'
 // import FeedbackDate from '../models/FeedbackDate'
 import GraphData from '../models/GraphData'
 
 interface LineGraphProps {
   data: GraphData | null
-  fetchState: states
+  fetchState: FetchStates
   useFixedXAxis: boolean
 }
 

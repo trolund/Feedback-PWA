@@ -1,11 +1,7 @@
-import { useEffect, useContext } from 'react'
 import Head from 'next/head'
 import { motion } from 'framer-motion'
 import Appbar from './appbar'
 import BottomNav from './bottom-nav'
-
-import AuthService from '../services/authService'
-import authStore from '../stores/authStore'
 
 // import BackAppHeader from './backAppbar'
 
@@ -30,17 +26,11 @@ const Page = ({
   fullscreen,
   bgColor
 }: Props) => {
-  const { token } = useContext(authStore)
   const showHeader = showHead === undefined ? true : showHead
   const showBottomNaver = showBottomNav === undefined ? true : showBottomNav
   const showTheBackButton = showBackButton === undefined ? true : showBackButton
   const fullscreenMain = fullscreen === undefined ? false : fullscreen
   const bgStyle = bgColor ? { backgroundColor: bgColor } : {}
-
-  // rediret to the login page in case the token is expired.
-  useEffect(() => {
-    AuthService.redirectToLogin()
-  }, [token])
 
   return (
     <>

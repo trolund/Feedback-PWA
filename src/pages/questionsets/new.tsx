@@ -10,7 +10,7 @@ import Section from '../../components/section'
 import QuestionList from '../../components/question-list'
 import QuestionSet from '../../models/QuestionSet'
 import questionSetStore from '../../stores/QuestionSetStore'
-import states from '../../stores/requestState'
+import FetchStates from '../../stores/requestState'
 
 const QuestionSetPage: NextPage = observer(() => {
   const router = useRouter()
@@ -38,7 +38,7 @@ const QuestionSetPage: NextPage = observer(() => {
 
   const createClickHandler = () => {
     createQuestionSet(qset).then(res => {
-      if (res === states.DONE) {
+      if (res === FetchStates.DONE) {
         toast('Sæt er oprettet og nu bruges.')
         router.push('/questionsets')
       } else {

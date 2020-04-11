@@ -13,7 +13,7 @@ import QuestionList from '../../components/question-list'
 import QuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import questionSetStore from '../../stores/QuestionSetStore'
-import states from '../../stores/requestState'
+import FetchStates from '../../stores/requestState'
 import CustomToast from '../../components/custom-Toast'
 
 type pageProps = {
@@ -58,7 +58,7 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
 
   const deleteClickHandler = () => {
     deleteQuestionSet(qset).then(res => {
-      if (res === states.DONE) {
+      if (res === FetchStates.DONE) {
         toast('Spørgsmåls sæt er slettet!')
         router.push('/questionsets')
       } else {

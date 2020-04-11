@@ -1,16 +1,16 @@
 import { observable, action } from 'mobx'
 import { createContext } from 'react'
-import states from './requestState'
+import FetchStates from './requestState'
 import FeedbackBatch from '../models/FeedbackBatch'
 import ApiRoutes from './api/ApiRoutes'
 import FeedbackModel from '../models/FeedbackModel'
-import AuthService from '../services/authService'
+import { getToken } from '../services/authService'
 
 // import authService from '../components/api-authorization/AuthorizeService'
 
 class FeedbackStore {
   // status
-  @observable state = states.DONE
+  @observable state = FetchStates.DONE
 
   @observable msg = ''
 
@@ -32,11 +32,11 @@ class FeedbackStore {
   }
 
   @action fetchFeedback = async (meetingId: string) => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.Feedbackbatch(meetingId)
 
-      const token = AuthService.getToken()
+      const token = getToken()
 
       const response = await fetch(url, {
         method: 'GET',
@@ -54,7 +54,7 @@ class FeedbackStore {
 
       this.feedbackBatch = data
     } catch (e) {
-      this.state = states.FAILED
+      this.state = FetchStates.FAILED
       this.msg = e.statusText
       this.feedbackBatch = null
     }
@@ -64,7 +64,7 @@ class FeedbackStore {
     feedback: FeedbackModel[],
     meetingId: string
   ) => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
 
     try {
       const url = ApiRoutes.CreateFeedbackBatch()
@@ -79,13 +79,13 @@ class FeedbackStore {
       })
 
       this.msg = response.statusText
-      this.state = states.DONE
+      this.state = FetchStates.DONE
       // const data = await response.json()
-      return states.DONE
+      return FetchStates.DONE
     } catch (e) {
-      this.state = states.FAILED
+      this.state = FetchStates.FAILED
       this.msg = e.statusText
-      return states.FAILED
+      return FetchStates.FAILED
     }
   }
 }

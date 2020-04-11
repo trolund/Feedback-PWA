@@ -9,7 +9,7 @@ import Registration from '../models/Registration'
 import Company from '../models/Company'
 import * as mail from '../../public/Animations/mail.json'
 import AnimationOverlay from '../components/animation-overlay'
-import states from '../stores/requestState'
+import FetchStates from '../stores/requestState'
 
 export default () => {
   const [newCompany, setNewCompany] = useState(false)
@@ -59,7 +59,7 @@ export default () => {
     }
 
     createUser(model).then(res => {
-      if (res === states.DONE) {
+      if (res === FetchStates.DONE) {
         setShowOverlay(true)
       }
     })

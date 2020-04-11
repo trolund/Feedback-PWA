@@ -1,6 +1,6 @@
-enum states {
+enum FetchStates {
   LOADING = 'LOAD',
   DONE = 'DONE',
   FAILED = 'FAILED'
 }
-export default states
+export default FetchStates

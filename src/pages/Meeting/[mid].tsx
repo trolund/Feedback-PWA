@@ -18,7 +18,7 @@ import questionSetStore from '../../stores/QuestionSetStore'
 import FeedbackView from '../../components/feedback'
 import Feedback from '../../models/Feedback'
 import ApiRoutes from '../../stores/api/ApiRoutes'
-import states from '../../stores/requestState'
+import FetchStates from '../../stores/requestState'
 import CustomDatepicker from '../../components/custom-datepicker'
 import CustomTimepicker from '../../components/custom-timepicker'
 import CategoriesPicker from '../../components/categories-picker'
@@ -149,7 +149,7 @@ const Post: NextPage = observer(
         console.log('top update', meeting)
         console.log('====================================')
         update(meeting).then(res => {
-          if (res === states.DONE) toast('Møde er slettet!')
+          if (res === FetchStates.DONE) toast('Møde er slettet!')
           else toast('Der skete en fejl ved updatering af mødet.')
         })
       }
@@ -273,7 +273,7 @@ const Post: NextPage = observer(
                   </div>
                 </div>
                 <CategoriesPicker
-                  loading={categoriesContext.state === states.LOADING}
+                  loading={categoriesContext.state === FetchStates.LOADING}
                   values={meeting.meetingCategories.map(
                     item =>
                       ({
@@ -330,8 +330,8 @@ const Post: NextPage = observer(
           </div>
         </Section>
 
-        {state === states.LOADING && <p>loading</p>}
-        {state === states.FAILED && (
+        {state === FetchStates.LOADING && <p>loading</p>}
+        {state === FetchStates.FAILED && (
           <div className='center'>
             <b>404</b>
             <p>

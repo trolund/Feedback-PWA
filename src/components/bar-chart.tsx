@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
 import { Bar } from 'react-chartjs-2'
-import states from '../stores/requestState'
+import FetchStates from '../stores/requestState'
 import GraphData from '../models/GraphData'
 
 interface BarGraphProps {
   data: GraphData | null
-  fetchState: states
+  fetchState: FetchStates
   useFixedXAxis: boolean
 }
 
@@ -43,7 +43,7 @@ const BarGraph: React.FC<BarGraphProps> = (props: BarGraphProps) => {
   )
 
   const graphOptions = useCallback(() => {
-    const { dataPoints } = data
+    // const { dataPoints } = data
 
     const autoScaleOptions = {
       scales: {
@@ -84,7 +84,7 @@ const BarGraph: React.FC<BarGraphProps> = (props: BarGraphProps) => {
     return useFixedXAxis
       ? { ...options, ...fixedScaleOptions }
       : { ...options, ...autoScaleOptions }
-  }, [data, useFixedXAxis])
+  }, [dataPoints, useFixedXAxis])
 
   return (
     <div className='line-chart'>

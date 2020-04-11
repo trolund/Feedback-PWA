@@ -3,19 +3,16 @@ import Link from 'next/link'
 import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
 import Lottie from 'react-lottie'
-import { Loader } from 'react-feather'
 import Page from '../components/page'
 import Section from '../components/section'
 import questionStore from '../stores/QuestionStore'
 import * as loading from '../../public/Animations/loading.json'
-import states from '../stores/requestState'
+import FetchStates from '../stores/requestState'
 
 // import states from '../stores/requestState'
 
 export default observer(() => {
-  const { fetchQuestions, isMeetingOpen, fetchState } = useContext(
-    questionStore
-  )
+  const { isMeetingOpen, fetchState } = useContext(questionStore)
   const [errorMsg, setErrorMsg] = useState(null)
   const [meetingId, setMeetingId] = useState(null)
 
@@ -65,7 +62,7 @@ export default observer(() => {
             tabIndex={0}
             className='center button'
           >
-            {fetchState === states.LOADING && (
+            {fetchState === FetchStates.LOADING && (
               <Lottie options={defaultOptions} height={25} width={25} />
               // <Loader />
             )}

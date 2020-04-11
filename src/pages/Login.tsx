@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useContext, useEffect } from 'react'
-import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
 import Link from 'next/link'
 import cookies from 'next-cookies'
@@ -8,9 +7,9 @@ import { NextPage } from 'next'
 import Page from '../components/page'
 import Section from '../components/section'
 import authStore from '../stores/authStore'
-import states from '../stores/requestState'
+import FetchStates from '../stores/requestState'
 import CustomCheckbox from '../components/checkbox'
-import AuthService from '../services/authService'
+import { tokenValid } from '../services/authService'
 
 const Login: NextPage = observer(() => {
   const [rememberme, setRememberme] = useState(false)
@@ -20,11 +19,7 @@ const Login: NextPage = observer(() => {
   const { login, state, msg } = useContext(authStore)
 
   const loginHandler = () => {
-    login(username, password, rememberme).then(res => {
-      if (res === states.DONE) {
-        Router.push('/Home')
-      }
-    })
+    login(username, password, rememberme)
   }
 
   // useEffect(() => {
@@ -62,8 +57,8 @@ const Login: NextPage = observer(() => {
           />
         </div>
 
-        {state === states.LOADING && <p className='center msg'>Loading</p>}
-        {state === states.FAILED && <p className='center msg'>{msg}</p>}
+        {state === FetchStates.LOADING && <p className='center msg'>Loading</p>}
+        {state === FetchStates.FAILED && <p className='center msg'>{msg}</p>}
         <button
           tabIndex={0}
           type='button'
@@ -122,7 +117,7 @@ const Login: NextPage = observer(() => {
 Login.getInitialProps = async ctx => {
   const { jwttoken } = cookies(ctx)
 
-  if (ctx.res && AuthService.tokenValid(jwttoken)) {
+  if (ctx.res && tokenValid(jwttoken)) {
     ctx.res.writeHead(302, { Location: '/home' })
     ctx.res.end()
   }

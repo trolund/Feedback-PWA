@@ -2,15 +2,15 @@ import { observable, action } from 'mobx'
 import { Cookies } from 'react-cookie'
 import { createContext } from 'react'
 import User from '../models/User'
-import states from './requestState'
+import FetchStates from './requestState'
 import ApiRoutes from './api/ApiRoutes'
 import Registration from '../models/Registration'
-import authService from '../services/authService'
+import { login, getToken, logout } from '../services/authService'
 
 class AuthStore {
   cookies = new Cookies()
 
-  @observable state: states = states.DONE
+  @observable state: FetchStates = FetchStates.DONE
 
   @observable msg: string = ''
 
@@ -22,7 +22,7 @@ class AuthStore {
   //   return this.user.token
   // }
 
-  @action setState = (state: states) => {
+  @action setState = (state: FetchStates) => {
     this.state = state
   }
 
@@ -36,7 +36,7 @@ class AuthStore {
     password: string,
     rememberMe: boolean
   ) => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.login
 
@@ -55,29 +55,32 @@ class AuthStore {
       if (response.status === 200) {
         this.user = await response.json()
         this.token = this.user.token
-        localStorage.setItem('token', this.user.token)
-        localStorage.setItem('user', JSON.stringify(this.user))
 
-        this.cookies.set('jwttoken', this.user.token)
-        this.state = states.DONE
-        return states.DONE
+        login({ token: this.user.token })
+
+        // localStorage.setItem('token', this.user.token)
+        // localStorage.setItem('user', JSON.stringify(this.user))
+
+        // this.cookies.set('jwttoken', this.user.token)
+        this.state = FetchStates.DONE
+        return FetchStates.DONE
       }
-      this.state = states.FAILED
-      return states.FAILED
+      this.state = FetchStates.FAILED
+      return FetchStates.FAILED
     } catch (e) {
       this.msg = e.statusText ?? 'User not found'
       this.user = null
-      this.state = states.FAILED
-      return states.FAILED
+      this.state = FetchStates.FAILED
+      return FetchStates.FAILED
     }
   }
 
   @action signout = async () => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.signout
 
-      const token = authService.getToken()
+      const token = getToken()
 
       const response = await fetch(url, {
         method: 'POST',
@@ -91,21 +94,19 @@ class AuthStore {
 
       this.msg = response.statusText
 
-      localStorage.setItem('token', null)
-      localStorage.setItem('user', null)
-      this.cookies.set('jwttoken', null)
+      logout()
       this.user = null
 
-      this.state = states.DONE
-      return states.DONE
+      this.state = FetchStates.DONE
+      return FetchStates.DONE
     } catch (e) {
       this.msg = e.statusText ?? 'User not signout'
       this.user = null
       localStorage.setItem('token', null)
       localStorage.setItem('user', null)
       this.cookies.set('jwttoken', null)
-      this.state = states.FAILED
-      return states.FAILED
+      this.state = FetchStates.FAILED
+      return FetchStates.FAILED
     }
   }
 
@@ -129,13 +130,13 @@ class AuthStore {
       this.user = await response.json()
       // this.state = states.DONE
       // this.setState(states.DONE)
-      return states.DONE
+      return FetchStates.DONE
     } catch (e) {
       // this.setState(states.FAILED)
       this.msg = e.statusText ?? 'User not Created'
       this.user = null
       // this.state = states.FAILED
-      return states.FAILED
+      return FetchStates.FAILED
     }
   }
 }

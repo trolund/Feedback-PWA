@@ -5,12 +5,12 @@ import LineGraph from './line-graph'
 // import BarGraph from './bar-chart'
 import Rating from './Rating'
 import GraphData from '../models/GraphData'
-import states from '../stores/requestState'
+import FetchStates from '../stores/requestState'
 import BarGraph from './bar-chart'
 
 type overviewprops = {
   graphData: GraphData
-  fetchState: states
+  fetchState: FetchStates
   useFixedXAxis: boolean
 }
 

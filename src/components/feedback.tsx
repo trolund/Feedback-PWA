@@ -4,13 +4,13 @@ import Collapsible from 'react-collapsible'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 import { MessageCircle } from 'react-feather'
 import Feedback from '../models/Feedback'
-import states from '../stores/requestState'
+import FetchStates from '../stores/requestState'
 import FeedbackProcessbar from './feedback-progressbar'
 
 interface IProp {
   feedback: Feedback[] | undefined
   count: number
-  feedbackLoading: states
+  feedbackLoading: FetchStates
 }
 
 const FeedbackView = observer((props: IProp) => {

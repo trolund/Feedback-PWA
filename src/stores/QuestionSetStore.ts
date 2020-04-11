@@ -1,13 +1,13 @@
 import { observable, action } from 'mobx'
 import { createContext } from 'react'
-import states from './requestState'
+import FetchStates from './requestState'
 import QuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
-import AuthService from '../services/authService'
+import { getToken } from '../services/authService'
 
 class QuestionSetStore {
   // status
-  @observable state = states.DONE
+  @observable state = FetchStates.DONE
 
   msg = ''
 
@@ -21,10 +21,10 @@ class QuestionSetStore {
   }
 
   @action fetchQuestionSetNames = async () => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.QuestionSetNames
-      const token = AuthService.getToken()
+      const token = getToken()
 
       const response = await fetch(url, {
         headers: !token ? {} : { Authorization: `Bearer ${token}` }
@@ -34,17 +34,17 @@ class QuestionSetStore {
       const data: QuestionSet[] = await response.json()
       this.QSetNames = data
     } catch (e) {
-      this.state = states.FAILED
+      this.state = FetchStates.FAILED
       this.msg = e.statusText
       this.QSetNames = []
     }
   }
 
   @action fetchQuestionSet = async (questionId: string) => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.QuestionSetById(questionId)
-      const token = AuthService.getToken()
+      const token = getToken()
 
       const response = await fetch(url, {
         headers: !token ? {} : { Authorization: `Bearer ${token}` }
@@ -54,17 +54,17 @@ class QuestionSetStore {
       const data: QuestionSet = await response.json()
       this.qSet = data
     } catch (e) {
-      this.state = states.FAILED
+      this.state = FetchStates.FAILED
       this.msg = e.statusText
       this.qSet = null
     }
   }
 
   @action updateQuestionSet = async (entity: QuestionSet) => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateQuestionSet
-      const token = AuthService.getToken()
+      const token = getToken()
       const json = JSON.stringify(entity)
 
       const response = await fetch(url, {
@@ -80,16 +80,16 @@ class QuestionSetStore {
       })
       this.msg = response.statusText
     } catch (e) {
-      this.state = states.FAILED
+      this.state = FetchStates.FAILED
       this.msg = e.statusText
     }
   }
 
   @action deleteQuestionSet = async (entity: QuestionSet) => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateQuestionSet
-      const token = AuthService.getToken()
+      const token = getToken()
       const json = JSON.stringify(entity)
 
       const response = await fetch(url, {
@@ -104,20 +104,20 @@ class QuestionSetStore {
         redirect: 'follow'
       })
       this.msg = response.statusText
-      return states.DONE
+      return FetchStates.DONE
     } catch (e) {
-      this.state = states.FAILED
+      this.state = FetchStates.FAILED
 
       this.msg = e.statusText
-      return states.FAILED
+      return FetchStates.FAILED
     }
   }
 
   @action createQuestionSet = async (entity: QuestionSet) => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateQuestionSet
-      const token = AuthService.getToken()
+      const token = getToken()
       const json = JSON.stringify(entity)
 
       const response = await fetch(url, {
@@ -132,11 +132,11 @@ class QuestionSetStore {
         redirect: 'follow'
       })
       this.msg = response.statusText
-      return states.DONE
+      return FetchStates.DONE
     } catch (e) {
-      this.state = states.FAILED
+      this.state = FetchStates.FAILED
       this.msg = e.statusText
-      return states.FAILED
+      return FetchStates.FAILED
     }
   }
 }

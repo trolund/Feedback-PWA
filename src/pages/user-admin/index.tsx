@@ -7,7 +7,7 @@ import UserAdmin from '../../models/user-admin'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import userAdminQuery from '../../models/userAdminQuery'
-import states from '../../stores/requestState'
+import FetchStates from '../../stores/requestState'
 import CustomCheckbox from '../../components/checkbox'
 
 const AllQuestionSets = observer(() => {
@@ -17,7 +17,7 @@ const AllQuestionSets = observer(() => {
 
   useEffect(() => {
     context.fetchUsers(query).then(res => {
-      if (res === states.DONE) {
+      if (res === FetchStates.DONE) {
         setList(context.users)
       }
     })

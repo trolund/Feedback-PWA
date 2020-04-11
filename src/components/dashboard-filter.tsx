@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { useContext, useEffect } from 'react'
+import { RefreshCw } from 'react-feather'
 import Select from 'react-select'
 import dashboardStore from '../stores/dashboard-store'
 
@@ -8,12 +9,12 @@ import CustomDatepicker from './custom-datepicker'
 import CustomCheckbox from './checkbox'
 
 import categoriesStore from '../stores/CategoriesStore'
-import authService from '../services/authService'
 import CategoriesPicker from './categories-picker'
-import states from '../stores/requestState'
+import FetchStates from '../stores/requestState'
 import DashboardExcelDownload from './excelExport'
 import GraphXScale from '../models/GraphXScale'
 import OptionsValue from '../models/OptionsValue'
+import { getCompanyId } from '../services/authService'
 
 const DashboardFilter = observer(() => {
   // const [searchWord, setSearchWord] = useState('')
@@ -46,7 +47,7 @@ const DashboardFilter = observer(() => {
 
   useEffect(() => {
     fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
-    categoriesContext.fetchCategories(String(authService.getCompanyId()))
+    categoriesContext.fetchCategories(String(getCompanyId()))
   }, [
     searchWord,
     tags,
@@ -104,7 +105,7 @@ const DashboardFilter = observer(() => {
           <div className='tagdiv'>
             <p>Kategori</p>
             <CategoriesPicker
-              loading={categoriesContext.state === states.LOADING}
+              loading={categoriesContext.state === FetchStates.LOADING}
               categories={categoriesContext?.categories}
               setTags={selectedTags =>
                 setTags(selectedTags.map(item => item.value))
@@ -142,6 +143,7 @@ const DashboardFilter = observer(() => {
             onChange={checked => setOwnData(checked)}
           />
         </div>
+
         <div className='ownData'>
           <CustomCheckbox
             label='Hvis kun relevant data'
@@ -172,7 +174,8 @@ const DashboardFilter = observer(() => {
           onClick={getData}
           onKeyDown={getData}
         >
-          Filter data
+          <RefreshCw style={{ width: '20px', height: '20px' }} />
+          Reload
         </a>
 
         <DashboardExcelDownload data={data} />

@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Check } from 'react-feather'
-import states from '../stores/requestState'
 
 type initState = {
   checked: boolean

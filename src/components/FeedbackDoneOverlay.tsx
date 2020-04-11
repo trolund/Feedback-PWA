@@ -3,7 +3,7 @@ import Router from 'next/router'
 import Lottie from 'react-lottie'
 import * as animationSuccess from '../../public/Animations/success.json'
 import * as animationError from '../../public/Animations/error.json'
-import AuthService from '../services/authService'
+import { savedTokenValid } from '../services/authService'
 
 type overlayProps = {
   success: boolean
@@ -30,7 +30,7 @@ const FeedbackOverlay: React.FC<overlayProps> = ({ success, text }) => {
   }
 
   const onComplete = () => {
-    if (AuthService.savedTokenValid()) {
+    if (savedTokenValid()) {
       Router.push('/home')
     } else {
       Router.push('/')

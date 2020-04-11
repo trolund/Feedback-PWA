@@ -1,10 +1,10 @@
 import { observable, action } from 'mobx'
 import { createContext } from 'react'
 import ApiRoutes from './api/ApiRoutes'
-import states from './requestState'
-import AuthService from '../services/authService'
+import FetchStates from './requestState'
 import FeedbackDate from '../models/FeedbackDate'
 import GraphXScale from '../models/GraphXScale'
+import { getToken } from '../services/authService'
 
 class DashboardStore {
   @observable startdate: Date = new Date('2019-01-08T10:09:30.000Z')
@@ -26,7 +26,7 @@ class DashboardStore {
   @observable ownData: boolean = true
 
   // status
-  @observable state = states.DONE
+  @observable state = FetchStates.DONE
 
   @observable msg = ' '
 
@@ -71,7 +71,7 @@ class DashboardStore {
     this.tags = tags
   }
 
-  @action setState = (state: states) => {
+  @action setState = (state: FetchStates) => {
     this.state = state
   }
 
@@ -116,7 +116,7 @@ class DashboardStore {
     searchWord?: string,
     ownData?: boolean
   ) => {
-    this.state = states.LOADING
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.DashboardDate(
         start,
@@ -126,7 +126,7 @@ class DashboardStore {
         ownData
       )
 
-      const token = AuthService.getToken()
+      const token = getToken()
 
       const response = await fetch(url, {
         method: 'GET',
@@ -141,11 +141,11 @@ class DashboardStore {
       this.msg = response.statusText
 
       const data: FeedbackDate[] = await response.json()
-      this.state = states.DONE
+      this.state = FetchStates.DONE
 
       this.data = data
     } catch (e) {
-      this.state = states.FAILED
+      this.state = FetchStates.FAILED
 
       this.msg = e.statusText
       this.data = null
