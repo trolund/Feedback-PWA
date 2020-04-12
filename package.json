@@ -6,7 +6,10 @@
     "dev": "next",
     "build": "next build",
     "start": "node node_modules/next/dist/bin/next start -p $PORT",
-    "start:local": "next start -p 5000"
+    "start:local": "next start -p 5000",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "prettier": {
     "semi": false,
@@ -69,13 +72,22 @@
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@types/enzyme": "^3.10.5",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/file-saver": "^2.0.1",
+    "@types/jest": "^25.2.1",
     "@types/js-cookie": "^2.2.6",
     "@types/react": "^16.9.19",
     "@types/react-qr-reader": "^2.1.2",
     "@types/react-select": "^3.0.11",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^25.3.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "6.1.0",
     "eslint-config-airbnb": "18.0.1",
     "eslint-config-prettier": "^6.10.0",
@@ -84,8 +96,10 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "jest": "^25.3.0",
     "json-loader": "^0.5.7",
     "prettier": "^1.19.1",
-    "typescript": "^3.7.5"
+    "ts-jest": "^25.3.1",
+    "typescript": "^3.8.3"
   }
 }

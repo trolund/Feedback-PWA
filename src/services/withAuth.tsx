@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/destructuring-assignment */
 import Router from 'next/router'
 import { useEffect, useContext } from 'react'
@@ -43,7 +44,7 @@ const withAuth = WrappedComponent => {
 
   Wrapper.getInitialProps = async ctx => {
     const token = auth(ctx)
-    console.log('the token', token)
+    // console.log('the token', token)
 
     const componentProps =
       WrappedComponent.getInitialProps &&
