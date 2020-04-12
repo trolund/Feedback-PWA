@@ -9,6 +9,8 @@ const TOKENKEY = 'token'
 
 export const login = ({ token }) => {
   cookie.set(TOKENKEY, token, { expires: 1 })
+  console.log(token)
+
   Router.push('/home')
 }
 
@@ -50,6 +52,8 @@ export const tokenValid = (token: string) => {
     const obj: any = jwtDecode(token)
     if (obj) {
       const date: number = obj.exp
+      console.log(date, Date.now() / 1000)
+
       return date >= Date.now() / 1000
     }
   } catch (e) {

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect, FormEvent } from 'react'
 import { observer } from 'mobx-react-lite'
 import Link from 'next/link'
 import cookies from 'next-cookies'
@@ -9,7 +9,8 @@ import Section from '../components/section'
 import authStore from '../stores/authStore'
 import FetchStates from '../stores/requestState'
 import CustomCheckbox from '../components/checkbox'
-import { tokenValid } from '../services/authService'
+import { tokenValid, auth } from '../services/authService'
+import { validateEmail, validatePassword } from '../services/validationService'
 
 const Login: NextPage = observer(() => {
   const [rememberme, setRememberme] = useState(false)
@@ -17,14 +18,21 @@ const Login: NextPage = observer(() => {
   const [password, setPassword] = useState('')
   const [loginBtnDisabled, setLoginBtnDisabled] = useState(true)
   const { login, state, msg } = useContext(authStore)
+  const [inputFeedback, setinputFeedback] = useState('')
 
-  const loginHandler = () => {
-    login(username, password, rememberme)
+  const loginHandler = (event: any) => {
+    const email = validateEmail(username)
+    const pass = validatePassword(password)
+    if (email.valid && pass.valid && !loginBtnDisabled) {
+      login(username, password, rememberme)
+    } else {
+      const errorsStr = `${email.validationErrors.join(
+        ','
+      )},${pass.validationErrors.join(',')}`
+      setinputFeedback(errorsStr)
+    }
+    event.preventDefault() // prevent a browser reload/refresh
   }
-
-  // useEffect(() => {
-  //   AuthService.redirectToHome()
-  // }, [])
 
   useEffect(() => {
     setLoginBtnDisabled(!(username.length > 0 && password.length > 0))
@@ -33,44 +41,49 @@ const Login: NextPage = observer(() => {
   return (
     <Page showBottomNav={false} showBackButton title='login'>
       <Section>
-        <input
-          type='text'
-          placeholder='Email'
-          value={username}
-          onChange={e => {
-            setUsername(e.target.value)
-          }}
-        />
-        <input
-          type='password'
-          placeholder='Kodeord'
-          value={password}
-          onChange={e => {
-            setPassword(e.target.value)
-          }}
-        />
-        <div className='center' style={{ width: '200px', marginTop: '25px' }}>
-          <CustomCheckbox
-            label='Remember me'
-            checked
-            onChange={checked => setRememberme(checked)}
+        <form onSubmit={loginHandler}>
+          <input
+            type='text'
+            placeholder='Email'
+            value={username}
+            onChange={e => {
+              setUsername(e.target.value)
+            }}
           />
-        </div>
+          <input
+            type='password'
+            placeholder='Kodeord'
+            value={password}
+            onChange={e => {
+              setPassword(e.target.value)
+            }}
+          />
+          <div className='center' style={{ width: '200px', marginTop: '25px' }}>
+            <CustomCheckbox
+              label='Remember me'
+              checked
+              onChange={checked => setRememberme(checked)}
+            />
+          </div>
 
-        {state === FetchStates.LOADING && <p className='center msg'>Loading</p>}
-        {state === FetchStates.FAILED && <p className='center msg'>{msg}</p>}
-        <button
-          tabIndex={0}
-          type='button'
-          title='login'
-          aria-label='login'
-          onKeyDown={loginHandler}
-          onClick={loginHandler}
-          className='button loginBtn center'
-          disabled={loginBtnDisabled}
-        >
-          login
-        </button>
+          {state === FetchStates.LOADING && (
+            <p className='center msg'>Loading</p>
+          )}
+          {state === FetchStates.FAILED && <p className='center msg'>{msg}</p>}
+          {msg.length > 0 && (
+            <p style={{ color: 'red' }} className='center msg'>
+              {inputFeedback}
+            </p>
+          )}
+          <button
+            type='submit'
+            aria-label='login'
+            className='button loginBtn center'
+            disabled={loginBtnDisabled}
+          >
+            login
+          </button>
+        </form>
         <Link href='/registration'>
           <a
             tabIndex={0}
@@ -114,14 +127,17 @@ const Login: NextPage = observer(() => {
   )
 })
 
-Login.getInitialProps = async ctx => {
-  const { jwttoken } = cookies(ctx)
+// Login.getInitialProps = async ctx => {
+//   const token = auth(ctx)
 
-  if (ctx.res && tokenValid(jwttoken)) {
-    ctx.res.writeHead(302, { Location: '/home' })
-    ctx.res.end()
-  }
-  return {}
-}
+//   if (ctx.res && tokenValid(token)) {
+//     ctx.res.writeHead(302, { Location: '/home' })
+//     ctx.res.end()
+//   }
+
+//   return {
+//     token
+//   }
+// }
 
 export default Login

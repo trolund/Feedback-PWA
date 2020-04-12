@@ -76,13 +76,13 @@ class AuthStore {
         this.user = await response.json()
         this.token = this.user.token
 
-        login({ token: this.user.token })
-
         const token: TokenModel = JwtDecode(this.user.token)
+
         this.isFacilitator = token.role.includes('Facilitator')
         this.isVAdmin = token.role.includes('VAdmin')
         this.isAdmin = token.role.includes('Admin')
 
+        login({ token: this.user.token })
         this.state = FetchStates.DONE
         return FetchStates.DONE
       }
