@@ -6,6 +6,8 @@ import FetchStates from './requestState'
 import ApiRoutes from './api/ApiRoutes'
 import Registration from '../models/Registration'
 import { login, getToken, logout } from '../services/authService'
+import TokenModel from '../models/TokenModel'
+import JwtDecode from 'jwt-decode'
 
 class AuthStore {
   cookies = new Cookies()
@@ -18,12 +20,30 @@ class AuthStore {
 
   @observable token: string = null
 
+  @observable isAdmin: boolean = null
+
+  @observable isVAdmin: boolean = null
+
+  @observable isFacilitator: boolean = null
+
   // @computed getToken = (): string => {
   //   return this.user.token
   // }
 
   @action setState = (state: FetchStates) => {
     this.state = state
+  }
+
+  @action setRoles = (
+    isAdmin: boolean,
+    isFacilitator: boolean,
+    isVAdmin: boolean
+  ) => {
+    console.log(isAdmin, isFacilitator, isVAdmin)
+
+    this.isAdmin = isAdmin
+    this.isFacilitator = isFacilitator
+    this.isVAdmin = isVAdmin
   }
 
   @action getUser = (): User => {
@@ -58,10 +78,11 @@ class AuthStore {
 
         login({ token: this.user.token })
 
-        // localStorage.setItem('token', this.user.token)
-        // localStorage.setItem('user', JSON.stringify(this.user))
+        const token: TokenModel = JwtDecode(this.user.token)
+        this.isFacilitator = token.role.includes('Facilitator')
+        this.isVAdmin = token.role.includes('VAdmin')
+        this.isAdmin = token.role.includes('Admin')
 
-        // this.cookies.set('jwttoken', this.user.token)
         this.state = FetchStates.DONE
         return FetchStates.DONE
       }

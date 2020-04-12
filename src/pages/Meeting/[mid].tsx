@@ -27,8 +27,9 @@ import MeetingModel from '../../models/MeetingModel'
 import FeedbackBatch from '../../models/FeedbackBatch'
 import CustomToast from '../../components/custom-Toast'
 import MeetingCategory from '../../models/MeetingCategory'
-import authService from '../../services/authService'
 import OptionsValue from '../../models/OptionsValue'
+import { getCompanyId } from '../../services/authService'
+import withAuth from '../../services/withAuth'
 
 // import categoriesStore from '../../stores/CategoriesStore'
 
@@ -37,8 +38,8 @@ type initMeetingProps = {
   intitFeedback: FeedbackBatch[]
 }
 
-const Post: NextPage = observer(
-  ({ initMeeting, intitFeedback }: initMeetingProps) => {
+const Post: NextPage = withAuth(
+  observer(({ initMeeting, intitFeedback }: initMeetingProps) => {
     const router = useRouter()
     const { mid } = router.query
     // const qr = new QRCode()
@@ -70,11 +71,9 @@ const Post: NextPage = observer(
     }, [meeting])
 
     useEffect(() => {
-      categoriesContext
-        .fetchCategories(String(authService.getCompanyId()))
-        .then(() => {
-          setMeetingCategories(categoriesContext.categories)
-        })
+      categoriesContext.fetchCategories(String(getCompanyId())).then(() => {
+        setMeetingCategories(categoriesContext.categories)
+      })
       // if (mid) {
       //   fetchMeetingByShortId(String(mid))
       //   feedbackcontext.fetchFeedback(String(mid))
@@ -393,7 +392,7 @@ const Post: NextPage = observer(
         <CustomToast />
       </Page>
     )
-  }
+  })
 )
 
 export async function getServerSideProps(ctx: NextPageContext) {

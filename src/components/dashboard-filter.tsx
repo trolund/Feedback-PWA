@@ -15,6 +15,7 @@ import DashboardExcelDownload from './excelExport'
 import GraphXScale from '../models/GraphXScale'
 import OptionsValue from '../models/OptionsValue'
 import { getCompanyId } from '../services/authService'
+import authStore from '../stores/authStore'
 
 const DashboardFilter = observer(() => {
   // const [searchWord, setSearchWord] = useState('')
@@ -29,8 +30,8 @@ const DashboardFilter = observer(() => {
     ownData,
     searchWord,
     tags,
-    setCutOff,
     setOwnData,
+    setCutOff,
     setEnddate,
     setSearchWord,
     setStartdate,
@@ -44,6 +45,7 @@ const DashboardFilter = observer(() => {
   const context = useContext(dashboardStore)
   const categoriesContext = useContext(categoriesStore)
   const { data, fetchDashboardDate, setXAxisScale } = useContext(dashboardStore)
+  const { isAdmin, isVAdmin } = useContext(authStore)
 
   useEffect(() => {
     fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
@@ -136,14 +138,15 @@ const DashboardFilter = observer(() => {
         </div>
       </div>
       <div className='flex-container padding'>
-        <div className='ownData'>
-          <CustomCheckbox
-            label='Hvis kun min feedback'
-            checked={ownData}
-            onChange={checked => setOwnData(checked)}
-          />
-        </div>
-
+        {(isAdmin || isVAdmin) && (
+          <div className='ownData'>
+            <CustomCheckbox
+              label='Hvis kun min feedback'
+              checked={ownData}
+              onChange={checked => setOwnData(checked)}
+            />
+          </div>
+        )}
         <div className='ownData'>
           <CustomCheckbox
             label='Hvis kun relevant data'

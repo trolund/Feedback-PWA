@@ -36,12 +36,12 @@ export const logout = () => {
 }
 
 export const getToken = (): string => {
-  return cookie.get(TOKENKEY)
+  const token = cookie.get(TOKENKEY)
+  return token
 }
 
 export const getCompanyId = (): number => {
   const token: TokenModel = jwtDecode(cookie.get(TOKENKEY))
-  console.log('CID:', token.CID)
   return token.CID
 }
 
@@ -59,33 +59,33 @@ export const tokenValid = (token: string) => {
 }
 
 export const getRoles = (): string[] => {
-  const token: TokenModel = jwtDecode(this.getToken())
+  const token: TokenModel = jwtDecode(getToken())
   return token.role
 }
 
-export const isAdmin = (): boolean => {
-  const token: TokenModel = jwtDecode(this.getToken())
-  return token.role.includes('Admin')
-}
+// export const isAdmin = (): boolean => {
+//   const token: TokenModel = jwtDecode(cookie.get(TOKENKEY))
+//   return token.role.includes('Admin')
+// }
 
-export const isVAdmin = (): boolean => {
-  const token: TokenModel = jwtDecode(this.getToken())
-  return token.role.includes('VAdmin')
-}
+// export const isVAdmin = (): boolean => {
+//   const token: TokenModel = jwtDecode(cookie.get(TOKENKEY))
+//   return token.role.includes('VAdmin')
+// }
 
-export const isFacilitator = (): boolean => {
-  const token: TokenModel = jwtDecode(this.getToken())
-  return token.role.includes('Facilitator')
-}
+// export const isFacilitator = (): boolean => {
+//   const token: TokenModel = jwtDecode(getToken())
+//   return token.role.includes('Facilitator')
+// }
 
 export const getUserId = (): string => {
-  const token: TokenModel = jwtDecode(this.getToken())
+  const token: TokenModel = jwtDecode(getToken())
   return token.sub
 }
 
 export const savedTokenValid = () => {
   try {
-    const obj: any = jwtDecode(this.getToken())
+    const obj: any = jwtDecode(getToken())
     if (obj) {
       const date: number = obj.exp
       return date >= Date.now() / 1000

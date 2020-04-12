@@ -3,20 +3,20 @@ import Router from 'next/router'
 import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { EventInput } from '@fullcalendar/core'
-import Modal from 'react-awesome-modal'
-import { X } from 'react-feather'
+// import Modal from 'react-awesome-modal'
+// import { X } from 'react-feather'
 import Page from '../components/page'
 import CalView from '../models/CalView'
-import questionSetStore from '../stores/QuestionSetStore'
+// import questionSetStore from '../stores/QuestionSetStore'
 import meetingStore from '../stores/MeetingStore'
 import categoriesStore from '../stores/CategoriesStore'
-import MeetingCategory from '../models/MeetingCategory'
-import Category from '../models/Category'
+// import MeetingCategory from '../models/MeetingCategory'
+// import Category from '../models/Category'
 import MeetingModel from '../models/MeetingModel'
-import FetchStates from '../stores/requestState'
-import Tag from '../models/tag'
-import CustomDatepicker from '../components/custom-datepicker'
-import CustomTimepicker from '../components/custom-timepicker'
+// import FetchStates from '../stores/requestState'
+// import Tag from '../models/tag'
+// import CustomDatepicker from '../components/custom-datepicker'
+// import CustomTimepicker from '../components/custom-timepicker'
 import SearchBtn from '../components/search-btn'
 
 let FullCalendarNoSSRWrapper
@@ -133,23 +133,23 @@ let FullCalendarNoSSRWrapper
 // }
 
 const CalendarView = observer(() => {
-  const questionContext = useContext(questionSetStore)
+  // const questionContext = useContext(questionSetStore)
   const meetingStoreContext = useContext(meetingStore)
   const categoriesContext = useContext(categoriesStore)
-  const [modalOpen, setModalOpen] = useState(false)
-  const toggle = useCallback(() => setModalOpen(!modalOpen), [modalOpen])
-  const [date, setDate] = useState(new Date())
-  const [startTime, setStartTime] = useState(new Date())
-  const [endTime, setEndTime] = useState(new Date())
-  const [name, setName] = useState('')
-  const [discription, setDiscription] = useState('')
-  const [questionSet, setQuestionSet] = useState('')
+  // const [modalOpen, setModalOpen] = useState(false)
+  // const toggle = useCallback(() => setModalOpen(!modalOpen), [modalOpen])
+  // const [date, setDate] = useState(new Date())
+  // const [startTime, setStartTime] = useState(new Date())
+  // const [endTime, setEndTime] = useState(new Date())
+  // const [name, setName] = useState('')
+  // const [discription, setDiscription] = useState('')
+  // const [questionSet, setQuestionSet] = useState('')
   const [calViewProp, setCalViewProp] = useState({})
   const initEvent: EventInput[] = []
   const [events, setEvnets] = useState(initEvent)
   const [searchWord, setSearchWord] = useState('')
-  const init: Tag[] = []
-  const [tags, setTags] = useState(init)
+  // const init: Tag[] = []
+  // const [tags, setTags] = useState(init)
   const [inputOpen, setInputOpen] = useState(false)
 
   const [showCal, setShowCal] = useState(false)
@@ -322,7 +322,7 @@ const CalendarView = observer(() => {
         }}
       />
     )
-  }, [events, filterEventsCallback, showCal, toggle])
+  }, [events, filterEventsCallback, showCal])
 
   return (
     <Page

@@ -10,55 +10,58 @@ import Section from '../../components/section'
 import QuestionSetList from '../../components/questionset-list'
 import QuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
+import withAuth from '../../services/withAuth'
 
 type pageProps = {
   initPageProps: QuestionSet[]
 }
 
-const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
-  const [list, setList] = useState(initPageProps)
+const AllQuestionSets: NextPage = withAuth(
+  observer(({ initPageProps }: pageProps) => {
+    const [list, setList] = useState(initPageProps)
 
-  const addQuestionSetClickHandler = () => {
-    Router.push(`/questionsets/new`)
-  }
+    const addQuestionSetClickHandler = () => {
+      Router.push(`/questionsets/new`)
+    }
 
-  const deleteQuestion = (qSetId: string, index: number) => {
-    list.splice(index, 1)
-    setList([...list])
-  }
+    const deleteQuestion = (qSetId: string, index: number) => {
+      list.splice(index, 1)
+      setList([...list])
+    }
 
-  return (
-    <Page
-      title='Alle spørgsmålssæt'
-      component={<Plus onClick={addQuestionSetClickHandler} />}
-    >
-      <Section>
-        <QuestionSetList questionSetlist={list} deleteFunc={deleteQuestion} />
-      </Section>
-      <style jsx>{`
-        @media only screen and (max-width: 400px) {
-          .name {
-            margin-right: auto;
-            margin-left: auto;
-            text-align: center;
-            float: none;
+    return (
+      <Page
+        title='Alle spørgsmålssæt'
+        component={<Plus onClick={addQuestionSetClickHandler} />}
+      >
+        <Section>
+          <QuestionSetList questionSetlist={list} deleteFunc={deleteQuestion} />
+        </Section>
+        <style jsx>{`
+          @media only screen and (max-width: 400px) {
+            .name {
+              margin-right: auto;
+              margin-left: auto;
+              text-align: center;
+              float: none;
+            }
+
+            .topbar {
+              float: none;
+            }
           }
 
           .topbar {
-            float: none;
+            width: 100%;
+            padding: 10px;
+            height: calc(2vw * 20);
+            max-height: 120px;
           }
-        }
-
-        .topbar {
-          width: 100%;
-          padding: 10px;
-          height: calc(2vw * 20);
-          max-height: 120px;
-        }
-      `}</style>
-    </Page>
-  )
-})
+        `}</style>
+      </Page>
+    )
+  })
+)
 
 AllQuestionSets.getInitialProps = async ctx => {
   const { jwttoken } = cookies(ctx)
