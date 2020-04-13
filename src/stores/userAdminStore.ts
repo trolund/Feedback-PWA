@@ -4,7 +4,7 @@ import FetchStates from './requestState'
 import ApiRoutes from './api/ApiRoutes'
 import UserAdmin from '../models/user-admin'
 import userAdminQuery from '../models/userAdminQuery'
-import AuthService from '../services/authService'
+import { getToken } from '../services/authService'
 
 class UserAdminStore {
   @observable fetchState: FetchStates | null = null
@@ -23,7 +23,7 @@ class UserAdminStore {
         pageNumber: String(query.pageNumber ?? '-1')
       }).toString()
 
-      const token = AuthService.getToken()
+      const token = getToken()
       const response = await fetch(url.toString(), {
         method: 'GET',
         headers: !token
@@ -58,7 +58,7 @@ class UserAdminStore {
     this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateUserAdmin
-      const token = AuthService.getToken()
+      const token = getToken()
       const json = JSON.stringify(usersToUpdate)
       const response = await fetch(url, {
         method: 'PUT',

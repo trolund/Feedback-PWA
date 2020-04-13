@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import jwtDecode from 'jwt-decode'
 import Router from 'next/router'
 import nextCookie from 'next-cookies'
@@ -9,8 +8,6 @@ const TOKENKEY = 'token'
 
 export const login = ({ token }) => {
   cookie.set(TOKENKEY, token, { expires: 1 })
-  console.log(token)
-
   Router.push('/home')
 }
 
@@ -42,9 +39,15 @@ export const getToken = (): string => {
   return token
 }
 
-export const getCompanyId = (): number => {
-  const token: TokenModel = jwtDecode(cookie.get(TOKENKEY))
-  return token.CID
+export const getCompanyId = (tokenInput?: string): number => {
+  const tokenStr = tokenInput || cookie.get(TOKENKEY)
+  try {
+    const token: TokenModel = jwtDecode(tokenStr)
+    return token.CID
+  } catch (e) {
+    console.debug(e)
+    return -1
+  }
 }
 
 export const tokenValid = (token: string) => {
@@ -63,8 +66,13 @@ export const tokenValid = (token: string) => {
 }
 
 export const getRoles = (): string[] => {
-  const token: TokenModel = jwtDecode(getToken())
-  return token.role
+  try {
+    const token: TokenModel = jwtDecode(getToken())
+    return token.role
+  } catch (e) {
+    console.log(e)
+    return []
+  }
 }
 
 // export const isAdmin = (): boolean => {

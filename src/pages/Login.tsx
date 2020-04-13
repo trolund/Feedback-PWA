@@ -1,15 +1,14 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState, useContext, useEffect, FormEvent } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
+import { CheckCircle } from 'react-feather'
 import Link from 'next/link'
-import cookies from 'next-cookies'
 import { NextPage } from 'next'
 import Page from '../components/page'
 import Section from '../components/section'
 import authStore from '../stores/authStore'
 import FetchStates from '../stores/requestState'
 import CustomCheckbox from '../components/checkbox'
-import { tokenValid, auth } from '../services/authService'
 import { validateEmail, validatePassword } from '../services/validationService'
 
 const Login: NextPage = observer(() => {
@@ -18,25 +17,24 @@ const Login: NextPage = observer(() => {
   const [password, setPassword] = useState('')
   const [loginBtnDisabled, setLoginBtnDisabled] = useState(true)
   const { login, state, msg } = useContext(authStore)
-  const [inputFeedback, setinputFeedback] = useState('')
+  const [inputFeedback, setinputFeedback] = useState([] as string[])
 
   const loginHandler = (event: any) => {
     const email = validateEmail(username)
     const pass = validatePassword(password)
-    if (email.valid && pass.valid && !loginBtnDisabled) {
+    if (email.valid && pass.valid) {
       login(username, password, rememberme)
     } else {
-      const errorsStr = `${email.validationErrors.join(
-        ','
-      )},${pass.validationErrors.join(',')}`
-      setinputFeedback(errorsStr)
+      setinputFeedback([...email.validationErrors, ...pass.validationErrors])
     }
     event.preventDefault() // prevent a browser reload/refresh
   }
 
   useEffect(() => {
-    setLoginBtnDisabled(!(username.length > 0 && password.length > 0))
-  }, [password.length, username.length])
+    setLoginBtnDisabled(
+      !validatePassword(password) && !validatePassword(password)
+    )
+  }, [password, password.length, username.length])
 
   return (
     <Page showBottomNav={false} showBackButton title='login'>
@@ -70,10 +68,20 @@ const Login: NextPage = observer(() => {
             <p className='center msg'>Loading</p>
           )}
           {state === FetchStates.FAILED && <p className='center msg'>{msg}</p>}
-          {msg.length > 0 && (
-            <p style={{ color: 'red' }} className='center msg'>
-              {inputFeedback}
+          {state === FetchStates.DONE && msg.length > 0 && (
+            <p className='center msg'>
+              <CheckCircle
+                style={{ width: '20px', height: '20px', marginRight: '10px' }}
+              />
+              {msg}
             </p>
+          )}
+          {inputFeedback.length > 0 && (
+            <ul style={{ color: 'red' }} className='center msg'>
+              {inputFeedback.map(error => (
+                <li>{error}</li>
+              ))}
+            </ul>
           )}
           <button
             type='submit'

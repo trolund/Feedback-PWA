@@ -1,13 +1,13 @@
 import { observable, action } from 'mobx'
 import { Cookies } from 'react-cookie'
 import { createContext } from 'react'
+import JwtDecode from 'jwt-decode'
 import User from '../models/User'
 import FetchStates from './requestState'
 import ApiRoutes from './api/ApiRoutes'
 import Registration from '../models/Registration'
 import { login, getToken, logout } from '../services/authService'
 import TokenModel from '../models/TokenModel'
-import JwtDecode from 'jwt-decode'
 
 class AuthStore {
   cookies = new Cookies()
@@ -57,6 +57,7 @@ class AuthStore {
     rememberMe: boolean
   ) => {
     this.state = FetchStates.LOADING
+    this.msg = ''
     try {
       const url = ApiRoutes.login
 
@@ -74,8 +75,10 @@ class AuthStore {
 
       if (response.status === 200) {
         this.user = await response.json()
-        this.token = this.user.token
+        localStorage.setItem('user', JSON.stringify(this.user))
+        this.msg = `Velkommen! ${this.user.firstname}`
 
+        this.token = this.user.token
         const token: TokenModel = JwtDecode(this.user.token)
 
         this.isFacilitator = token.role.includes('Facilitator')
@@ -86,10 +89,23 @@ class AuthStore {
         this.state = FetchStates.DONE
         return FetchStates.DONE
       }
+
+      if (response.status === 500) {
+        this.msg = 'Server problem, kontakt Administator.'
+        this.state = FetchStates.FAILED
+        return FetchStates.FAILED
+      }
+
+      if (response.status === 403) {
+        this.msg = 'Email eller password er forkert, prøv igen'
+        this.state = FetchStates.FAILED
+        return FetchStates.FAILED
+      }
+
+      this.msg = 'Ukendt fejl, kontakt Administator.'
       this.state = FetchStates.FAILED
       return FetchStates.FAILED
     } catch (e) {
-      this.msg = e.statusText ?? 'User not found'
       this.user = null
       this.state = FetchStates.FAILED
       return FetchStates.FAILED

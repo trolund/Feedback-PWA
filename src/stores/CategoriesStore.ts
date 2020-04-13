@@ -20,6 +20,7 @@ class CategoriesStore {
       const url = ApiRoutes.Categories(companyId)
 
       const token = getToken()
+      console.log('Token:', token)
 
       const response = await fetch(url, {
         method: 'GET',

@@ -72,6 +72,16 @@ export const maxLengthRule = (
   rules.push(valid)
 }
 
+export const numericRule = (
+  input: string,
+  rules: boolean[],
+  validationErrors: string[]
+) => {
+  const valid = /\d/.test(input)
+  if (!valid) validationErrors.push(`Skal minimum have et tal.`)
+  rules.push(valid)
+}
+
 /* Validaters */
 
 export const validateEmail = (mail: string): validationResult => {
@@ -92,6 +102,7 @@ export const validatePassword = (password: string): validationResult => {
   upperCaseRule(password, rules, validationErrors)
   lowerCaseRule(password, rules, validationErrors)
   minLengthRule(password, rules, validationErrors, 4)
+  numericRule(password, rules, validationErrors)
 
   return { valid: rules.every(r => r), validationErrors } as validationResult
 }

@@ -29,17 +29,18 @@ import CustomToast from '../../components/custom-Toast'
 import MeetingCategory from '../../models/MeetingCategory'
 import OptionsValue from '../../models/OptionsValue'
 import { getCompanyId } from '../../services/authService'
-import withAuth from '../../services/withAuth'
+import Category from '../../models/Category'
 
 // import categoriesStore from '../../stores/CategoriesStore'
 
 type initMeetingProps = {
   initMeeting: MeetingModel
   intitFeedback: FeedbackBatch[]
+  initCategories: Category[]
 }
 
-const Post: NextPage = withAuth(
-  observer(({ initMeeting, intitFeedback }: initMeetingProps) => {
+const Post: NextPage = observer(
+  ({ initMeeting, intitFeedback, initCategories }: initMeetingProps) => {
     const router = useRouter()
     const { mid } = router.query
     // const qr = new QRCode()
@@ -50,7 +51,8 @@ const Post: NextPage = withAuth(
     const questionSetContext = useContext(questionSetStore)
     const categoriesContext = useContext(categoriesStore)
     const [meeting, setMeeting] = useState(initMeeting)
-    const [meetingCategories, setMeetingCategories] = useState([])
+    const [meetingCategories] = useState(initCategories)
+
     // const [questions, setQuestions] = useState(initialState)
 
     // const propsMeetingdata: any = (props.location as any).data;
@@ -70,15 +72,15 @@ const Post: NextPage = withAuth(
       }
     }, [meeting])
 
-    useEffect(() => {
-      categoriesContext.fetchCategories(String(getCompanyId())).then(() => {
-        setMeetingCategories(categoriesContext.categories)
-      })
-      // if (mid) {
-      //   fetchMeetingByShortId(String(mid))
-      //   feedbackcontext.fetchFeedback(String(mid))
-      // }
-    }, [categoriesContext, feedbackcontext, mid])
+    // useEffect(() => {
+    //   categoriesContext.fetchCategories(String(getCompanyId())).then(() => {
+    //     setMeetingCategories(categoriesContext.categories)
+    //   })
+    // if (mid) {
+    //   fetchMeetingByShortId(String(mid))
+    //   feedbackcontext.fetchFeedback(String(mid))
+    // }
+    // }, [categoriesContext, feedbackcontext, mid])
 
     useEffect(() => {
       if (meeting?.questionsSetId)
@@ -144,9 +146,6 @@ const Post: NextPage = withAuth(
       if (meeting) {
         meeting.endTime = spliceDateAndTime(date, endTime)
         meeting.startTime = spliceDateAndTime(date, startTime)
-        console.log('====================================')
-        console.log('top update', meeting)
-        console.log('====================================')
         update(meeting).then(res => {
           if (res === FetchStates.DONE) toast('Møde er slettet!')
           else toast('Der skete en fejl ved updatering af mødet.')
@@ -277,13 +276,13 @@ const Post: NextPage = withAuth(
                     item =>
                       ({
                         label:
-                          meetingCategories?.filter(
+                          meetingCategories.filter(
                             i => i.categoryId === item.categoryId
                           )[0]?.name ?? 'Henter...',
                         value: item.categoryId
                       } as OptionsValue)
                   )}
-                  categories={categoriesContext?.categories}
+                  categories={meetingCategories}
                   setTags={tags =>
                     setMeeting({
                       ...meeting,
@@ -392,32 +391,43 @@ const Post: NextPage = withAuth(
         <CustomToast />
       </Page>
     )
-  })
+  }
 )
 
 export async function getServerSideProps(ctx: NextPageContext) {
-  const { jwttoken } = cookies(ctx)
+  const { token } = cookies(ctx)
   const { query } = ctx
   const { mid } = query
   let data: MeetingModel | null = null
   let feedbackData: FeedbackBatch[] | null = null
+  let CategoriesData: Category[] | null = null
   try {
     const response = await fetch(ApiRoutes.meetingByShortId(String(mid)), {
-      headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
+      headers: !token ? {} : { Authorization: `Bearer ${token}` }
     })
     data = await response.json()
     const feedbackResponse = await fetch(ApiRoutes.Feedbackbatch(String(mid)), {
-      headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
+      headers: !token ? {} : { Authorization: `Bearer ${token}` }
     })
     feedbackData = await feedbackResponse.json()
     console.log(feedbackData)
+
+    const responseCategories = await fetch(
+      ApiRoutes.Categories(String(getCompanyId(token))),
+      {
+        headers: !token ? {} : { Authorization: `Bearer ${token}` }
+      }
+    )
+    CategoriesData = await responseCategories.json()
   } catch (e) {
     console.error(e)
   }
+
   return {
     props: {
       initMeeting: data,
-      intitFeedback: feedbackData
+      intitFeedback: feedbackData,
+      initCategories: CategoriesData
     }
   }
 }
