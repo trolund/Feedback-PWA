@@ -78,15 +78,6 @@ export default observer(() => {
               Scan meeting code
             </a>
           </Link>
-          <Link href='/login' key='scanner'>
-            <a
-              title='scanner'
-              aria-label='scanner'
-              className='center button loginBtn'
-            >
-              login
-            </a>
-          </Link>
           <Link href='/login' key='login'>
             <a
               title='login'
