@@ -4,6 +4,7 @@ import Router, { useRouter } from 'next/router'
 import Modal from 'react-modal'
 import { ViewPager, Frame, Track } from 'react-view-pager'
 import { NextPage } from 'next'
+import https from 'https'
 import { X } from 'react-feather'
 import fetch from 'isomorphic-unfetch'
 import FetchStates from '../../stores/requestState'
@@ -217,8 +218,14 @@ Feedback.getInitialProps = async ctx => {
   const { mid } = query
   const url = ApiRoutes.FetchQuestions(String(mid))
   let data: QuestionSet[] | null = null
+  const options = {
+    agent: new https.Agent({
+      // TODO fix for production with real SSL CERT
+      rejectUnauthorized: false
+    })
+  }
   try {
-    const response = await fetch(url)
+    const response = await fetch(url, { headers: {}, ...options })
     data = await response.json()
   } catch (e) {
     console.error(e)

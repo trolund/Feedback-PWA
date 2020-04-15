@@ -10,6 +10,7 @@ import { NextPage, NextPageContext } from 'next'
 import cookies from 'next-cookies'
 import fetch from 'isomorphic-unfetch'
 import { toast } from 'react-toastify'
+import https from 'https'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import meetingStore from '../../stores/MeetingStore'
@@ -398,19 +399,24 @@ export async function getServerSideProps(ctx: NextPageContext) {
   const { token } = cookies(ctx)
   const { query } = ctx
   const { mid } = query
-  console.log('====================================')
-  console.log(token)
-  console.log('====================================')
+
+  const options = {
+    agent: new https.Agent({
+      rejectUnauthorized: false // TODO fix for production with real SSL CERT
+    })
+  }
   let data: MeetingModel | null = null
   let feedbackData: FeedbackBatch[] | null = null
   let CategoriesData: Category[] | null = null
   try {
     const response = await fetch(ApiRoutes.meetingByShortId(String(mid)), {
-      headers: !token ? {} : { Authorization: `Bearer ${token}` }
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      ...options
     })
     data = await response.json()
     const feedbackResponse = await fetch(ApiRoutes.Feedbackbatch(String(mid)), {
-      headers: !token ? {} : { Authorization: `Bearer ${token}` }
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      ...options
     })
     feedbackData = await feedbackResponse.json()
     console.log(feedbackData)
@@ -418,7 +424,8 @@ export async function getServerSideProps(ctx: NextPageContext) {
     const responseCategories = await fetch(
       ApiRoutes.Categories(String(getCompanyId(token))),
       {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` }
+        headers: !token ? {} : { Authorization: `Bearer ${token}` },
+        ...options
       }
     )
     CategoriesData = await responseCategories.json()
