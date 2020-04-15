@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useState, useContext, useCallback, useEffect } from 'react'
 import { observer } from 'mobx-react'
 import { PieChart } from 'react-feather'
 import StarRatingComponent from 'react-star-rating-component'
@@ -9,9 +9,17 @@ import dashboardStore from '../stores/dashboard-store'
 interface IProp {}
 
 const Rating: React.FC<IProp> = observer(() => {
-  const [rating, setRating] = useState(4)
+  const [rating, setRating] = useState(0)
   const context = useContext(dashboardStore)
   const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    if (rating === 0) {
+      context.fetchRating().then(() => {
+        setRating(context.rating)
+      })
+    }
+  }, [context, rating])
 
   const meetings = useCallback(
     () => context.data?.filter(i => i.categories.includes('Møder')).length,
@@ -83,7 +91,7 @@ const Rating: React.FC<IProp> = observer(() => {
             starCount={6}
             value={rating}
             starColor='#19896f'
-            onStarClick={newRating => setRating(newRating)}
+            // onStarClick={newRating => setRating(newRating)}
           />
         </div>
 

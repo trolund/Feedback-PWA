@@ -63,7 +63,14 @@ const Login: NextPage = observer(() => {
               onChange={checked => setRememberme(checked)}
             />
           </div>
-
+          <div
+            className='center'
+            style={{ textAlign: 'center', padding: '15px' }}
+          >
+            <Link href='/password-reset'>
+              <a>Glemt dit kodeord?</a>
+            </Link>
+          </div>
           {state === FetchStates.LOADING && (
             <p className='center msg'>Loading</p>
           )}

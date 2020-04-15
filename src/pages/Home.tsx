@@ -95,6 +95,14 @@ export default withAuth(
               width: 100%;
             }
           }
+
+          @media only screen and (max-width: 600px) {
+            .charts {
+              padding: 10px;
+              padding-top: 0px;
+            }
+          }
+
           .filter {
             border: solid 1px var(--divider);
             border-radius: var(--border-radius);

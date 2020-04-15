@@ -10,66 +10,64 @@ import Section from '../../components/section'
 import QuestionSetList from '../../components/questionset-list'
 import QuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
-import withAuth from '../../services/withAuth'
+import { auth } from '../../services/authService'
 
 type pageProps = {
   initPageProps: QuestionSet[]
 }
 
-const AllQuestionSets: NextPage = withAuth(
-  observer(({ initPageProps }: pageProps) => {
-    const [list, setList] = useState(initPageProps)
+const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
+  const [list, setList] = useState(initPageProps)
 
-    const addQuestionSetClickHandler = () => {
-      Router.push(`/questionsets/new`)
-    }
+  const addQuestionSetClickHandler = () => {
+    Router.push(`/questionsets/new`)
+  }
 
-    const deleteQuestion = (qSetId: string, index: number) => {
-      list.splice(index, 1)
-      setList([...list])
-    }
+  const deleteQuestion = (qSetId: string, index: number) => {
+    list.splice(index, 1)
+    setList([...list])
+  }
 
-    return (
-      <Page
-        title='Alle spørgsmålssæt'
-        component={<Plus onClick={addQuestionSetClickHandler} />}
-      >
-        <Section>
-          <QuestionSetList questionSetlist={list} deleteFunc={deleteQuestion} />
-        </Section>
-        <style jsx>{`
-          @media only screen and (max-width: 400px) {
-            .name {
-              margin-right: auto;
-              margin-left: auto;
-              text-align: center;
-              float: none;
-            }
-
-            .topbar {
-              float: none;
-            }
+  return (
+    <Page
+      title='Alle spørgsmålssæt'
+      component={<Plus onClick={addQuestionSetClickHandler} />}
+    >
+      <Section>
+        <QuestionSetList questionSetlist={list} deleteFunc={deleteQuestion} />
+      </Section>
+      <style jsx>{`
+        @media only screen and (max-width: 400px) {
+          .name {
+            margin-right: auto;
+            margin-left: auto;
+            text-align: center;
+            float: none;
           }
 
           .topbar {
-            width: 100%;
-            padding: 10px;
-            height: calc(2vw * 20);
-            max-height: 120px;
+            float: none;
           }
-        `}</style>
-      </Page>
-    )
-  })
-)
+        }
+
+        .topbar {
+          width: 100%;
+          padding: 10px;
+          height: calc(2vw * 20);
+          max-height: 120px;
+        }
+      `}</style>
+    </Page>
+  )
+})
 
 AllQuestionSets.getInitialProps = async ctx => {
-  const { jwttoken } = cookies(ctx)
+  const token = auth(ctx)
   const url = ApiRoutes.QuestionSetNames
   let data: QuestionSet[] | null = null
   try {
     const response = await fetch(url, {
-      headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
+      headers: !token ? {} : { Authorization: `Bearer ${token}` }
     })
     data = await response.json()
   } catch (e) {

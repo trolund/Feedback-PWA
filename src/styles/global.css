@@ -166,6 +166,35 @@ input[type='password']:hover {
   background-color: var(--surface-hover);
 }
 
+input:-webkit-autofill {
+  color: var(--text);
+  font-family: inherit;
+  -webkit-text-fill-color: var(--text);
+  -webkit-text-size-adjust: 20px;
+  -webkit-box-shadow: 0 0 0 50px var(--surface) inset;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 50px var(--surface-hover) inset;
+}
+
+/* input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  font-family: inherit;
+  color: var(--text);
+  border: 0px solid var(--accent-low);
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0, 0) inset;
+  transition: background-color 1300ms ease-in-out 0s;
+} */
+
 /* textarea {
   color: var(--text);
   padding: var(--gap-small);
@@ -178,6 +207,9 @@ input[type='password']:hover {
   border-radius: 15px;
   background-color: var(--surface);
 } */
+
+
+
 
 textarea:hover {
   background-color: var(--surface-hover);

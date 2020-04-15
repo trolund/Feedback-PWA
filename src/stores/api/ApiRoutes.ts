@@ -36,6 +36,7 @@ const ApiRoutes = {
   QuestionSetNames: `${apiUrl()}/Api/QuestionSet/SetOnly`,
   QuestionSetById: (id: string) => `${apiUrl()}/Api/QuestionSet/${id}`,
   Feedbackbatch: (id: string) => `${apiUrl()}/Api/FeedbackBatch/${id}`,
+  userRating: `${apiUrl()}/Api/FeedbackBatch/rating`,
   Categories: (companyId: string) =>
     `${apiUrl()}/Api/Meeting/Categories/${companyId}`,
   MeetingsByDates: (start: Date, end: Date) =>

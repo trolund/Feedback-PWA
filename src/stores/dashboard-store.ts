@@ -25,6 +25,8 @@ class DashboardStore {
 
   @observable ownData: boolean = true
 
+  @observable rating: number = 0
+
   // status
   @observable state = FetchStates.DONE
 
@@ -73,6 +75,33 @@ class DashboardStore {
 
   @action setState = (state: FetchStates) => {
     this.state = state
+  }
+
+  @action fetchRating = async () => {
+    this.state = FetchStates.LOADING
+    try {
+      const url = ApiRoutes.userRating
+      const token = getToken()
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: !token
+          ? {}
+          : {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+        redirect: 'follow'
+      })
+      this.msg = response.statusText
+
+      const data: number = await response.json()
+      this.state = FetchStates.DONE
+      this.rating = data
+    } catch (e) {
+      this.state = FetchStates.FAILED
+      this.msg = e.statusText
+      this.data = null
+    }
   }
 
   // async fetchDashboard(

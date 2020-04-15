@@ -1,6 +1,10 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable import/prefer-default-export */
 
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index
+}
+
 type validationResult = {
   valid: boolean
   validationErrors: string[]
@@ -82,6 +86,17 @@ export const numericRule = (
   rules.push(valid)
 }
 
+export const equalsRule = (
+  inputA: string,
+  inputB: string,
+  rules: boolean[],
+  validationErrors: string[]
+) => {
+  const valid = inputA === inputB
+  if (!valid) validationErrors.push(`input skal være ens.`)
+  rules.push(valid)
+}
+
 /* Validaters */
 
 export const validateEmail = (mail: string): validationResult => {
@@ -91,7 +106,10 @@ export const validateEmail = (mail: string): validationResult => {
   emailRule(mail, rules, validationErrors)
   zeroLengthRule(mail, rules, validationErrors)
 
-  return { valid: rules.every(r => r), validationErrors } as validationResult
+  return {
+    valid: rules.every(r => r),
+    validationErrors: validationErrors.filter(onlyUnique)
+  } as validationResult
 }
 
 export const validatePassword = (password: string): validationResult => {
@@ -104,5 +122,28 @@ export const validatePassword = (password: string): validationResult => {
   minLengthRule(password, rules, validationErrors, 4)
   numericRule(password, rules, validationErrors)
 
-  return { valid: rules.every(r => r), validationErrors } as validationResult
+  return {
+    valid: rules.every(r => r),
+    validationErrors: validationErrors.filter(onlyUnique)
+  } as validationResult
+}
+
+export const validateNewPassword = (
+  passwordA: string,
+  passwordB: string
+): validationResult => {
+  const validationErrors: string[] = []
+  const rules: boolean[] = []
+
+  zeroLengthRule(passwordA, rules, validationErrors)
+  upperCaseRule(passwordA, rules, validationErrors)
+  lowerCaseRule(passwordA, rules, validationErrors)
+  minLengthRule(passwordA, rules, validationErrors, 4)
+  numericRule(passwordA, rules, validationErrors)
+  equalsRule(passwordA, passwordB, rules, validationErrors)
+
+  return {
+    valid: rules.every(r => r),
+    validationErrors: validationErrors.filter(onlyUnique)
+  } as validationResult
 }

@@ -7,6 +7,11 @@ const Section = ({ children }: Props) => (
     {children}
 
     <style jsx>{`
+      @media only screen and (max-width: 600px) {
+        section {
+          padding: 0px !important;
+        }
+      }
       section {
         padding: var(--gap);
       }
