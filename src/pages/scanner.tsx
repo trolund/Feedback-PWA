@@ -8,10 +8,11 @@ const QrReader = dynamic(() => import('react-qr-reader'), {
 })
 
 const Scanner = observer(() => {
-  const handleScan = data => {
+  const handleScan = (data: string) => {
     if (data) {
+      const parts = data.split(',')
       console.log('====================================')
-      console.log(data)
+      console.log(parts[-1])
       console.log('====================================')
       Router.push(data)
     }

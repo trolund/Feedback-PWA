@@ -398,6 +398,9 @@ export async function getServerSideProps(ctx: NextPageContext) {
   const { token } = cookies(ctx)
   const { query } = ctx
   const { mid } = query
+  console.log('====================================')
+  console.log(token)
+  console.log('====================================')
   let data: MeetingModel | null = null
   let feedbackData: FeedbackBatch[] | null = null
   let CategoriesData: Category[] | null = null
