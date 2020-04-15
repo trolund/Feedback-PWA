@@ -106,7 +106,7 @@ export default observer(() => {
           padding-bottom: 20px;
         }
         .loginBtn {
-          margin-top: 50px;
+          margin-top: 4vh;
         }
         .button {
           display: table;
