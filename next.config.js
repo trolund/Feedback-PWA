@@ -30,14 +30,17 @@ module.exports = withImages(
       apiUrl: process.env.API_URL
     },
     webpack: (config, { isServer }) => {
-      // Fixes npm packages that depend on `fs` module
+      let newConfig
       if (!isServer) {
-        config.node = {
-          fs: 'empty'
+        newConfig = {
+          ...config,
+          node: {
+            fs: 'empty'
+          }
         }
       }
 
-      return config
+      return newConfig || config
     }
   })
 )

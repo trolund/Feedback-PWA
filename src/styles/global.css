@@ -115,6 +115,7 @@ input[type='text'],
 input[type='password'],
 input[type='search'],
 textarea {
+  border: 0px;
   color: var(--text);
   padding: var(--gap-small);
   background: var(--base);
