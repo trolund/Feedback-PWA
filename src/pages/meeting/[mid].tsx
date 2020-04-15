@@ -1,20 +1,15 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import {
-  useContext,
-  useEffect,
-  useCallback,
-  useState
-} from './node_modules/react'
-import { useRouter } from './node_modules/next/router'
-import Router from './node_modules/next/router'
-import { observer } from './node_modules/mobx-react-lite'
-import { QRCode } from './node_modules/react-qr-svg'
-import { Save, Trash } from './node_modules/react-feather'
-import { NextPage, NextPageContext } from './node_modules/next'
-import cookies from './node_modules/next-cookies'
-import fetch from './node_modules/isomorphic-unfetch'
-import { toast } from './node_modules/react-toastify'
+import { useContext, useEffect, useCallback, useState } from 'react'
+import { useRouter } from 'next/router'
+import Router from 'next/router'
+import { observer } from 'mobx-react-lite'
+import { QRCode } from 'react-qr-svg'
+import { Save, Trash } from 'react-feather'
+import { NextPage, NextPageContext } from 'next'
+import cookies from 'next-cookies'
+import fetch from 'isomorphic-unfetch'
+import { toast } from 'react-toastify'
 import Page from '../../components/page'
 import Section from '../../components/section'
 import meetingStore from '../../stores/MeetingStore'

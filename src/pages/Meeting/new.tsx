@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
-import { useState, useContext, useEffect } from './node_modules/react'
-import { observer } from './node_modules/mobx-react-lite'
-import { Save } from './node_modules/react-feather'
+import { useState, useContext, useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
+import { Save } from 'react-feather'
 import CategoriesPicker from '../../components/categories-picker'
 import Page from '../../components/page'
 import Section from '../../components/section'
