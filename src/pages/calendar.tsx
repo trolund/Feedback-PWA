@@ -18,6 +18,7 @@ import MeetingModel from '../models/MeetingModel'
 // import CustomDatepicker from '../components/custom-datepicker'
 // import CustomTimepicker from '../components/custom-timepicker'
 import SearchBtn from '../components/search-btn'
+import { getCompanyId } from '../services/authService'
 
 let FullCalendarNoSSRWrapper
 
@@ -206,7 +207,7 @@ const CalendarView = observer(() => {
   )
 
   useEffect(() => {
-    categoriesContext.fetchCategories('1') // TODO get company id
+    categoriesContext.fetchCategories(String(getCompanyId())) // TODO get company id
   }, [categoriesContext])
 
   useEffect(() => {
