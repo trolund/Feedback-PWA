@@ -27,7 +27,7 @@ module.exports = withImages(
       dest: 'public'
     },
     env: {
-      apiUrl: process.env.API_URL
+      apiUrl: 'https://feedbackbackend.azurewebsites.net'
     },
     webpack: (config, { isServer }) => {
       let newConfig
