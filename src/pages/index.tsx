@@ -2,13 +2,14 @@ import { useContext, useState } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
+// import PWAPrompt from 'react-ios-pwa-prompt'
 import Lottie from 'react-lottie'
 import Page from '../components/page'
 import Section from '../components/section'
 import questionStore from '../stores/QuestionStore'
 import * as loading from '../../public/Animations/loading.json'
 import FetchStates from '../stores/requestState'
-
+import Prompt from '../components/AddToHomescreenPrompt'
 // import states from '../stores/requestState'
 
 export default observer(() => {
@@ -89,7 +90,6 @@ export default observer(() => {
           </Link>
         </div>
       </Section>
-
       <style jsx>{`
         .msg {
           text-align: center !important;
@@ -122,6 +122,7 @@ export default observer(() => {
           margin-bottom: 20px;
         }
       `}</style>
+      <Prompt />
     </Page>
   )
 })

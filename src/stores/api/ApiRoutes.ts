@@ -1,8 +1,8 @@
 // const { apiUrl } = process.env.apiUrl
 
-const isServer = () => typeof window === 'undefined'
+// const isServer = () => typeof window === 'undefined'
 const apiUrl = () => {
-  if (!isServer) return process.env.API_URL
+  // if (!isServer) return process.env.API_URL
   return process.env.apiUrl
 }
 
