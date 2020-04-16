@@ -14,8 +14,8 @@ import Prompt from '../components/AddToHomescreenPrompt'
 
 export default observer(() => {
   const { isMeetingOpen, fetchState } = useContext(questionStore)
-  const [errorMsg, setErrorMsg] = useState(null)
-  const [meetingId, setMeetingId] = useState(null)
+  const [errorMsg, setErrorMsg] = useState('')
+  const [meetingId, setMeetingId] = useState('')
 
   const defaultOptions = {
     loop: false,

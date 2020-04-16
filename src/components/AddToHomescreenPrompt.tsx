@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { DownloadCloud } from 'react-feather'
 import useAddToHomescreenPrompt from '../services/AddToHomescreenService'
 
 const Prompt = () => {
@@ -18,14 +19,66 @@ const Prompt = () => {
   }
 
   return (
-    <div role='button' tabIndex={0} onClick={hide} onKeyDown={hide}>
-      <button type='button' onClick={hide} className='button'>
-        Close
-      </button>
-      Hello! Wanna add to homescreen?
-      <button type='button' onClick={promptToInstall} className='button'>
-        Add to homescreen
-      </button>
+    <div
+      role='button'
+      tabIndex={0}
+      onClick={hide}
+      onKeyDown={hide}
+      className='overlay'
+    >
+      <div className='box'>
+        <button type='button' onClick={hide} className='closebtn'>
+          Close
+        </button>
+        <button
+          type='button'
+          onClick={promptToInstall}
+          className='button bottombtn'
+        >
+          <DownloadCloud
+            style={{
+              width: '20px',
+              height: '20px',
+              marginRight: '-20px',
+              float: 'left'
+            }}
+          />
+          Installerer app
+        </button>
+      </div>
+      <style jsx>{`
+        .closebtn {
+          float: right;
+          color: var(--accent);
+        }
+        .overlay {
+          width: 100%;
+          height: 100%;
+          background-color: var(--base-low);
+          position: fixed;
+          backdrop-filter: blur(0.2);
+        }
+
+        .bottombtn {
+          display: block;
+          max-width: 400px;
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .box {
+          width: 100%;
+          height: 170px;
+          position: fixed;
+          bottom: 0px;
+          left: 0px;
+          right: 0px;
+          background-color: var(--base);
+          padding: 10px;
+          box-shadow: -1px -4px 51px -24px rgba(0, 0, 0, 0.75);
+        }
+      `}</style>
     </div>
   )
 }
