@@ -211,9 +211,13 @@ const FeedbackView = observer((props: IProp) => {
           padding-top: 25px;
           padding-bottom: 25px;
           max-width: 250px;
-          max-height: 250px;
           margin-left: auto;
           margin-right: auto;
+        }
+
+        .end-result h2 {
+          padding-top: 25px;
+          padding-bottom: 25px;
         }
       `}</style>
       <style jsx global>{`

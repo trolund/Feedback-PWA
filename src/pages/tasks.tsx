@@ -20,7 +20,7 @@ const Tasks = () => {
   ]
 
   return (
-    <Page title='Tasks'>
+    <Page title='Tasks' showBackButton={false}>
       <Section>
         <h2>Tasks</h2>
       </Section>

@@ -171,40 +171,27 @@ const Post: NextPage = observer(
         showBottomNav={false}
         title={meeting?.name ?? 'loading...'}
         showBackButton
+        component={
+          <button
+            type='button'
+            className='no-border'
+            onClick={updateMeetingClickHandler}
+          >
+            <Save
+              style={{
+                height: '20px',
+                width: '20px',
+                marginRight: '7px'
+              }}
+            />
+            Gem
+          </button>
+        }
       >
         <Section>
-          <div className='btn-group'>
-            <button
-              type='button'
-              className='button'
-              onClick={updateMeetingClickHandler}
-            >
-              <Save
-                style={{
-                  height: '20px',
-                  width: '20px',
-                  marginRight: '7px',
-                  marginTop: '2px'
-                }}
-              />
-              Gem
-            </button>
-            <button
-              type='button'
-              className='button'
-              onClick={deleteMeetingClickHandler}
-            >
-              <Trash
-                style={{
-                  height: '20px',
-                  width: '20px',
-                  marginRight: '7px',
-                  marginTop: '2px'
-                }}
-              />
-              Slet
-            </button>
-          </div>
+          {/* <div className='btn-group'>
+            
+          </div> */}
           <div className='flex-container'>
             <div className='flex-item-left'>
               {' '}
@@ -305,6 +292,23 @@ const Post: NextPage = observer(
                 count={count}
                 feedbackLoading={feedbackcontext.state}
               />
+              <div style={{ width: '100%', padding: '10px' }}>
+                <button
+                  type='button'
+                  className='button bottombtn'
+                  onClick={deleteMeetingClickHandler}
+                >
+                  <Trash
+                    style={{
+                      height: '20px',
+                      width: '20px',
+                      marginRight: '7px',
+                      marginTop: '2px'
+                    }}
+                  />
+                  Slet
+                </button>
+              </div>
             </div>
             <div className='flex-item-right'>
               <div className='qrbox'>
@@ -343,6 +347,10 @@ const Post: NextPage = observer(
           .btn-group {
             height: 60px;
             text-align: right;
+          }
+
+          .no-border {
+            border: none;
           }
 
           .btn-group button {

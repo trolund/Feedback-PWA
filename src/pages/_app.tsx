@@ -3,9 +3,7 @@ import { AppProps } from 'next/app'
 import '../styles/global.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
-// import { Provider } from 'mobx-react'
-
-// import initializeStore from '../stores/stores'
+import 'react-infinite-calendar/styles.css'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (

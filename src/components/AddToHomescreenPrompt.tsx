@@ -50,21 +50,16 @@ const Prompt = () => {
         .closebtn {
           float: right;
           color: var(--accent);
+          border: none;
         }
         .overlay {
           width: 100%;
           height: 100%;
+          top: 0;
+          left: 0;
           background-color: var(--base-low);
           position: fixed;
-          backdrop-filter: blur(0.2);
-        }
-
-        .bottombtn {
-          display: block;
-          max-width: 400px;
-          width: 100%;
-          margin-left: auto;
-          margin-right: auto;
+          backdrop-filter: blur(2px);
         }
 
         .box {

@@ -1,11 +1,14 @@
 import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import { Settings, LogOut } from 'react-feather'
+
+import { Settings, LogOut, Edit3, User as Avater } from 'react-feather'
 import Router from 'next/router'
 import Page from '../components/page'
+import User from '../models/User'
 import Section from '../components/section'
 import authStore from '../stores/authStore'
-import User from '../models/User'
+
+// import { User as Avatar } from '../models/User'
 
 const Profile = observer(() => {
   const { getUser, signout } = useContext(authStore)
@@ -16,9 +19,19 @@ const Profile = observer(() => {
   let user: User = { companyId: 0, firstname: '?', lastname: '?', roles: [] }
   if (typeof window !== 'undefined') user = getUser()
   return (
-    <Page title='Profile' component={<SettingsBtn />}>
+    <Page title='Profile' showBackButton={false} component={<SettingsBtn />}>
       <Section>
         <ul>
+          <li>
+            <Avater
+              style={{
+                width: '90px',
+                height: '90px',
+                marginLeft: 'auto',
+                marginRight: 'auto'
+              }}
+            />
+          </li>
           <li>
             <input
               type='text'
@@ -59,6 +72,25 @@ const Profile = observer(() => {
                 signout()
               }}
             >
+              <Edit3
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  marginRight: '-20px',
+                  float: 'left'
+                }}
+              />
+              Updater bruger
+            </button>
+          </li>
+          <li>
+            <button
+              type='button'
+              className='button bottombtn'
+              onClick={() => {
+                signout()
+              }}
+            >
               <LogOut
                 style={{
                   width: '20px',
@@ -87,14 +119,6 @@ const Profile = observer(() => {
           display: flex;
           align-items: center;
           transition: var(--transition-colors);
-        }
-
-        .bottombtn {
-          display: block;
-          max-width: 400px;
-          width: 100%;
-          margin-left: auto;
-          margin-right: auto;
         }
 
         li:not(:last-child) {

@@ -2,6 +2,7 @@
 import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Save } from 'react-feather'
+import Router from 'next/router'
 import CategoriesPicker from '../../components/categories-picker'
 import Page from '../../components/page'
 import Section from '../../components/section'
@@ -52,70 +53,54 @@ const newMeetingPage = withAuth(
         questionsSetId: questionSet,
         location: 'et sted'
       }
-      meetingStoreContext.create(newMeeting)
-      // meetingStoreContext.create(meeting).then(() => {
-      //   if (meetingStoreContext.meetingCreatedState === states.DONE) {
-      //     setEvnets([
-      //       ...events,
-      //       {
-      //         id: meeting.questionsSetId,
-      //         title: meeting.name,
-      //         date: meeting.startTime,
-      //         color: 'red'
-      //       } as EventInput
-      //     ])
-
-      //     window.setTimeout(() => {
-      //       meetingStoreContext
-      //         .fetchMeetings(
-      //           (calViewProp as CalView).activeStart,
-      //           (calViewProp as CalView).activeEnd
-      //         )
-      //         .then(() => {
-      //           setEvnets(mapEvents(meetingStoreContext.meetings))
-      //         })
-      //     }, 1500)
-      //   }
-      // })
+      meetingStoreContext.create(newMeeting).then(res => {
+        if (res === FetchStates.DONE) {
+          Router.back()
+        }
+      })
     }
 
     return (
-      <Page title={meeting?.name}>
+      <Page
+        title='Nyt møde'
+        showBottomNav={false}
+        component={
+          <button
+            type='button'
+            className=''
+            onClick={() => {
+              createMeeting()
+            }}
+          >
+            <Save
+              style={{
+                height: '20px',
+                width: '20px',
+                marginRight: '7px',
+                marginTop: '2px'
+              }}
+            />
+            Opret
+          </button>
+        }
+      >
         <Section>
           <div className='topbar'>
-            <select
-              name='select'
-              id='exampleSelect'
-              className='float-left'
-              onChange={e => {
-                setQuestionSet(e.target.value)
-              }}
-            >
-              <option>- Vælg spørgsmåls sæt -</option>
-              {questionContext.QSetNames?.map(item => (
-                <option key={item.questionSetId} value={item.questionSetId}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-            <button
-              type='button'
-              className='button float-right'
-              color='primary'
-              onClick={() => {
-                createMeeting()
-              }}
-            >
-              <Save
-                style={{
-                  height: '20px',
-                  width: '20px',
-                  marginRight: '7px',
-                  marginTop: '2px'
+            <div className='select-css'>
+              <select
+                name='select'
+                onChange={e => {
+                  setQuestionSet(e.target.value)
                 }}
-              />
-              Opret møde
-            </button>
+              >
+                <option>- Vælg spørgsmåls sæt -</option>
+                {questionContext.QSetNames?.map(item => (
+                  <option key={item.questionSetId} value={item.questionSetId}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <input
             type='text'

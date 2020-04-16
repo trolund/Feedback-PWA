@@ -17,6 +17,16 @@ export default function useAddToHomescreenPrompt(): [
     null
   )
 
+  // const isIos = () => {
+  //   const userAgent = window.navigator.userAgent.toLowerCase()
+  //   return /iphone|ipad|ipod/.test(userAgent)
+  // }
+
+  // const isInStandaloneMode = () =>
+  //   'standalone' in window.navigator && (window.navigator as any).standalone
+
+  // Checks if should display install popup notification:
+
   const promptToInstall = () => {
     if (prompt) {
       return prompt.prompt()

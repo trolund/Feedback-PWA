@@ -29,6 +29,7 @@ export default observer(() => {
   }
 
   const checkMeetingClickHandler = () => {
+    setErrorMsg('')
     isMeetingOpen(meetingId).then((result: boolean) => {
       if (result) {
         Router.push(`/feedback/${meetingId}`)
@@ -48,12 +49,22 @@ export default observer(() => {
       <Section>
         <div className='logo' />
         <CustomInput
+          error={errorMsg.length > 0}
           className='meeting-id-input center'
           type='text'
           placeholder='Møde ID'
           value={meetingId}
           onChange={e => setMeetingId(e)}
-          logo={<Hash style={{ width: '20px', height: '20px' }} />}
+          logo={
+            fetchState === FetchStates.LOADING ? (
+              <div style={{ marginTop: '-7px', marginLeft: '-7px' }}>
+                <Lottie options={defaultOptions} height={35} width={35} />
+              </div>
+            ) : (
+              // <Loader />
+              <Hash style={{ width: '20px', height: '20px' }} color='white' />
+            )
+          }
           center
         />
         <p className='msg'>{errorMsg ?? ''}</p>
@@ -67,10 +78,6 @@ export default observer(() => {
             tabIndex={0}
             className='center button'
           >
-            {fetchState === FetchStates.LOADING && (
-              <Lottie options={defaultOptions} height={25} width={25} />
-              // <Loader />
-            )}
             Giv Feedback
           </a>
           <Link href='/scanner' key='scanner'>
@@ -104,6 +111,7 @@ export default observer(() => {
         .meeting-id-input {
           text-align: center;
         }
+
         .buttons {
           padding-top: 20px;
           padding-bottom: 20px;

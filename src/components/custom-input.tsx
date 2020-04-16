@@ -6,6 +6,7 @@ type Props = {
   type: string
   className?: string
   center?: boolean
+  error?: boolean
 }
 
 const CustomInput = ({
@@ -15,11 +16,16 @@ const CustomInput = ({
   logo: Logo,
   type,
   className,
-  center
+  center,
+  error
 }: Props) => {
+  console.log('====================================')
+  console.log(error)
+  console.log('====================================')
   return (
     <div className={className ?? ''} style={{ width: 'fit-content' }}>
       <input
+        className={error ? 'input-error' : ''}
         type={type}
         placeholder={placeholder}
         onChange={e => onChange(e.target.value)}
@@ -49,6 +55,10 @@ const CustomInput = ({
         }
         input {
           padding-left: 55px;
+        }
+
+        .input-error {
+          box-shadow: 0 0 0 2px var(--error) !important;
         }
       `}</style>
     </div>

@@ -48,13 +48,15 @@ class MeetingStore {
       this.msg = response.statusText
       if (response.status === 200) {
         this.meetingCreatedState = FetchStates.DONE
-      } else {
-        this.meetingCreatedState = FetchStates.FAILED
+        return FetchStates.DONE
       }
+      this.meetingCreatedState = FetchStates.FAILED
+      return FetchStates.FAILED
     } catch (e) {
       this.meetingCreatedState = FetchStates.FAILED
       this.msg = e.statusText
       this.meetings = []
+      return FetchStates.FAILED
     }
   }
 
