@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
+import { Hash } from 'react-feather'
 // import PWAPrompt from 'react-ios-pwa-prompt'
 import Lottie from 'react-lottie'
 import Page from '../components/page'
@@ -10,6 +11,7 @@ import questionStore from '../stores/QuestionStore'
 import * as loading from '../../public/Animations/loading.json'
 import FetchStates from '../stores/requestState'
 import Prompt from '../components/AddToHomescreenPrompt'
+import CustomInput from '../components/custom-input'
 // import states from '../stores/requestState'
 
 export default observer(() => {
@@ -45,12 +47,14 @@ export default observer(() => {
     >
       <Section>
         <div className='logo' />
-        <input
-          className='meeting-id-input'
+        <CustomInput
+          className='meeting-id-input center'
           type='text'
           placeholder='Møde ID'
           value={meetingId}
-          onChange={e => setMeetingId(e.target.value)}
+          onChange={e => setMeetingId(e)}
+          logo={<Hash style={{ width: '20px', height: '20px' }} />}
+          center
         />
         <p className='msg'>{errorMsg ?? ''}</p>
         <div className='center buttons'>
@@ -69,7 +73,6 @@ export default observer(() => {
             )}
             Giv Feedback
           </a>
-
           <Link href='/scanner' key='scanner'>
             <a
               title='scanner'

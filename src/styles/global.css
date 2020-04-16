@@ -9,6 +9,7 @@
   --accent-dark: #126451;
   --text: #eeeff1;
   --label: #8a8b8e;
+
   --surface: #313236;
   --surface-hover: rgb(62, 62, 66);
   --divider: #2d2e31;
@@ -50,6 +51,7 @@
   --surface-hover: #ffffff;
   --divider: #eaeaea;
   --base: #fefefe;
+  --base-low: #fefefe2a;
   --overflow: #fff;
 }
 
