@@ -1,8 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import { useContext, useEffect } from 'react'
-import { RefreshCw } from 'react-feather'
+import { RefreshCw, DownloadCloud, Search } from 'react-feather'
 import Select from 'react-select'
-import { IonDatetime } from '@ionic/react'
 import dashboardStore from '../stores/dashboard-store'
 // import Tag from '../models/tag'
 import CustomDatepicker from './custom-datepicker'
@@ -16,6 +15,7 @@ import GraphXScale from '../models/GraphXScale'
 import OptionsValue from '../models/OptionsValue'
 import { getCompanyId } from '../services/authService'
 import authStore from '../stores/authStore'
+import CustomInput from './custom-input'
 
 const DashboardFilter = observer(() => {
   // const [searchWord, setSearchWord] = useState('')
@@ -66,63 +66,69 @@ const DashboardFilter = observer(() => {
   }
 
   return (
-    <div>
-      <h3>Filter muligheder</h3>
-      <div className='flex-container'>
-        <div>
-          <p>Søgeord</p>
-          <input
-            type='search'
-            name='searchWord'
-            id='name'
-            placeholder="Ord som enden er en del af navnet eller beskrivelse på mødet, fx 'HR' "
-            value={searchWord}
-            onChange={e => setSearchWord(e.target.value)}
-          />
-          <Select
-            className='basic-single'
-            classNamePrefix='select'
-            options={
-              [
-                { label: 'Uger', value: String(Number(GraphXScale.weeks)) },
-                { label: 'Måneder', value: String(Number(GraphXScale.mounths)) }
-              ] as OptionsValue[]
+    <ul>
+      <li>
+        <h3 className='float-left'>Filter muligheder</h3>
+        <span className='float-right btn-group'>
+          <DashboardExcelDownload
+            data={data}
+            downloadBtn={
+              <DownloadCloud style={{ width: '20px', height: '20px' }} />
             }
-            onChange={(value: OptionsValue) =>
-              setXAxisScale(Number(value.value))
-            }
-            // defaultValue={() =>
-            //   xAxisScale === GraphXScale.weeks
-            //     ? [{ label: 'Uger', value: String(Number(GraphXScale.weeks)) }]
-            //     : [
-            //         {
-            //           label: 'Måneder',
-            //           value: String(Number(GraphXScale.mounths))
-            //         }
-            //       ]
-            // }
           />
-        </div>
-        <div style={{ width: '250px' }}>
-          <div className='tagdiv'>
-            <p>Kategori</p>
-            <CategoriesPicker
-              loading={categoriesContext.state === FetchStates.LOADING}
-              categories={categoriesContext?.categories}
-              setTags={selectedTags =>
-                setTags(selectedTags.map(item => item.value))
-              }
-            />
-            {/* <TagInput tags={tags} setTags={setTags} /> setTags(tag?.map(item => item.name))*/}
-          </div>
-        </div>
-      </div>
-      <div className='flex-container padding'>
-        <IonDatetime
-          displayFormat='MMMM'
-          value={startdate.toISOString()}
-          onIonChange={e => setStartdate(new Date(e.detail.value!))}
+          <RefreshCw style={{ width: '20px', height: '20px' }} />
+        </span>
+      </li>
+
+      <li>
+        <CustomInput
+          logo={<Search style={{ width: '20px', height: '20px' }} />}
+          type='search'
+          className='fill'
+          placeholder="Ord som enden er en del af navnet eller beskrivelse på mødet, fx 'HR' "
+          value={searchWord}
+          fill
+          onChange={e => setSearchWord(e)}
         />
+      </li>
+      <li>
+        {/* <Select
+          className='basic-single fill'
+          classNamePrefix='select'
+          options={
+            [
+              { label: 'Uger', value: String(Number(GraphXScale.weeks)) },
+              { label: 'Måneder', value: String(Number(GraphXScale.mounths)) }
+            ] as OptionsValue[]
+          }
+          onChange={(value: OptionsValue) => setXAxisScale(Number(value.value))}
+          // defaultValue={() =>
+          //   xAxisScale === GraphXScale.weeks
+          //     ? [{ label: 'Uger', value: String(Number(GraphXScale.weeks)) }]
+          //     : [
+          //         {
+          //           label: 'Måneder',
+          //           value: String(Number(GraphXScale.mounths))
+          //         }
+          //       ]
+          // }
+        /> */}
+        <select onChange={e => setXAxisScale(Number(e.target.value))}>
+          <option value={GraphXScale.mounths}>Måneder</option>
+          <option value={GraphXScale.weeks}>Uger</option>
+        </select>
+      </li>
+      <li className='tagdiv'>
+        <CategoriesPicker
+          loading={categoriesContext.state === FetchStates.LOADING}
+          categories={categoriesContext?.categories}
+          setTags={selectedTags =>
+            setTags(selectedTags.map(item => item.value))
+          }
+        />
+        {/* <TagInput tags={tags} setTags={setTags} /> setTags(tag?.map(item => item.name))*/}
+      </li>
+      <li className='flex-container padding'>
         <div>
           <p>Start dato</p>
           <CustomDatepicker
@@ -141,40 +147,40 @@ const DashboardFilter = observer(() => {
             }}
           />
         </div>
-      </div>
-      <div className='flex-container padding'>
-        {(isAdmin || isVAdmin) && (
-          <div className='ownData'>
-            <CustomCheckbox
-              label='Hvis kun min feedback'
-              checked={ownData}
-              onChange={checked => setOwnData(checked)}
-            />
-          </div>
-        )}
-        <div className='ownData'>
+      </li>
+
+      {(isAdmin || isVAdmin) && (
+        <li className='ownData text-center'>
           <CustomCheckbox
-            label='Hvis kun relevant data'
-            checked={cutoff}
-            onChange={checked => setCutOff(checked)}
+            label='Hvis kun min feedback'
+            checked={ownData}
+            onChange={checked => setOwnData(checked)}
           />
-        </div>
-        <div className='ownData'>
-          <CustomCheckbox
-            label='Statisk Y-akse'
-            checked={useFixedYAxis}
-            onChange={checked => setFixedYAxis(checked)}
-          />
-        </div>
-        <div className='ownData'>
-          <CustomCheckbox
-            label='Undlad nul-værdier'
-            checked={useSkipZero}
-            onChange={checked => setSkipZero(checked)}
-          />
-        </div>
-      </div>
-      <div className=''>
+        </li>
+      )}
+      <li className='ownData'>
+        <CustomCheckbox
+          label='Hvis kun relevant data'
+          checked={cutoff}
+          onChange={checked => setCutOff(checked)}
+        />
+      </li>
+      <li className='ownData'>
+        <CustomCheckbox
+          label='Statisk Y-akse'
+          checked={useFixedYAxis}
+          onChange={checked => setFixedYAxis(checked)}
+        />
+      </li>
+      <li className='ownData'>
+        <CustomCheckbox
+          label='Undlad nul-værdier'
+          checked={useSkipZero}
+          onChange={checked => setSkipZero(checked)}
+        />
+      </li>
+
+      {/* <div className=''>
         <a
           role='button'
           tabIndex={0}
@@ -185,11 +191,35 @@ const DashboardFilter = observer(() => {
           <RefreshCw style={{ width: '20px', height: '20px' }} />
           Reload
         </a>
-
-        <DashboardExcelDownload data={data} />
-      </div>
+      </div> */}
       <style jsx>{`
-        .ownData {
+        li {
+          color: var(--fg);
+          padding: var(--gap-small);
+          display: flex;
+          align-items: center;
+          transition: var(--transition-colors);
+        }
+
+        li:not(:last-child) {
+          border-bottom: 1px solid var(--divider);
+        }
+
+        .fill {
+          width: 100%;
+        }
+
+        .btn-group {
+          right: 15px;
+          position: absolute;
+        }
+
+        .btn-group > span {
+          margin-left: 10px;
+        }
+
+         {
+          /* .ownData {
           padding: 5px;
         }
         .padding {
@@ -199,6 +229,7 @@ const DashboardFilter = observer(() => {
         .tagdiv {
           padding-top: 10px;
           padding-bottom: 10px;
+        } */
         }
 
          {
@@ -210,7 +241,7 @@ const DashboardFilter = observer(() => {
         } */
         }
       `}</style>
-    </div>
+    </ul>
   )
 })
 

@@ -9,6 +9,7 @@ import DashboardOverview from '../components/dashboard-overview'
 import img from '../../public/images/nofilter.svg'
 import CalculationService from '../services/calculationService'
 import withAuth from '../services/withAuth'
+import BottomModal from '../components/bottom-modal'
 
 export default withAuth(
   observer(() => {
@@ -59,13 +60,16 @@ export default withAuth(
         component={<ShowAndHideFilterBtn />}
         title='Home'
       >
+        <BottomModal
+          show={showFilter}
+          setShow={setShowFilter}
+          content={<DashboardFilter />}
+        />
         <Section>
           <section className='flex-container'>
-            {showFilter && (
-              <div className='filter'>
-                <DashboardFilter />
-              </div>
-            )}
+            {/* {showFilter && (
+              <div className='filter'><DashboardFilter /></div>
+            )} */}
             <div className='charts'>
               <DashboardOverview
                 graphData={graphdata()}

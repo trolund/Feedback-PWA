@@ -7,9 +7,10 @@ const { ExcelColumn } = ReactExport.ExcelFile
 
 type excelDataset = {
   data: FeedbackDate[]
+  downloadBtn: JSX.Element
 }
 
-const DashboardExcelDownload = ({ data }: excelDataset) => {
+const DashboardExcelDownload = ({ data, downloadBtn }: excelDataset) => {
   const exportData = data?.map(item => {
     return {
       answer: item.answer,
@@ -19,7 +20,7 @@ const DashboardExcelDownload = ({ data }: excelDataset) => {
   })
 
   return (
-    <ExcelFile>
+    <ExcelFile element={downloadBtn}>
       <ExcelSheet
         data={exportData}
         name='Feedback'

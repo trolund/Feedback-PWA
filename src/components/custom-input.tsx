@@ -7,6 +7,7 @@ type Props = {
   className?: string
   center?: boolean
   error?: boolean
+  fill?: boolean
 }
 
 const CustomInput = ({
@@ -17,20 +18,24 @@ const CustomInput = ({
   type,
   className,
   center,
-  error
+  error,
+  fill
 }: Props) => {
-  console.log('====================================')
-  console.log(error)
-  console.log('====================================')
+  const fillSpace = fill ? { width: '100%' } : {}
   return (
-    <div className={className ?? ''} style={{ width: 'fit-content' }}>
+    <div
+      className={className ?? ''}
+      style={{ width: fill ? '100%' : 'fit-content' }}
+    >
       <input
         className={error ? 'input-error' : ''}
         type={type}
         placeholder={placeholder}
         onChange={e => onChange(e.target.value)}
         value={value}
-        style={center ? { textAlign: 'center' } : {}}
+        style={
+          center ? { textAlign: 'center', ...fillSpace } : { ...fillSpace }
+        }
       />
       <div className='icon-container'>
         <div className='icon'>{Logo}</div>
