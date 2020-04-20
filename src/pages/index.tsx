@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
-import { Hash } from 'react-feather'
+import { Hash, LogIn, Maximize, Smile, AlertCircle } from 'react-feather'
 // import PWAPrompt from 'react-ios-pwa-prompt'
 import Lottie from 'react-lottie'
 import Page from '../components/page'
@@ -67,42 +67,95 @@ export default observer(() => {
           }
           center
         />
-        <p className='msg'>{errorMsg ?? ''}</p>
+        <p className='msg'>
+          {errorMsg && (
+            <AlertCircle
+              style={{
+                width: '20px',
+                height: '20px',
+                marginRight: '10px',
+                marginTop: '2px;'
+              }}
+              color='white'
+            />
+          )}
+          {errorMsg ?? ''}
+        </p>
         <div className='center buttons'>
-          <a
+          <button
             title='login'
             aria-label='login'
             onClick={checkMeetingClickHandler}
             onKeyDown={checkMeetingClickHandler}
-            role='button'
+            type='button'
             tabIndex={0}
             className='center button'
           >
+            <Smile
+              style={{
+                width: '20px',
+                height: '20px',
+                marginRight: '-20px',
+                float: 'left'
+              }}
+              color='white'
+            />
             Giv Feedback
-          </a>
+          </button>
           <Link href='/scanner' key='scanner'>
-            <a
+            <button
               title='scanner'
+              type='button'
               aria-label='scanner'
               className='center button loginBtn'
             >
-              Scan meeting code
-            </a>
+              <Maximize
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  marginRight: '-20px',
+                  float: 'left'
+                }}
+                color='white'
+              />
+              Scan kode
+            </button>
           </Link>
+          <hr />
           <Link href='/login' key='login'>
-            <a
+            <button
               title='login'
+              type='button'
               aria-label='login'
               className='center button loginBtn'
             >
-              login
-            </a>
+              <LogIn
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  marginRight: '-20px',
+                  float: 'left'
+                }}
+                color='white'
+              />
+              Login
+            </button>
           </Link>
         </div>
       </Section>
       <style jsx>{`
+        hr {
+          opacity: 0.2;
+          border: solid whitesmoke 0.5px;
+          max-width: calc(260px / 2);
+          margin-left: auto;
+          margin-right: auto;
+        }
         .msg {
           text-align: center !important;
+          height: 8vh;
+          padding: 2vh;
+          color: whitesmoke;
         }
         input {
           margin-left: auto;
@@ -113,8 +166,15 @@ export default observer(() => {
         }
 
         .buttons {
-          padding-top: 20px;
-          padding-bottom: 20px;
+           {
+            /* padding-top: 20px;
+          padding-bottom: 20px; */
+          }
+        }
+
+        .buttons button {
+          width: 80vw;
+          max-width: 260px;
         }
         .loginBtn {
           margin-top: 4vh;

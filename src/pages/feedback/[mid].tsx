@@ -71,8 +71,13 @@ const Feedback: NextPage = observer(({ initQuestions }: FeedbackInitProps) => {
     }
   }
 
-  const next = () => {
-    if (questions !== null && page === questions?.questions.length - 1) {
+  const next = (e: any) => {
+    e.preventDefault()
+    if (
+      questions !== null &&
+      page === questions?.questions.length - 1 &&
+      feedback[page]?.answer !== -1
+    ) {
       if (isFeedbackReady()) {
         createFeedbackBatch(feedback, String(mid)).then(res => {
           if (res === FetchStates.DONE) {
@@ -104,7 +109,7 @@ const Feedback: NextPage = observer(({ initQuestions }: FeedbackInitProps) => {
     <>
       <Page showBottomNav={false} showHead={false}>
         <ViewPager tag='main'>
-          <Frame className='frame'>
+          <Frame className='frame' autoSize>
             <Track
               // ref={(c: number) => setPage(c)}
               // viewsToShow={1}
@@ -130,8 +135,6 @@ const Feedback: NextPage = observer(({ initQuestions }: FeedbackInitProps) => {
                 <button
                   type='button'
                   className='pager-control pager-control--prev button float-left'
-                  tabIndex={0}
-                  onKeyDown={() => prev()}
                   onClick={() => prev()}
                 >
                   tilbage
@@ -140,9 +143,7 @@ const Feedback: NextPage = observer(({ initQuestions }: FeedbackInitProps) => {
               <button
                 type='button'
                 className='pager-control pager-control--next button float-right'
-                tabIndex={0}
-                onKeyDown={() => next()}
-                onClick={() => next()}
+                onClick={e => next(e)}
                 disabled={feedback[page]?.answer === -1}
               >
                 {page === questions.questions.length - 1
@@ -154,7 +155,7 @@ const Feedback: NextPage = observer(({ initQuestions }: FeedbackInitProps) => {
         </ViewPager>
         <style jsx global>{`
           .frame {
-            height: 80% !important;
+            height: 80vh !important;
             padding-bottom: 10px;
           }
         `}</style>

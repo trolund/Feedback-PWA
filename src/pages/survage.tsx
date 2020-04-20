@@ -60,7 +60,11 @@ export default observer(() => {
   }
 
   const next = () => {
-    if (questions !== null && page === questions?.questions.length - 1) {
+    if (
+      questions !== null &&
+      page === questions?.questions.length - 1 &&
+      feedback[page]?.answer !== -1
+    ) {
       if (isFeedbackReady()) {
         createFeedbackBatch(feedback, meetingId).then(res => {
           if (res === FetchStates.DONE) {
@@ -119,7 +123,7 @@ export default observer(() => {
                   type='button'
                   className='pager-control pager-control--prev button float-left'
                   tabIndex={0}
-                  onKeyDown={() => prev()}
+                  // onKeyDown={() => prev()}
                   onClick={() => prev()}
                 >
                   tilbage
@@ -129,7 +133,7 @@ export default observer(() => {
                 type='button'
                 className='pager-control pager-control--next button float-right'
                 tabIndex={0}
-                onKeyDown={() => next()}
+                // onKeyDown={() => next()}
                 onClick={() => next()}
                 disabled={feedback[page]?.answer === -1}
               >

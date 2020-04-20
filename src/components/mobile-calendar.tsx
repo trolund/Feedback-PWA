@@ -17,7 +17,7 @@ type props = {
 
 const MobileCalendar = ({ dim }: props) => {
   const onDaySelect = (date: Date) => {
-    Router.push(`/meeting/day/${date.toDateString()}`)
+    Router.push(`/meeting/day/${date.getTime()}`)
   }
 
   return (

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { CheckCircle } from 'react-feather'
+import { CheckCircle, User, Key, LogIn, UserPlus } from 'react-feather'
 import Link from 'next/link'
 import { NextPage } from 'next'
 import Page from '../components/page'
@@ -10,6 +10,7 @@ import authStore from '../stores/authStore'
 import FetchStates from '../stores/requestState'
 import CustomCheckbox from '../components/checkbox'
 import { validateEmail, validatePassword } from '../services/validationService'
+import CustomInput from '../components/custom-input'
 
 const Login: NextPage = observer(() => {
   const [rememberme, setRememberme] = useState(false)
@@ -40,25 +41,29 @@ const Login: NextPage = observer(() => {
     <Page showBottomNav={false} showBackButton title='login'>
       <Section>
         <form onSubmit={loginHandler}>
-          <input
+          <CustomInput
+            logo={<User color='white' />}
+            className='center'
             type='text'
             placeholder='Email'
             value={username}
             onChange={e => {
-              setUsername(e.target.value)
+              setUsername(e)
             }}
           />
-          <input
+          <CustomInput
+            logo={<Key color='white' />}
+            className='center'
             type='password'
             placeholder='Kodeord'
             value={password}
             onChange={e => {
-              setPassword(e.target.value)
+              setPassword(e)
             }}
           />
           <div className='center' style={{ width: '200px', marginTop: '25px' }}>
             <CustomCheckbox
-              label='Remember me'
+              label='Forbliv logget ind'
               checked
               onChange={checked => setRememberme(checked)}
             />
@@ -96,30 +101,63 @@ const Login: NextPage = observer(() => {
             className='button loginBtn center'
             disabled={loginBtnDisabled}
           >
+            <LogIn
+              style={{
+                width: '20px',
+                height: '20px',
+                marginRight: '-20px',
+                float: 'left'
+              }}
+              color='white'
+            />
             login
           </button>
         </form>
+        <hr />
         <Link href='/registration'>
-          <a
+          <button
             tabIndex={0}
-            role='button'
+            type='button'
             title='new user'
             aria-label='login'
             className='button loginBtn'
           >
+            <UserPlus
+              style={{
+                width: '20px',
+                height: '20px',
+                marginRight: '-20px',
+                float: 'left'
+              }}
+              color='white'
+            />
             Opret bruger
-          </a>
+          </button>
         </Link>
       </Section>
 
       <style jsx global>{`
+        hr {
+          opacity: 0.2;
+          border: solid 0.5px;
+          max-width: calc(260px / 2);
+          margin-left: auto;
+          margin-right: auto;
+        }
+        button {
+          margin-left: auto;
+          margin-right: auto;
+          width: 80vw;
+          max-width: 260px;
+        }
         .loginBtn {
-          margin-top: 50px;
+          margin-top: 4vh;
         }
         .button {
           display: table;
         }
         input {
+          text-align: center;
           margin-top: 20px !important;
           margin-left: auto !important;
           margin-right: auto !important;
@@ -132,10 +170,6 @@ const Login: NextPage = observer(() => {
 
         .msg {
           text-align: center !important;
-        }
-
-        main {
-          background-color: darkslategrey !important;
         }
       `}</style>
     </Page>

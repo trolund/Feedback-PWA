@@ -60,9 +60,7 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
   return (
     <View className='view'>
       <div className='question'>
-        <h2>
-          {question} - {answer}
-        </h2>
+        <h2>{question}</h2>
       </div>
       <div className='flex-container'>
         {smileys.map(item =>
@@ -98,6 +96,7 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
         value={comment}
         placeholder='Kommentar'
         onChange={val => setComment(val.target.value)}
+        onKeyDown={e => e.stopPropagation()}
       />
       <style jsx>{`
         @media only screen and (max-width: 350px) {
@@ -112,6 +111,10 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
           text-align: center;
           height: 40%;
           padding-bottom: 50px;
+        }
+        .question h2 {
+          padding-left: 10px;
+          padding-right: 10px;
         }
         .view {
           width: 100%;

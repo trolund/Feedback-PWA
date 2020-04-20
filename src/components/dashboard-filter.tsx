@@ -2,8 +2,8 @@ import { observer } from 'mobx-react-lite'
 import { useContext, useEffect } from 'react'
 import { RefreshCw } from 'react-feather'
 import Select from 'react-select'
+import { IonDatetime } from '@ionic/react'
 import dashboardStore from '../stores/dashboard-store'
-
 // import Tag from '../models/tag'
 import CustomDatepicker from './custom-datepicker'
 import CustomCheckbox from './checkbox'
@@ -118,6 +118,11 @@ const DashboardFilter = observer(() => {
         </div>
       </div>
       <div className='flex-container padding'>
+        <IonDatetime
+          displayFormat='MMMM'
+          value={startdate.toISOString()}
+          onIonChange={e => setStartdate(new Date(e.detail.value!))}
+        />
         <div>
           <p>Start dato</p>
           <CustomDatepicker

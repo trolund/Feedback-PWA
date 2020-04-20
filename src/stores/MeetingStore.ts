@@ -239,6 +239,34 @@ class MeetingStore {
       this.meeting = null
     }
   }
+
+  @action fetchMeetingByDay = async (day: Date) => {
+    this.state = FetchStates.LOADING
+    try {
+      const url = ApiRoutes.meetingsByDay(day)
+      const token = getToken()
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: !token
+          ? {}
+          : {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+        redirect: 'follow'
+      })
+
+      this.msg = response.statusText
+      this.state = FetchStates.DONE
+
+      const data: MeetingModel[] = await response.json()
+      this.meetings = data
+    } catch (e) {
+      this.state = FetchStates.FAILED
+      this.msg = e.statusText
+      this.meetings = null
+    }
+  }
 }
 
 // decorate(MeetingStore, {

@@ -14,25 +14,25 @@ const Day: NextPage = observer(() => {
   console.log('====================================')
   console.log(day)
   console.log('====================================')
-  const [selectedDay, setSelectedDay] = useState(new Date(String(day)))
+  const [selectedDay, setSelectedDay] = useState(
+    new Date(Date.parse(String(day)))
+  )
   const [events, setEvents] = useState([] as MeetingModel[])
   const meetingStoreContext = useContext(meetingStore)
 
   useEffect(() => {
-    meetingStoreContext.fetchMeetings(selectedDay, selectedDay).then(() => {
-      setEvents(meetingStoreContext.meetings)
-      console.log('====================================')
-      console.log(meetingStoreContext.meetings)
-      console.log('====================================')
-    })
+    if (selectedDay)
+      meetingStoreContext.fetchMeetingByDay(selectedDay).then(() => {
+        setEvents(meetingStoreContext.meetings)
+      })
   }, [meetingStoreContext, selectedDay])
 
   return (
     <Page title={selectedDay.toDateString()} showBackButton={false}>
       <Section>
         <ul>
-          {events.length === 0 && <li>Ingen møder på denne dag</li>}
-          {events.map(m => (
+          {events?.length === 0 && <li>Ingen møder på denne dag</li>}
+          {events?.map(m => (
             <li>{m.name}</li>
           ))}
         </ul>

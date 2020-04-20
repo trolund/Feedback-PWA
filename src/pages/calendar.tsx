@@ -12,188 +12,190 @@ import MeetingModel from '../models/MeetingModel'
 import SearchBtn from '../components/search-btn'
 import { getCompanyId } from '../services/authService'
 import WindowDimensions from '../models/types/WindowDimensions'
+import withAuth from '../services/withAuth'
 
 let FullCalendarNoSSRWrapper
 
-const CalendarView = observer(() => {
-  // const questionContext = useContext(questionSetStore)
-  const meetingStoreContext = useContext(meetingStore)
-  const categoriesContext = useContext(categoriesStore)
-  // const [modalOpen, setModalOpen] = useState(false)
-  // const toggle = useCallback(() => setModalOpen(!modalOpen), [modalOpen])
-  // const [date, setDate] = useState(new Date())
-  // const [startTime, setStartTime] = useState(new Date())
-  // const [endTime, setEndTime] = useState(new Date())
-  // const [name, setName] = useState('')
-  // const [discription, setDiscription] = useState('')
-  // const [questionSet, setQuestionSet] = useState('')
-  const [calViewProp, setCalViewProp] = useState({})
-  const initEvent: EventInput[] = []
-  const [events, setEvnets] = useState(initEvent)
-  const [searchWord, setSearchWord] = useState('')
-  // const init: Tag[] = []
-  // const [tags, setTags] = useState(init)
-  const [inputOpen, setInputOpen] = useState(false)
+const CalendarView = withAuth(
+  observer(() => {
+    // const questionContext = useContext(questionSetStore)
+    const meetingStoreContext = useContext(meetingStore)
+    const categoriesContext = useContext(categoriesStore)
+    // const [modalOpen, setModalOpen] = useState(false)
+    // const toggle = useCallback(() => setModalOpen(!modalOpen), [modalOpen])
+    // const [date, setDate] = useState(new Date())
+    // const [startTime, setStartTime] = useState(new Date())
+    // const [endTime, setEndTime] = useState(new Date())
+    // const [name, setName] = useState('')
+    // const [discription, setDiscription] = useState('')
+    // const [questionSet, setQuestionSet] = useState('')
+    const [calViewProp, setCalViewProp] = useState({})
+    const initEvent: EventInput[] = []
+    const [events, setEvnets] = useState(initEvent)
+    const [searchWord, setSearchWord] = useState('')
+    // const init: Tag[] = []
+    // const [tags, setTags] = useState(init)
+    const [inputOpen, setInputOpen] = useState(false)
 
-  const [showCal, setShowCal] = useState(false)
-  const [windowDim, setWindowDim] = useState({
-    width: 100000,
-    height: 100000
-  } as WindowDimensions)
-
-  const updateWindowDimensions = () => {
-    setWindowDim({
-      width: window.innerWidth,
-      height: window.innerHeight
+    const [showCal, setShowCal] = useState(false)
+    const [windowDim, setWindowDim] = useState({
+      width: 100000,
+      height: 100000
     } as WindowDimensions)
-  }
 
-  useEffect(() => {
-    setWindowDim({
-      width: window.innerWidth,
-      height: window.innerHeight
-    } as WindowDimensions)
-    window.addEventListener('resize', updateWindowDimensions)
-    return () => {
-      window.removeEventListener('resize', updateWindowDimensions)
+    const updateWindowDimensions = () => {
+      setWindowDim({
+        width: window.innerWidth,
+        height: window.innerHeight
+      } as WindowDimensions)
     }
-  }, [])
 
-  useEffect(() => {
-    FullCalendarNoSSRWrapper = dynamic({
-      modules: () =>
-        ({
-          calendar: import('@fullcalendar/react'),
-          timeGridPlugin: import('@fullcalendar/timegrid'),
-          interactionPlugin: import('@fullcalendar/interaction'),
-          dayGridPlugin: import('@fullcalendar/daygrid'),
-          listPlugin: import('@fullcalendar/list')
-          // momentPlugin: import('@fullcalendar/moment'),
-          // momentTimezonePlugin: import('@fullcalendar/moment-timezone')
-        } as any),
-      render: (props: any, { calendar: Calendar, ...plugins }) => (
-        <Calendar {...props} plugins={Object.values(plugins)} />
-      ),
-      ssr: false
-    })
-    setShowCal(true)
-  }, [])
+    useEffect(() => {
+      setWindowDim({
+        width: window.innerWidth,
+        height: window.innerHeight
+      } as WindowDimensions)
+      window.addEventListener('resize', updateWindowDimensions)
+      return () => {
+        window.removeEventListener('resize', updateWindowDimensions)
+      }
+    }, [])
 
-  function mapEvents(myevents: MeetingModel[]) {
-    return myevents.map(item => {
-      return {
-        id: item.shortId,
-        title: item.name,
-        date: item.startTime,
-        startTime: item.startTime,
-        endTime: item.endTime,
-        discription: item.discription,
-        topic: item.topic,
-        questionSetId: item.questionsSetId
-      } as EventInput
-    })
-  }
+    useEffect(() => {
+      FullCalendarNoSSRWrapper = dynamic({
+        modules: () =>
+          ({
+            calendar: import('@fullcalendar/react'),
+            timeGridPlugin: import('@fullcalendar/timegrid'),
+            interactionPlugin: import('@fullcalendar/interaction'),
+            dayGridPlugin: import('@fullcalendar/daygrid'),
+            listPlugin: import('@fullcalendar/list')
+            // momentPlugin: import('@fullcalendar/moment'),
+            // momentTimezonePlugin: import('@fullcalendar/moment-timezone')
+          } as any),
+        render: (props: any, { calendar: Calendar, ...plugins }) => (
+          <Calendar {...props} plugins={Object.values(plugins)} />
+        ),
+        ssr: false
+      })
+      setShowCal(true)
+    }, [])
 
-  // function filterEvents(item: EventInput) {}
+    function mapEvents(myevents: MeetingModel[]) {
+      return myevents.map(item => {
+        return {
+          id: item.shortId,
+          title: item.name,
+          date: item.startTime,
+          startTime: item.startTime,
+          endTime: item.endTime,
+          discription: item.discription,
+          topic: item.topic,
+          questionSetId: item.questionsSetId
+        } as EventInput
+      })
+    }
 
-  const filterEventsCallback = useCallback(
-    (item: EventInput) => {
-      if (searchWord.length >= 1 && inputOpen) {
-        if (item.title?.toLowerCase().includes(searchWord.toLowerCase())) {
+    // function filterEvents(item: EventInput) {}
+
+    const filterEventsCallback = useCallback(
+      (item: EventInput) => {
+        if (searchWord.length >= 1 && inputOpen) {
+          if (item.title?.toLowerCase().includes(searchWord.toLowerCase())) {
+            return item
+          }
+        } else {
           return item
         }
-      } else {
-        return item
-      }
-      return null
-    },
-    [inputOpen, searchWord]
-  )
-
-  useEffect(() => {
-    categoriesContext.fetchCategories(String(getCompanyId()))
-  }, [categoriesContext])
-
-  useEffect(() => {
-    meetingStoreContext
-      .fetchMeetings(
-        (calViewProp as CalView).activeStart,
-        (calViewProp as CalView).activeEnd
-      )
-      .then(() => {
-        setEvnets(mapEvents(meetingStoreContext.meetings))
-      })
-  }, [calViewProp, meetingStoreContext])
-
-  function clickOnEvent(event: any) {
-    Router.push(`/meeting/${event.event.id}`)
-  }
-
-  const showCalendar = useCallback(() => {
-    if (!showCal) return <div>Loading ...</div>
-    return (
-      <FullCalendarNoSSRWrapper
-        trigger={e => console.log(e)}
-        // viewHeight={5100}
-        // header={false}
-        header={{
-          right: 'prev,next today myCustomButton',
-          left: 'dayGridMonth,timeGridWeek,listWeek',
-          center: 'title'
-        }}
-        views={{
-          dayGridMonth: {
-            // name of view
-            // titleFormat: { year: "numeric", month: "2-digit", day: "2-digit" }
-            // other view-specific options here
-          }
-        }}
-        customButtons={{
-          myCustomButton: {
-            text: 'Tilføj møde',
-            click: () => Router.push('/meeting/new')
-          }
-        }}
-        defaultView='dayGridMonth'
-        weekends
-        events={events.filter(filterEventsCallback)}
-        weekNumbers={false}
-        listDayFormat
-        // themeSystem='bootstrap'
-        eventClick={(event: any) => {
-          clickOnEvent(event)
-        }}
-        datesRender={e => setCalViewProp(e.view)}
-        // dayRender={e => console.log("dayRender ", e)}
-        dateClick={info => {
-          // alert("Clicked on: " + info.dateStr);
-          // alert(
-          //   "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
-          // );
-          // alert("Current view: " + info.view.type);
-          // change the day's background color just for fun
-          // eslint-disable-next-line no-param-reassign
-          info.dayEl.style.backgroundColor = 'red'
-        }}
-      />
+        return null
+      },
+      [inputOpen, searchWord]
     )
-  }, [events, filterEventsCallback, showCal])
 
-  return (
-    <Page
-      title='Calendar'
-      showBackButton={false}
-      component={
-        <SearchBtn
-          inputOpen={inputOpen}
-          setInputOpen={setInputOpen}
-          searchWord={searchWord}
-          setSearchWord={setSearchWord}
+    useEffect(() => {
+      categoriesContext.fetchCategories(String(getCompanyId()))
+    }, [categoriesContext])
+
+    useEffect(() => {
+      meetingStoreContext
+        .fetchMeetings(
+          (calViewProp as CalView).activeStart,
+          (calViewProp as CalView).activeEnd
+        )
+        .then(() => {
+          setEvnets(mapEvents(meetingStoreContext.meetings))
+        })
+    }, [calViewProp, meetingStoreContext])
+
+    function clickOnEvent(event: any) {
+      Router.push(`/meeting/${event.event.id}`)
+    }
+
+    const showCalendar = useCallback(() => {
+      if (!showCal) return <div>Loading ...</div>
+      return (
+        <FullCalendarNoSSRWrapper
+          trigger={e => console.log(e)}
+          // viewHeight={5100}
+          // header={false}
+          header={{
+            right: 'prev,next today myCustomButton',
+            left: 'dayGridMonth,timeGridWeek,listWeek',
+            center: 'title'
+          }}
+          views={{
+            dayGridMonth: {
+              // name of view
+              // titleFormat: { year: "numeric", month: "2-digit", day: "2-digit" }
+              // other view-specific options here
+            }
+          }}
+          customButtons={{
+            myCustomButton: {
+              text: 'Tilføj møde',
+              click: () => Router.push('/meeting/new')
+            }
+          }}
+          defaultView='dayGridMonth'
+          weekends
+          events={events.filter(filterEventsCallback)}
+          weekNumbers={false}
+          listDayFormat
+          // themeSystem='bootstrap'
+          eventClick={(event: any) => {
+            clickOnEvent(event)
+          }}
+          datesRender={e => setCalViewProp(e.view)}
+          // dayRender={e => console.log("dayRender ", e)}
+          dateClick={info => {
+            // alert("Clicked on: " + info.dateStr);
+            // alert(
+            //   "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
+            // );
+            // alert("Current view: " + info.view.type);
+            // change the day's background color just for fun
+            // eslint-disable-next-line no-param-reassign
+            info.dayEl.style.backgroundColor = 'red'
+          }}
         />
-      }
-    >
-      {/* <Seachbar value={searchWord} setValue={setSearchWord} /> */}
-      {/* <CreateMeetingModal
+      )
+    }, [events, filterEventsCallback, showCal])
+
+    return (
+      <Page
+        title='Calendar'
+        showBackButton={false}
+        component={
+          <SearchBtn
+            inputOpen={inputOpen}
+            setInputOpen={setInputOpen}
+            searchWord={searchWord}
+            setSearchWord={setSearchWord}
+          />
+        }
+      >
+        {/* <Seachbar value={searchWord} setValue={setSearchWord} /> */}
+        {/* <CreateMeetingModal
         questionContext={questionContext}
         setQuestionSet={setQuestionSet}
         endTime={endTime}
@@ -212,15 +214,15 @@ const CalendarView = observer(() => {
         toggle={toggle}
       /> */}
 
-      <div className='cal-container'>
-        {windowDim.width >= 650 ? (
-          showCalendar()
-        ) : (
-          <MobileCalendar dim={windowDim} />
-        )}
-      </div>
+        <div className='cal-container'>
+          {windowDim.width >= 650 ? (
+            showCalendar()
+          ) : (
+            <MobileCalendar dim={windowDim} />
+          )}
+        </div>
 
-      <style jsx global>{`
+        <style jsx global>{`
         .fc-scroller {
           height: 100% !important;
           max-height: 80vh !important;
@@ -300,8 +302,9 @@ const CalendarView = observer(() => {
           }
         }
       `}</style>
-    </Page>
-  )
-})
+      </Page>
+    )
+  })
+)
 
 export default CalendarView

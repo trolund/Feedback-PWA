@@ -23,6 +23,7 @@
     "@fullcalendar/list": "^4.4.0",
     "@fullcalendar/react": "^4.4.0",
     "@fullcalendar/timegrid": "^4.4.0",
+    "@ionic/react": "^5.0.7",
     "@types/jwt-decode": "^2.2.1",
     "@types/react-lottie": "^1.2.3",
     "@zeit/next-css": "^1.0.1",

@@ -18,7 +18,7 @@ export function toggleLightMode() {
 
   if (!isLight) {
     try {
-      window.localStorage.setItem('light-mode', '1')
+      window.localStorage.setItem('light-mode', '0')
       document.querySelector('html').classList.add('light')
       window.isLight = true
     } catch (err) {
