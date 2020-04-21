@@ -1,19 +1,20 @@
 import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-
 import { Settings, LogOut, Edit3, User as Avater } from 'react-feather'
 import Router from 'next/router'
 import Page from '../components/page'
 import User from '../models/User'
 import Section from '../components/section'
-import authStore from '../stores/authStore'
 import withAuth from '../services/withAuth'
+import rootStore from '../stores/RootStore'
 
 // import { User as Avatar } from '../models/User'
 
 const Profile = withAuth(
   observer(() => {
-    const { getUser, signout } = useContext(authStore)
+    const {
+      authStore: { getUser, signout }
+    } = useContext(rootStore)
 
     const SettingsBtn = () => {
       return <Settings onClick={() => Router.push('/settings')} />

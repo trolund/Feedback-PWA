@@ -11,10 +11,10 @@ import Section from '../../components/section'
 import QuestionList from '../../components/question-list'
 import QuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
-import questionSetStore from '../../stores/QuestionSetStore'
 import FetchStates from '../../stores/requestState'
 import CustomToast from '../../components/custom-Toast'
 import { auth } from '../../services/authService'
+import rootStore from '../../stores/RootStore'
 
 type pageProps = {
   initQSet: QuestionSet
@@ -25,9 +25,9 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   const { setid } = router.query
   const [qset, setQset] = useState(initQSet)
   // const [name, setName] = useState(initQSet?.name)
-  const { fetchQuestionSet, updateQuestionSet, deleteQuestionSet } = useContext(
-    questionSetStore
-  )
+  const {
+    questionSetStore: { fetchQuestionSet, updateQuestionSet, deleteQuestionSet }
+  } = useContext(rootStore)
 
   useEffect(() => {
     if (qset === null) {

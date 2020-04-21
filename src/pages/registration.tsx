@@ -4,12 +4,12 @@ import Router from 'next/router'
 import Link from 'next/link'
 import Page from '../components/page'
 import Section from '../components/section'
-import authStore from '../stores/authStore'
 import Registration from '../models/Registration'
 import Company from '../models/Company'
 import * as mail from '../../public/Animations/mail.json'
 import AnimationOverlay from '../components/animation-overlay'
 import FetchStates from '../stores/requestState'
+import rootStore from '../stores/RootStore'
 
 export default () => {
   const [newCompany, setNewCompany] = useState(false)
@@ -21,7 +21,9 @@ export default () => {
   const [lastname, setLastname] = useState('')
   const [email, setEmail] = useState('')
   const [showOverlay, setShowOverlay] = useState(false)
-  const { createUser } = useContext(authStore)
+  const {
+    authStore: { createUser }
+  } = useContext(rootStore)
 
   const createUserClickHandler = () => {
     const newModelCompany: any = {

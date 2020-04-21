@@ -9,9 +9,9 @@ import Page from '../../components/page'
 import Section from '../../components/section'
 import QuestionList from '../../components/question-list'
 import QuestionSet from '../../models/QuestionSet'
-import questionSetStore from '../../stores/QuestionSetStore'
 import FetchStates from '../../stores/requestState'
 import withAuth from '../../services/withAuth'
+import rootStore from '../../stores/RootStore'
 
 const QuestionSetPage: NextPage = withAuth(
   observer(() => {
@@ -21,7 +21,9 @@ const QuestionSetPage: NextPage = withAuth(
       questions: []
     } as QuestionSet
     const [qset, setQset] = useState(newQset)
-    const { createQuestionSet } = useContext(questionSetStore)
+    const {
+      questionSetStore: { createQuestionSet }
+    } = useContext(rootStore)
 
     const addQuestion = () => {
       qset.questions.push({ theQuestion: '' })

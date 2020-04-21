@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDrag } from 'react-use-gesture'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 
 type BottomModalProps = {
   show: boolean

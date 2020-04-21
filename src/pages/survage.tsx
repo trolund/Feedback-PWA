@@ -5,18 +5,19 @@ import Modal from 'react-modal'
 import { ViewPager, Frame, Track } from 'react-view-pager'
 import { X } from 'react-feather'
 import Page from '../components/page'
-import feedbackStore from '../stores/FeedbackStore'
-import Question from '../components/question'
-import questionStore from '../stores/QuestionStore'
 import FeedbackOverlay from '../components/FeedbackDoneOverlay'
 import FetchStates from '../stores/requestState'
+import rootStore from '../stores/RootStore'
+import Question from '../components/question'
 
 export default observer(() => {
   const [page, setPage] = useState(0)
   const [showOverlay, setShowOverlay] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
-  const { questions, meetingId } = useContext(questionStore)
-  const { feedback, createFeedbackBatch } = useContext(feedbackStore)
+  const {
+    questionStore: { questions, meetingId },
+    feedbackStore: { feedback, createFeedbackBatch }
+  } = useContext(rootStore)
 
   const [success, setSuccess] = useState(false)
   const [overlayText, setOverlayText] = useState('')

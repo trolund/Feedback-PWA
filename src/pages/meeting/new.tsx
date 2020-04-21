@@ -6,23 +6,25 @@ import Router from 'next/router'
 import CategoriesPicker from '../../components/categories-picker'
 import Page from '../../components/page'
 import Section from '../../components/section'
-import questionSetStore from '../../stores/QuestionSetStore'
-import meetingStore from '../../stores/MeetingStore'
 import FetchStates from '../../stores/requestState'
 import CustomDatepicker from '../../components/custom-datepicker'
 import MeetingModel from '../../models/MeetingModel'
 import CustomTimepicker from '../../components/custom-timepicker'
 import MeetingCategory from '../../models/MeetingCategory'
-import categoriesStore from '../../stores/CategoriesStore'
 import OptionsValue from '../../models/OptionsValue'
 import { getCompanyId } from '../../services/authService'
 import withAuth from '../../services/withAuth'
+import rootStore from '../../stores/RootStore'
 
 const newMeetingPage = withAuth(
   observer(() => {
-    const questionContext = useContext(questionSetStore)
-    const categoriesContext = useContext(categoriesStore)
-    const meetingStoreContext = useContext(meetingStore)
+    // const questionContext = useContext(questionSetStore)
+    // const categoriesContext = useContext(categoriesStore)
+    // const meetingStoreContext = useContext(meetingStore)
+
+    const { questionSetStore, categoriesStore, meetingStore } = useContext(
+      rootStore
+    )
     const [meeting, setMeeting] = useState({} as MeetingModel)
     const [meetingCategories, setMeetingCategories] = useState([])
     const [date, setDate] = useState(new Date())
@@ -32,10 +34,10 @@ const newMeetingPage = withAuth(
     //   const [tags, setTags] = useState([] as Tag[])
 
     useEffect(() => {
-      categoriesContext.fetchCategories(String(getCompanyId())).then(() => {
-        setMeetingCategories(categoriesContext.categories)
+      categoriesStore.fetchCategories(String(getCompanyId())).then(() => {
+        setMeetingCategories(categoriesStore.categories)
       })
-    }, [categoriesContext])
+    }, [categoriesStore])
 
     const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
       datePart.setMinutes(timePart.getMinutes())
@@ -53,7 +55,7 @@ const newMeetingPage = withAuth(
         questionsSetId: questionSet,
         location: 'et sted'
       }
-      meetingStoreContext.create(newMeeting).then(res => {
+      meetingStore.create(newMeeting).then(res => {
         if (res === FetchStates.DONE) {
           Router.back()
         }
@@ -94,7 +96,7 @@ const newMeetingPage = withAuth(
                 }}
               >
                 <option>- Vælg spørgsmåls sæt -</option>
-                {questionContext.QSetNames?.map(item => (
+                {questionSetStore.QSetNames?.map(item => (
                   <option key={item.questionSetId} value={item.questionSetId}>
                     {item.name}
                   </option>
@@ -112,7 +114,7 @@ const newMeetingPage = withAuth(
             onChange={e => setMeeting({ ...meeting, name: e.target.value })}
           />
           <CategoriesPicker
-            loading={categoriesContext.state === FetchStates.LOADING}
+            loading={categoriesStore.state === FetchStates.LOADING}
             values={meeting.meetingCategories?.map(
               item =>
                 ({
@@ -123,7 +125,7 @@ const newMeetingPage = withAuth(
                   value: item.categoryId
                 } as OptionsValue)
             )}
-            categories={categoriesContext?.categories}
+            categories={categoriesStore?.categories}
             setTags={newTags =>
               setMeeting({
                 ...meeting,

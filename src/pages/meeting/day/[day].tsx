@@ -4,28 +4,25 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Page from '../../../components/page'
 import Section from '../../../components/section'
-
-import meetingStore from '../../../stores/MeetingStore'
 import MeetingModel from '../../../models/MeetingModel'
+import rootStore from '../../../stores/RootStore'
 
 const Day: NextPage = observer(() => {
   const router = useRouter()
   const { day } = router.query
-  console.log('====================================')
-  console.log(day)
-  console.log('====================================')
+
   const [selectedDay, setSelectedDay] = useState(
     new Date(Date.parse(String(day)))
   )
   const [events, setEvents] = useState([] as MeetingModel[])
-  const meetingStoreContext = useContext(meetingStore)
+  const { meetingStore } = useContext(rootStore)
 
   useEffect(() => {
     if (selectedDay)
-      meetingStoreContext.fetchMeetingByDay(selectedDay).then(() => {
-        setEvents(meetingStoreContext.meetings)
+      meetingStore.fetchMeetingByDay(selectedDay).then(() => {
+        setEvents(meetingStore.meetings)
       })
-  }, [meetingStoreContext, selectedDay])
+  }, [meetingStore, selectedDay])
 
   return (
     <Page title={selectedDay.toDateString()} showBackButton={false}>

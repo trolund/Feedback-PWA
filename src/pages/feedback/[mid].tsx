@@ -13,7 +13,7 @@ import Page from '../../components/page'
 import FeedbackOverlay from '../../components/FeedbackDoneOverlay'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import QuestionSet from '../../models/QuestionSet'
-import feedbackStore from '../../stores/FeedbackStore'
+import rootStore from '../../stores/RootStore'
 
 type FeedbackInitProps = {
   initQuestions: QuestionSet
@@ -26,7 +26,9 @@ const Feedback: NextPage = observer(({ initQuestions }: FeedbackInitProps) => {
   const [showOverlay, setShowOverlay] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   // const { meetingId } = useContext(questionStore)
-  const { feedback, createFeedbackBatch } = useContext(feedbackStore)
+  const {
+    feedbackStore: { feedback, createFeedbackBatch }
+  } = useContext(rootStore)
 
   const [questions] = useState(initQuestions)
 
