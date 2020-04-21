@@ -5,7 +5,7 @@ import Category from '../models/Category'
 import ApiRoutes from './api/ApiRoutes'
 import { getToken } from '../services/authService'
 
-class CategoriesStore {
+export default class CategoriesStore {
   // status
   @observable state = FetchStates.DONE
 
@@ -48,7 +48,7 @@ class CategoriesStore {
 
 // decorate(CategoriesStore, {
 //   categories: observable
-// })
-const categoriesStore = createContext(new CategoriesStore())
+// // })
+// const categoriesStore = createContext(new CategoriesStore())
 
-export default categoriesStore
+// export default categoriesStore

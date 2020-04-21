@@ -1,12 +1,11 @@
 import { observable, action } from 'mobx'
-import { createContext } from 'react'
 import FetchStates from './requestState'
 import ApiRoutes from './api/ApiRoutes'
 import UserAdmin from '../models/user-admin'
 import userAdminQuery from '../models/userAdminQuery'
 import { getToken } from '../services/authService'
 
-class UserAdminStore {
+export default class UserAdminStore {
   @observable fetchState: FetchStates | null = null
 
   @observable msg = null
@@ -87,6 +86,6 @@ class UserAdminStore {
   }
 }
 
-const userAdminStore = createContext(new UserAdminStore())
+// const userAdminStore = createContext(new UserAdminStore())
 
-export default userAdminStore
+// export default userAdminStore

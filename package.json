@@ -35,6 +35,7 @@
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
     "mobx": "^5.15.4",
+    "mobx-persist": "^0.4.1",
     "mobx-react": "^6.1.8",
     "mobx-react-lite": "^1.5.2",
     "next": "^9.2.1",

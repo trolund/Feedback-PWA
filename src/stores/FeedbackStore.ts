@@ -8,7 +8,7 @@ import { getToken } from '../services/authService'
 
 // import authService from '../components/api-authorization/AuthorizeService'
 
-class FeedbackStore {
+export default class FeedbackStore {
   // status
   @observable state = FetchStates.DONE
 
@@ -94,6 +94,6 @@ class FeedbackStore {
 //   feedbackBatch: observable
 // })
 
-const feedbackStore = createContext(new FeedbackStore())
+// const feedbackStore = createContext(new FeedbackStore())
 
-export default feedbackStore
+// export default feedbackStore

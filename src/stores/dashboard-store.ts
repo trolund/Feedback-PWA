@@ -1,51 +1,78 @@
-import { observable, action } from 'mobx'
-import { createContext } from 'react'
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable no-console */
+import { observable, action, computed } from 'mobx'
+// import { createContext } from 'react'
+import { persist } from 'mobx-persist'
 import ApiRoutes from './api/ApiRoutes'
 import FetchStates from './requestState'
 import FeedbackDate from '../models/FeedbackDate'
 import GraphXScale from '../models/GraphXScale'
 import { getToken } from '../services/authService'
 
-class DashboardStore {
-  @observable startdate: Date = new Date('2019-01-08T10:09:30.000Z')
+export default class DashboardStore {
+  @persist @observable showFilter: boolean = false
 
-  @observable enddate: Date = new Date()
+  @persist @observable startdateValue: number = new Date(
+    '2019-01-08T10:09:30.000Z'
+  ).getTime()
 
-  @observable cutoff: boolean = true
+  @persist @observable enddateValue: number = new Date().getTime()
 
-  @observable useFixedYAxis: boolean = true
+  @persist @observable cutoff: boolean = true
 
-  @observable xAxisScale: GraphXScale = GraphXScale.weeks
+  @persist @observable useFixedYAxis: boolean = true
 
-  @observable useSkipZero: boolean = true
+  @persist @observable xAxisScale: GraphXScale = GraphXScale.weeks
 
-  @observable searchWord: string = ''
+  @persist @observable useSkipZero: boolean = true
 
-  @observable tags: string[] = []
+  @persist @observable searchWord: string = ''
 
-  @observable ownData: boolean = true
+  @persist('list') @observable tags: string[] = []
 
-  @observable rating: number = 0
+  @persist @observable ownData: boolean = true
+
+  @persist @observable rating: number = 0
 
   // status
   @observable state = FetchStates.DONE
 
-  @observable msg = ' '
+  @observable msg = ''
 
   // data
-  @observable data: FeedbackDate[] | null = null
+  @persist('list') @observable data: FeedbackDate[] = []
+
+  @computed get startdate() {
+    return new Date(this.startdateValue)
+  }
+
+  @action setStartdate = (date: Date) => {
+    this.startdateValue = date.getTime()
+  }
+
+  @computed get enddate() {
+    return new Date(this.enddateValue)
+  }
+
+  @action setEnddate = (date: Date) => {
+    this.enddateValue = date.getTime()
+  }
+
+  @action setShowFilter = (value: boolean) => {
+    this.showFilter = value
+  }
 
   @action setXAxisScale = (value: GraphXScale) => {
     this.xAxisScale = value
   }
 
-  @action setStartdate = (newDate: Date) => {
-    this.startdate = newDate
-  }
+  // @action setStartdate = (newDate: Date) => {
+  //   this.startdate = newDate
+  // }
 
-  @action setEnddate = (newDate: Date) => {
-    this.enddate = newDate
-  }
+  // @action setEnddate = (newDate: Date) => {
+  //   this.enddate = newDate
+  // }
 
   @action setOwnData = (bool: boolean) => {
     this.ownData = bool
@@ -182,6 +209,25 @@ class DashboardStore {
   }
 }
 
-const dashboardStore = createContext(new DashboardStore())
+// const dashboardStore = createContext(new DashboardStore())
 
-export default dashboardStore
+// const dashboardStore = (): Context<DashboardStore> => {
+//   let store = null
+//   if (typeof window === 'undefined') {
+//     store = new DashboardStore()
+//     return createContext(store)
+//   }
+//   if (store === null) {
+//     const hydrate = create({
+//       storage: localStorage,
+//       jsonify: true
+//     })
+//     hydrate('dashboardStore', store).then(() =>
+//       console.log('dashboardStore has been hydrated')
+//     )
+//   }
+
+//   return createContext(store)
+// }
+
+// export default dashboardStore

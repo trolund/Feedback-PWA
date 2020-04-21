@@ -6,7 +6,7 @@ import { getToken } from '../services/authService'
 import ApiRoutes from './api/ApiRoutes'
 import OptionsValue from '../models/OptionsValue'
 
-class MeetingStore {
+export default class MeetingStore {
   // status
   @observable state = FetchStates.DONE
 
@@ -281,6 +281,6 @@ class MeetingStore {
 //   state: observable
 // })
 
-const meetingStore = createContext(new MeetingStore())
+// const meetingStore = createContext(new MeetingStore())
 
-export default meetingStore
+// export default meetingStore

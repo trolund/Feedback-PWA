@@ -6,21 +6,20 @@ import { EventInput } from '@fullcalendar/core'
 import MobileCalendar from '../components/mobile-calendar'
 import Page from '../components/page'
 import CalView from '../models/CalView'
-import meetingStore from '../stores/MeetingStore'
-import categoriesStore from '../stores/CategoriesStore'
 import MeetingModel from '../models/MeetingModel'
 import SearchBtn from '../components/search-btn'
 import { getCompanyId } from '../services/authService'
 import WindowDimensions from '../models/types/WindowDimensions'
 import withAuth from '../services/withAuth'
+import rootStore from '../stores/RootStore'
 
 let FullCalendarNoSSRWrapper
 
 const CalendarView = withAuth(
   observer(() => {
     // const questionContext = useContext(questionSetStore)
-    const meetingStoreContext = useContext(meetingStore)
-    const categoriesContext = useContext(categoriesStore)
+    const { meetingStore, categoriesStore } = useContext(rootStore)
+    // const categoriesContext = useContext(categoriesStore)
     // const [modalOpen, setModalOpen] = useState(false)
     // const toggle = useCallback(() => setModalOpen(!modalOpen), [modalOpen])
     // const [date, setDate] = useState(new Date())
@@ -113,19 +112,19 @@ const CalendarView = withAuth(
     )
 
     useEffect(() => {
-      categoriesContext.fetchCategories(String(getCompanyId()))
-    }, [categoriesContext])
+      categoriesStore.fetchCategories(String(getCompanyId()))
+    }, [categoriesStore])
 
     useEffect(() => {
-      meetingStoreContext
+      meetingStore
         .fetchMeetings(
           (calViewProp as CalView).activeStart,
           (calViewProp as CalView).activeEnd
         )
         .then(() => {
-          setEvnets(mapEvents(meetingStoreContext.meetings))
+          setEvnets(mapEvents(meetingStore.meetings))
         })
-    }, [calViewProp, meetingStoreContext])
+    }, [calViewProp, meetingStore])
 
     function clickOnEvent(event: any) {
       Router.push(`/meeting/${event.event.id}`)

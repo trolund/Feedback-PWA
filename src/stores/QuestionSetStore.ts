@@ -1,11 +1,10 @@
 import { observable, action } from 'mobx'
-import { createContext } from 'react'
 import FetchStates from './requestState'
 import QuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
 import { getToken } from '../services/authService'
 
-class QuestionSetStore {
+export default class QuestionSetStore {
   // status
   @observable state = FetchStates.DONE
 
@@ -141,6 +140,6 @@ class QuestionSetStore {
   }
 }
 
-const questionSetStore = createContext(new QuestionSetStore())
+// const questionSetStore = createContext(new QuestionSetStore())
 
-export default questionSetStore
+// export default questionSetStore

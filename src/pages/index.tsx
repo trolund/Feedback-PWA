@@ -7,15 +7,17 @@ import { Hash, LogIn, Maximize, Smile, AlertCircle } from 'react-feather'
 import Lottie from 'react-lottie'
 import Page from '../components/page'
 import Section from '../components/section'
-import questionStore from '../stores/QuestionStore'
 import * as loading from '../../public/Animations/loading.json'
 import FetchStates from '../stores/requestState'
 import Prompt from '../components/AddToHomescreenPrompt'
 import CustomInput from '../components/custom-input'
+import rootStore from '../stores/RootStore'
 // import states from '../stores/requestState'
 
 export default observer(() => {
-  const { isMeetingOpen, fetchState } = useContext(questionStore)
+  const {
+    questionStore: { isMeetingOpen, fetchState }
+  } = useContext(rootStore)
   const [errorMsg, setErrorMsg] = useState('')
   const [meetingId, setMeetingId] = useState('')
 

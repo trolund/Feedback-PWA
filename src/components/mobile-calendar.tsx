@@ -24,7 +24,7 @@ const MobileCalendar = ({ dim }: props) => {
     <>
       <InfiniteCalendar
         width={dim.width}
-        height={dim.height - 215}
+        height={dim.height - 300}
         selected={today}
         onSelect={onDaySelect}
         theme={{

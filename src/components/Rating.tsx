@@ -4,37 +4,41 @@ import { PieChart } from 'react-feather'
 import StarRatingComponent from 'react-star-rating-component'
 // import { FaBeer, FaChartPie } from "react-icons/fa";
 import { Pie } from 'react-chartjs-2'
-import dashboardStore from '../stores/dashboard-store'
+import rootStore from '../stores/RootStore'
 
 interface IProp {}
 
 const Rating: React.FC<IProp> = observer(() => {
   const [rating, setRating] = useState(0)
-  const context = useContext(dashboardStore)
+  const { dashboardStore } = useContext(rootStore)
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     if (rating === 0) {
-      context.fetchRating().then(() => {
-        setRating(context.rating)
+      dashboardStore.fetchRating().then(() => {
+        setRating(dashboardStore.rating)
       })
     }
-  }, [context, rating])
+  }, [dashboardStore, rating])
 
   const meetings = useCallback(
-    () => context.data?.filter(i => i.categories.includes('Møder')).length,
-    [context.data]
+    () =>
+      dashboardStore.data?.filter(i => i.categories.includes('Møder')).length,
+    [dashboardStore.data]
   )
 
   const classroom = useCallback(
     () =>
-      context.data?.filter(i => i.categories.includes('Undervisning')).length,
-    [context.data]
+      dashboardStore.data?.filter(i => i.categories.includes('Undervisning'))
+        .length,
+    [dashboardStore.data]
   )
 
   const conf = useCallback(
-    () => context.data?.filter(i => i.categories.includes('Foredrag')).length,
-    [context.data]
+    () =>
+      dashboardStore.data?.filter(i => i.categories.includes('Foredrag'))
+        .length,
+    [dashboardStore.data]
   )
 
   const myData = {

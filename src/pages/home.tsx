@@ -1,27 +1,41 @@
-import { useContext, useState, useCallback } from 'react'
+import { useContext, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Filter } from 'react-feather'
 import Page from '../components/page'
 import Section from '../components/section'
 import DashboardFilter from '../components/dashboard-filter'
-import dashboardStore from '../stores/dashboard-store'
 import DashboardOverview from '../components/dashboard-overview'
 import img from '../../public/images/nofilter.svg'
 import CalculationService from '../services/calculationService'
 import withAuth from '../services/withAuth'
 import BottomModal from '../components/bottom-modal'
+import rootStore from '../stores/RootStore'
 
 export default withAuth(
   observer(() => {
+    // const {
+    //   data,
+    //   state,
+    //   cutoff,
+    //   useFixedYAxis,
+    //   useSkipZero,
+    //   xAxisScale
+    // } = useContext(dashboardStore)
+    // const [showFilter, setShowFilter] = useState(true)
+
     const {
-      data,
-      state,
-      cutoff,
-      useFixedYAxis,
-      useSkipZero,
-      xAxisScale
-    } = useContext(dashboardStore)
-    const [showFilter, setShowFilter] = useState(true)
+      dashboardStore: {
+        data,
+        state,
+        cutoff,
+        useFixedYAxis,
+        useSkipZero,
+        xAxisScale,
+        showFilter,
+        setShowFilter
+      }
+    } = useContext(rootStore)
+
     const calculationService = new CalculationService()
 
     const graphdata = useCallback(

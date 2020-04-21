@@ -1,17 +1,29 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useDrag } from 'react-use-gesture'
+import { useState, useEffect, useCallback } from 'react'
 
 type BottomModalProps = {
   show: boolean
   setShow: (state: boolean) => void
   content: JSX.Element
 }
-const BottomModal = ({ show, setShow, content }: BottomModalProps) => {
+const BottomModal = (props: BottomModalProps) => {
+  const { content, setShow, show } = props
+  const [maxHeight, setMaxHeight] = useState('0px')
+  const [bottom, setBottom] = useState('-50vh')
   // Set the drag hook and define component movement based on gesture data
   const bind = useDrag(({ down, movement: [mx, my] }) => {
     if (my > 190) {
       setShow(false)
     }
   })
+
+  useEffect(() => {
+    setMaxHeight(show ? '94vh' : '0px')
+    setBottom(show ? '0' : '-50vh')
+  }, [props, show])
+
   return (
     <div
       className='bottom-modal-ovelay'
@@ -20,7 +32,7 @@ const BottomModal = ({ show, setShow, content }: BottomModalProps) => {
         left: 0,
         width: '100%',
         height: '0%',
-        zIndex: 2
+        zIndex: 10
       }}
       role='button'
       tabIndex={0}
@@ -29,14 +41,18 @@ const BottomModal = ({ show, setShow, content }: BottomModalProps) => {
     >
       <div
         className='bottom-modal-container'
-        style={{
-          maxHeight: show ? '94vh' : '0px',
-          bottom: show ? '0' : '-50vh'
-        }}
+        style={{ maxHeight, bottom }}
         {...bind()}
       >
         <div className='content-container'>{content}</div>
         <style jsx>{`
+          @media only screen and (min-width: 800px) {
+            .bottom-modal-container {
+              left: 0 !important;
+              transform: none !important;
+              max-width: 320px !important;
+            }
+          }
           .bottom-modal-container {
             padding: 5px;
             height: contain;
@@ -52,6 +68,9 @@ const BottomModal = ({ show, setShow, content }: BottomModalProps) => {
             z-index: 10;
             bottom: 0px;
             padding-bottom: 80px;
+            max-width: 600px;
+            left: 50%;
+            transform: translateX(-50%);
           }
           .bottom-modal-ovelay {
             position: fixed;
@@ -63,9 +82,11 @@ const BottomModal = ({ show, setShow, content }: BottomModalProps) => {
           }
 
           .content-container {
-            overflow: scroll;
+             {
+              /* overflow: scroll;
             width: 100%;
-            height: 100%;
+            height: 100%; */
+            }
           }
         `}</style>
       </div>

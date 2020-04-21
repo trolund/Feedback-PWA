@@ -13,9 +13,6 @@ import { toast } from 'react-toastify'
 import https from 'https'
 import Page from '../../components/page'
 import Section from '../../components/section'
-import meetingStore from '../../stores/MeetingStore'
-import feedbackStore from '../../stores/FeedbackStore'
-import questionSetStore from '../../stores/QuestionSetStore'
 import FeedbackView from '../../components/feedback'
 import Feedback from '../../models/Feedback'
 import ApiRoutes from '../../stores/api/ApiRoutes'
@@ -23,7 +20,6 @@ import FetchStates from '../../stores/requestState'
 import CustomDatepicker from '../../components/custom-datepicker'
 import CustomTimepicker from '../../components/custom-timepicker'
 import CategoriesPicker from '../../components/categories-picker'
-import categoriesStore from '../../stores/CategoriesStore'
 import MeetingModel from '../../models/MeetingModel'
 import FeedbackBatch from '../../models/FeedbackBatch'
 import CustomToast from '../../components/custom-Toast'
@@ -31,8 +27,7 @@ import MeetingCategory from '../../models/MeetingCategory'
 import OptionsValue from '../../models/OptionsValue'
 import { getCompanyId } from '../../services/authService'
 import Category from '../../models/Category'
-
-// import categoriesStore from '../../stores/CategoriesStore'
+import rootStore from '../../stores/RootStore'
 
 type initMeetingProps = {
   initMeeting: MeetingModel
@@ -44,13 +39,17 @@ const Post: NextPage = observer(
   ({ initMeeting, intitFeedback, initCategories }: initMeetingProps) => {
     const router = useRouter()
     const { mid } = router.query
-    // const qr = new QRCode()
 
-    const { deleteMeeting, update, state } = useContext(meetingStore)
+    // const { deleteMeeting, update, state } = useContext(meetingStore)
     const [feedbackBatch] = useState(intitFeedback)
-    const feedbackcontext = useContext(feedbackStore)
-    const questionSetContext = useContext(questionSetStore)
-    const categoriesContext = useContext(categoriesStore)
+    // const feedbackcontext = useContext(feedbackStore)
+    const {
+      questionSetStore,
+      feedbackStore,
+      meetingStore: { deleteMeeting, update, state },
+      categoriesStore
+    } = useContext(rootStore)
+    // const categoriesContext = useContext(categoriesStore)
     const [meeting, setMeeting] = useState(initMeeting)
     const [meetingCategories] = useState(initCategories)
 
@@ -85,8 +84,8 @@ const Post: NextPage = observer(
 
     useEffect(() => {
       if (meeting?.questionsSetId)
-        questionSetContext.fetchQuestionSet(meeting?.questionsSetId)
-    }, [meeting, questionSetContext])
+        questionSetStore.fetchQuestionSet(meeting?.questionsSetId)
+    }, [meeting, questionSetStore])
 
     const count = useCallback(
       () => (feedbackBatch ? feedbackBatch?.length : 0),
@@ -124,7 +123,7 @@ const Post: NextPage = observer(
     )
 
     const feedback = useCallback(() => {
-      const { qSet } = questionSetContext
+      const { qSet } = questionSetStore
 
       const theFeedback = qSet?.questions.map(item => {
         return {
@@ -135,7 +134,7 @@ const Post: NextPage = observer(
       })
       return theFeedback || []
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getAvg, getComments, questionSetContext])
+    }, [getAvg, getComments, questionSetStore])
 
     const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
       datePart.setMinutes(timePart.getMinutes())
@@ -259,7 +258,7 @@ const Post: NextPage = observer(
                   </div>
                 </div>
                 <CategoriesPicker
-                  loading={categoriesContext.state === FetchStates.LOADING}
+                  loading={categoriesStore.state === FetchStates.LOADING}
                   values={meeting?.meetingCategories.map(
                     item =>
                       ({
@@ -290,7 +289,7 @@ const Post: NextPage = observer(
               <FeedbackView
                 feedback={feedback()}
                 count={count}
-                feedbackLoading={feedbackcontext.state}
+                feedbackLoading={feedbackStore.state}
               />
               <div style={{ width: '100%', padding: '10px' }}>
                 <button

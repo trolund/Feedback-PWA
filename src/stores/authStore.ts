@@ -1,6 +1,5 @@
 import { observable, action } from 'mobx'
 import { Cookies } from 'react-cookie'
-import { createContext } from 'react'
 import JwtDecode from 'jwt-decode'
 import User from '../models/User'
 import FetchStates from './requestState'
@@ -9,7 +8,7 @@ import Registration from '../models/Registration'
 import { login, getToken, logout } from '../services/authService'
 import TokenModel from '../models/TokenModel'
 
-class AuthStore {
+export default class AuthStore {
   cookies = new Cookies()
 
   @observable state: FetchStates = FetchStates.DONE
@@ -178,6 +177,6 @@ class AuthStore {
   }
 }
 
-const authStore = createContext(new AuthStore())
+// const authStore = createContext(new AuthStore())
 
-export default authStore
+// export default authStore

@@ -1,21 +1,15 @@
 import { observer } from 'mobx-react-lite'
 import { useContext, useEffect } from 'react'
 import { RefreshCw, DownloadCloud, Search } from 'react-feather'
-import Select from 'react-select'
-import dashboardStore from '../stores/dashboard-store'
-// import Tag from '../models/tag'
 import CustomDatepicker from './custom-datepicker'
 import CustomCheckbox from './checkbox'
-
-import categoriesStore from '../stores/CategoriesStore'
 import CategoriesPicker from './categories-picker'
 import FetchStates from '../stores/requestState'
 import DashboardExcelDownload from './excelExport'
 import GraphXScale from '../models/GraphXScale'
-import OptionsValue from '../models/OptionsValue'
 import { getCompanyId } from '../services/authService'
-import authStore from '../stores/authStore'
 import CustomInput from './custom-input'
+import rootStore from '../stores/RootStore'
 
 const DashboardFilter = observer(() => {
   // const [searchWord, setSearchWord] = useState('')
@@ -24,46 +18,51 @@ const DashboardFilter = observer(() => {
   // const [endDate, setEndDate] = useState(new Date())
   // const [tags, setTags] = useState([] as Tag[])
   const {
-    startdate,
-    enddate,
-    cutoff,
-    ownData,
-    searchWord,
-    tags,
-    setOwnData,
-    setCutOff,
-    setEnddate,
-    setSearchWord,
-    setStartdate,
-    setTags,
-    setFixedYAxis,
-    useFixedYAxis,
-    setSkipZero,
-    useSkipZero
-  } = useContext(dashboardStore)
+    dashboardStore: {
+      startdate,
+      enddate,
+      cutoff,
+      ownData,
+      searchWord,
+      tags,
+      setOwnData,
+      setCutOff,
+      setEnddate,
+      setSearchWord,
+      setStartdate,
+      setTags,
+      setFixedYAxis,
+      useFixedYAxis,
+      setSkipZero,
+      useSkipZero,
+      data,
+      fetchDashboardDate,
+      setXAxisScale
+    },
+    categoriesStore,
+    authStore: { isAdmin, isVAdmin }
+  } = useContext(rootStore)
 
-  const context = useContext(dashboardStore)
-  const categoriesContext = useContext(categoriesStore)
-  const { data, fetchDashboardDate, setXAxisScale } = useContext(dashboardStore)
-  const { isAdmin, isVAdmin } = useContext(authStore)
+  // const context = useContext(dashboardStore)
+  // const categoriesContext = useContext(categoriesStore)
+  // const { isAdmin, isVAdmin } = useContext(authStore)
 
   useEffect(() => {
     fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
-    categoriesContext.fetchCategories(String(getCompanyId()))
+    categoriesStore.fetchCategories(String(getCompanyId()))
   }, [
     searchWord,
     tags,
     startdate,
     enddate,
-    context,
-    categoriesContext,
+    categoriesStore,
     fetchDashboardDate,
     ownData
   ])
 
-  const getData = () => {
-    fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
-  }
+  // const getData = () => {
+  //   fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
+  // }
 
   return (
     <ul>
@@ -120,8 +119,8 @@ const DashboardFilter = observer(() => {
       </li>
       <li className='tagdiv'>
         <CategoriesPicker
-          loading={categoriesContext.state === FetchStates.LOADING}
-          categories={categoriesContext?.categories}
+          loading={categoriesStore.state === FetchStates.LOADING}
+          categories={categoriesStore?.categories}
           setTags={selectedTags =>
             setTags(selectedTags.map(item => item.value))
           }

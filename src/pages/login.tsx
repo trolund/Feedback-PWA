@@ -6,18 +6,20 @@ import Link from 'next/link'
 import { NextPage } from 'next'
 import Page from '../components/page'
 import Section from '../components/section'
-import authStore from '../stores/authStore'
 import FetchStates from '../stores/requestState'
 import CustomCheckbox from '../components/checkbox'
 import { validateEmail, validatePassword } from '../services/validationService'
 import CustomInput from '../components/custom-input'
+import rootStore from '../stores/RootStore'
 
 const Login: NextPage = observer(() => {
   const [rememberme, setRememberme] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loginBtnDisabled, setLoginBtnDisabled] = useState(true)
-  const { login, state, msg } = useContext(authStore)
+  const {
+    authStore: { login, state, msg }
+  } = useContext(rootStore)
   const [inputFeedback, setinputFeedback] = useState([] as string[])
 
   const loginHandler = (event: any) => {

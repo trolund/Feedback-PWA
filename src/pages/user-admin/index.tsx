@@ -2,7 +2,6 @@ import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import { Save } from 'react-feather'
-import userAdminStore from '../../stores/userAdminStore'
 import UserAdmin from '../../models/user-admin'
 import Page from '../../components/page'
 import Section from '../../components/section'
@@ -10,23 +9,24 @@ import userAdminQuery from '../../models/userAdminQuery'
 import FetchStates from '../../stores/requestState'
 import CustomCheckbox from '../../components/checkbox'
 import withAuth from '../../services/withAuth'
+import rootStore from '../../stores/RootStore'
 
 const AllQuestionSets = withAuth(
   observer(() => {
     const [list, setList] = useState([] as UserAdmin[])
     const [query, setQuery] = useState({} as userAdminQuery)
-    const context = useContext(userAdminStore)
+    const { userAdminStore } = useContext(rootStore)
 
     useEffect(() => {
-      context.fetchUsers(query).then(res => {
+      userAdminStore.fetchUsers(query).then(res => {
         if (res === FetchStates.DONE) {
-          setList(context.users)
+          setList(userAdminStore.users)
         }
       })
-    }, [context, query])
+    }, [userAdminStore, query])
 
     const saveClickHandler = () => {
-      context.updateUsers(list.filter(u => u.modifyed === true))
+      userAdminStore.updateUsers(list.filter(u => u.modifyed === true))
     }
 
     const updateDelete = (value: boolean, index: number) => {
