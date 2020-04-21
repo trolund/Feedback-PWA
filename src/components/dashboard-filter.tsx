@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { useContext, useEffect } from 'react'
-import { RefreshCw, DownloadCloud, Search } from 'react-feather'
+import { RefreshCw, DownloadCloud, Search, X } from 'react-feather'
 import CustomDatepicker from './custom-datepicker'
 import CustomCheckbox from './checkbox'
 import CategoriesPicker from './categories-picker'
@@ -37,7 +37,10 @@ const DashboardFilter = observer(() => {
       useSkipZero,
       data,
       fetchDashboardDate,
-      setXAxisScale
+      setXAxisScale,
+      xAxisScale,
+      setShowFilter,
+      showFilter
     },
     categoriesStore,
     authStore: { isAdmin, isVAdmin }
@@ -60,22 +63,35 @@ const DashboardFilter = observer(() => {
     ownData
   ])
 
-  // const getData = () => {
-  //   fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
-  // }
+  const getData = () => {
+    fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
+  }
 
   return (
     <ul>
       <li>
         <h3 className='float-left'>Filter muligheder</h3>
         <span className='float-right btn-group'>
-          <DashboardExcelDownload
-            data={data}
-            downloadBtn={
-              <DownloadCloud style={{ width: '20px', height: '20px' }} />
-            }
-          />
-          <RefreshCw style={{ width: '20px', height: '20px' }} />
+          <span>
+            <DashboardExcelDownload
+              data={data}
+              downloadBtn={
+                <DownloadCloud style={{ width: '20px', height: '20px' }} />
+              }
+            />
+          </span>
+          <span>
+            <RefreshCw
+              style={{ width: '20px', height: '20px' }}
+              onClick={getData}
+            />
+          </span>
+          <span>
+            <X
+              style={{ width: '20px', height: '20px' }}
+              onClick={() => setShowFilter(!showFilter)}
+            />
+          </span>
         </span>
       </li>
 
@@ -112,7 +128,10 @@ const DashboardFilter = observer(() => {
           //       ]
           // }
         /> */}
-        <select onChange={e => setXAxisScale(Number(e.target.value))}>
+        <select
+          value={xAxisScale}
+          onChange={e => setXAxisScale(Number(e.target.value))}
+        >
           <option value={GraphXScale.mounths}>Måneder</option>
           <option value={GraphXScale.weeks}>Uger</option>
         </select>
@@ -215,6 +234,7 @@ const DashboardFilter = observer(() => {
 
         .btn-group > span {
           margin-left: 10px;
+          padding: 5px;
         }
 
          {
