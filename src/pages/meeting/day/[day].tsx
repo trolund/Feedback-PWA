@@ -6,31 +6,49 @@ import Page from '../../../components/page'
 import Section from '../../../components/section'
 import MeetingModel from '../../../models/MeetingModel'
 import rootStore from '../../../stores/RootStore'
+import Link from 'next/link'
 
 const Day: NextPage = observer(() => {
   const router = useRouter()
   const { day } = router.query
 
-  const [selectedDay, setSelectedDay] = useState(
-    new Date(Date.parse(String(day)))
-  )
+  const [selectedDay, setSelectedDay] = useState(new Date(Number(day)))
+
+  useEffect(() => {
+    setSelectedDay(new Date(Number(day)))
+  }, [day])
+
+  console.log('====================================')
+  console.log(selectedDay, day, Number(day), new Date(Number(day)))
+  console.log('====================================')
   const [events, setEvents] = useState([] as MeetingModel[])
   const { meetingStore } = useContext(rootStore)
 
   useEffect(() => {
-    if (selectedDay)
+    if (selectedDay && selectedDay.toString() !== 'Invalid Date')
       meetingStore.fetchMeetingByDay(selectedDay).then(() => {
         setEvents(meetingStore.meetings)
       })
   }, [meetingStore, selectedDay])
 
   return (
-    <Page title={selectedDay.toDateString()} showBackButton={false}>
+    <Page
+      title={
+        selectedDay.toString() !== 'Invalid Date'
+          ? selectedDay.toLocaleDateString()
+          : 'Henter...'
+      }
+      showBackButton
+    >
       <Section>
         <ul>
           {events?.length === 0 && <li>Ingen møder på denne dag</li>}
           {events?.map(m => (
-            <li>{m.name}</li>
+            <li>
+              <Link href='/meeting/[mid]' as={`/meeting/${m.shortId}`}>
+                <a>{m.name}</a>
+              </Link>
+            </li>
           ))}
         </ul>
       </Section>

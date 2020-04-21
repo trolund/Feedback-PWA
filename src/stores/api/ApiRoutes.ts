@@ -24,7 +24,8 @@ const ApiRoutes = {
   createMeeting: `${apiUrl()}/Api/Meeting/Create`,
   updateMeeting: `${apiUrl()}/Api/Meeting`,
   deleteMeeting: `${apiUrl()}/Api/Meeting/Delete`,
-  meetingsByDay: (day: Date) => `${apiUrl()}/Api/Meeting/${day.toDateString()}`,
+  meetingsByDay: (day: Date) =>
+    `${apiUrl()}/Api/Meeting/ByDay/${day.toISOString()}`,
   createUser: `${apiUrl()}/Api/User/Post`,
   qrcode: (mid: string) => `/feedback/${String(mid)}`,
   meetingByShortId: (id: string) => `${apiUrl()}/Api/Meeting/ShortId/${id}`,
