@@ -44,11 +44,19 @@ const AllQuestionSets = withAuth(
     }
 
     return (
-      <Page title='Bruger administration'>
+      <Page
+        title='Bruger administration'
+        component={
+          <button type='button' onClick={saveClickHandler}>
+            <Save /> Gem
+          </button>
+        }
+      >
         <Section>
           <div>
             <input
               type='text'
+              className='filter'
               placeholder='word'
               value={query?.searchword}
               onChange={e =>
@@ -58,21 +66,14 @@ const AllQuestionSets = withAuth(
                 } as userAdminQuery)
               }
             />
-            <button
-              type='button'
-              className='button float-right'
-              onClick={saveClickHandler}
-            >
-              <Save /> Gem
-            </button>
           </div>
           <Table>
             <Thead>
-              <Tr>
-                <Th>CompanyId</Th>
-                <Th>CompanyConfirmed</Th>
-                <Th>Name</Th>
-                <Th>Phone</Th>
+              <Tr className='tableheader'>
+                <Th>Virksomheds ID</Th>
+                <Th>Bekræftet virksomhed</Th>
+                <Th>Navn</Th>
+                <Th>Telefon nr.</Th>
                 <Th>Email</Th>
                 <Th>Slet</Th>
               </Tr>
@@ -123,6 +124,11 @@ const AllQuestionSets = withAuth(
             }
           }
 
+          .filter {
+            width: 100%;
+            margin-bottom: 50px;
+          }
+
           .topbar {
             width: 100%;
             padding: 10px;
@@ -139,6 +145,10 @@ const AllQuestionSets = withAuth(
             align-items: center;
             transition: var(--transition-colors);
             margin-bottom: 10px;
+          }
+
+          .tableheader {
+            text-align: left;
           }
 
           .item:not(:last-child) {

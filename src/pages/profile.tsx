@@ -22,7 +22,7 @@ const Profile = withAuth(
     let user: User = { companyId: 0, firstname: '?', lastname: '?', roles: [] }
     if (typeof window !== 'undefined') user = getUser()
     return (
-      <Page title='Profile' showBackButton={false} component={<SettingsBtn />}>
+      <Page title='Bruger' showBackButton={false} component={<SettingsBtn />}>
         <Section>
           <ul>
             <li>
@@ -121,7 +121,7 @@ const Profile = withAuth(
                     float: 'left'
                   }}
                 />
-                Logout
+                Logud
               </button>
             </li>
           </ul>

@@ -52,26 +52,26 @@ const QuestionSetPage: NextPage = withAuth(
     }
 
     return (
-      <Page title={qset?.name} component={<Plus onClick={addQuestion} />}>
+      <Page
+        title={qset?.name}
+        component={
+          <button type='button' onClick={createClickHandler}>
+            <Save
+              style={{
+                height: '20px',
+                width: '20px',
+                marginRight: '7px',
+                marginTop: '2px'
+              }}
+            />
+            Opret
+          </button>
+        }
+      >
         <Section>
           <div className='topbar'>
-            <button
-              type='button'
-              className='button float-right'
-              onClick={createClickHandler}
-            >
-              <Save
-                style={{
-                  height: '20px',
-                  width: '20px',
-                  marginRight: '7px',
-                  marginTop: '2px'
-                }}
-              />
-              Opret
-            </button>
             <input
-              className='float-left name'
+              className='name'
               type='text'
               placeholder='Sæt navn'
               value={qset.name}
@@ -88,20 +88,40 @@ const QuestionSetPage: NextPage = withAuth(
             deleteFunc={deleteQuestion}
             changeItemFunc={itemChange}
           />
+          <li className='addbtn'>
+            <button
+              type='button'
+              className='button bottombtn'
+              onClick={addQuestion}
+            >
+              <Plus
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  marginRight: '-20px',
+                  float: 'left'
+                }}
+              />
+              Tilføj spørgsmål
+            </button>
+          </li>
         </Section>
 
         <style jsx>{`
           @media only screen and (max-width: 400px) {
-            .name {
-              margin-right: auto;
-              margin-left: auto;
-              text-align: center;
-              float: none;
-            }
-
             .topbar {
               float: none;
             }
+          }
+
+          .addbtn {
+            border-top: 1px solid var(--divider);
+          }
+
+          .name {
+            margin-right: auto;
+            margin-left: auto;
+            width: 100%;
           }
 
           .topbar {

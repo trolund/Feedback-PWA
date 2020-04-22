@@ -192,7 +192,7 @@ const DashboardFilter = observer(() => {
       </li>
       <li className='ownData'>
         <CustomCheckbox
-          label='Undlad nul-værdier'
+          label='Vis kun perioder med registreret aktiviteter'
           checked={useSkipZero}
           onChange={checked => setSkipZero(checked)}
         />
