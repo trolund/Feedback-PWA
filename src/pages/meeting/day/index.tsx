@@ -4,11 +4,13 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useDrag } from 'react-use-gesture'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight } from 'react-feather'
+import { ChevronLeft, ChevronRight, Coffee } from 'react-feather'
 import Page from '../../../components/page'
 import Section from '../../../components/section'
 import MeetingModel from '../../../models/MeetingModel'
 import rootStore from '../../../stores/RootStore'
+import MiddelLoader from '../../../components/middelLoading'
+import FetchStates from '../../../stores/requestState'
 
 const Day: NextPage = observer(() => {
   const router = useRouter()
@@ -17,10 +19,6 @@ const Day: NextPage = observer(() => {
   const [selectedDay, setSelectedDay] = useState(new Date(Number(date)))
   const [events, setEvents] = useState([] as MeetingModel[])
   const { meetingStore } = useContext(rootStore)
-
-  const bind = useDrag(({ down, movement: [mx, my] }) => {
-    console.log(mx)
-  })
 
   const setURL = () => {
     const href = `/meeting/day?date=${selectedDay.getTime()}`
@@ -58,11 +56,49 @@ const Day: NextPage = observer(() => {
       meetingStore.fetchMeetingByDay(selectedDay).then(() => {
         setEvents(meetingStore.meetings)
       })
-  }, [meetingStore, selectedDay])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [meetingStore.fetchMeetingByDay, selectedDay])
+
+  let sameSwipe: boolean = false
+
+  const bind = useDrag(({ down, movement: [mx] }) => {
+    if (!down) {
+      sameSwipe = !sameSwipe
+    }
+
+    if (mx > 200 && sameSwipe) {
+      prevDay()
+    } else if (mx < -200 && sameSwipe) {
+      nextDay()
+    }
+  })
+
+  const NoMeetings = () => {
+    return (
+      <div className='container'>
+        <Coffee />
+        <p>Ingen møder på denne dag</p>
+        <style jsx>{`
+          .container {
+            border-radius: var(--border-radius);
+            background-color: #ccc;
+            padding: 25px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+          }
+        `}</style>
+      </div>
+    )
+  }
 
   return (
-    <Page title='Møder' showBackButton>
-      <div {...bind}>
+    <div {...bind()}>
+      <Page title='Møder' showBackButton>
+        <MiddelLoader loading={meetingStore.state === FetchStates.LOADING} />
         <div className='bar'>
           <div className='date'>
             {selectedDay.toString() !== 'Invalid Date'
@@ -70,7 +106,7 @@ const Day: NextPage = observer(() => {
               : 'Henter...'}
           </div>
           <div className='float-left arrowbtn'>
-            <ArrowLeft
+            <ChevronLeft
               tabIndex={0}
               onKeyPress={e => console.log(e)}
               onClick={prevDay}
@@ -79,7 +115,7 @@ const Day: NextPage = observer(() => {
           </div>
 
           <div className='float-right arrowbtn'>
-            <ArrowRight
+            <ChevronRight
               tabIndex={0}
               onKeyPress={arrowKeys}
               onClick={nextDay}
@@ -89,7 +125,7 @@ const Day: NextPage = observer(() => {
         </div>
         <Section>
           <ul>
-            {events?.length === 0 && <li>Ingen møder på denne dag</li>}
+            {events?.length === 0 && <NoMeetings />}
             {events?.map(m => (
               <li key={m.shortId}>
                 <Link href='/meeting/[mid]' as={`/meeting/${m.shortId}`}>
@@ -159,8 +195,8 @@ const Day: NextPage = observer(() => {
             letter-spacing: 0.0035em;
           }
         `}</style>
-      </div>
-    </Page>
+      </Page>
+    </div>
   )
 })
 

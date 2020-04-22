@@ -182,7 +182,7 @@ const CalendarView = withAuth(
 
     return (
       <Page
-        title='Calendar'
+        title='Kalender'
         showBackButton={false}
         component={
           <SearchBtn

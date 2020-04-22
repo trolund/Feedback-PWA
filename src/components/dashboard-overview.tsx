@@ -17,6 +17,7 @@ type overviewprops = {
 const DashboardOverview = (props: overviewprops) => {
   const [showBarChart, setShowBarChart] = useState(false)
   const { graphData, fetchState, useFixedXAxis } = props
+
   return (
     <>
       <Rating />

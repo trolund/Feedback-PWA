@@ -86,7 +86,10 @@ const Rating: React.FC<IProp> = observer(() => {
       </h5>
 
       <div className='card-body'>
-        <div style={{ paddingBottom: '10px', paddingRight: '30px' }}>
+        <div
+          style={{ paddingBottom: '10px', paddingRight: '30px' }}
+          className='rating'
+        >
           <p className='float-left' style={{ marginRight: '10px' }}>
             Personling score:{' '}
           </p>
@@ -94,25 +97,47 @@ const Rating: React.FC<IProp> = observer(() => {
             name='rate1'
             starCount={6}
             value={rating}
-            starColor='#19896f'
+            starColor='var(--accent)'
             // onStarClick={newRating => setRating(newRating)}
           />
         </div>
 
-        <div className='row'>
-          <div className='col'>
-            Møder: <b className='Spinoffprimary-dark'>{meetings()}</b>
+        <div className='flex-container'>
+          <div>
+            <p>Møder</p>
+            <b className='Spinoffprimary-dark'>{meetings()}</b>
           </div>
-          <div className='col'>
-            Undervisning: <b className='Spinoffprimary-dark'>{classroom()}</b>
+          <div>
+            <p>Undervisning</p>
+            <b className='Spinoffprimary-dark'>{classroom()}</b>
           </div>
-          <div className='col'>
-            Foredrag: <b className='Spinoffprimary-dark'>{conf()}</b>
+          <div>
+            <p>Foredrag</p>
+            <b className='Spinoffprimary-dark'>{conf()}</b>
           </div>
         </div>
 
         {isOpen && <Pie data={myData} />}
       </div>
+      <style jsx>{`
+        .flex-container {
+          display: flex;
+        }
+
+        .flex-container > div {
+          text-align: center;
+          background-color: var(--surface);
+          border-radius: var(--border-radius);
+          padding: var(--gap-small);
+        }
+
+        .rating {
+          background-color: var(--surface);
+          border-radius: var(--border-radius);
+          padding: var(--gap-small);
+          margin-bottom: var(--gap-small);
+        }
+      `}</style>
     </div>
   )
 })

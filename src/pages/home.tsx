@@ -10,6 +10,7 @@ import CalculationService from '../services/calculationService'
 import withAuth from '../services/withAuth'
 import BottomModal from '../components/bottom-modal'
 import rootStore from '../stores/RootStore'
+import TheNextWeek from '../components/theNextWeek'
 
 export default withAuth(
   observer(() => {
@@ -72,7 +73,7 @@ export default withAuth(
       <Page
         showBackButton={false}
         component={<ShowAndHideFilterBtn />}
-        title='Home'
+        title='Oversigt'
       >
         <BottomModal
           show={showFilter}
@@ -90,6 +91,7 @@ export default withAuth(
                 fetchState={state}
                 useFixedXAxis={useFixedYAxis}
               />
+              <TheNextWeek />
             </div>
           </section>
         </Section>

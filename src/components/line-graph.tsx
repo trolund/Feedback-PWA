@@ -226,7 +226,6 @@ const LineGraph: React.FC<LineGraphProps> = (props: LineGraphProps) => {
       <style jsx>{`
         .line-chart {
           width: 100%;
-          height: 100%;
         }
       `}</style>
     </div>

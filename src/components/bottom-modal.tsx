@@ -13,7 +13,7 @@ const BottomModal = (props: BottomModalProps) => {
   const [maxHeight, setMaxHeight] = useState('0px')
   const [bottom, setBottom] = useState('-50vh')
   // Set the drag hook and define component movement based on gesture data
-  const bind = useDrag(({ down, movement: [mx, my] }) => {
+  const bind = useDrag(({ movement: [, my] }) => {
     if (my > 190) {
       setShow(false)
     }
