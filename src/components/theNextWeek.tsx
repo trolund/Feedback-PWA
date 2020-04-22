@@ -5,7 +5,6 @@ import Link from 'next/link'
 import rootStore from '../stores/RootStore'
 import MeetingModel from '../models/MeetingModel'
 import * as loadingAni from '../../public/Animations/loading.json'
-import MeetingStore from '../stores/MeetingStore'
 import FetchStates from '../stores/requestState'
 
 const TheNextWeek = () => {
