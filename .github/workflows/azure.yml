@@ -20,6 +20,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Run testing
+        run: npm test
       - name: Make sure to use the right config
         run: rm next.config.js | mv next.config.azure.js next.config.js
       - name: npm install, build, and test
