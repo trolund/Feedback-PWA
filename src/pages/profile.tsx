@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import { Settings, LogOut, Edit3, User as Avater } from 'react-feather'
+import { Settings, LogOut, Edit3, User as Avater, Key } from 'react-feather'
 import Router from 'next/router'
 import Page from '../components/page'
 import User from '../models/User'
@@ -84,6 +84,25 @@ const Profile = withAuth(
                   }}
                 />
                 Updater bruger
+              </button>
+            </li>
+            <li>
+              <button
+                type='button'
+                className='button bottombtn'
+                onClick={() => {
+                  signout()
+                }}
+              >
+                <Key
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    marginRight: '-20px',
+                    float: 'left'
+                  }}
+                />
+                Skift kodeord
               </button>
             </li>
             <li>

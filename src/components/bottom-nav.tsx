@@ -1,6 +1,12 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Calendar, Home, CheckCircle, User } from 'react-feather'
+import {
+  Calendar,
+  Home,
+  CheckCircle,
+  User,
+  MoreHorizontal
+} from 'react-feather'
 
 const links = [
   {
@@ -22,6 +28,11 @@ const links = [
     title: 'Profile',
     icon: <User />,
     href: '/profile'
+  },
+  {
+    title: 'Administration',
+    icon: <MoreHorizontal />,
+    href: '/more'
   }
 ]
 

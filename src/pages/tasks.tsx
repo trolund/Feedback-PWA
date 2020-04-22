@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import Lottie from 'react-lottie'
-import { Hash, Smile, Maximize } from 'react-feather'
+import { Hash, Smile, Maximize, ArrowLeft, ArrowRight } from 'react-feather'
 import Link from 'next/link'
 import Router from 'next/router'
 import * as loading from '../../public/Animations/loading.json'

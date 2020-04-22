@@ -5,7 +5,7 @@ import ThemeButton from '../components/theme-button'
 
 const Settings = observer(() => {
   return (
-    <Page title='Settings'>
+    <Page title='Indstillinger'>
       <Section>
         <ul>
           <li>
