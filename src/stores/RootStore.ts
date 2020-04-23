@@ -20,7 +20,7 @@ const doHydration = (root: RootStore) => {
     })
     // hydrate all presistent stores
     hydrate('dashboardStore', root.dashboardStore)
-    // hydrate('authStore', root.authStore)
+    hydrate('authStore', root.authStore)
     // hydrate('categoriesStore', root.categoriesStore)
     // hydrate('feedbackStore', root.feedbackStore)
     // hydrate('meetingStore', root.meetingStore)

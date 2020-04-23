@@ -1,12 +1,22 @@
 import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import { Settings, LogOut, Edit3, User as Avater, Key } from 'react-feather'
+import {
+  Settings,
+  LogOut,
+  Edit3,
+  User as Avater,
+  Key,
+  Briefcase,
+  Phone,
+  Mail
+} from 'react-feather'
 import Router from 'next/router'
 import Page from '../components/page'
 import User from '../models/User'
 import Section from '../components/section'
 import withAuth from '../services/withAuth'
 import rootStore from '../stores/RootStore'
+import CustomInput from '../components/custom-input'
 
 // import { User as Avatar } from '../models/User'
 
@@ -36,7 +46,9 @@ const Profile = withAuth(
               />
             </li>
             <li>
-              <input
+              <CustomInput
+                fill
+                logo={<Edit3 />}
                 type='text'
                 className='info'
                 placeholder='Firstname'
@@ -44,7 +56,9 @@ const Profile = withAuth(
               />
             </li>
             <li>
-              <input
+              <CustomInput
+                fill
+                logo={<Edit3 />}
                 type='text'
                 className='info'
                 placeholder='Lastname'
@@ -52,20 +66,56 @@ const Profile = withAuth(
               />
             </li>
             <li>
-              <input
+              <CustomInput
+                fill
+                logo={<Mail />}
                 type='text'
                 className='info'
-                placeholder='Firstname'
-                value={user.companyId}
+                placeholder='Email'
+                value={user.email}
+              />
+            </li>
+            {/* <li>
+              <CustomInput
+                logo={<Briefcase />}
+                type='text'
+                fill
+                className='info'
+                placeholder='Firma navn'
+                value={`${user.companyId} - ${user.companyName}`}
+              />
+            </li> */}
+            <li>
+              <CustomInput
+                logo={<Phone />}
+                fill
+                type='text'
+                className='info'
+                placeholder='Firma navn'
+                value={user.phoneNumber}
               />
             </li>
             <li>
-              <input
-                type='text'
-                className='info'
-                placeholder='Firstname'
-                value={user.roles}
-              />
+              {user.companyConfirmed ? (
+                <p>Du er godkendt medarbejder hos {user.companyName}.</p>
+              ) : (
+                <p>
+                  Du mangler at blive godkendt af din virksomheds administator.
+                </p>
+              )}
+            </li>
+
+            <li>
+              <h4>Roller</h4>
+              {user.roles.length > 0 ? (
+                <ul>
+                  {user.roles.map(role => (
+                    <li>{role}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>Du har ingen roller tildelt</p>
+              )}
             </li>
             <li>
               <button

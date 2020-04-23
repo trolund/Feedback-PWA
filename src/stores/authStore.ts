@@ -1,5 +1,6 @@
 import { observable, action } from 'mobx'
 import { Cookies } from 'react-cookie'
+import { persist } from 'mobx-persist'
 import JwtDecode from 'jwt-decode'
 import User from '../models/User'
 import FetchStates from './requestState'
@@ -16,9 +17,9 @@ export default class AuthStore {
 
   @observable msg: string = ''
 
-  @observable user: User = null
+  @persist @observable user: User = null
 
-  @observable token: string = null
+  @persist @observable token: string = null
 
   @observable isAdmin: boolean = null
 
