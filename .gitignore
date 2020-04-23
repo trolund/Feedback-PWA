@@ -17,3 +17,6 @@ node_modules
 .vscode/launch.json
 public/sw.js.map
 public/sw.js.map
+
+# jest
+coverage/**

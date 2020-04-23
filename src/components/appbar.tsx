@@ -61,7 +61,7 @@ const Header = (props: appbarProps) => {
         .right-component {
           position: absolute;
           text-align: center;
-          top: 25px;
+          top: calc(env(safe-area-inset-top) - 10px + 50%);
           right: 25px;
         }
         header {
@@ -103,7 +103,7 @@ const Header = (props: appbarProps) => {
           width: 50%;
           margin: auto;
           position: absolute;
-          top: 50%;
+          top: calc(env(safe-area-inset-top) + 50%);
           left: 50%;
           transform: translate(-50%, -50%);
           text-align: center;

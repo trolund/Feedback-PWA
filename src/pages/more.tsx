@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { ArrowRight } from 'react-feather'
+import { ChevronRight } from 'react-feather'
 import Link from 'next/link'
 import Page from '../components/page'
 import Section from '../components/section'
@@ -34,9 +34,9 @@ const More = withAuth(
             {links.map(item => (
               <Link href={item.href}>
                 <li>
-                  <p>{item.title}</p>
-                  <div className='float-right'>
-                    <ArrowRight />
+                  <p className='text'>{item.title}</p>
+                  <div className='arrow'>
+                    <ChevronRight />
                   </div>
                 </li>
               </Link>
@@ -44,6 +44,15 @@ const More = withAuth(
           </ul>
         </Section>
         <style jsx>{`
+          .text {
+            width: inherit;
+          }
+
+          .arrow {
+            float: right;
+            display: inline-block;
+            white-space: nowrap;
+          }
           .label {
             display: block;
             width: 100%;
@@ -60,9 +69,6 @@ const More = withAuth(
             align-items: center;
             transition: var(--transition-colors);
             width: 100%;
-          }
-
-          li:not(:last-child) {
             border-bottom: 1px solid var(--divider);
           }
 

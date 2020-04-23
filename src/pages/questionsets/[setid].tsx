@@ -1,5 +1,6 @@
 /* eslint-disable func-names */
 import { useState, useContext, useEffect } from 'react'
+import https from 'https'
 import { NextPage } from 'next'
 import { observer } from 'mobx-react-lite'
 import { Plus, Save, Trash } from 'react-feather'
@@ -68,41 +69,25 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   }
 
   return (
-    <Page title={qset?.name} component={<Plus onClick={addQuestion} />}>
+    <Page
+      title={qset?.name}
+      component={
+        <button type='button' onClick={updateClickHandler}>
+          <Save
+            style={{
+              height: '20px',
+              width: '20px',
+              marginRight: '7px',
+              marginTop: '2px'
+            }}
+          />
+          Gem
+        </button>
+      }
+    >
       <CustomToast />
       <Section>
         <div className='topbar'>
-          <button
-            type='button'
-            className='button float-right'
-            onClick={deleteClickHandler}
-          >
-            <Trash
-              style={{
-                height: '20px',
-                width: '20px',
-                marginRight: '7px',
-                marginTop: '2px'
-              }}
-            />
-            slet
-          </button>
-          <button
-            type='button'
-            className='button float-right'
-            onClick={updateClickHandler}
-          >
-            <Save
-              style={{
-                height: '20px',
-                width: '20px',
-                marginRight: '7px',
-                marginTop: '2px'
-              }}
-            />
-            Gem
-          </button>
-
           <input
             className='float-left name'
             type='text'
@@ -121,20 +106,56 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
           deleteFunc={deleteQuestion}
           changeItemFunc={itemChange}
         />
+        <li className='addbtn'>
+          <button
+            type='button'
+            className='button bottombtn'
+            onClick={addQuestion}
+          >
+            <Plus
+              style={{
+                width: '20px',
+                height: '20px',
+                marginRight: '-20px',
+                float: 'left'
+              }}
+            />
+            Tilføj spørgsmål
+          </button>
+        </li>
+        <hr
+          style={{ width: '120px', marginLeft: 'auto', marginRight: 'auto' }}
+        />
+        <li>
+          <button
+            type='button'
+            className='button bottombtn'
+            onClick={deleteClickHandler}
+          >
+            <Trash
+              style={{
+                width: '20px',
+                height: '20px',
+                marginRight: '-20px',
+                float: 'left'
+              }}
+            />
+            slet
+          </button>
+        </li>
       </Section>
 
       <style jsx>{`
         @media only screen and (max-width: 400px) {
-          .name {
-            margin-right: auto;
-            margin-left: auto;
-            text-align: center;
-            float: none;
-          }
-
           .topbar {
             float: none;
           }
+        }
+
+        .name {
+          margin-right: auto;
+          margin-left: auto;
+          width: 100%;
         }
 
         .topbar {
@@ -152,11 +173,18 @@ QuestionSetPage.getInitialProps = async function(ctx) {
   const { query } = ctx
   const token = auth(ctx)
   const { setid } = query
+
+  const options = {
+    agent: new https.Agent({
+      rejectUnauthorized: false // TODO fix for production with real SSL CERT
+    })
+  }
   const url = ApiRoutes.QuestionSetById(String(setid))
   let data: QuestionSet | null = null
   try {
     const response = await fetch(url, {
-      headers: !token ? {} : { Authorization: `Bearer ${token}` }
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      ...options
     })
     data = await response.json()
   } catch (e) {

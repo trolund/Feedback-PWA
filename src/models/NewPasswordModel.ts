@@ -1,6 +1,7 @@
 export default interface NewPasswordModel {
-  email: string
-  token: string
+  email?: string
+  token?: string
+  oldPassword?: string
   newPassword: string
   newPasswordAgain: string
 }

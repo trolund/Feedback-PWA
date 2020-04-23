@@ -91,7 +91,7 @@ const Profile = withAuth(
                 type='button'
                 className='button bottombtn'
                 onClick={() => {
-                  signout()
+                  Router.push('/newpassword')
                 }}
               >
                 <Key

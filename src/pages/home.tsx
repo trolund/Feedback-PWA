@@ -136,6 +136,7 @@ export default withAuth(
           .charts {
             padding: 20px;
             flex: 1;
+            max-height: 300px !important;
           }
 
           .item-a {

@@ -7,6 +7,7 @@ import ApiRoutes from './api/ApiRoutes'
 import Registration from '../models/Registration'
 import { login, getToken, logout } from '../services/authService'
 import TokenModel from '../models/TokenModel'
+import NewPasswordModel from '../models/NewPasswordModel'
 
 export default class AuthStore {
   cookies = new Cookies()
@@ -172,6 +173,40 @@ export default class AuthStore {
       this.msg = e.statusText ?? 'User not Created'
       this.user = null
       // this.state = states.FAILED
+      return FetchStates.FAILED
+    }
+  }
+
+  @action updatePassword = async (model: NewPasswordModel) => {
+    this.state = FetchStates.LOADING
+    try {
+      const url = ApiRoutes.updateUserPassword
+
+      const json = JSON.stringify(model)
+
+      const token = getToken()
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: !token
+          ? {}
+          : {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+        body: json
+      })
+
+      this.msg = response.statusText
+      if (response.status === 200) {
+        this.state = FetchStates.DONE
+        return FetchStates.DONE
+      }
+      this.state = FetchStates.FAILED
+      return FetchStates.FAILED
+    } catch (e) {
+      this.msg = e.statusText
+      this.state = FetchStates.FAILED
       return FetchStates.FAILED
     }
   }

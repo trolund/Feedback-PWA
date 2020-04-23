@@ -12,7 +12,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <title>Feedback</title>
         <meta charSet='utf-8' />
         <meta name='mobile-web-app-capable' content='yes' />
-        <meta name='apple-mobile-web-app-capable' content='yes' />
+        {/* <meta name='apple-mobile-web-app-capable' content='yes' /> */}
         <meta
           name='apple-mobile-web-app-status-bar-style'
           content='black-translucent'
@@ -49,8 +49,6 @@ const App = ({ Component, pageProps }: AppProps) => {
           sizes='120x120'
           href='/images/pwa/apple-icon-120.png'
         />
-
-        <meta name='apple-mobile-web-app-capable' content='yes' />
 
         <link
           rel='apple-touch-startup-image'

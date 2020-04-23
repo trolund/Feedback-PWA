@@ -8,19 +8,6 @@ const withImages = require('next-images')
 
 console.debug('Api_url ', process.env.API_URL)
 
-// module.exports = {
-//   webpack: (config, { isServer }) => {
-//     // Fixes npm packages that depend on `fs` module
-//     if (!isServer) {
-//       config.node = {
-//         fs: 'empty'
-//       }
-//     }
-
-//     return config
-//   }
-// }
-
 module.exports = withImages(
   withPWA({
     pwa: {
