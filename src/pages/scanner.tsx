@@ -1,14 +1,18 @@
+import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { observer } from 'mobx-react-lite'
 import Router from 'next/router'
 import Page from '../components/page'
 import Section from '../components/section'
+import MiddelLoader from '../components/middelLoading'
 
 const QrReader = dynamic(() => import('react-qr-reader'), {
   ssr: false
 })
 
 const Scanner = observer(() => {
+  const [error, setError] = useState(undefined)
+  const [loading, setLoading] = useState(true)
   const handleScan = (data: string) => {
     if (data) {
       const parts = data.split(',')
@@ -20,6 +24,7 @@ const Scanner = observer(() => {
   }
   const handleError = err => {
     console.error(err)
+    setError('Fejl ved læsning.')
   }
   return (
     <Page
@@ -28,6 +33,7 @@ const Scanner = observer(() => {
       fullscreen
       showBackButton
     >
+      <MiddelLoader loading={loading} />
       <Section>
         <div className='container'>
           <QrReader
@@ -35,11 +41,13 @@ const Scanner = observer(() => {
             delay={300}
             onError={handleError}
             onScan={handleScan}
+            onLoad={() => setLoading(false)}
           />
           <hr />
           <p style={{ textAlign: 'center', width: '100%' }}>
             Scan QR kode for et møde for at give feedback
           </p>
+          {error !== undefined && <p>{error}</p>}
         </div>
       </Section>
 

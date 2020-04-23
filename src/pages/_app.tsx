@@ -12,7 +12,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <title>Feedback</title>
         <meta charSet='utf-8' />
         <meta name='mobile-web-app-capable' content='yes' />
-        {/* <meta name='apple-mobile-web-app-capable' content='yes' /> */}
+        {/* <meta name='apple-mobile-web-app-capable' content='yes' />  https://bugs.webkit.org/show_bug.cgi?id=185448 - gets the camera too work */}
         <meta
           name='apple-mobile-web-app-status-bar-style'
           content='black-translucent'
