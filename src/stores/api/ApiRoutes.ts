@@ -28,6 +28,7 @@ const ApiRoutes = {
     `${apiUrl()}/Api/Meeting/ByDay/${day.toISOString()}`,
   createUser: `${apiUrl()}/Api/User/Post`,
   updateUserPassword: `${apiUrl()}/Api/User/newPassword`,
+  updateUserInfo: `${apiUrl()}/Api/User/userUpdate`,
   qrcode: (mid: string) => `/feedback/${String(mid)}`,
   meetingByShortId: (id: string) => `${apiUrl()}/Api/Meeting/ShortId/${id}`,
   login: `${apiUrl()}/Api/User/authenticate`,

@@ -3,9 +3,10 @@ import * as loadingAni from '../../public/Animations/loading.json'
 
 type loadingprops = {
   loading: boolean
+  text?: string
 }
 
-const MiddelLoader: React.FC<loadingprops> = ({ loading }) => {
+const MiddelLoader: React.FC<loadingprops> = ({ loading, text }) => {
   const defaultOptions = {
     loop: false,
     autoplay: true,
@@ -19,7 +20,7 @@ const MiddelLoader: React.FC<loadingprops> = ({ loading }) => {
       {loading && (
         <div className='container'>
           <Lottie options={defaultOptions} height={65} width={65} />
-          <p>Henter...</p>
+          <p>{text || 'Henter...'}</p>
           <style jsx>{`
             .container {
               border-radius: var(--border-radius);

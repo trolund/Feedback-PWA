@@ -3,15 +3,18 @@ import Router from 'next/router'
 import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { EventInput } from '@fullcalendar/core'
+import { Plus } from 'react-feather'
 import MobileCalendar from '../components/mobile-calendar'
 import Page from '../components/page'
 import CalView from '../models/CalView'
 import MeetingModel from '../models/MeetingModel'
-import SearchBtn from '../components/search-btn'
 import { getCompanyId } from '../services/authService'
 import WindowDimensions from '../models/types/WindowDimensions'
 import withAuth from '../services/withAuth'
 import rootStore from '../stores/RootStore'
+import BottomModal from '../components/bottom-modal'
+
+import AddMeeting from '../components/add-meeting'
 
 let FullCalendarNoSSRWrapper
 
@@ -180,19 +183,26 @@ const CalendarView = withAuth(
       )
     }, [events, filterEventsCallback, showCal])
 
+    // <SearchBtn
+    //   inputOpen={inputOpen}
+    //   setInputOpen={setInputOpen}
+    //   searchWord={searchWord}
+    //   setSearchWord={setSearchWord}
+    // />
+
+    const [showModal, setShowModal] = useState(false)
+
     return (
       <Page
         title='Kalender'
         showBackButton={false}
-        component={
-          <SearchBtn
-            inputOpen={inputOpen}
-            setInputOpen={setInputOpen}
-            searchWord={searchWord}
-            setSearchWord={setSearchWord}
-          />
-        }
+        component={<Plus onClick={() => setShowModal(!showModal)} />}
       >
+        <BottomModal
+          show={showModal}
+          content={<AddMeeting />}
+          setShow={setShowModal}
+        />
         {/* <Seachbar value={searchWord} setValue={setSearchWord} /> */}
         {/* <CreateMeetingModal
         questionContext={questionContext}

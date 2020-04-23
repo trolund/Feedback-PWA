@@ -58,7 +58,11 @@ const BottomModal = (props: BottomModalProps) => {
             height: contain;
             width: 100vw;
             position: fixed;
-            background-color: var(--surface);
+
+            /* background-color: var(--surface); */
+
+            background-color: var(--backdrop);
+            backdrop-filter: blur(10px);
             border-top-right-radius: var(--border-radius);
             border-top-left-radius: var(--border-radius);
             box-shadow: 1px 7px 27px 1px rgba(0, 0, 0, 0.75);

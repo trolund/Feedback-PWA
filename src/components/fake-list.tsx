@@ -1,8 +1,8 @@
 import { User as UserIcon, UserMinus } from 'react-feather'
-import User from '../models/User'
+import IUser from '../models/User'
 
 type UserList = {
-  userlist: User[]
+  userlist: IUser[]
 }
 
 const UserList: React.FC<UserList> = ({ userlist }) => {

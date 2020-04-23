@@ -10,6 +10,7 @@ import GraphXScale from '../models/GraphXScale'
 import { getCompanyId } from '../services/authService'
 import CustomInput from './custom-input'
 import rootStore from '../stores/RootStore'
+import CustomSelect from './custom-select'
 
 const DashboardFilter = observer(() => {
   // const [searchWord, setSearchWord] = useState('')
@@ -128,13 +129,22 @@ const DashboardFilter = observer(() => {
           //       ]
           // }
         /> */}
-        <select
+        <CustomSelect
+          fill
+          defaultValue={String(GraphXScale.weeks)}
+          values={[
+            { label: 'Måneder', value: String(GraphXScale.mounths) },
+            { label: 'Uger', value: String(GraphXScale.weeks) }
+          ]}
+          onChange={e => setXAxisScale(Number(e))}
+        />
+        {/* <select
           value={xAxisScale}
           onChange={e => setXAxisScale(Number(e.target.value))}
         >
           <option value={GraphXScale.mounths}>Måneder</option>
           <option value={GraphXScale.weeks}>Uger</option>
-        </select>
+        </select> */}
       </li>
       <li className='tagdiv'>
         <CategoriesPicker

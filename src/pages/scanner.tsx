@@ -13,8 +13,12 @@ const QrReader = dynamic(() => import('react-qr-reader'), {
 const Scanner = observer(() => {
   const [error, setError] = useState(undefined)
   const [loading, setLoading] = useState(true)
+  const [loadingmsg, setLoadingmsg] = useState('Åbner Kamera')
+
   const handleScan = (data: string) => {
     if (data) {
+      setLoadingmsg('Forbereder spørgsmål')
+      setLoading(true)
       const parts = data.split(',')
       console.log('====================================')
       console.log(parts[-1])
@@ -33,7 +37,7 @@ const Scanner = observer(() => {
       fullscreen
       showBackButton
     >
-      <MiddelLoader loading={loading} />
+      <MiddelLoader loading={loading} text={loadingmsg} />
       <Section>
         <div className='container'>
           <QrReader

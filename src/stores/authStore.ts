@@ -2,13 +2,14 @@ import { observable, action } from 'mobx'
 import { Cookies } from 'react-cookie'
 import { persist } from 'mobx-persist'
 import JwtDecode from 'jwt-decode'
-import User from '../models/User'
+import IUser from '../models/User'
 import FetchStates from './requestState'
 import ApiRoutes from './api/ApiRoutes'
 import Registration from '../models/Registration'
 import { login, getToken, logout } from '../services/authService'
 import TokenModel from '../models/TokenModel'
 import NewPasswordModel from '../models/NewPasswordModel'
+import User from '../models/classes/User'
 
 export default class AuthStore {
   cookies = new Cookies()
@@ -17,7 +18,7 @@ export default class AuthStore {
 
   @observable msg: string = ''
 
-  @persist @observable user: User = null
+  @persist('object', User) @observable user: IUser = null
 
   @persist @observable token: string = null
 
@@ -47,9 +48,12 @@ export default class AuthStore {
     this.isVAdmin = isVAdmin
   }
 
-  @action getUser = (): User => {
-    const json = localStorage.getItem('user')
-    return JSON.parse(json)
+  @action getUser = (): IUser => {
+    return this.user
+  }
+
+  @action setUser = (input: IUser) => {
+    this.user = input
   }
 
   @action login = async (
@@ -209,6 +213,40 @@ export default class AuthStore {
       this.msg = e.statusText
       this.state = FetchStates.FAILED
       return FetchStates.FAILED
+    }
+  }
+
+  @action updateUserInfo = async (model: IUser) => {
+    this.state = FetchStates.LOADING
+    try {
+      const url = ApiRoutes.updateUserInfo
+
+      const json = JSON.stringify(model)
+
+      const token = getToken()
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: !token
+          ? {}
+          : {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+        body: json
+      })
+
+      this.msg = response.statusText
+      if (response.status === 200) {
+        this.state = FetchStates.DONE
+        return response.json() as IUser
+      }
+      this.state = FetchStates.FAILED
+      return null
+    } catch (e) {
+      this.msg = e.statusText
+      this.state = FetchStates.FAILED
+      return null
     }
   }
 }
