@@ -97,6 +97,10 @@ export default observer(
                 } as IOptionsValue)
             )}
             styles={{
+              container: base => ({
+                ...base,
+                width: '100%'
+              }),
               multiValueLabel: base => ({
                 ...base,
                 backgroundColor: 'var(--accent)',
