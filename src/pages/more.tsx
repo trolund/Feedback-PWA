@@ -32,7 +32,7 @@ const More = withAuth(
         <Section>
           <ul>
             {links.map(item => (
-              <Link href={item.href}>
+              <Link href={item.href} key={item.href}>
                 <li>
                   <p className='text'>{item.title}</p>
                   <div className='arrow'>

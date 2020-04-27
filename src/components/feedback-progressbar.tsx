@@ -44,6 +44,8 @@ const FeedbackProcessbar = ({ question, questionNumber, voteAVG }: props) => {
           border-radius: var(--border-radius);
           padding: 5px;
           text-align: center;
+          color: white;
+          text-shadow: 0px 0px 2px rgba(61, 61, 61, 0.7);
         }
         .processbar-backdrop {
           background-color: var(--surface);

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Check } from 'react-feather'
 
 type initState = {
@@ -16,6 +16,11 @@ const CustomCheckbox = (props: initState) => {
     showLabel = noLabel
   }
 
+  const color = useCallback(
+    () => (state ? 'var(--accent)' : 'var(--surface)'),
+    [state]
+  )
+
   return (
     <div
       className='container'
@@ -32,10 +37,7 @@ const CustomCheckbox = (props: initState) => {
         onChange(newVal)
       }}
     >
-      <div
-        className='box'
-        style={state ? { backgroundColor: 'var(--accent)' } : {}}
-      >
+      <div className='box' style={{ backgroundColor: color() }}>
         {state && <Check color='whitesmoke' className='checkmark' />}
       </div>
 

@@ -8,6 +8,8 @@ import FetchStates from './requestState'
 import FeedbackDate from '../models/FeedbackDate'
 import GraphXScale from '../models/GraphXScale'
 import { getToken } from '../services/authService'
+import IOptionsValue from '../models/OptionsValue'
+import OptionsValue from '../models/classes/OptionsValue'
 
 export default class DashboardStore {
   @persist @observable showFilter: boolean = false
@@ -28,7 +30,7 @@ export default class DashboardStore {
 
   @persist @observable searchWord: string = ''
 
-  @persist('list') @observable tags: string[] = []
+  @persist('list', OptionsValue) @observable tags: IOptionsValue[] = []
 
   @persist @observable ownData: boolean = true
 
@@ -40,7 +42,7 @@ export default class DashboardStore {
   @observable msg = ''
 
   // data
-  @persist('list') @observable data: FeedbackDate[] = []
+  @observable data: FeedbackDate[] = []
 
   @computed get startdate() {
     return new Date(this.startdateValue)
@@ -94,10 +96,8 @@ export default class DashboardStore {
     this.useSkipZero = value
   }
 
-  @action setTags = (tags: string[]) => {
-    console.log('set tags:', tags)
-
-    this.tags = tags
+  @action setTags = (tags: IOptionsValue[]) => {
+    this.tags = tags.filter(i => i) // make sure to not have null values
   }
 
   @action setState = (state: FetchStates) => {

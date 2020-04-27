@@ -11,7 +11,7 @@ import CustomDatepicker from '../../components/custom-datepicker'
 import MeetingModel from '../../models/MeetingModel'
 import CustomTimepicker from '../../components/custom-timepicker'
 import MeetingCategory from '../../models/MeetingCategory'
-import OptionsValue from '../../models/OptionsValue'
+import IOptionsValue from '../../models/OptionsValue'
 import { getCompanyId } from '../../services/authService'
 import withAuth from '../../services/withAuth'
 import rootStore from '../../stores/RootStore'
@@ -123,7 +123,7 @@ const newMeetingPage = withAuth(
                       i => i.categoryId === item.categoryId
                     )[0]?.name ?? 'Henter...',
                   value: item.categoryId
-                } as OptionsValue)
+                } as IOptionsValue)
             )}
             categories={categoriesStore?.categories}
             setTags={newTags =>

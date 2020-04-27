@@ -14,7 +14,7 @@ import withAuth from '../services/withAuth'
 import rootStore from '../stores/RootStore'
 import BottomModal from '../components/bottom-modal'
 
-import AddMeeting from '../components/add-meeting'
+import MobileMultiSelecter from '../components/add-meeting'
 
 let FullCalendarNoSSRWrapper
 
@@ -200,7 +200,7 @@ const CalendarView = withAuth(
       >
         <BottomModal
           show={showModal}
-          content={<AddMeeting />}
+          content={<MobileMultiSelecter />}
           setShow={setShowModal}
         />
         {/* <Seachbar value={searchWord} setValue={setSearchWord} /> */}

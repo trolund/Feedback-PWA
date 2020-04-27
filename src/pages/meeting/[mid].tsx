@@ -24,7 +24,7 @@ import MeetingModel from '../../models/MeetingModel'
 import FeedbackBatch from '../../models/FeedbackBatch'
 import CustomToast from '../../components/custom-Toast'
 import MeetingCategory from '../../models/MeetingCategory'
-import OptionsValue from '../../models/OptionsValue'
+import IOptionsValue from '../../models/OptionsValue'
 import { getCompanyId } from '../../services/authService'
 import Category from '../../models/Category'
 import rootStore from '../../stores/RootStore'
@@ -267,7 +267,7 @@ const Post: NextPage = observer(
                             i => i.categoryId === item.categoryId
                           )[0]?.name ?? 'Henter...',
                         value: item.categoryId
-                      } as OptionsValue)
+                      } as IOptionsValue)
                   )}
                   categories={meetingCategories}
                   setTags={tags =>

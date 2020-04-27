@@ -1,9 +1,9 @@
 import { ChevronDown } from 'react-feather'
-import OptionsValue from '../models/OptionsValue'
+import IOptionsValue from '../models/OptionsValue'
 
 type Props = {
   placeholder?: string
-  values: OptionsValue[]
+  values: IOptionsValue[]
   onChange: (value: string) => void
   className?: string
   center?: boolean

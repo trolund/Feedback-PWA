@@ -4,7 +4,7 @@ import FetchStates from './requestState'
 import MeetingModel from '../models/MeetingModel'
 import { getToken } from '../services/authService'
 import ApiRoutes from './api/ApiRoutes'
-import OptionsValue from '../models/OptionsValue'
+import IOptionsValue from '../models/OptionsValue'
 
 export default class MeetingStore {
   // status
@@ -81,7 +81,7 @@ export default class MeetingStore {
 
   @action getTags = () => {
     return this.meeting?.meetingCategories.map(
-      item => ({ label: item.name, value: item.categoryId } as OptionsValue)
+      item => ({ label: item.name, value: item.categoryId } as IOptionsValue)
     )
   }
 

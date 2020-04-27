@@ -2,6 +2,7 @@
 import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Save } from 'react-feather'
+
 import Router from 'next/router'
 import CategoriesPicker from './categories-picker'
 import FetchStates from '../stores/requestState'
@@ -9,7 +10,7 @@ import CustomDatepicker from './custom-datepicker'
 import MeetingModel from '../models/MeetingModel'
 import CustomTimepicker from './custom-timepicker'
 import MeetingCategory from '../models/MeetingCategory'
-import OptionsValue from '../models/OptionsValue'
+import IOptionsValue from '../models/OptionsValue'
 import { getCompanyId } from '../services/authService'
 import rootStore from '../stores/RootStore'
 import CustomSelect from './custom-select'
@@ -73,7 +74,7 @@ const AddMeeting = observer(() => {
                       ({
                         label: q.name,
                         value: q.questionSetId
-                      } as OptionsValue)
+                      } as IOptionsValue)
                   )
                 : []
             }
@@ -107,6 +108,7 @@ const AddMeeting = observer(() => {
         </li>
         <li>
           <CategoriesPicker
+            fill
             loading={categoriesStore.state === FetchStates.LOADING}
             values={meeting.meetingCategories?.map(
               item =>
@@ -116,10 +118,10 @@ const AddMeeting = observer(() => {
                       i => i.categoryId === item.categoryId
                     )[0]?.name ?? 'Henter...',
                   value: item.categoryId
-                } as OptionsValue)
+                } as IOptionsValue)
             )}
             categories={categoriesStore?.categories}
-            setTags={newTags =>
+            setTags={newTags => {
               setMeeting({
                 ...meeting,
                 meetingCategories: newTags?.map(
@@ -131,7 +133,8 @@ const AddMeeting = observer(() => {
                     } as MeetingCategory)
                 )
               })
-            }
+              console.log(meeting)
+            }}
           />
         </li>
         <li>

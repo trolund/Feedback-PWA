@@ -70,7 +70,7 @@ const BottomModal = (props: BottomModalProps) => {
             transition-duration: 1s, 750ms;
             transition-timing-function: ease-in-out;
             z-index: 10;
-            bottom: 0px;
+            bottom: 0;
             padding-bottom: 80px;
             max-width: 600px;
             left: 50%;

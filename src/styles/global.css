@@ -56,7 +56,7 @@
   --base: #fefefe;
   --base-low: #fefefe2a;
   --overflow: #fff;
-  --backdrop: rgba(230, 230, 230, 0.75);
+  --backdrop: rgba(230, 230, 230, 0.);
 }
 
 
@@ -357,4 +357,65 @@ a {
 hr {
   opacity: 0.5;
   margin: 30px;
+}
+
+.categories-overlay {
+  min-height: 100%;
+  min-width: 100%;
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.displaynone {
+  display: none;
+}
+
+/*  modal */
+
+.Modal {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  background-color: var(--base);
+  z-index: 11;
+  padding: var(--gap-small);
+  border-radius: var(--border-radius);
+  min-width: 280px;
+  height: fit-content;
+}
+
+.Modal h4 {
+  float: left;
+  margin: 0;
+}
+
+.Modal ul {
+  margin-top: 30px;
+}
+
+.Modal li {
+  margin-top: var(--gap-small);
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--backdrop);
+  background-color: rgba(10, 10, 10, 0.75);
+  z-index: 10;
+}
+
+.close-modal {
+  float: right;
+  margin: 5px;
 }

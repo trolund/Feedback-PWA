@@ -81,19 +81,17 @@ export default withAuth(
           content={<DashboardFilter />}
         />
         <Section>
-          <section className='flex-container'>
-            {/* {showFilter && (
+          {/* {showFilter && (
               <div className='filter'><DashboardFilter /></div>
             )} */}
-            <div className='charts'>
-              <DashboardOverview
-                graphData={graphdata()}
-                fetchState={state}
-                useFixedXAxis={useFixedYAxis}
-              />
-              <TheNextWeek />
-            </div>
-          </section>
+          <div className='charts'>
+            <DashboardOverview
+              graphData={graphdata()}
+              fetchState={state}
+              useFixedXAxis={useFixedYAxis}
+            />
+            <TheNextWeek />
+          </div>
         </Section>
         <style jsx>{`
           @media only screen and (max-width: 900px) {
@@ -130,12 +128,10 @@ export default withAuth(
             z-index: 9;
             padding: 10px;
             max-height: 650px;
-            flex: 1;
           }
 
           .charts {
             padding: 20px;
-            flex: 1;
             max-height: 300px !important;
           }
 

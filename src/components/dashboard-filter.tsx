@@ -11,6 +11,7 @@ import { getCompanyId } from '../services/authService'
 import CustomInput from './custom-input'
 import rootStore from '../stores/RootStore'
 import CustomSelect from './custom-select'
+import IOptionsValue from '../models/OptionsValue'
 
 const DashboardFilter = observer(() => {
   // const [searchWord, setSearchWord] = useState('')
@@ -52,7 +53,13 @@ const DashboardFilter = observer(() => {
   // const { isAdmin, isVAdmin } = useContext(authStore)
 
   useEffect(() => {
-    fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
+    fetchDashboardDate(
+      startdate,
+      enddate,
+      tags.filter(t => t).map(t => t.value),
+      searchWord,
+      ownData
+    )
     categoriesStore.fetchCategories(String(getCompanyId()))
   }, [
     searchWord,
@@ -65,8 +72,19 @@ const DashboardFilter = observer(() => {
   ])
 
   const getData = () => {
-    fetchDashboardDate(startdate, enddate, tags, searchWord, ownData)
+    fetchDashboardDate(
+      startdate,
+      enddate,
+      tags.length > 0 ? tags?.map(t => t.value) : [],
+      searchWord,
+      ownData
+    )
   }
+
+  const xAxisScaleOptions = [
+    { label: 'Uger', value: String(GraphXScale.weeks) },
+    { label: 'Måneder', value: String(GraphXScale.mounths) }
+  ] as IOptionsValue[]
 
   return (
     <ul>
@@ -131,11 +149,8 @@ const DashboardFilter = observer(() => {
         /> */}
         <CustomSelect
           fill
-          defaultValue={String(GraphXScale.weeks)}
-          values={[
-            { label: 'Måneder', value: String(GraphXScale.mounths) },
-            { label: 'Uger', value: String(GraphXScale.weeks) }
-          ]}
+          defaultValue={Number(xAxisScale)}
+          values={xAxisScaleOptions}
           onChange={e => setXAxisScale(Number(e))}
         />
         {/* <select
@@ -148,11 +163,11 @@ const DashboardFilter = observer(() => {
       </li>
       <li className='tagdiv'>
         <CategoriesPicker
+          fill
+          values={tags}
           loading={categoriesStore.state === FetchStates.LOADING}
           categories={categoriesStore?.categories}
-          setTags={selectedTags =>
-            setTags(selectedTags.map(item => item.value))
-          }
+          setTags={selectedTags => setTags(selectedTags)}
         />
         {/* <TagInput tags={tags} setTags={setTags} /> setTags(tag?.map(item => item.name))*/}
       </li>
