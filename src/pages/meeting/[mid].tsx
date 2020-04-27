@@ -10,6 +10,7 @@ import { NextPage, NextPageContext } from 'next'
 import cookies from 'next-cookies'
 import fetch from 'isomorphic-unfetch'
 import { toast } from 'react-toastify'
+import { HubConnectionBuilder, HubConnectionState } from '@aspnet/signalr'
 import https from 'https'
 import Page from '../../components/page'
 import Section from '../../components/section'
@@ -40,8 +41,12 @@ const Post: NextPage = observer(
     const router = useRouter()
     const { mid } = router.query
 
+    const hubConnection = new HubConnectionBuilder()
+      .withUrl(ApiRoutes.liveFeedback)
+      .build()
+
     // const { deleteMeeting, update, state } = useContext(meetingStore)
-    const [feedbackBatch] = useState(intitFeedback)
+    const [feedbackBatch, setFeedbackBatch] = useState(intitFeedback)
     // const feedbackcontext = useContext(feedbackStore)
     const {
       questionSetStore,
@@ -63,6 +68,48 @@ const Post: NextPage = observer(
     // const [discription, setDiscription] = useState(meeting?.discription ?? '')
     // const [topic, setTopic] = useState(context.meeting?.topic)
     // const [qSetId, setQSetId] = useState(context.meeting?.questionsSetId)
+
+    const joinMeetingRoom = useCallback(() => {
+      if (hubConnection.state === HubConnectionState.Connected) {
+        hubConnection
+          .invoke('JoinRoom', String(mid))
+          .then(() => console.log(`joind room ${mid}`))
+          .catch(err => console.error(err))
+      }
+    }, [hubConnection, mid])
+
+    const leaveMeetingRoom = useCallback(() => {
+      if (hubConnection.state === HubConnectionState.Connected) {
+        hubConnection
+          .invoke('LeaveRoom', String(mid))
+          .then(() => console.log(`leaved room ${mid}`))
+          .catch(err => console.error(err))
+      }
+    }, [hubConnection, mid])
+
+    const openConnection = useCallback(() => {
+      hubConnection.start().then(() => {
+        joinMeetingRoom()
+      })
+    }, [hubConnection, joinMeetingRoom])
+
+    const subscripeToEvents = useCallback(() => {
+      hubConnection.on('sendfeedback', (data: FeedbackBatch[]) => {
+        setFeedbackBatch(data)
+      })
+      hubConnection.on('memberJoind', data => {
+        console.log('Join', data)
+      })
+    }, [hubConnection])
+
+    useEffect(() => {
+      subscripeToEvents()
+      openConnection()
+      return () => {
+        leaveMeetingRoom()
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     useEffect(() => {
       if (meeting) {
@@ -171,20 +218,14 @@ const Post: NextPage = observer(
         title={meeting?.name ?? 'loading...'}
         showBackButton
         component={
-          <button
-            type='button'
-            className='no-border'
+          <Save
             onClick={updateMeetingClickHandler}
-          >
-            <Save
-              style={{
-                height: '20px',
-                width: '20px',
-                marginRight: '7px'
-              }}
-            />
-            Gem
-          </button>
+            style={{
+              height: '20px',
+              width: '20px',
+              marginRight: '7px'
+            }}
+          />
         }
       >
         <Section>
@@ -258,6 +299,7 @@ const Post: NextPage = observer(
                   </div>
                 </div>
                 <CategoriesPicker
+                  fill
                   loading={categoriesStore.state === FetchStates.LOADING}
                   values={meeting?.meetingCategories.map(
                     item =>

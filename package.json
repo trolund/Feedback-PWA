@@ -17,6 +17,7 @@
     "jsxSingleQuote": true
   },
   "dependencies": {
+    "@aspnet/signalr": "^1.1.4",
     "@fullcalendar/core": "^4.4.0",
     "@fullcalendar/daygrid": "^4.4.0",
     "@fullcalendar/interaction": "^4.4.0",

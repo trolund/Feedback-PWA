@@ -81,17 +81,12 @@ export default withAuth(
           content={<DashboardFilter />}
         />
         <Section>
-          {/* {showFilter && (
-              <div className='filter'><DashboardFilter /></div>
-            )} */}
-          <div className='charts'>
-            <DashboardOverview
-              graphData={graphdata()}
-              fetchState={state}
-              useFixedXAxis={useFixedYAxis}
-            />
-            <TheNextWeek />
-          </div>
+          <DashboardOverview
+            graphData={graphdata()}
+            fetchState={state}
+            useFixedXAxis={useFixedYAxis}
+          />
+          <TheNextWeek />
         </Section>
         <style jsx>{`
           @media only screen and (max-width: 900px) {

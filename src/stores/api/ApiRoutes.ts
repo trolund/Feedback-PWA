@@ -15,6 +15,7 @@ const appendCategoriesParms = (inputStr: string, categories: string[]) => {
 }
 
 const ApiRoutes = {
+  liveFeedback: `${apiUrl()}/liveFeedback`,
   requestPasswordReset: `${apiUrl()}/Api/User/requestPasswordReset`,
   confirmPasswordReset: `${apiUrl()}/Api/User/confirmPasswordReset`,
   signout: `${apiUrl()}/Api/User/signout`,
