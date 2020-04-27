@@ -10,7 +10,12 @@ import { NextPage, NextPageContext } from 'next'
 import cookies from 'next-cookies'
 import fetch from 'isomorphic-unfetch'
 import { toast } from 'react-toastify'
-import { HubConnectionBuilder, HubConnectionState } from '@aspnet/signalr'
+import {
+  HubConnectionBuilder,
+  HubConnectionState,
+  HttpClient,
+  IHttpConnectionOptions
+} from '@aspnet/signalr'
 import https from 'https'
 import Page from '../../components/page'
 import Section from '../../components/section'
@@ -26,7 +31,7 @@ import FeedbackBatch from '../../models/FeedbackBatch'
 import CustomToast from '../../components/custom-Toast'
 import MeetingCategory from '../../models/MeetingCategory'
 import IOptionsValue from '../../models/OptionsValue'
-import { getCompanyId } from '../../services/authService'
+import { getCompanyId, getToken } from '../../services/authService'
 import Category from '../../models/Category'
 import rootStore from '../../stores/RootStore'
 
@@ -42,7 +47,9 @@ const Post: NextPage = observer(
     const { mid } = router.query
 
     const hubConnection = new HubConnectionBuilder()
-      .withUrl(ApiRoutes.liveFeedback)
+      .withUrl(ApiRoutes.liveFeedback, {
+        accessTokenFactory: getToken
+      })
       .build()
 
     // const { deleteMeeting, update, state } = useContext(meetingStore)
