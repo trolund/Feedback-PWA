@@ -145,6 +145,32 @@ class CalculationService {
     return {
       labels: tempLabels,
       dataPoints: tempData,
+      numberOfProcessedItems: data.length,
+      numberOfBatches: new Set<string>(data.map(f => f.feedbackBatchId)).size
+    } as GraphData
+  }
+
+  questionData = (data: FeedbackDate[], questionSetId: string) => {
+    const uniqueQuestions = Array.from(
+      new Set<string>(
+        data
+          .filter(f => f.questionSetId === questionSetId)
+          .map(f => f.questionId)
+      ),
+      i => i
+    )
+
+    const avgForQuestions = uniqueQuestions.map(q => {
+      const answerOnQuestion = data.filter(f => f.questionId === q)
+      return (
+        answerOnQuestion.reduce((sum, item) => sum + item.answer, 0) /
+        (answerOnQuestion.length + 1)
+      )
+    })
+
+    return {
+      labels: uniqueQuestions.map((q, n) => String(n + 1)),
+      dataPoints: avgForQuestions,
       numberOfProcessedItems: data.length
     } as GraphData
   }

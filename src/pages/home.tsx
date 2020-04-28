@@ -11,6 +11,7 @@ import withAuth from '../services/withAuth'
 import BottomModal from '../components/bottom-modal'
 import rootStore from '../stores/RootStore'
 import TheNextWeek from '../components/theNextWeek'
+import QuestionAnalyser from '../components/dashboard/questionAnalyser'
 
 export default withAuth(
   observer(() => {
@@ -87,6 +88,7 @@ export default withAuth(
             useFixedXAxis={useFixedYAxis}
           />
           <TheNextWeek />
+          <QuestionAnalyser data={data} />
         </Section>
         <style jsx>{`
           @media only screen and (max-width: 900px) {
