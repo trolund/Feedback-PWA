@@ -1,20 +1,40 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
+import { Bar } from 'react-chartjs-2'
 import Collapsible from 'react-collapsible'
+import Modal from 'react-modal'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
-import { MessageCircle } from 'react-feather'
+import { MessageCircle, Monitor, X } from 'react-feather'
 import Feedback from '../models/Feedback'
 import FetchStates from '../stores/requestState'
 import FeedbackProcessbar from './feedback-progressbar'
+import CustomCheckbox from './checkbox'
 
 interface IProp {
   feedback: Feedback[] | undefined
   count: number
   feedbackLoading: FetchStates
+  isRealtime: boolean
+  setIsRealtime: (value: boolean) => void
 }
 
 const FeedbackView = observer((props: IProp) => {
   const [activeTab, setActiveTab] = useState(1)
+  const [showModal, setShowModal] = useState(false)
+  const [wWidth, setWWidth] = useState(0)
+  const [, setWHeight] = useState(0)
+
+  const updateWindowSize = () => {
+    setWWidth(window.innerWidth)
+    setWHeight(window.innerHeight)
+  }
+
+  useEffect(() => {
+    setWWidth(window.innerWidth)
+    setWHeight(window.innerHeight)
+    window.addEventListener('resize', updateWindowSize)
+    return window.removeEventListener('resize', updateWindowSize)
+  }, [])
 
   const avgRes = useCallback(() => {
     return props.feedback
@@ -48,10 +68,71 @@ const FeedbackView = observer((props: IProp) => {
     )
   }
 
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      width: '100%',
+      height: '100%',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)'
+    }
+  }
+
+  const getLabels = useCallback((): string[] => {
+    if (wWidth < 550) {
+      return props.feedback.map((i, n) => String(n + 1))
+    }
+    return props.feedback.map(i => i.question)
+  }, [props.feedback, wWidth])
+
+  const graphData = useCallback(
+    (canvas: any) => {
+      const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+      const gradient = ctx.createLinearGradient(0, 0, 0, 400)
+      gradient.addColorStop(0, 'rgb(23, 161, 129, 1)')
+      gradient.addColorStop(1, 'rgb(23, 161, 129, 0.2)')
+
+      return {
+        labels: getLabels(),
+        datasets: [
+          {
+            label: 'Feedback',
+            backgroundColor: gradient, // Put the gradient here as a fill color
+            borderColor: 'rgb(5, 107, 83)',
+            borderWidth: 2,
+            pointColor: '#fff',
+            pointStrokeColor: 'rgb(5, 107, 83)',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: '#ff6c23',
+            data: props.feedback.map(i => i.voteAVG)
+          }
+        ]
+      }
+    },
+    [getLabels, props.feedback]
+  )
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false
+    }
+  }
+
   return (
     <div>
       <div className='feedback-header'>
         <h2 className='float-left'>Tilbagemeldinger</h2>
+        <Monitor style={{ margin: '7px' }} onClick={() => setShowModal(true)} />
+        <CustomCheckbox
+          label='Hvis feedback løbende'
+          checked={props.isRealtime}
+          onChange={e => props.setIsRealtime(e)}
+        />
         <div className='float-right counter-container'>
           Antal besvarelser
           <h2 className='align-middle counter'>{props.count}</h2>
@@ -158,7 +239,33 @@ const FeedbackView = observer((props: IProp) => {
           />
         </div>
       </div>
-
+      {showModal && (
+        <Modal
+          isOpen={showModal}
+          // onAfterOpen={afterOpenModal}
+          onRequestClose={() => setShowModal(false)}
+          style={customStyles}
+          contentLabel='Example Modal'
+          className='Modal'
+          overlayClassName='Overlay'
+          ariaHideApp={false} // TODO fjern dette og fix fejl
+        >
+          <X
+            type='button'
+            className='close-modal'
+            onClick={() => setShowModal(false)}
+          />
+          <h3>Tilbagemeldinger</h3>
+          <CustomCheckbox
+            label='Hvis feedback løbende'
+            checked={props.isRealtime}
+            onChange={e => props.setIsRealtime(e)}
+          />
+          <div className='chart-container'>
+            <Bar data={graphData} options={chartOptions} />
+          </div>
+        </Modal>
+      )}
       <style jsx>{`
         @media only screen and (max-width: 440px) {
           .counter-container {
@@ -171,6 +278,13 @@ const FeedbackView = observer((props: IProp) => {
             margin-left: auto;
             margin-right: auto;
           }
+        }
+
+        .chart-container {
+          width: 100%;
+          height: 100%;
+          padding: 25px;
+          padding-bottom: 50px;
         }
 
         .tab-content {

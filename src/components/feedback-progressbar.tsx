@@ -5,8 +5,7 @@ type props = {
 }
 
 const FeedbackProcessbar = ({ question, questionNumber, voteAVG }: props) => {
-  const procent = voteAVG * 25
-
+  const procent = voteAVG * ((1 / 3) * 100)
   return (
     <div className='con'>
       <p className='question'>

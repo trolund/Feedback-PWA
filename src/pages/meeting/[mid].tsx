@@ -10,12 +10,7 @@ import { NextPage, NextPageContext } from 'next'
 import cookies from 'next-cookies'
 import fetch from 'isomorphic-unfetch'
 import { toast } from 'react-toastify'
-import {
-  HubConnectionBuilder,
-  HubConnectionState,
-  HttpClient,
-  IHttpConnectionOptions
-} from '@aspnet/signalr'
+import { HubConnectionBuilder, HubConnectionState } from '@aspnet/signalr'
 import https from 'https'
 import Page from '../../components/page'
 import Section from '../../components/section'
@@ -34,6 +29,7 @@ import IOptionsValue from '../../models/OptionsValue'
 import { getCompanyId, getToken } from '../../services/authService'
 import Category from '../../models/Category'
 import rootStore from '../../stores/RootStore'
+import CustomCheckbox from '../../components/checkbox'
 
 type initMeetingProps = {
   initMeeting: MeetingModel
@@ -64,6 +60,7 @@ const Post: NextPage = observer(
     // const categoriesContext = useContext(categoriesStore)
     const [meeting, setMeeting] = useState(initMeeting)
     const [meetingCategories] = useState(initCategories)
+    const [isRealTimeDateOn, setRealTimeDateOn] = useState(false)
 
     // const [questions, setQuestions] = useState(initialState)
 
@@ -77,12 +74,10 @@ const Post: NextPage = observer(
     // const [qSetId, setQSetId] = useState(context.meeting?.questionsSetId)
 
     const joinMeetingRoom = useCallback(() => {
-      if (hubConnection.state === HubConnectionState.Connected) {
-        hubConnection
-          .invoke('JoinRoom', String(mid))
-          .then(() => console.log(`joind room ${mid}`))
-          .catch(err => console.error(err))
-      }
+      hubConnection
+        .invoke('JoinRoom', String(mid))
+        .then(() => console.log(`joind room ${mid}`))
+        .catch(err => console.error(err))
     }, [hubConnection, mid])
 
     const leaveMeetingRoom = useCallback(() => {
@@ -94,12 +89,6 @@ const Post: NextPage = observer(
       }
     }, [hubConnection, mid])
 
-    const openConnection = useCallback(() => {
-      hubConnection.start().then(() => {
-        joinMeetingRoom()
-      })
-    }, [hubConnection, joinMeetingRoom])
-
     const subscripeToEvents = useCallback(() => {
       hubConnection.on('sendfeedback', (data: FeedbackBatch[]) => {
         setFeedbackBatch(data)
@@ -109,14 +98,45 @@ const Post: NextPage = observer(
       })
     }, [hubConnection])
 
-    useEffect(() => {
-      subscripeToEvents()
-      openConnection()
-      return () => {
+    const openConnection = useCallback(() => {
+      hubConnection.start().then(() => {
+        joinMeetingRoom()
+        subscripeToEvents()
+      })
+    }, [hubConnection, joinMeetingRoom, subscripeToEvents])
+
+    const closeConnection = useCallback(() => {
+      if (hubConnection.state === HubConnectionState.Connected) {
+        hubConnection.off('sendfeedback')
+        hubConnection.off('memberJoind')
         leaveMeetingRoom()
+        hubConnection.stop()
+      }
+    }, [hubConnection, leaveMeetingRoom])
+
+    useEffect(() => {
+      if (isRealTimeDateOn) {
+        openConnection()
+      } else {
+        closeConnection()
+      }
+      return () => {
+        closeConnection()
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [isRealTimeDateOn])
+
+    // useEffect(() => {
+    //   if (
+    //     isRealTimeDateOn &&
+    //     hubConnection.state === HubConnectionState.Disconnected
+    //   ) {
+    //     openConnection()
+    //   } else {
+    //     closeConnection()
+    //   }
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [isRealTimeDateOn])
 
     useEffect(() => {
       if (meeting) {
@@ -339,6 +359,8 @@ const Post: NextPage = observer(
                 feedback={feedback()}
                 count={count}
                 feedbackLoading={feedbackStore.state}
+                isRealtime={isRealTimeDateOn}
+                setIsRealtime={setRealTimeDateOn}
               />
               <div style={{ width: '100%', padding: '10px' }}>
                 <button
