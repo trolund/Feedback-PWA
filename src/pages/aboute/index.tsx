@@ -30,29 +30,29 @@ const Aboute = ({ content }: abouteprops) => {
   )
 }
 
-export async function getStaticProps() {
-  const postsDirectory = path.join(process.cwd(), 'static/content.txt')
-  console.log(postsDirectory)
+// export async function getStaticProps() {
+//   const postsDirectory = path.join(process.cwd(), 'static/content.txt')
+//   console.log(postsDirectory)
 
-  const filenames = fs.readdirSync(postsDirectory)
+//   const filenames = fs.readdirSync(postsDirectory)
 
-  const content = filenames.map(filename => {
-    const filePath = path.join(postsDirectory, filename)
-    const fileContents = fs.readFileSync(filePath, 'utf8')
+//   const content = filenames.map(filename => {
+//     const filePath = path.join(postsDirectory, filename)
+//     const fileContents = fs.readFileSync(filePath, 'utf8')
 
-    // Generally you would parse/transform the contents
-    // For example you can transform markdown to HTML here
+//     // Generally you would parse/transform the contents
+//     // For example you can transform markdown to HTML here
 
-    return {
-      filename,
-      content: fileContents
-    }
-  })
-  // By returning { props: posts }, the Blog component
-  // will receive `posts` as a prop at build time
-  return {
-    content
-  }
-}
+//     return {
+//       filename,
+//       content: fileContents
+//     }
+//   })
+//   // By returning { props: posts }, the Blog component
+//   // will receive `posts` as a prop at build time
+//   return {
+//     content
+//   }
+// }
 
 export default Aboute

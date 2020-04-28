@@ -29,7 +29,6 @@ import IOptionsValue from '../../models/OptionsValue'
 import { getCompanyId, getToken } from '../../services/authService'
 import Category from '../../models/Category'
 import rootStore from '../../stores/RootStore'
-import CustomCheckbox from '../../components/checkbox'
 
 type initMeetingProps = {
   initMeeting: MeetingModel
