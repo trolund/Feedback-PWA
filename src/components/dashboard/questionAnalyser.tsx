@@ -33,9 +33,6 @@ const QuestionAnalyser = observer(({ data }: Props) => {
 
   const calcData = useCallback(() => {
     if (data && QSetNames) {
-      console.log('====================================')
-      console.log(data, questionSet)
-      console.log('====================================')
       return calculationService.questionData(data, questionSet)
     }
     return null
@@ -49,10 +46,6 @@ const QuestionAnalyser = observer(({ data }: Props) => {
       gradient.addColorStop(1, 'rgb(23, 161, 129, 0.2)')
 
       const finalData = calcData()
-
-      console.log('====================================')
-      console.log(finalData)
-      console.log('====================================')
 
       return {
         labels: finalData.labels,

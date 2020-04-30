@@ -1,5 +1,5 @@
 import Router from 'next/router'
-import { ArrowLeftCircle } from 'react-feather'
+import { ChevronLeft } from 'react-feather'
 // import Link from 'next/link'
 // import UnnecessarilyComplexTitle from './unnecessarily-complex-title'
 // import Avatar from './avatar'
@@ -37,8 +37,8 @@ const Header = (props: appbarProps) => {
           className='float-left'
           style={{ marginTop: '5px' }}
         >
-          <ArrowLeftCircle fontSize='inherit' className='back-icon' />
-          <p className='back-text'>Back</p>
+          <ChevronLeft fontSize='inherit' className='back-icon' />
+          {/* <p className='back-text'>Back</p> */}
         </a>
       )}
       {title && <h3>{title}</h3>}
@@ -66,9 +66,9 @@ const Header = (props: appbarProps) => {
         }
         header {
           padding: 0 var(--gap);
-          padding-top: env(safe-area-inset-top);
+          padding-top: env(safe-area-inset-top) / 2;
           width: 100%;
-          height: calc(env(safe-area-inset-top) + 72px);
+          height: calc(env(safe-area-inset-top) / 2 + 72px);
           background: var(--base);
           border-bottom: 1px solid var(--divider);
           display: flex;

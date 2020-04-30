@@ -2,6 +2,7 @@ import { useState } from 'react'
 import fetch from 'isomorphic-unfetch'
 import { observer } from 'mobx-react-lite'
 import { NextPage } from 'next'
+import https from 'https'
 import Router from 'next/router'
 import { Plus } from 'react-feather'
 import Page from '../../components/page'
@@ -64,9 +65,16 @@ AllQuestionSets.getInitialProps = async ctx => {
   const token = auth(ctx)
   const url = ApiRoutes.QuestionSetNames
   let data: QuestionSet[] | null = null
+
+  const options = {
+    agent: new https.Agent({
+      rejectUnauthorized: false // TODO fix for production with real SSL CERT
+    })
+  }
   try {
     const response = await fetch(url, {
-      headers: !token ? {} : { Authorization: `Bearer ${token}` }
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      ...options
     })
     data = await response.json()
   } catch (e) {

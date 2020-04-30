@@ -189,7 +189,7 @@ export default observer(
                       <CustomCheckbox
                         label={item.name}
                         checked={
-                          values.filter(i => i.value === item.categoryId)
+                          values?.filter(i => i.value === item.categoryId)
                             .length > 0
                         }
                         onChange={boolean => {

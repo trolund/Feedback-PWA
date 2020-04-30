@@ -3,6 +3,7 @@ import FetchStates from './requestState'
 import QuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
 import { getToken } from '../services/authService'
+import { sortQuestionsByIndex } from '../services/sortService'
 
 export default class QuestionSetStore {
   // status
@@ -51,7 +52,10 @@ export default class QuestionSetStore {
       this.msg = response.statusText
 
       const data: QuestionSet = await response.json()
-      this.qSet = data
+      this.qSet = {
+        ...data,
+        questions: data.questions.sort(sortQuestionsByIndex)
+      }
     } catch (e) {
       this.state = FetchStates.FAILED
       this.msg = e.statusText

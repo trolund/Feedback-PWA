@@ -9,13 +9,14 @@ import { toast } from 'react-toastify'
 import fetch from 'isomorphic-unfetch'
 import Page from '../../components/page'
 import Section from '../../components/section'
-import QuestionList from '../../components/question-list'
 import QuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import FetchStates from '../../stores/requestState'
 import CustomToast from '../../components/custom-Toast'
 import { auth } from '../../services/authService'
 import rootStore from '../../stores/RootStore'
+import QuestionListDrag from '../../components/question-list-drag'
+import { sortQuestionsByIndex } from '../../services/sortService'
 
 type pageProps = {
   initQSet: QuestionSet
@@ -39,7 +40,7 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   }, [fetchQuestionSet, qset, setid])
 
   const addQuestion = () => {
-    qset.questions.push({ theQuestion: '' })
+    qset.questions.push({ theQuestion: '', index: qset.questions.length + 1 })
     setQset({ ...qset, questions: [...qset.questions] })
   }
 
@@ -72,17 +73,15 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
     <Page
       title={qset?.name}
       component={
-        <button type='button' onClick={updateClickHandler}>
-          <Save
-            style={{
-              height: '20px',
-              width: '20px',
-              marginRight: '7px',
-              marginTop: '2px'
-            }}
-          />
-          Gem
-        </button>
+        <Save
+          onClick={updateClickHandler}
+          style={{
+            height: '20px',
+            width: '20px',
+            marginRight: '7px',
+            marginTop: '2px'
+          }}
+        />
       }
     >
       <CustomToast />
@@ -101,8 +100,9 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
             
           /> */}
         </div>
-        <QuestionList
-          questionList={qset?.questions}
+        <QuestionListDrag
+          questionSet={qset}
+          setQuestionSet={setQset}
           deleteFunc={deleteQuestion}
           changeItemFunc={itemChange}
         />
@@ -187,6 +187,7 @@ QuestionSetPage.getInitialProps = async function(ctx) {
       ...options
     })
     data = await response.json()
+    data = { ...data, questions: data.questions.sort(sortQuestionsByIndex) }
   } catch (e) {
     console.error(e)
   }

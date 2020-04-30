@@ -1,19 +1,18 @@
 /* eslint-disable func-names */
 import { useState, useContext } from 'react'
-import { NextPage } from 'next'
 import { toast } from 'react-toastify'
 import { observer } from 'mobx-react-lite'
 import { Plus, Save } from 'react-feather'
 import { useRouter } from 'next/router'
 import Page from '../../components/page'
 import Section from '../../components/section'
-import QuestionList from '../../components/question-list'
 import QuestionSet from '../../models/QuestionSet'
 import FetchStates from '../../stores/requestState'
 import withAuth from '../../services/withAuth'
 import rootStore from '../../stores/RootStore'
+import QuestionListDrag from '../../components/question-list-drag'
 
-const QuestionSetPage: NextPage = withAuth(
+const QuestionSetPage = withAuth(
   observer(() => {
     const router = useRouter()
     const newQset = {
@@ -25,8 +24,25 @@ const QuestionSetPage: NextPage = withAuth(
       questionSetStore: { createQuestionSet }
     } = useContext(rootStore)
 
+    const makeid = length => {
+      let result = ''
+      const characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      const charactersLength = characters.length
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        )
+      }
+      return result
+    }
+
     const addQuestion = () => {
-      qset.questions.push({ theQuestion: '' })
+      qset.questions.push({
+        theQuestion: '',
+        questionId: makeid(8),
+        index: qset.questions.length + 1
+      })
       setQset({ ...qset, questions: [...qset.questions] })
     }
 
@@ -40,8 +56,19 @@ const QuestionSetPage: NextPage = withAuth(
       setQset({ ...qset, questions: [...qset.questions] })
     }
 
+    const setQuestionSet = (questionSet: QuestionSet) => {
+      setQset(questionSet)
+    }
+
+    const removeIds = (qSet: QuestionSet): QuestionSet => {
+      return {
+        ...qSet,
+        questions: qSet.questions.map(i => ({ ...i, questionId: undefined }))
+      } as QuestionSet
+    }
+
     const createClickHandler = () => {
-      createQuestionSet(qset).then(res => {
+      createQuestionSet(removeIds(qset)).then(res => {
         if (res === FetchStates.DONE) {
           toast('Sæt er oprettet og nu bruges.')
           router.push('/questionsets')
@@ -55,17 +82,15 @@ const QuestionSetPage: NextPage = withAuth(
       <Page
         title={qset?.name}
         component={
-          <button type='button' onClick={createClickHandler}>
-            <Save
-              style={{
-                height: '20px',
-                width: '20px',
-                marginRight: '7px',
-                marginTop: '2px'
-              }}
-            />
-            Opret
-          </button>
+          <Save
+            onClick={createClickHandler}
+            style={{
+              height: '20px',
+              width: '20px',
+              marginRight: '7px',
+              marginTop: '2px'
+            }}
+          />
         }
       >
         <Section>
@@ -83,8 +108,25 @@ const QuestionSetPage: NextPage = withAuth(
             
           /> */}
           </div>
-          <QuestionList
-            questionList={qset?.questions}
+          {/* <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId='list'>
+              {provided => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  <QuestionList
+                    key={provided.innerRef}
+                    {...provided.droppableProps}
+                    questionList={qset?.questions}
+                    deleteFunc={deleteQuestion}
+                    changeItemFunc={itemChange}
+                  />
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext> */}
+          <QuestionListDrag
+            setQuestionSet={setQuestionSet}
+            questionSet={qset}
             deleteFunc={deleteQuestion}
             changeItemFunc={itemChange}
           />
