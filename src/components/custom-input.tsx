@@ -25,7 +25,11 @@ const CustomInput = ({
   return (
     <div
       className={className ?? ''}
-      style={{ width: fill ? '100%' : 'fit-content' }}
+      style={{
+        width: fill ? '100%' : 'fit-content',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+      }}
     >
       <input
         className={error ? 'input-error' : ''}

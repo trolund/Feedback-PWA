@@ -1,8 +1,8 @@
 import { observable, action } from 'mobx'
-import { createContext } from 'react'
 import FetchStates from './requestState'
 import MeetingModel from '../models/MeetingModel'
 import { getToken } from '../services/authService'
+
 import ApiRoutes from './api/ApiRoutes'
 import IOptionsValue from '../models/OptionsValue'
 
@@ -26,6 +26,8 @@ export default class MeetingStore {
   }
 
   @action create = async (entity: MeetingModel) => {
+    console.log('to create: ', entity)
+
     this.meetingCreatedState = FetchStates.LOADING
     try {
       const url = ApiRoutes.createMeeting

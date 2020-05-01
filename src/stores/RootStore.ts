@@ -8,6 +8,7 @@ import MeetingStore from './MeetingStore'
 import QuestionSetStore from './QuestionSetStore'
 import QuestionStore from './QuestionStore'
 import UserAdminStore from './userAdminStore'
+import SettingsStore from './settingsStore'
 
 const isServer = typeof window === 'undefined'
 
@@ -21,6 +22,7 @@ const doHydration = (root: RootStore) => {
     // hydrate all presistent stores
     hydrate('dashboardStore', root.dashboardStore)
     hydrate('authStore', root.authStore)
+    hydrate('settingsStore', root.settingStore)
     // hydrate('categoriesStore', root.categoriesStore)
     // hydrate('feedbackStore', root.feedbackStore)
     // hydrate('meetingStore', root.meetingStore)
@@ -47,6 +49,8 @@ export class RootStore {
   questionStore = new QuestionStore()
 
   userAdminStore = new UserAdminStore()
+
+  settingStore = new SettingsStore()
 
   constructor() {
     doHydration(this)

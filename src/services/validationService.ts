@@ -86,6 +86,16 @@ export const numericRule = (
   rules.push(valid)
 }
 
+export const onlyNumericRule = (
+  input: string,
+  rules: boolean[],
+  validationErrors: string[]
+) => {
+  const valid = /^-{0,1}\d+$/.test(input)
+  if (!valid) validationErrors.push(`Må kun bestå af tal`)
+  rules.push(valid)
+}
+
 export const equalsRule = (
   inputA: string,
   inputB: string,
@@ -98,6 +108,31 @@ export const equalsRule = (
 }
 
 /* Validaters */
+
+export const validateNotEmpty = (input: string): validationResult => {
+  const validationErrors: string[] = []
+  const rules: boolean[] = []
+
+  minLengthRule(input, rules, validationErrors, 1)
+
+  return {
+    valid: rules.every(r => r),
+    validationErrors: validationErrors.filter(onlyUnique)
+  } as validationResult
+}
+
+export const validatePhone = (phone: string): validationResult => {
+  const validationErrors: string[] = []
+  const rules: boolean[] = []
+
+  onlyNumericRule(phone, rules, validationErrors)
+  minLengthRule(phone, rules, validationErrors, 8)
+
+  return {
+    valid: rules.every(r => r),
+    validationErrors: validationErrors.filter(onlyUnique)
+  } as validationResult
+}
 
 export const validateEmail = (mail: string): validationResult => {
   const validationErrors: string[] = []

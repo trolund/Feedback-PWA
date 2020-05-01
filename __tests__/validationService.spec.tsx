@@ -2,7 +2,8 @@
 /* eslint-disable no-undef */
 import {
   validatePassword,
-  validateEmail
+  validateEmail,
+  validatePhone
 } from '../src/services/validationService'
 
 describe('input validation service', () => {
@@ -47,6 +48,24 @@ describe('input validation service', () => {
       expect(inValid1.valid).toBe(false)
       expect(inValid2.valid).toBe(false)
       expect(inValid3.valid).toBe(false)
+    })
+  })
+
+  describe('test Phone number validation', () => {
+    it('should validate the input is only numbers and min length 5', function() {
+      const number = '29456660'
+      const notnumber = '1234abc'
+      const numberButShort = '1234'
+
+      const valid = validatePhone(number)
+      const inValid = validatePhone(notnumber)
+      const inValid2 = validatePhone(numberButShort)
+
+      console.log(valid)
+
+      expect(valid.valid).toBe(true)
+      expect(inValid.valid).toBe(false)
+      expect(inValid2.valid).toBe(false)
     })
   })
 })

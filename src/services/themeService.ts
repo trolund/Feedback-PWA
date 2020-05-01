@@ -10,25 +10,21 @@ export function getLightMode() {
   if (!isServer) {
     return window.isLight
   }
-  return true
+  return false
 }
 
-export function toggleLightMode() {
-  const isLight = getLightMode()
-
+export default function toggleLightMode(isLight: boolean) {
   if (!isLight) {
     try {
-      window.localStorage.setItem('light-mode', '0')
       document.querySelector('html').classList.add('light')
-      window.isLight = true
+      window.isLight = isLight
     } catch (err) {
       // todo
     }
   } else {
     try {
-      window.localStorage.removeItem('light-mode')
       document.querySelector('html').classList.remove('light')
-      window.isLight = false
+      window.isLight = isLight
     } catch (err) {
       // todo
     }

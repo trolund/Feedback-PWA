@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useContext } from 'react'
+import { User, Mail, Phone, Key, Briefcase, Hash } from 'react-feather'
 import Router from 'next/router'
 import Link from 'next/link'
 import Page from '../components/page'
@@ -10,22 +11,47 @@ import * as mail from '../../public/Animations/mail.json'
 import AnimationOverlay from '../components/animation-overlay'
 import FetchStates from '../stores/requestState'
 import rootStore from '../stores/RootStore'
+import CustomInput from '../components/custom-input'
+import {
+  validateEmail,
+  validatePhone,
+  validatePassword,
+  validateNewPassword,
+  validateNotEmpty
+} from '../services/validationService'
 
 export default () => {
   const [newCompany, setNewCompany] = useState(false)
-  const [companyName, setCompanyName] = useState(null)
-  const [companyId, setCompanyId] = useState(null)
+  const [companyName, setCompanyName] = useState('')
+  const [companyId, setCompanyId] = useState('')
   const [password, setPassword] = useState('')
   const [passwordAgain, setPasswordAgain] = useState('')
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [showOverlay, setShowOverlay] = useState(false)
+  const [showErrors, setShowErrors] = useState(false)
   const {
     authStore: { createUser }
   } = useContext(rootStore)
 
   const createUserClickHandler = () => {
+    if (
+      !(
+        validateNotEmpty(firstname).valid &&
+        validateNotEmpty(lastname).valid &&
+        validatePhone(phone).valid &&
+        validatePhone(phone).valid &&
+        validateNewPassword(password, passwordAgain) &&
+        validatePassword(password) &&
+        validateNotEmpty(companyName)
+      )
+    ) {
+      setShowErrors(true)
+      return
+    }
+
     const newModelCompany: any = {
       company: { name: companyName } as Company
     }
@@ -43,7 +69,7 @@ export default () => {
       firstname,
       lastname,
       requesetedRoles,
-      phone: '29456660'
+      phone
     }
 
     if (newCompany) {
@@ -75,90 +101,158 @@ export default () => {
     Router.push('/login')
   }
 
+  const errorList = (errors: string[]) =>
+    showErrors && (
+      <ul>
+        {errors.map(e => (
+          <li>{e}</li>
+        ))}
+        <style jsx>{`
+          ul {
+            text-align: center;
+          }
+        `}</style>
+      </ul>
+    )
+
   return (
     <Page title='Opret bruger' showBottomNav={false} showBackButton>
       <Section>
-        <input
-          type='text'
-          placeholder='Firstname'
-          value={firstname}
-          onChange={e => {
-            setFirstname(e.target.value)
-          }}
-        />
-        <input
-          type='text'
-          placeholder='Lastname'
-          value={lastname}
-          onChange={e => {
-            setLastname(e.target.value)
-          }}
-        />
-        <input
-          type='text'
-          placeholder='Email'
-          value={email}
-          onChange={e => {
-            setEmail(e.target.value)
-          }}
-        />
-        <input
-          type='password'
-          placeholder='Kodeord'
-          value={password}
-          onChange={e => {
-            setPassword(e.target.value)
-          }}
-        />
-        <input
-          type='password'
-          placeholder='Kodeord igen'
-          value={passwordAgain}
-          onChange={e => {
-            setPasswordAgain(e.target.value)
-          }}
-        />
-        <div className='toggle'>
-          <input
-            type='radio'
-            name='sizeBy'
-            value='weight'
-            id='sizeWeight'
-            checked={!newCompany}
-            onClick={() => setNewCompany(!newCompany)}
+        <li>
+          <CustomInput
+            error={!validateNotEmpty(firstname).valid && showErrors}
+            logo={<User />}
+            type='text'
+            placeholder='Firstname'
+            value={firstname}
+            onChange={e => {
+              setFirstname(e)
+            }}
           />
-          <label htmlFor='sizeWeight'>Existeende virksomhed</label>
-          <input
-            type='radio'
-            name='sizeBy'
-            value='dimensions'
-            id='sizeDimensions'
-            checked={newCompany}
-            onClick={() => setNewCompany(!newCompany)}
+        </li>
+        {errorList(validateNotEmpty(firstname).validationErrors)}
+        <li>
+          <CustomInput
+            error={!validateNotEmpty(lastname).valid && showErrors}
+            logo={<User />}
+            type='text'
+            placeholder='Lastname'
+            value={lastname}
+            onChange={e => {
+              setLastname(e)
+            }}
           />
-          <label htmlFor='sizeDimensions'>Ny virksomhed</label>
-        </div>
-        <div>
-          {!newCompany ? (
-            <input
-              type='text'
-              placeholder='Virksomheds ID'
-              value={companyId}
-              onChange={e => {
-                setCompanyId(e.target.value)
-              }}
-            />
-          ) : (
-            <input
-              type='text'
-              placeholder='Virksomheds navn'
-              value={companyName}
-              onChange={e => {
-                setCompanyName(e.target.value)
-              }}
-            />
+        </li>
+        <li>
+          <CustomInput
+            error={!validatePhone(phone).valid && showErrors}
+            logo={<Phone />}
+            type='text'
+            placeholder='Telefon nr.'
+            value={phone}
+            onChange={e => {
+              setPhone(e)
+            }}
+          />
+        </li>
+        {errorList(validatePhone(phone).validationErrors)}
+        <li>
+          <CustomInput
+            error={!validateEmail(email).valid && showErrors}
+            logo={<Mail />}
+            type='text'
+            placeholder='Email'
+            value={email}
+            onChange={e => {
+              setEmail(e)
+            }}
+          />
+          {errorList(validateNotEmpty(email).validationErrors)}
+        </li>
+        <li>
+          <CustomInput
+            error={!validatePassword(password).valid && showErrors}
+            logo={<Key />}
+            type='password'
+            placeholder='Kodeord'
+            value={password}
+            onChange={e => {
+              setPassword(e)
+            }}
+          />
+          {errorList(validateNotEmpty(email).validationErrors)}
+        </li>
+        <li>
+          <CustomInput
+            error={
+              !validateNewPassword(password, passwordAgain).valid && showErrors
+            }
+            logo={<Key />}
+            type='password'
+            placeholder='Kodeord igen'
+            value={passwordAgain}
+            onChange={e => {
+              setPasswordAgain(e)
+            }}
+          />
+          {errorList(
+            validateNewPassword(password, passwordAgain).validationErrors
           )}
-        </div>
+        </li>
+        <li>
+          <div className='toggle'>
+            <input
+              type='radio'
+              name='sizeBy'
+              value='weight'
+              id='sizeWeight'
+              checked={!newCompany}
+              onChange={() => {}}
+              onClick={() => setNewCompany(!newCompany)}
+            />
+            <label htmlFor='sizeWeight'>Existeende virksomhed</label>
+            <input
+              type='radio'
+              name='sizeBy'
+              value='dimensions'
+              id='sizeDimensions'
+              checked={newCompany}
+              onChange={() => {}}
+              onClick={() => setNewCompany(!newCompany)}
+            />
+            <label htmlFor='sizeDimensions'>Ny virksomhed</label>
+          </div>
+        </li>
+        <li>
+          <div>
+            {!newCompany ? (
+              <CustomInput
+                logo={<Hash />}
+                type='text'
+                placeholder='Virksomheds ID'
+                value={companyId}
+                onChange={e => {
+                  setCompanyId(e)
+                }}
+              />
+            ) : (
+              <>
+                <CustomInput
+                  error={!validateNotEmpty(companyName).valid && showErrors}
+                  logo={<Briefcase />}
+                  type='text'
+                  placeholder='Virksomheds navn'
+                  value={companyName}
+                  onChange={e => {
+                    setCompanyName(e)
+                  }}
+                />
+                {errorList(validateNotEmpty(companyName).validationErrors)}
+              </>
+            )}
+          </div>
+        </li>
+
         <Link href='#'>
           <a
             tabIndex={0}
@@ -181,6 +275,9 @@ export default () => {
         />
       )}
       <style jsx>{`
+        li {
+          padding: var(--gap-small);
+        }
         .loginBtn {
           margin-top: 50px;
         }
@@ -219,6 +316,7 @@ export default () => {
           margin-left: auto;
           margin-right: auto;
           text-align: center;
+          width: fit-content;
         }
         .toggle input {
           width: 0;

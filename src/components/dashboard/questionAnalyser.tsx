@@ -48,7 +48,7 @@ const QuestionAnalyser = observer(({ data }: Props) => {
       const finalData = calcData()
 
       return {
-        labels: finalData.labels,
+        labels: finalData?.labels || [],
         datasets: [
           {
             label: 'Tilbagemeldinger per spørgsmål',
@@ -59,7 +59,7 @@ const QuestionAnalyser = observer(({ data }: Props) => {
             pointStrokeColor: 'rgb(5, 107, 83)',
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ff6c23',
-            data: finalData.dataPoints
+            data: finalData?.dataPoints || []
           }
         ]
       }

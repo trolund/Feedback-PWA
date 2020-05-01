@@ -14,6 +14,7 @@ import IOptionsValue from '../models/OptionsValue'
 import { getCompanyId } from '../services/authService'
 import rootStore from '../stores/RootStore'
 import CustomSelect from './custom-select'
+import { spliceDateAndTime } from '../services/dateService'
 
 const AddMeeting = observer(() => {
   const { questionSetStore, categoriesStore, meetingStore } = useContext(
@@ -25,20 +26,12 @@ const AddMeeting = observer(() => {
   const [startTime, setStartTime] = useState(new Date())
   const [endTime, setEndTime] = useState(new Date())
   const [questionSet, setQuestionSet] = useState('')
-  //   const [tags, setTags] = useState([] as Tag[])
 
   useEffect(() => {
     categoriesStore.fetchCategories(String(getCompanyId())).then(() => {
       setMeetingCategories(categoriesStore.categories)
     })
   }, [categoriesStore])
-
-  const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
-    datePart.setMinutes(timePart.getMinutes())
-    datePart.setHours(timePart.getHours())
-    datePart.setSeconds(0)
-    return datePart
-  }
 
   const createMeeting = () => {
     const newMeeting: MeetingModel = {
@@ -158,12 +151,18 @@ const AddMeeting = observer(() => {
           <CustomTimepicker
             value={endTime}
             onChange={newTime => {
+              console.log('====================================')
+              console.log(newTime)
+              console.log('====================================')
               setEndTime(newTime)
             }}
           />
           <CustomTimepicker
             value={startTime}
             onChange={newTime => {
+              console.log('====================================')
+              console.log(newTime)
+              console.log('====================================')
               setStartTime(newTime)
             }}
           />

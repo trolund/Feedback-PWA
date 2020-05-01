@@ -20,6 +20,12 @@ const Settings = observer(() => {
               <ThemeButton />
             </div>
           </li>
+          <li>
+            <h4 className='float-left'>Sprog</h4>
+            <div className='float-right'>
+              <ThemeButton />
+            </div>
+          </li>
         </ul>
       </Section>
       <style jsx>{`

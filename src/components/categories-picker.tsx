@@ -195,7 +195,7 @@ export default observer(
                         onChange={boolean => {
                           if (boolean) {
                             setTags([
-                              ...values,
+                              ...(values || []),
                               {
                                 label: item.name,
                                 value: item.categoryId

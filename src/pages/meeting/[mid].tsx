@@ -483,6 +483,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
     })
   }
   let data: MeetingModel | null = null
+
   let feedbackData: FeedbackBatch[] | null = null
   let CategoriesData: Category[] | null = null
   try {
