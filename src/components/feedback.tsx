@@ -166,7 +166,7 @@ const FeedbackView = observer((props: IProp) => {
         {activeTab === 1 && (
           <div className='tab-content'>
             <div className='questions'>
-              {(props.feedback?.length ?? 0) > 0 ? (
+              {props.count > 0 ? (
                 props.feedback
                   ?.sort(sortQuestions)
                   .map((item, index) => (
@@ -178,51 +178,57 @@ const FeedbackView = observer((props: IProp) => {
                     />
                   ))
               ) : (
-                <p>loading...</p>
+                <p>Ingen Tilbagemeldinger</p>
               )}
             </div>
           </div>
         )}
         {activeTab === 2 && (
           <div className='tab-content'>
-            {props.feedback
-              ?.sort(sortQuestions)
-              .map((item: Feedback, index) => {
-                if (item.comments?.length > 0) {
-                  return (
-                    <Collapsible
-                      key={index}
-                      trigger={commentTitelBar(
-                        item.question,
-                        item.comments.length
-                      )}
-                    >
-                      <div className='collapsible-content'>
-                        {item.comments.map((comment: string) => (
-                          <div key={comment} className='comment'>
-                            <MessageCircle className='float-left' />
-                            <li style={{ listStyle: 'none' }}>
-                              <p
-                                style={{
-                                  marginLeft: '40px',
-                                  marginBottom: '0px'
-                                }}
-                              >
-                                {comment}
-                              </p>
-                            </li>
+            <div className='questions'>
+              {props.count > 0 ? (
+                props.feedback
+                  ?.sort(sortQuestions)
+                  .map((item: Feedback, index) => {
+                    if (item.comments?.length > 0) {
+                      return (
+                        <Collapsible
+                          key={index}
+                          trigger={commentTitelBar(
+                            item.question,
+                            item.comments.length
+                          )}
+                        >
+                          <div className='collapsible-content'>
+                            {item.comments.map((comment: string) => (
+                              <div key={comment} className='comment'>
+                                <MessageCircle className='float-left' />
+                                <li style={{ listStyle: 'none' }}>
+                                  <p
+                                    style={{
+                                      marginLeft: '40px',
+                                      marginBottom: '0px'
+                                    }}
+                                  >
+                                    {comment}
+                                  </p>
+                                </li>
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
-                    </Collapsible>
-                  )
-                }
-                return null
-              })}
+                        </Collapsible>
+                      )
+                    }
+                    return null
+                  })
+              ) : (
+                <p>Ingen Tilbagemeldinger</p>
+              )}
+            </div>
           </div>
         )}
-        {props.feedback.reduce((a, b) => a + b.comments?.length ?? 0, 0) ===
-          0 && <p>Ingen Kommentare</p>}
+        {/* {props.feedback.reduce((a, b) => a + b.comments?.length ?? 0, 0) ===
+          0 && <p>Ingen Kommentare</p>} */}
         <div className='end-result'>
           <h2>Overodtnet resultat</h2>
           <CircularProgressbar
@@ -234,7 +240,7 @@ const FeedbackView = observer((props: IProp) => {
             })}
             value={avgRes()}
             text={`${avgRes().toFixed(2)}`}
-            maxValue={4}
+            maxValue={3}
             minValue={0}
           />
         </div>
@@ -324,7 +330,7 @@ const FeedbackView = observer((props: IProp) => {
         .end-result {
           padding-top: 25px;
           padding-bottom: 25px;
-          max-width: 250px;
+          max-width: 230px;
           margin-left: auto;
           margin-right: auto;
         }

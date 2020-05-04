@@ -337,8 +337,9 @@ const Post: NextPage = observer(
                     style={{
                       height: '20px',
                       width: '20px',
-                      marginRight: '7px',
-                      marginTop: '2px'
+                      marginRight: '-20px',
+                      marginTop: '2px',
+                      float: 'left'
                     }}
                   />
                   Slet
