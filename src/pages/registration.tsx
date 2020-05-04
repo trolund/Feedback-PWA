@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useContext } from 'react'
-import { User, Mail, Phone, Key, Briefcase, Hash } from 'react-feather'
+import { User, Mail, Phone, Key, Briefcase, Hash, X } from 'react-feather'
 import Router from 'next/router'
+import Modal from 'react-modal'
 import Link from 'next/link'
 import Page from '../components/page'
 import Section from '../components/section'
@@ -19,6 +20,7 @@ import {
   validateNewPassword,
   validateNotEmpty
 } from '../services/validationService'
+import CustomCheckbox from '../components/checkbox'
 
 export default () => {
   const [newCompany, setNewCompany] = useState(false)
@@ -32,6 +34,8 @@ export default () => {
   const [phone, setPhone] = useState('')
   const [showOverlay, setShowOverlay] = useState(false)
   const [showErrors, setShowErrors] = useState(false)
+  const [accept, setAccept] = useState(false)
+  const [showGDPR, setShowGDPR] = useState(false)
   const {
     authStore: { createUser }
   } = useContext(rootStore)
@@ -114,6 +118,19 @@ export default () => {
         `}</style>
       </ul>
     )
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      width: '100%',
+      height: '100%',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)'
+    }
+  }
 
   return (
     <Page title='Opret bruger' showBottomNav={false} showBackButton>
@@ -252,19 +269,63 @@ export default () => {
             )}
           </div>
         </li>
+        <hr />
+        <li style={{ textAlign: 'center' }}>
+          <a
+            tabIndex={-1}
+            role='button'
+            onKeyDown={() => setShowGDPR(true)}
+            onClick={() => setShowGDPR(true)}
+            style={{ color: 'var(--accent)', margin: '10px' }}
+          >
+            Læs vilkår
+          </a>
+          <div
+            style={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              width: 'fit-content',
+              paddingTop: '30px'
+            }}
+          >
+            <CustomCheckbox
+              onChange={setAccept}
+              checked={accept}
+              label='Accepter vilkår'
+            />
+          </div>
+          <Modal
+            isOpen={showGDPR}
+            contentLabel='Example Modal'
+            className='modal'
+            overlayClassName='Overlay'
+            style={customStyles}
+          >
+            <h2>Besvarelse ikke klar!</h2>
+            <button
+              type='button'
+              tabIndex={0}
+              onClick={() => setShowGDPR(false)}
+            >
+              <X /> close
+            </button>
+            <div>det du skal acceptere..</div>
+          </Modal>
+        </li>
 
         <Link href='#'>
-          <a
+          <button
+            disabled={!accept}
             tabIndex={0}
-            role='button'
+            type='button'
             title='login'
             aria-label='login'
             onKeyDown={createUserClickHandler}
             onClick={createUserClickHandler}
-            className='button loginBtn'
+            className='button loginBtn bottombtn'
           >
             {newCompany ? 'Opret bruger og virksomhed' : 'Opret bruger'}
-          </a>
+          </button>
         </Link>
       </Section>
       {showOverlay && (
@@ -279,7 +340,7 @@ export default () => {
           padding: var(--gap-small);
         }
         .loginBtn {
-          margin-top: 50px;
+          margin-top: 40px;
         }
         .button {
           display: table;

@@ -349,6 +349,10 @@ a {
   padding-top: env(safe-area-inset-top, 20px);
 }
 
+.cookie-box {
+  z-index: 999999 !important;
+}
+
 /* calander */
 
 .fc-time-grid tbody {

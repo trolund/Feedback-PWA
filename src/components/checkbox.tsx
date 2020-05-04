@@ -44,7 +44,7 @@ const CustomCheckbox = (props: initState) => {
       <label htmlFor='box'>{label}</label>
       <style jsx>{`
         .container {
-          width: auto;
+          width: fit-content;
           max-width: ${showLabel ? '25px' : '250px'};
           text-align: center;
         }

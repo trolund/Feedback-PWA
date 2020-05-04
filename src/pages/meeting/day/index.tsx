@@ -129,7 +129,9 @@ const Day: NextPage = observer(() => {
             {events?.map(m => (
               <li key={m.shortId}>
                 <Link href='/meeting/[mid]' as={`/meeting/${m.shortId}`}>
-                  <a>{m.name}</a>
+                  <a>
+                    <p className='text'>{m.name}</p>
+                  </a>
                 </Link>
               </li>
             ))}
@@ -139,6 +141,16 @@ const Day: NextPage = observer(() => {
           ul {
             margin-top: 40px;
             height: 100%;
+          }
+          .text {
+            width: fit-content;
+            max-width: 90vw;
+          }
+
+          .arrow {
+            float: right;
+            display: inline-block;
+            white-space: nowrap;
           }
           .date {
             margin-top: 3px;
