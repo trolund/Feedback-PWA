@@ -246,7 +246,7 @@ const FeedbackView = observer((props: IProp) => {
           onRequestClose={() => setShowModal(false)}
           style={customStyles}
           contentLabel='Example Modal'
-          className='Modal'
+          className='modal'
           overlayClassName='Overlay'
           ariaHideApp={false} // TODO fjern dette og fix fejl
         >

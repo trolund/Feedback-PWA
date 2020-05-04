@@ -20,23 +20,11 @@ let FullCalendarNoSSRWrapper
 
 const CalendarView = withAuth(
   observer(() => {
-    // const questionContext = useContext(questionSetStore)
     const { meetingStore, categoriesStore } = useContext(rootStore)
-    // const categoriesContext = useContext(categoriesStore)
-    // const [modalOpen, setModalOpen] = useState(false)
-    // const toggle = useCallback(() => setModalOpen(!modalOpen), [modalOpen])
-    // const [date, setDate] = useState(new Date())
-    // const [startTime, setStartTime] = useState(new Date())
-    // const [endTime, setEndTime] = useState(new Date())
-    // const [name, setName] = useState('')
-    // const [discription, setDiscription] = useState('')
-    // const [questionSet, setQuestionSet] = useState('')
     const [calViewProp, setCalViewProp] = useState({})
     const initEvent: EventInput[] = []
     const [events, setEvnets] = useState(initEvent)
     const [searchWord, setSearchWord] = useState('')
-    // const init: Tag[] = []
-    // const [tags, setTags] = useState(init)
     const [inputOpen, setInputOpen] = useState(false)
 
     const [showCal, setShowCal] = useState(false)
@@ -72,8 +60,6 @@ const CalendarView = withAuth(
             interactionPlugin: import('@fullcalendar/interaction'),
             dayGridPlugin: import('@fullcalendar/daygrid'),
             listPlugin: import('@fullcalendar/list')
-            // momentPlugin: import('@fullcalendar/moment'),
-            // momentTimezonePlugin: import('@fullcalendar/moment-timezone')
           } as any),
         render: (props: any, { calendar: Calendar, ...plugins }) => (
           <Calendar {...props} plugins={Object.values(plugins)} />
@@ -118,6 +104,17 @@ const CalendarView = withAuth(
       categoriesStore.fetchCategories(String(getCompanyId()))
     }, [categoriesStore])
 
+    const refreshMeetings = () => {
+      meetingStore
+        .fetchMeetings(
+          (calViewProp as CalView).activeStart,
+          (calViewProp as CalView).activeEnd
+        )
+        .then(() => {
+          setEvnets(mapEvents(meetingStore.meetings))
+        })
+    }
+
     useEffect(() => {
       meetingStore
         .fetchMeetings(
@@ -140,11 +137,21 @@ const CalendarView = withAuth(
           trigger={e => console.log(e)}
           // viewHeight={5100}
           // header={false}
-          header={{
-            right: 'prev,next today myCustomButton',
-            left: 'dayGridMonth,timeGridWeek,listWeek',
-            center: 'title'
-          }}
+          header={
+            windowDim.width > 500
+              ? {
+                  right:
+                    windowDim.width > 500
+                      ? 'prev,next today myCustomButton'
+                      : '',
+                  left:
+                    windowDim.width > 500
+                      ? 'dayGridMonth,timeGridWeek,listWeek'
+                      : '',
+                  center: windowDim.width > 500 ? 'title' : ''
+                }
+              : null
+          }
           views={{
             dayGridMonth: {
               // name of view
@@ -181,7 +188,7 @@ const CalendarView = withAuth(
           }}
         />
       )
-    }, [events, filterEventsCallback, showCal])
+    }, [events, filterEventsCallback, showCal, windowDim.width])
 
     // <SearchBtn
     //   inputOpen={inputOpen}
@@ -200,7 +207,12 @@ const CalendarView = withAuth(
       >
         <BottomModal
           show={showModal}
-          content={<MobileMultiSelecter />}
+          content={
+            <MobileMultiSelecter
+              callBack={refreshMeetings}
+              setShowModal={setShowModal}
+            />
+          }
           setShow={setShowModal}
         />
         {/* <Seachbar value={searchWord} setValue={setSearchWord} /> */}
@@ -299,7 +311,11 @@ const CalendarView = withAuth(
           }
 
           .cal-container {
-            height: calc(100% - 150px)
+             height: calc(100% - 250px);
+  
+          }
+          .fc-body {
+            height: 90vh
           }
 
           .fc-row {

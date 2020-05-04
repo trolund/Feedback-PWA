@@ -2,8 +2,6 @@
 import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Save } from 'react-feather'
-
-import Router from 'next/router'
 import CategoriesPicker from './categories-picker'
 import FetchStates from '../stores/requestState'
 import CustomDatepicker from './custom-datepicker'
@@ -16,7 +14,12 @@ import rootStore from '../stores/RootStore'
 import CustomSelect from './custom-select'
 import { spliceDateAndTime } from '../services/dateService'
 
-const AddMeeting = observer(() => {
+type AddMeetingProps = {
+  callBack: () => void
+  setShowModal: (show: boolean) => void
+}
+
+const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
   const { questionSetStore, categoriesStore, meetingStore } = useContext(
     rootStore
   )
@@ -33,18 +36,31 @@ const AddMeeting = observer(() => {
     })
   }, [categoriesStore])
 
+  const reset = () => {
+    setMeeting({ name: '', discription: '' } as MeetingModel)
+    setDate(new Date())
+    setEndTime(new Date())
+    setStartTime(new Date())
+    setQuestionSet('')
+    setMeetingCategories([])
+  }
+
   const createMeeting = () => {
+    const eTime = spliceDateAndTime(date, endTime)
     const newMeeting: MeetingModel = {
       ...meeting,
-      endTime: spliceDateAndTime(date, endTime),
+      endTime: eTime,
       startTime: spliceDateAndTime(date, startTime),
       topic: 'emne',
       questionsSetId: questionSet,
       location: 'et sted'
     }
+
     meetingStore.create(newMeeting).then(res => {
       if (res === FetchStates.DONE) {
-        Router.back()
+        callBack()
+        reset()
+        setShowModal(false)
       }
     })
   }
@@ -72,21 +88,6 @@ const AddMeeting = observer(() => {
                 : []
             }
           />
-          {/* <div className='select-css'>
-            <select
-              name='select'
-              onChange={e => {
-                setQuestionSet(e.target.value)
-              }}
-            >
-              <option>- Vælg spørgsmåls sæt -</option>
-              {questionSetStore.QSetNames?.map(item => (
-                <option key={item.questionSetId} value={item.questionSetId}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </div> */}
         </li>
         <li>
           <input
@@ -126,7 +127,6 @@ const AddMeeting = observer(() => {
                     } as MeetingCategory)
                 )
               })
-              console.log(meeting)
             }}
           />
         </li>
@@ -148,24 +148,24 @@ const AddMeeting = observer(() => {
           />
         </li>
         <li>
-          <CustomTimepicker
-            value={endTime}
-            onChange={newTime => {
-              console.log('====================================')
-              console.log(newTime)
-              console.log('====================================')
-              setEndTime(newTime)
-            }}
-          />
-          <CustomTimepicker
-            value={startTime}
-            onChange={newTime => {
-              console.log('====================================')
-              console.log(newTime)
-              console.log('====================================')
-              setStartTime(newTime)
-            }}
-          />
+          <span>
+            <p>Start tid</p>
+            <CustomTimepicker
+              value={startTime}
+              onChange={newTime => {
+                setStartTime(newTime)
+              }}
+            />
+          </span>
+          <span>
+            <p>Slut tid</p>
+            <CustomTimepicker
+              value={endTime}
+              onChange={newTime => {
+                setEndTime(newTime)
+              }}
+            />
+          </span>
         </li>
         <li>
           <button

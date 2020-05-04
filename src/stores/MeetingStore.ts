@@ -2,7 +2,6 @@ import { observable, action } from 'mobx'
 import FetchStates from './requestState'
 import MeetingModel from '../models/MeetingModel'
 import { getToken } from '../services/authService'
-
 import ApiRoutes from './api/ApiRoutes'
 import IOptionsValue from '../models/OptionsValue'
 
@@ -202,8 +201,7 @@ export default class MeetingStore {
       this.msg = response.statusText
       this.state = FetchStates.DONE
 
-      const data = await response.json()
-      console.log('fetch mmeting response: ', data)
+      const data: MeetingModel[] = await response.json()
       this.meetings = data
     } catch (e) {
       this.state = FetchStates.FAILED

@@ -346,12 +346,22 @@ a {
   background-color: var(--surface);
   border-radius: var(--border-radius);
   padding: 10px;
+  padding-top: env(safe-area-inset-top, 20px);
 }
 
 /* calander */
 
 .fc-time-grid tbody {
   padding-bottom: 150px !important;
+}
+
+.fc-row {
+  height: 100% !important;
+}
+
+.fc-view-container {
+  max-height: 100% !important;
+  min-height: 100% !important;
 }
 
 hr {
@@ -389,6 +399,7 @@ hr {
   border-radius: var(--border-radius);
   min-width: 280px;
   height: fit-content;
+
 }
 
 .Modal h4 {

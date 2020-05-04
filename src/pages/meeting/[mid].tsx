@@ -29,6 +29,10 @@ import IOptionsValue from '../../models/OptionsValue'
 import { getCompanyId, getToken } from '../../services/authService'
 import Category from '../../models/Category'
 import rootStore from '../../stores/RootStore'
+import {
+  applyOffSetToMeeting,
+  spliceDateAndTime
+} from '../../services/dateService'
 
 type initMeetingProps = {
   initMeeting: MeetingModel
@@ -47,30 +51,25 @@ const Post: NextPage = observer(
       })
       .build()
 
-    // const { deleteMeeting, update, state } = useContext(meetingStore)
     const [feedbackBatch, setFeedbackBatch] = useState(intitFeedback)
-    // const feedbackcontext = useContext(feedbackStore)
     const {
       questionSetStore,
       feedbackStore,
       meetingStore: { deleteMeeting, update, state },
       categoriesStore
     } = useContext(rootStore)
-    // const categoriesContext = useContext(categoriesStore)
+
     const [meeting, setMeeting] = useState(initMeeting)
     const [meetingCategories] = useState(initCategories)
     const [isRealTimeDateOn, setRealTimeDateOn] = useState(false)
 
-    // const [questions, setQuestions] = useState(initialState)
+    useEffect(() => {
+      setMeeting(applyOffSetToMeeting(initMeeting))
+    }, [initMeeting])
 
-    // const propsMeetingdata: any = (props.location as any).data;
     const [date, setDate] = useState(new Date())
     const [startTime, setStartTime] = useState(new Date())
     const [endTime, setEndTime] = useState(new Date())
-    // const categoriesContext = useContext(categoriesStore)
-    // const [discription, setDiscription] = useState(meeting?.discription ?? '')
-    // const [topic, setTopic] = useState(context.meeting?.topic)
-    // const [qSetId, setQSetId] = useState(context.meeting?.questionsSetId)
 
     const joinMeetingRoom = useCallback(() => {
       hubConnection
@@ -125,18 +124,6 @@ const Post: NextPage = observer(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isRealTimeDateOn])
 
-    // useEffect(() => {
-    //   if (
-    //     isRealTimeDateOn &&
-    //     hubConnection.state === HubConnectionState.Disconnected
-    //   ) {
-    //     openConnection()
-    //   } else {
-    //     closeConnection()
-    //   }
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [isRealTimeDateOn])
-
     useEffect(() => {
       if (meeting) {
         setDate(new Date(meeting?.startTime))
@@ -144,16 +131,6 @@ const Post: NextPage = observer(
         setEndTime(new Date(meeting?.endTime))
       }
     }, [meeting])
-
-    // useEffect(() => {
-    //   categoriesContext.fetchCategories(String(getCompanyId())).then(() => {
-    //     setMeetingCategories(categoriesContext.categories)
-    //   })
-    // if (mid) {
-    //   fetchMeetingByShortId(String(mid))
-    //   feedbackcontext.fetchFeedback(String(mid))
-    // }
-    // }, [categoriesContext, feedbackcontext, mid])
 
     useEffect(() => {
       if (meeting?.questionsSetId)
@@ -209,18 +186,15 @@ const Post: NextPage = observer(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getAvg, getComments, questionSetStore])
 
-    const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
-      datePart.setMinutes(timePart.getMinutes())
-      datePart.setHours(timePart.getHours())
-      return datePart
-    }
-
     const updateMeetingClickHandler = () => {
       if (meeting) {
-        meeting.endTime = spliceDateAndTime(date, endTime)
-        meeting.startTime = spliceDateAndTime(date, startTime)
+        setMeeting({
+          ...meeting,
+          endTime: spliceDateAndTime(date, endTime),
+          startTime: spliceDateAndTime(date, startTime)
+        } as MeetingModel)
         update(meeting).then(res => {
-          if (res === FetchStates.DONE) toast('Møde er slettet!')
+          if (res === FetchStates.DONE) toast('Møde er updateret!')
           else toast('Der skete en fejl ved updatering af mødet.')
         })
       }
@@ -233,11 +207,6 @@ const Post: NextPage = observer(
         Router.push('/møder')
       }
     }
-
-    // const getMeetingCategories = useCallback(() => {
-    //   return
-    // }, [categoriesContext, meeting.meetingCategories])
-
     return (
       <Page
         showBottomNav={false}
@@ -255,9 +224,6 @@ const Post: NextPage = observer(
         }
       >
         <Section>
-          {/* <div className='btn-group'>
-            
-          </div> */}
           <div className='flex-container'>
             <div className='flex-item-left'>
               {' '}
@@ -519,32 +485,5 @@ export async function getServerSideProps(ctx: NextPageContext) {
     }
   }
 }
-
-// Post.getInitialProps = async ctx => {
-//   const { jwttoken } = cookies(ctx)
-//   const { query } = ctx
-//   const { mid } = query
-//   let data: MeetingModel | null = null
-//   let feedbackData: FeedbackBatch[] | null = null
-//   try {
-//     const response = await fetch(ApiRoutes.meetingByShortId(String(mid)), {
-//       headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
-//     })
-//     data = await response.json()
-
-//     const feedbackResponse = await fetch(ApiRoutes.Feedbackbatch(String(mid)), {
-//       headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
-//     })
-//     data = await response.json()
-//     feedbackData = await feedbackResponse.json()
-//     console.log(feedbackData)
-//   } catch (e) {
-//     console.error(e)
-//   }
-//   return {
-//     initMeeting: data,
-//     intitFeedback: feedbackData
-//   }
-// }
 
 export default Post
