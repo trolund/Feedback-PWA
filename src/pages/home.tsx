@@ -12,6 +12,8 @@ import BottomModal from '../components/bottom-modal'
 import rootStore from '../stores/RootStore'
 import TheNextWeek from '../components/theNextWeek'
 import QuestionAnalyser from '../components/dashboard/questionAnalyser'
+import MiddelLoader from '../components/middelLoading'
+import FetchStates from '../stores/requestState'
 
 export default withAuth(
   observer(() => {
@@ -65,6 +67,7 @@ export default withAuth(
         component={<ShowAndHideFilterBtn />}
         title='Oversigt'
       >
+        <MiddelLoader loading={state === FetchStates.LOADING} />
         <BottomModal
           show={showFilter}
           setShow={setShowFilter}

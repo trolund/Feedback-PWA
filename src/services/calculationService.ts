@@ -67,7 +67,7 @@ class CalculationService {
         labels: this.monthNames,
         dataPoints: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         numberOfProcessedItems: 0,
-        numberOfBatches: [...new Set(data.map(f => f.feedbackBatchId))].length
+        numberOfBatches: [...new Set(data?.map(f => f.feedbackBatchId))].length
       } as GraphData
     }
 
@@ -138,7 +138,7 @@ class CalculationService {
         labels,
         dataPoints,
         numberOfProcessedItems: data.length,
-        numberOfBatches: [...new Set(data.map(f => f.feedbackBatchId))].length
+        numberOfBatches: [...new Set(data?.map(f => f.feedbackBatchId))].length
       } as GraphData
     }
 
@@ -172,7 +172,7 @@ class CalculationService {
       labels: uniqueQuestions.map((q, n) => String(n + 1)),
       dataPoints: avgForQuestions,
       numberOfProcessedItems: data.length,
-      numberOfBatches: [...new Set(data.map(f => f.feedbackBatchId))].length
+      numberOfBatches: [...new Set(data?.map(f => f.feedbackBatchId))].length
     } as GraphData
   }
 }

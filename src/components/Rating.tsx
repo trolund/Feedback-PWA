@@ -2,7 +2,6 @@ import React, { useState, useContext, useCallback, useEffect } from 'react'
 import { observer } from 'mobx-react'
 import { PieChart } from 'react-feather'
 import StarRatingComponent from 'react-star-rating-component'
-// import { FaBeer, FaChartPie } from "react-icons/fa";
 import { Pie } from 'react-chartjs-2'
 import rootStore from '../stores/RootStore'
 
@@ -80,6 +79,11 @@ const Rating: React.FC<IProp> = observer(() => {
     ]
   }
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false
+  }
+
   return (
     <div className='card' style={{ marginBottom: '10px' }}>
       <h5 className='card-header'>
@@ -133,7 +137,7 @@ const Rating: React.FC<IProp> = observer(() => {
           </div>
         </div>
 
-        {isOpen && <Pie data={myData} />}
+        {isOpen && <Pie data={myData} options={options} />}
       </div>
       <style jsx>{`
         .flex-container {

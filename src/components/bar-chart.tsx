@@ -73,6 +73,7 @@ const BarGraph: React.FC<BarGraphProps> = (props: BarGraphProps) => {
 
     const options = {
       responsive: true,
+      maintainAspectRatio: false,
       datasetStrokeWidth: 3,
       pointDotStrokeWidth: 4,
       scaleLabel: "<%= Number(value).toFixed(0).replace('.', ',') + '°C'%>",
