@@ -4,6 +4,7 @@ import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { EventInput } from '@fullcalendar/core'
 import { Plus } from 'react-feather'
+import daLocale from '@fullcalendar/core/locales/da'
 import MobileCalendar from '../components/mobile-calendar'
 import Page from '../components/page'
 import CalView from '../models/CalView'
@@ -15,6 +16,7 @@ import rootStore from '../stores/RootStore'
 import BottomModal from '../components/bottom-modal'
 
 import MobileMultiSelecter from '../components/add-meeting'
+import { convertAllDatesToLocal, applyOffSet } from '../services/dateService'
 
 let FullCalendarNoSSRWrapper
 
@@ -71,12 +73,15 @@ const CalendarView = withAuth(
 
     function mapEvents(myevents: MeetingModel[]) {
       return myevents.map(item => {
+        console.log('====================================')
+        console.log(item.name, applyOffSet(item.endTime).toISOString())
+        console.log('====================================')
         return {
           id: item.shortId,
           title: item.name,
-          date: item.startTime,
-          startTime: item.startTime,
-          endTime: item.endTime,
+          date: applyOffSet(item.startTime).toISOString(),
+          startTime: applyOffSet(item.startTime).toISOString(),
+          endTime: applyOffSet(item.endTime).toISOString(),
           discription: item.discription,
           topic: item.topic,
           questionSetId: item.questionsSetId
@@ -134,6 +139,7 @@ const CalendarView = withAuth(
       if (!showCal) return <div>Loading ...</div>
       return (
         <FullCalendarNoSSRWrapper
+          locale={daLocale}
           trigger={e => console.log(e)}
           // viewHeight={5100}
           // header={false}

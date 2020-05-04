@@ -66,7 +66,8 @@ class CalculationService {
       return {
         labels: this.monthNames,
         dataPoints: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        numberOfProcessedItems: 0
+        numberOfProcessedItems: 0,
+        numberOfBatches: [...new Set(data.map(f => f.feedbackBatchId))].length
       } as GraphData
     }
 
@@ -133,20 +134,19 @@ class CalculationService {
         tempLabels.length - endCutIndex
       )
 
-      //   console.log('labels: ', labels)
-      //   console.log('datapoints: ', dataPoints)
-
       return {
         labels,
         dataPoints,
-        numberOfProcessedItems: data.length
+        numberOfProcessedItems: data.length,
+        numberOfBatches: [...new Set(data.map(f => f.feedbackBatchId))].length
       } as GraphData
     }
+
     return {
       labels: tempLabels,
       dataPoints: tempData,
       numberOfProcessedItems: data.length,
-      numberOfBatches: new Set<string>(data.map(f => f.feedbackBatchId)).size
+      numberOfBatches: [...new Set(data.map(f => f.feedbackBatchId))].length
     } as GraphData
   }
 
@@ -171,7 +171,8 @@ class CalculationService {
     return {
       labels: uniqueQuestions.map((q, n) => String(n + 1)),
       dataPoints: avgForQuestions,
-      numberOfProcessedItems: data.length
+      numberOfProcessedItems: data.length,
+      numberOfBatches: [...new Set(data.map(f => f.feedbackBatchId))].length
     } as GraphData
   }
 }

@@ -15,16 +15,6 @@ import QuestionAnalyser from '../components/dashboard/questionAnalyser'
 
 export default withAuth(
   observer(() => {
-    // const {
-    //   data,
-    //   state,
-    //   cutoff,
-    //   useFixedYAxis,
-    //   useSkipZero,
-    //   xAxisScale
-    // } = useContext(dashboardStore)
-    // const [showFilter, setShowFilter] = useState(true)
-
     const {
       dashboardStore: {
         data,
@@ -56,7 +46,6 @@ export default withAuth(
           onKeyDown={() => setShowFilter(!showFilter)}
         >
           {showFilter ? (
-            // eslint-disable-next-line global-require
             <img
               alt='nofilter'
               className='nofilter'

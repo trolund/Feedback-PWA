@@ -162,7 +162,7 @@ const Day: NextPage = observer(() => {
             height: 35px;
             width: 100%;
             left: 0;
-            position: absolute;
+            position: fixed;
           }
 
           .bar div {

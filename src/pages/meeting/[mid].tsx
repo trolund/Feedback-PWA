@@ -204,7 +204,7 @@ const Post: NextPage = observer(
       if (meeting) {
         deleteMeeting(meeting)
         toast('Møde er slettet!')
-        Router.push('/møder')
+        Router.back()
       }
     }
     return (

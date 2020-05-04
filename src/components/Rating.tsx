@@ -23,21 +23,37 @@ const Rating: React.FC<IProp> = observer(() => {
 
   const meetings = useCallback(
     () =>
-      dashboardStore.data?.filter(i => i.categories.includes('Møder')).length,
+      [
+        ...new Set(
+          dashboardStore.data
+            ?.filter(i => i.categories.includes('Møder'))
+            .map(f => f.feedbackBatchId)
+        )
+      ].length,
     [dashboardStore.data]
   )
 
   const classroom = useCallback(
     () =>
-      dashboardStore.data?.filter(i => i.categories.includes('Undervisning'))
-        .length,
+      [
+        ...new Set(
+          dashboardStore.data
+            ?.filter(i => i.categories.includes('Undervisning'))
+            .map(f => f.feedbackBatchId)
+        )
+      ].length,
     [dashboardStore.data]
   )
 
   const conf = useCallback(
     () =>
-      dashboardStore.data?.filter(i => i.categories.includes('Foredrag'))
-        .length,
+      [
+        ...new Set(
+          dashboardStore.data
+            ?.filter(i => i.categories.includes('Foredrag'))
+            .map(f => f.feedbackBatchId)
+        )
+      ].length,
     [dashboardStore.data]
   )
 

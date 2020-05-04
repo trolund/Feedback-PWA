@@ -13,8 +13,6 @@ export const applyOffSetToMeeting = (meeting: MeetingModel) => {
   const returnMeeting = meeting
   returnMeeting.endTime = applyOffSet(returnMeeting.endTime)
   returnMeeting.startTime = applyOffSet(returnMeeting.startTime)
-  console.log('return meeting', returnMeeting)
-
   return returnMeeting
 }
 
@@ -45,7 +43,10 @@ export const applyLocalDatesInMeeting = (
 export const convertAllDatesToLocal = (
   meetings: MeetingModel[]
 ): MeetingModel[] => {
-  return meetings.map(m => applyLocalDatesInMeeting(m))
+  const list = meetings.map(m => applyOffSetToMeeting(m))
+  console.log(list)
+
+  return list
 }
 
 export const applyUTCDatesInMeeting = (meeting: MeetingModel): MeetingModel => {

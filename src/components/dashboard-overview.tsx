@@ -22,7 +22,7 @@ const DashboardOverview = (props: overviewprops) => {
     <>
       <Rating />
       <p className='card-footer text-muted'>
-        Bygger på <b>{graphData.numberOfProcessedItems}</b> tilbagemeldinger
+        Bygger på <b>{graphData.numberOfBatches ?? 0}</b> tilbagemeldinger
       </p>
       <h5>
         Udvikling
