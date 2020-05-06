@@ -1,4 +1,5 @@
 import { observable, action } from 'mobx'
+import cookies from 'js-cookie'
 import FetchStates from './requestState'
 import FeedbackBatch from '../models/FeedbackBatch'
 import ApiRoutes from './api/ApiRoutes'
@@ -61,13 +62,18 @@ export default class FeedbackStore {
 
   @action createFeedbackBatch = async (
     feedback: FeedbackModel[],
-    meetingId: string
+    meetingId: string,
+    fingerprint
   ) => {
     this.state = FetchStates.LOADING
 
     try {
       const url = ApiRoutes.CreateFeedbackBatch()
-      const json = JSON.stringify({ meetingId, feedback })
+      const json = JSON.stringify({
+        meetingId,
+        feedback,
+        userFingerprint: fingerprint
+      })
       const response = await fetch(url, {
         method: 'POST',
         headers: {

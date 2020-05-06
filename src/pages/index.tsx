@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useContext, useState } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
@@ -9,7 +10,6 @@ import Page from '../components/page'
 import Section from '../components/section'
 import * as loading from '../../public/Animations/loading.json'
 import FetchStates from '../stores/requestState'
-import Prompt from '../components/AddToHomescreenPrompt'
 import CustomInput from '../components/custom-input'
 import rootStore from '../stores/RootStore'
 import withRedirect from '../services/withRedirect'
@@ -197,7 +197,6 @@ export default withRedirect(
             margin-bottom: 20px;
           }
         `}</style>
-        <Prompt />
       </Page>
     )
   })

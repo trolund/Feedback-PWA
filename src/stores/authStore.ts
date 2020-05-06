@@ -10,6 +10,7 @@ import { login, getToken, logout } from '../services/authService'
 import TokenModel from '../models/TokenModel'
 import NewPasswordModel from '../models/NewPasswordModel'
 import User from '../models/classes/User'
+import Fingerprint from '../models/classes/Fingerprint'
 
 export default class AuthStore {
   cookies = new Cookies()
@@ -21,6 +22,8 @@ export default class AuthStore {
   @persist('object', User) @observable user: IUser = null
 
   @persist @observable token: string = null
+
+  @persist('object', Fingerprint) @observable fingerprint: Fingerprint = null
 
   @observable isAdmin: boolean = null
 
@@ -34,6 +37,10 @@ export default class AuthStore {
 
   @action setState = (state: FetchStates) => {
     this.state = state
+  }
+
+  @action setFingerprint = (newFingerprint: string) => {
+    this.fingerprint = new Fingerprint(newFingerprint)
   }
 
   @action setRoles = (

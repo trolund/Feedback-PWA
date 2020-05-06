@@ -1,7 +1,9 @@
 import { observable, action } from 'mobx'
+//  import RootStore from './RootStore'
 import FetchStates from './requestState'
 import QuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
+
 // import questionTestData from './api/DummyData/questionTestData.json'
 
 export default class QuestionStore {
@@ -12,35 +14,40 @@ export default class QuestionStore {
   @observable meetingId = null
 
   // data
-  @observable questions: QuestionSet = {
-    name: 'unnown',
-    questionSetId: '',
-    questions: []
-  }
+  @observable questions: QuestionSet = null
 
-  @action fetchQuestions = async (meetingId: string): Promise<FetchStates> => {
+  @action fetchQuestions = async (
+    meetingId: string,
+    fingerprint: string
+  ): Promise<number> => {
     this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.FetchQuestions(meetingId)
-
-      const response = await fetch(url)
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fingerprint)
+      })
 
       this.msg = response.statusText
 
-      const data = await response.json()
+      const data: QuestionSet = await response.json()
 
-      // const data: QuestionSet = questionTestData
+      if ('msg' in data) {
+        this.questions = null
+      } else {
+        this.questions = data
+      }
 
-      this.questions = data
       this.fetchState = FetchStates.DONE
       this.meetingId = meetingId
-      return FetchStates.DONE
+      return response.status
     } catch (e) {
       this.fetchState = FetchStates.FAILED
-      this.msg = e.statusText ?? 'meeting not found or not open for feedback'
+      this.msg = e.statusText
       this.questions = null
       this.meetingId = null
-      return FetchStates.FAILED
+      return e
     }
   }
 

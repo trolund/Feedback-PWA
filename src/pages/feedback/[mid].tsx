@@ -1,160 +1,55 @@
-import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import Router, { useRouter } from 'next/router'
-import Modal from 'react-modal'
-import { ViewPager, Frame, Track } from 'react-view-pager'
+import { useEffect, useContext, useState } from 'react'
 import { NextPage } from 'next'
-import https from 'https'
-import { X } from 'react-feather'
-import fetch from 'isomorphic-unfetch'
-import FetchStates from '../../stores/requestState'
-import Question from '../../components/question'
+import { useRouter } from 'next/router'
 import Page from '../../components/page'
-import FeedbackOverlay from '../../components/FeedbackDoneOverlay'
-import ApiRoutes from '../../stores/api/ApiRoutes'
-import QuestionSet from '../../models/QuestionSet'
+import FeedbackViewPager from '../../components/feedback/FeedbackViewPager'
+import createFingerprint from '../../services/fingerprintService'
 import rootStore from '../../stores/RootStore'
+import MiddelLoader from '../../components/middelLoading'
+import FetchStates from '../../stores/requestState'
 
-type FeedbackInitProps = {
-  initQuestions: QuestionSet
-}
-
-const Feedback: NextPage = observer(({ initQuestions }: FeedbackInitProps) => {
+const Feedback: NextPage = observer(() => {
   const router = useRouter()
   const { mid } = router.query
-  const [page, setPage] = useState(0)
-  const [showOverlay, setShowOverlay] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
-  // const { meetingId } = useContext(questionStore)
   const {
-    feedbackStore: { feedback, createFeedbackBatch }
+    questionStore: { fetchQuestions, questions, fetchState }
   } = useContext(rootStore)
-
-  const [questions] = useState(initQuestions)
-
-  const [success, setSuccess] = useState(false)
-  const [overlayText, setOverlayText] = useState('')
+  const [statusCode, setStatusCode] = useState(0)
+  const [fingerprint, setFingerprint] = useState('')
 
   useEffect(() => {
-    if (questions?.questions?.length === 0 || !questions) Router.back()
-  })
+    createFingerprint().then(newFingerprint => {
+      setFingerprint(newFingerprint)
+      fetchQuestions(String(mid), newFingerprint).then(code => {
+        console.log(code)
 
-  // useEffect(() => {
-  //   if (feedback[page].answer !== -1) {
-  //     setEnableNext(false)
-  //   }
-  // }, [feedback, page])
+        setStatusCode(code)
+      })
+    })
+  }, [fetchQuestions, mid])
 
-  // const onViewChange = (pageNumber: number) => {
-  //   if (feedback[page].answer === -1) {
-  //     setEnableNext(true)
-  //   } else {
-  //     setEnableNext(false)
-  //   }
-  //   setPage(pageNumber)
-  // }
-
-  const isFeedbackReady = () => {
-    return feedback.every(item => item.answer >= 0)
-  }
-
-  const increment = () => {
-    if (
-      questions !== null &&
-      page < questions?.questions.length - 1 &&
-      feedback[page].answer > -1
-    ) {
-      setPage(page + 1)
-    }
-  }
-  const decrement = () => {
-    if (page > 0) {
-      setPage(page - 1)
-    }
-  }
-
-  const next = (e: any) => {
-    e.preventDefault()
-    if (
-      questions !== null &&
-      page === questions?.questions.length - 1 &&
-      feedback[page]?.answer !== -1
-    ) {
-      if (isFeedbackReady()) {
-        createFeedbackBatch(feedback, String(mid)).then(res => {
-          if (res === FetchStates.DONE) {
-            setSuccess(true)
-            setOverlayText('Tak for din besvarelse')
-            setShowOverlay(true)
-          } else {
-            setSuccess(false)
-            setOverlayText('Der skete desværre en fejl')
-            setShowOverlay(true)
-          }
-        })
-      } else {
-        setModalOpen(true)
-        console.log('Feedback er ikke klar!')
-      }
-    } else {
-      increment()
-    }
-
-    console.debug(feedback)
-  }
-
-  const prev = () => {
-    decrement()
-  }
+  useEffect(() => {
+    console.log(statusCode)
+  }, [statusCode])
 
   return (
     <>
+      <MiddelLoader
+        loading={fetchState === FetchStates.LOADING}
+        text='Forbereder skema'
+      />
       <Page showBottomNav={false} showHead={false}>
-        <ViewPager tag='main'>
-          <Frame className='frame' autoSize>
-            <Track
-              // ref={(c: number) => setPage(c)}
-              // viewsToShow={1}
-              swipe={false}
-              currentView={page}
-              // onViewChange={onViewChange}
-              className='track'
-            >
-              {questions !== null &&
-                questions?.questions.map(item => (
-                  <Question
-                    // setNextenable={setEnableNext}
-                    key={item.questionId}
-                    question={item.theQuestion}
-                    questionId={item.questionId}
-                  />
-                ))}
-            </Track>
-          </Frame>
-          <nav className='pager-controls'>
-            <div className='controller-container'>
-              {page !== 0 && (
-                <button
-                  type='button'
-                  className='pager-control pager-control--prev button float-left'
-                  onClick={() => prev()}
-                >
-                  tilbage
-                </button>
-              )}
-              <button
-                type='button'
-                className='pager-control pager-control--next button float-right'
-                onClick={e => next(e)}
-                disabled={feedback[page]?.answer === -1}
-              >
-                {page === questions.questions.length - 1
-                  ? 'Send besvarelse'
-                  : 'Næste'}
-              </button>
-            </div>
-          </nav>
-        </ViewPager>
+        {statusCode === 400 && <p>Mødet er lukket</p>}
+        {statusCode === 404 && <p>Mødet findes ikke</p>}
+        {statusCode === 401 && <p>Man kan kun give feedback en gang</p>}
+        {questions !== null && (
+          <FeedbackViewPager
+            initQuestions={questions}
+            mid={String(mid)}
+            fingerprint={fingerprint}
+          />
+        )}
         <style jsx global>{`
           .frame {
             height: 80vh !important;
@@ -186,56 +81,49 @@ const Feedback: NextPage = observer(({ initQuestions }: FeedbackInitProps) => {
           }
         `}</style>
       </Page>
-      {showOverlay && <FeedbackOverlay success={success} text={overlayText} />}
-
-      <Modal
-        isOpen={modalOpen}
-        // onAfterOpen={afterOpenModal}
-        // onRequestClose={closeModal}
-        // style={modalStyles}
-        contentLabel='Example Modal'
-        className='modal'
-      >
-        <h2>Besvarelse ikke klar!</h2>
-        <button type='button' tabIndex={0} onClick={() => setModalOpen(false)}>
-          <X /> close
-        </button>
-        <div>
-          Du skal besvare alle spørgsmål før du kan sende din besvarelse.
-        </div>
-        <style jsx>{`
-           {
-            /* .ReactModal__Overlay {
-            background-color: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(0.2);
-          } */
-          }
-        `}</style>
-      </Modal>
     </>
   )
 })
 
-Feedback.getInitialProps = async ctx => {
-  const { query } = ctx
-  const { mid } = query
-  const url = ApiRoutes.FetchQuestions(String(mid))
-  let data: QuestionSet[] | null = null
-  const options = {
-    agent: new https.Agent({
-      // TODO fix for production with real SSL CERT
-      rejectUnauthorized: false
-    })
-  }
-  try {
-    const response = await fetch(url, { headers: {}, ...options })
-    data = await response.json()
-  } catch (e) {
-    console.error(e)
-  }
-  return {
-    initQuestions: data
-  }
-}
+// Feedback.getInitialProps = async ctx => {
+//   const { query } = ctx
+//   const { fingerprint } = cookies(ctx)
+//   const { mid } = query
+
+//   let statusCode = 0
+//   const url = ApiRoutes.FetchQuestions(String(mid))
+//   let data: QuestionSet[] | null = null
+//   const options = {
+//     agent: new https.Agent({
+//       // TODO fix for production with real SSL CERT
+//       rejectUnauthorized: false
+//     })
+//   }
+
+//   if (fingerprint !== undefined) {
+//     try {
+//       const response = await fetch(url, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         ...options,
+//         body: JSON.stringify(fingerprint)
+//       })
+//       statusCode = response.status
+//       if (response.status === 200) {
+//         data = await response.json()
+//       }
+//       console.log(response)
+//     } catch (e) {
+//       console.error(e)
+//       statusCode = 500
+//     }
+//   } else {
+//     statusCode = 1000 // fingerprint not found
+//   }
+//   return {
+//     initQuestions: data,
+//     statusCode
+//   }
+// }
 
 export default Feedback
