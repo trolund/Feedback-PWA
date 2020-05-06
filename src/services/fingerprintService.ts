@@ -1,6 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-console */
-/* eslint-disable no-undef */
 import Fingerprint2 from 'fingerprintjs2'
 
 export const hashComponents = (components: Fingerprint2.Component[]) => {
