@@ -2,27 +2,22 @@ type Props = {
   placeholder?: string
   value?: string
   onChange?: (value: string) => void
-  logo?: JSX.Element
-  type: string
   className?: string
   center?: boolean
   error?: boolean
   fill?: boolean
 }
 
-const CustomInput = ({
+const CustomTextarea = ({
   placeholder,
   value,
   onChange,
-  logo: Logo,
-  type,
   className,
   center,
   error,
   fill
 }: Props) => {
   const fillSpace = fill ? { width: '100%' } : {}
-  const LogoPadding = Logo ? { paddingLeft: '55px' } : { paddingLeft: '15px' }
   return (
     <div
       className={className ?? ''}
@@ -32,24 +27,15 @@ const CustomInput = ({
         marginRight: 'auto'
       }}
     >
-      <input
+      <textarea
         className={error ? 'input-error' : ''}
-        type={type}
         placeholder={placeholder}
         onChange={e => onChange(e.target.value)}
         value={value}
         style={
-          center
-            ? { textAlign: 'center', ...fillSpace, ...LogoPadding }
-            : { ...fillSpace, ...LogoPadding }
+          center ? { textAlign: 'center', ...fillSpace } : { ...fillSpace }
         }
       />
-      {Logo !== undefined && (
-        <div className='icon-container'>
-          <div className='icon'>{Logo}</div>
-        </div>
-      )}
-
       <style jsx>{`
         .icon-container {
           border-top-left-radius: var(--border-radius);
@@ -67,6 +53,9 @@ const CustomInput = ({
           padding: 15px;
           padding-left: 12px;
         }
+        input {
+          padding-left: 55px;
+        }
 
         .input-error {
           box-shadow: 0 0 0 2px var(--error) !important;
@@ -76,4 +65,4 @@ const CustomInput = ({
   )
 }
 
-export default CustomInput
+export default CustomTextarea

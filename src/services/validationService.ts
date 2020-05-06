@@ -1,6 +1,8 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable import/prefer-default-export */
 
+// util
+
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index
 }
@@ -10,6 +12,16 @@ type validationResult = {
   validationErrors: string[]
 }
 
+const createResult = (
+  rules: boolean[],
+  validationErrors: string[]
+): validationResult => {
+  return {
+    valid: rules.every(r => r),
+    validationErrors: validationErrors.filter(onlyUnique)
+  } as validationResult
+}
+
 /* Rules */
 
 export const zeroLengthRule = (
@@ -17,7 +29,7 @@ export const zeroLengthRule = (
   rules: boolean[],
   validationErrors: string[]
 ) => {
-  const inputLength = input.length > 0
+  const inputLength = input?.length > 0
   if (!inputLength) validationErrors.push('Feltet må ikke være tomt')
   rules.push(inputLength)
 }
@@ -58,7 +70,7 @@ export const minLengthRule = (
   validationErrors: string[],
   minLength?: number
 ) => {
-  const valid = input.length >= minLength
+  const valid = input?.length >= minLength
   if (!valid)
     validationErrors.push(`Må bestå af minimum ${minLength} karaktere.`)
   rules.push(valid)
@@ -70,7 +82,7 @@ export const maxLengthRule = (
   validationErrors: string[],
   maxLength?: number
 ) => {
-  const valid = input.length <= maxLength
+  const valid = input?.length <= maxLength
   if (!valid)
     validationErrors.push(`Må bestå af minimum ${maxLength} karaktere.`)
   rules.push(valid)
@@ -107,7 +119,58 @@ export const equalsRule = (
   rules.push(valid)
 }
 
+export const StartbeforeEndDateRule = (
+  inputA: Date,
+  inputB: Date,
+  rules: boolean[],
+  validationErrors: string[]
+) => {
+  const valid = inputA.getTime() < inputB.getTime()
+  if (!valid)
+    validationErrors.push(`start tidspunkt skal være før slut tidspunkt.`)
+  rules.push(valid)
+}
+
+export const validDateRule = (
+  input: Date,
+  rules: boolean[],
+  validationErrors: string[]
+) => {
+  const valid = input instanceof Date
+  if (!valid)
+    validationErrors.push(`start tidspunkt skal være før slut tidspunkt.`)
+  rules.push(valid)
+}
+
 /* Validaters */
+
+export const validateTextInput = (
+  input: string,
+  maxLength: number,
+  allowZero: boolean
+): validationResult => {
+  const validationErrors: string[] = []
+  const rules: boolean[] = []
+
+  if (allowZero) zeroLengthRule(input, rules, validationErrors)
+  maxLengthRule(input, rules, validationErrors, maxLength)
+
+  return createResult(rules, validationErrors)
+}
+
+export const validateStartAndEndDate = (
+  startTime: Date,
+  endTime: Date
+): validationResult => {
+  const validationErrors: string[] = []
+  const rules: boolean[] = []
+
+  validDateRule(startTime, rules, validationErrors)
+  validDateRule(endTime, rules, validationErrors)
+  StartbeforeEndDateRule(startTime, endTime, rules, validationErrors)
+
+  return createResult(rules, validationErrors)
+}
 
 export const validateNotEmpty = (input: string): validationResult => {
   const validationErrors: string[] = []
@@ -115,10 +178,7 @@ export const validateNotEmpty = (input: string): validationResult => {
 
   minLengthRule(input, rules, validationErrors, 1)
 
-  return {
-    valid: rules.every(r => r),
-    validationErrors: validationErrors.filter(onlyUnique)
-  } as validationResult
+  return createResult(rules, validationErrors)
 }
 
 export const validatePhone = (phone: string): validationResult => {
@@ -128,10 +188,7 @@ export const validatePhone = (phone: string): validationResult => {
   onlyNumericRule(phone, rules, validationErrors)
   minLengthRule(phone, rules, validationErrors, 8)
 
-  return {
-    valid: rules.every(r => r),
-    validationErrors: validationErrors.filter(onlyUnique)
-  } as validationResult
+  return createResult(rules, validationErrors)
 }
 
 export const validateEmail = (mail: string): validationResult => {
@@ -141,10 +198,7 @@ export const validateEmail = (mail: string): validationResult => {
   emailRule(mail, rules, validationErrors)
   zeroLengthRule(mail, rules, validationErrors)
 
-  return {
-    valid: rules.every(r => r),
-    validationErrors: validationErrors.filter(onlyUnique)
-  } as validationResult
+  return createResult(rules, validationErrors)
 }
 
 export const validatePassword = (password: string): validationResult => {
@@ -157,10 +211,7 @@ export const validatePassword = (password: string): validationResult => {
   minLengthRule(password, rules, validationErrors, 4)
   numericRule(password, rules, validationErrors)
 
-  return {
-    valid: rules.every(r => r),
-    validationErrors: validationErrors.filter(onlyUnique)
-  } as validationResult
+  return createResult(rules, validationErrors)
 }
 
 export const validateNewPassword = (
@@ -177,8 +228,5 @@ export const validateNewPassword = (
   numericRule(passwordA, rules, validationErrors)
   equalsRule(passwordA, passwordB, rules, validationErrors)
 
-  return {
-    valid: rules.every(r => r),
-    validationErrors: validationErrors.filter(onlyUnique)
-  } as validationResult
+  return createResult(rules, validationErrors)
 }

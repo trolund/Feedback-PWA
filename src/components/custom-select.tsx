@@ -39,7 +39,7 @@ const CustomSelect = ({
           onChange(e.target.value)
         }}
       >
-        {placeholder && <option>{placeholder}</option>}
+        {placeholder && <option value='null'>{placeholder}</option>}
         {values.map(item => (
           <option key={item.value} value={item.value}>
             {item.label}

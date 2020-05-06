@@ -5,9 +5,10 @@ import { useState, useEffect } from 'react'
 type Props = {
   onChange: (data: Date) => void
   value: Date
+  error?: boolean
 }
 
-const CustomDatepicker = ({ value, onChange }: Props) => {
+const CustomDatepicker = ({ value, onChange, error }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   const [dateValue, setDateValue] = useState(value)
 
@@ -38,6 +39,7 @@ const CustomDatepicker = ({ value, onChange }: Props) => {
       </div>
       <DatePicker
         // theme='ios'
+        className={error ? 'input-error' : ''}
         confirmText='Ok'
         cancelText='Luk'
         isOpen={isOpen}
@@ -69,6 +71,9 @@ const CustomDatepicker = ({ value, onChange }: Props) => {
       />
 
       <style jsx>{`
+        .input-error {
+          box-shadow: 0 0 0 2px var(--error) !important;
+        }
         .container input {
           border-radius: var(--border-radius);
           width: 160px;

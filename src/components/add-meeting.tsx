@@ -13,6 +13,12 @@ import { getCompanyId } from '../services/authService'
 import rootStore from '../stores/RootStore'
 import CustomSelect from './custom-select'
 import { spliceDateAndTime } from '../services/dateService'
+import CustomTextarea from './Input/custom-textarea'
+import CustomInput from './custom-input'
+import {
+  validateTextInput,
+  validateStartAndEndDate
+} from '../services/validationService'
 
 type AddMeetingProps = {
   callBack: () => void
@@ -73,6 +79,7 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
         </li>
         <li>
           <CustomSelect
+            error={questionSet === 'null'}
             fill
             placeholder='- Vælg spørgsmåls sæt -'
             onChange={value => setQuestionSet(value)}
@@ -90,14 +97,13 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
           />
         </li>
         <li>
-          <input
+          <CustomInput
+            fill
+            error={validateTextInput(meeting?.name, 80, false).valid}
             type='text'
-            name='name'
-            id='name'
             placeholder='Navn på mødet'
-            required
             value={meeting?.name}
-            onChange={e => setMeeting({ ...meeting, name: e.target.value })}
+            onChange={e => setMeeting({ ...meeting, name: e })}
           />
         </li>
         <li>
@@ -131,16 +137,17 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
           />
         </li>
         <li>
-          <textarea
+          <CustomTextarea
+            fill
+            error={validateTextInput(meeting?.name, 1500, true).valid}
             value={meeting?.discription}
             placeholder='Kommentar'
-            onChange={e =>
-              setMeeting({ ...meeting, discription: e.target.value })
-            }
+            onChange={e => setMeeting({ ...meeting, discription: e })}
           />
         </li>
         <li>
           <CustomDatepicker
+            error={validateStartAndEndDate(date, new Date()).valid}
             value={date}
             onChange={newDate => {
               setDate(newDate)
@@ -151,6 +158,7 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
           <span>
             <p>Start tid</p>
             <CustomTimepicker
+              error={validateStartAndEndDate(startTime, endTime).valid}
               value={startTime}
               onChange={newTime => {
                 setStartTime(newTime)
@@ -160,6 +168,7 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
           <span>
             <p>Slut tid</p>
             <CustomTimepicker
+              error={validateStartAndEndDate(startTime, endTime).valid}
               value={endTime}
               onChange={newTime => {
                 setEndTime(newTime)

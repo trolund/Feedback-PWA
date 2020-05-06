@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { AppProps } from 'next/app'
-import CookieConsent from 'react-cookie-consent'
 import '../styles/global.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
@@ -177,15 +176,14 @@ const App = ({ Component, pageProps }: AppProps) => {
           media='(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)'
         />
       </Head>
-      <CookieConsent
+      {/* <CookieConsent
         buttonClasses='button'
         containerClasses='cookie-box'
         contentClasses='text-capitalize'
       >
         This website uses cookies to enhance the user experience.{' '}
         <span style={{ fontSize: '10px' }}>This bit of text is smaller :O</span>
-      </CookieConsent>
-
+      </CookieConsent> */}
       <Prompt />
       <Component {...pageProps} />
     </>
