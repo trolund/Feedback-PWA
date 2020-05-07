@@ -17,8 +17,6 @@ type FeedbackViewPagerProps = {
 
 const FeedbackViewPager = observer(
   ({ initQuestions, mid, fingerprint }: FeedbackViewPagerProps) => {
-    // const router = useRouter()
-    // const { mid } = router.query
     const [page, setPage] = useState(0)
     const [showOverlay, setShowOverlay] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
@@ -31,36 +29,11 @@ const FeedbackViewPager = observer(
     const [success, setSuccess] = useState(false)
     const [overlayText, setOverlayText] = useState('')
 
-    // useEffect(() => {
-    //   if (questions?.questions?.length === 0 || !questions) Router.back()
-    // })
-
-    // useEffect(() => {
-    //   if (feedback[page].answer !== -1) {
-    //     setEnableNext(false)
-    //   }
-    // }, [feedback, page])
-
-    // const onViewChange = (pageNumber: number) => {
-    //   if (feedback[page].answer === -1) {
-    //     setEnableNext(true)
-    //   } else {
-    //     setEnableNext(false)
-    //   }
-    //   setPage(pageNumber)
-    // }
-
     const isFeedbackReady = () => {
       return feedback.every(item => item.answer >= 0)
     }
 
     const increment = () => {
-      console.log(
-        questions !== null,
-        page < questions?.questions.length - 1,
-        feedback[page].answer > -1
-      )
-
       if (
         questions !== null &&
         page < questions?.questions.length - 1 &&

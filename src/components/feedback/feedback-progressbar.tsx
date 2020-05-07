@@ -29,12 +29,7 @@ const FeedbackProcessbar = ({ question, questionNumber, voteAVG }: props) => {
         <span className='step step-border float-left'>
           <p className='voteNumber'>1</p>
         </span>
-        {/* <span className="step step-border float-right">
-        <p className="voteNumber">2</p>
-        <p className="lastNumber float-right">3</p>
-      </span> */}
       </div>
-
       <style jsx>{`
         .processbar {
           transition: width 0.3s ease-in;
@@ -106,11 +101,6 @@ const FeedbackProcessbar = ({ question, questionNumber, voteAVG }: props) => {
           margin-top: -40px;
           margin-right: -5px;
         }
-
-        /* .bg-awesome {
-  background-color: rgb(25, 137, 111);
-} */
-
         .bg-awesome {
           background-color: rgb(25, 137, 111);
           height: 20px;

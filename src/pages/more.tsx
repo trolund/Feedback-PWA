@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Page from '../components/essentials/page'
 import Section from '../components/essentials/section'
 import withAuth from '../components/hoc/withAuth'
+import Roles from '../models/enums/roles'
 
 type LinkType = {
   title: string
@@ -85,7 +86,8 @@ const More = withAuth(
         `}</style>
       </Page>
     )
-  })
+  }),
+  [Roles.ADMIN, Roles.VADMIN]
 )
 
 export default More

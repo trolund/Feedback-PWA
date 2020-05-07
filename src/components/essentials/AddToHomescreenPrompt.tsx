@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { DownloadCloud } from 'react-feather'
-import useAddToHomescreenPrompt from './AddToHomescreenService'
+import useAddToHomescreenPrompt from '../../services/AddToHomescreenService'
 
 const Prompt = () => {
   const [prompt, promptToInstall] = useAddToHomescreenPrompt()

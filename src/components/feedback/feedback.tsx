@@ -227,8 +227,6 @@ const FeedbackView = observer((props: IProp) => {
             </div>
           </div>
         )}
-        {/* {props.feedback.reduce((a, b) => a + b.comments?.length ?? 0, 0) ===
-          0 && <p>Ingen Kommentare</p>} */}
         <div className='end-result'>
           <h2>Overodtnet resultat</h2>
           <CircularProgressbar
@@ -248,7 +246,6 @@ const FeedbackView = observer((props: IProp) => {
       {showModal && (
         <Modal
           isOpen={showModal}
-          // onAfterOpen={afterOpenModal}
           onRequestClose={() => setShowModal(false)}
           style={customStyles}
           contentLabel='Example Modal'
@@ -344,11 +341,6 @@ const FeedbackView = observer((props: IProp) => {
         .Collapsible {
           background-color: #19896f;
           border-radius: var(--border-radius);
-           {
-            /* border-bottom: #19896f solid 2px;
-          border-left: #19896f solid 2px;
-          border-right: #19896f solid 2px; */
-          }
         }
 
         .collapsible-content {
@@ -390,20 +382,6 @@ const FeedbackView = observer((props: IProp) => {
           border-radius: var(--border-radius);
           margin-top: 5px;
           color: whitesmoke;
-        }
-         {
-          /* 
-        .Collapsible__trigger::after {
-          content: attr(data-count);
-          width: 20px;
-          height: 20px;
-          float: right;
-          margin-right: 20px;
-
-          display: block;
-
-          color: whitesmoke;
-        } */
         }
 
         .Collapsible__contentOuter {

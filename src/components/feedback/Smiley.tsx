@@ -9,13 +9,9 @@ interface IProp {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Smiley: React.FC<IProp> = ({ img, type, setVote, on }) => {
-  // const { innerWidth: width } = window
-
   const onClickHandler = () => {
     setVote(type)
   }
-
-  // const dimStyle = width < 350 ? 'lowScreenOption' : 'option'
 
   return (
     <div

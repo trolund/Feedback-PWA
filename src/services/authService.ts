@@ -75,21 +75,6 @@ export const getRoles = (): string[] => {
   }
 }
 
-// export const isAdmin = (): boolean => {
-//   const token: TokenModel = jwtDecode(cookie.get(TOKENKEY))
-//   return token.role.includes('Admin')
-// }
-
-// export const isVAdmin = (): boolean => {
-//   const token: TokenModel = jwtDecode(cookie.get(TOKENKEY))
-//   return token.role.includes('VAdmin')
-// }
-
-// export const isFacilitator = (): boolean => {
-//   const token: TokenModel = jwtDecode(getToken())
-//   return token.role.includes('Facilitator')
-// }
-
 export const getUserId = (): string => {
   const token: TokenModel = jwtDecode(getToken())
   return token.sub

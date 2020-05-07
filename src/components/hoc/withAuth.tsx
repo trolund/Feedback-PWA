@@ -6,11 +6,12 @@ import JwtDecode from 'jwt-decode'
 import { auth } from '../../services/authService'
 import TokenModel from '../../models/TokenModel'
 import rootStore from '../../stores/RootStore'
+import Roles from '../../models/enums/roles'
 
-const withAuth = WrappedComponent => {
+const withAuth = (WrappedComponent, roles?: Roles[]) => {
   const Wrapper = props => {
     const {
-      authStore: { setRoles, isAdmin }
+      authStore: { setRoles, isAdmin, isFacilitator, isVAdmin }
     } = useContext(rootStore)
 
     const syncLogout = event => {
@@ -21,15 +22,29 @@ const withAuth = WrappedComponent => {
       }
     }
 
+    const blockWithRoles = () => {
+      if (roles) {
+        if (
+          (roles.includes(Roles.ADMIN) && !isAdmin) ||
+          (roles.includes(Roles.FACILITATOR) && !isFacilitator) ||
+          (roles.includes(Roles.VADMIN) && !isVAdmin)
+        ) {
+          Router.back()
+        }
+      }
+    }
+
     useEffect(() => {
+      // if roles is not set set them
       if (isAdmin === null) {
         const token: TokenModel = JwtDecode(props.token)
         setRoles(
-          token.role.includes('Admin'),
-          token.role.includes('Facilitator'),
-          token.role.includes('VAdmin')
+          token.role.includes(Roles.ADMIN),
+          token.role.includes(Roles.FACILITATOR),
+          token.role.includes(Roles.VADMIN)
         )
       }
+      blockWithRoles()
     }, [isAdmin, props.token, setRoles])
 
     useEffect(() => {
@@ -46,7 +61,6 @@ const withAuth = WrappedComponent => {
 
   Wrapper.getInitialProps = async ctx => {
     const token = auth(ctx)
-    // console.log('the token', token)
 
     const componentProps =
       WrappedComponent.getInitialProps &&

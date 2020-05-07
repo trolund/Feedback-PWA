@@ -1,4 +1,3 @@
-// import { useContext, useState, useEffect } from 'react'
 import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { View } from 'react-view-pager'
