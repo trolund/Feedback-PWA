@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import { PieChart, BarChart2 } from 'react-feather'
-import LineGraph from './line-graph'
-// import dashboardStore from '../stores/dashboard-store'
-// import BarGraph from './bar-chart'
+import LineGraph from './charts/line-graph'
 import Rating from './Rating'
-import GraphData from '../models/GraphData'
-import FetchStates from '../stores/requestState'
-import BarGraph from './bar-chart'
+import GraphData from '../../models/GraphData'
+import FetchStates from '../../stores/requestState'
+import BarGraph from './charts/bar-chart'
 
 type overviewprops = {
   graphData: GraphData

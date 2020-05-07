@@ -1,24 +1,19 @@
 import { observer } from 'mobx-react-lite'
 import { useContext, useEffect } from 'react'
 import { RefreshCw, DownloadCloud, Search, X } from 'react-feather'
-import CustomDatepicker from './custom-datepicker'
-import CustomCheckbox from './checkbox'
-import CategoriesPicker from './categories-picker'
-import FetchStates from '../stores/requestState'
+import CustomDatepicker from '../Input/custom-datepicker'
+import CustomCheckbox from '../Input/checkbox'
+import CategoriesPicker from '../Input/categories-picker'
+import FetchStates from '../../stores/requestState'
 import DashboardExcelDownload from './excelExport'
-import GraphXScale from '../models/GraphXScale'
-import { getCompanyId } from '../services/authService'
-import CustomInput from './custom-input'
-import rootStore from '../stores/RootStore'
-import CustomSelect from './custom-select'
-import IOptionsValue from '../models/OptionsValue'
+import GraphXScale from '../../models/GraphXScale'
+import { getCompanyId } from '../../services/authService'
+import CustomInput from '../Input/custom-input'
+import rootStore from '../../stores/RootStore'
+import CustomSelect from '../Input/custom-select'
+import IOptionsValue from '../../models/OptionsValue'
 
 const DashboardFilter = observer(() => {
-  // const [searchWord, setSearchWord] = useState('')
-  // const [onlyOwnData, setonlyOwnData] = useState(false)
-  // const [startDate, setStartDate] = useState(new Date())
-  // const [endDate, setEndDate] = useState(new Date())
-  // const [tags, setTags] = useState([] as Tag[])
   const {
     dashboardStore: {
       startdate,
@@ -47,10 +42,6 @@ const DashboardFilter = observer(() => {
     categoriesStore,
     authStore: { isAdmin, isVAdmin }
   } = useContext(rootStore)
-
-  // const context = useContext(dashboardStore)
-  // const categoriesContext = useContext(categoriesStore)
-  // const { isAdmin, isVAdmin } = useContext(authStore)
 
   useEffect(() => {
     fetchDashboardDate(
@@ -126,40 +117,12 @@ const DashboardFilter = observer(() => {
         />
       </li>
       <li>
-        {/* <Select
-          className='basic-single fill'
-          classNamePrefix='select'
-          options={
-            [
-              { label: 'Uger', value: String(Number(GraphXScale.weeks)) },
-              { label: 'Måneder', value: String(Number(GraphXScale.mounths)) }
-            ] as OptionsValue[]
-          }
-          onChange={(value: OptionsValue) => setXAxisScale(Number(value.value))}
-          // defaultValue={() =>
-          //   xAxisScale === GraphXScale.weeks
-          //     ? [{ label: 'Uger', value: String(Number(GraphXScale.weeks)) }]
-          //     : [
-          //         {
-          //           label: 'Måneder',
-          //           value: String(Number(GraphXScale.mounths))
-          //         }
-          //       ]
-          // }
-        /> */}
         <CustomSelect
           fill
           defaultValue={Number(xAxisScale)}
           values={xAxisScaleOptions}
           onChange={e => setXAxisScale(Number(e))}
         />
-        {/* <select
-          value={xAxisScale}
-          onChange={e => setXAxisScale(Number(e.target.value))}
-        >
-          <option value={GraphXScale.mounths}>Måneder</option>
-          <option value={GraphXScale.weeks}>Uger</option>
-        </select> */}
       </li>
       <li className='tagdiv'>
         <CategoriesPicker
@@ -169,7 +132,6 @@ const DashboardFilter = observer(() => {
           categories={categoriesStore?.categories}
           setTags={selectedTags => setTags(selectedTags)}
         />
-        {/* <TagInput tags={tags} setTags={setTags} /> setTags(tag?.map(item => item.name))*/}
       </li>
       <li className='flex-container padding'>
         <div>
@@ -191,7 +153,6 @@ const DashboardFilter = observer(() => {
           />
         </div>
       </li>
-
       {(isAdmin || isVAdmin) && (
         <li className='ownData text-center'>
           <CustomCheckbox
@@ -222,19 +183,6 @@ const DashboardFilter = observer(() => {
           onChange={checked => setSkipZero(checked)}
         />
       </li>
-
-      {/* <div className=''>
-        <a
-          role='button'
-          tabIndex={0}
-          className='button float-right'
-          onClick={getData}
-          onKeyDown={getData}
-        >
-          <RefreshCw style={{ width: '20px', height: '20px' }} />
-          Reload
-        </a>
-      </div> */}
       <style jsx>{`
         li {
           color: var(--fg);
@@ -260,29 +208,6 @@ const DashboardFilter = observer(() => {
         .btn-group > span {
           margin-left: 10px;
           padding: 5px;
-        }
-
-         {
-          /* .ownData {
-          padding: 5px;
-        }
-        .padding {
-          padding-top: 20px;
-          padding-bottom: 20px;
-        }
-        .tagdiv {
-          padding-top: 10px;
-          padding-bottom: 10px;
-        } */
-        }
-
-         {
-          /* .checkbox {
-          float: right;
-          font-size: 0.7em;
-          margin-top: auto;
-          margin-bottom: auto;
-        } */
         }
       `}</style>
     </ul>

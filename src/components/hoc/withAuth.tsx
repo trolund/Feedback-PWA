@@ -3,9 +3,9 @@
 import Router from 'next/router'
 import { useEffect, useContext } from 'react'
 import JwtDecode from 'jwt-decode'
-import { auth } from './authService'
-import TokenModel from '../models/TokenModel'
-import rootStore from '../stores/RootStore'
+import { auth } from '../../services/authService'
+import TokenModel from '../../models/TokenModel'
+import rootStore from '../../stores/RootStore'
 
 const withAuth = WrappedComponent => {
   const Wrapper = props => {

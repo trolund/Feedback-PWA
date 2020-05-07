@@ -1,8 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import { Trash } from 'react-feather'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import Question from '../models/Question'
-import QuestionSet from '../models/QuestionSet'
+import Question from '../../models/Question'
+import QuestionSet from '../../models/QuestionSet'
 
 type QuestionListProps = {
   questionList: Question[]

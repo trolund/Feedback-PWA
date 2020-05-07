@@ -1,16 +1,26 @@
-import fs from 'fs'
-import path from 'path'
-import Page from '../../components/page'
-import Section from '../../components/section'
+import Page from '../../components/essentials/page'
+import Section from '../../components/essentials/section'
 
-type abouteprops = {
-  content: string
-}
-
-const Aboute = ({ content }: abouteprops) => {
+const Aboute = () => {
   return (
-    <Page title='Om appen' showBottomNav={false} showBackButton>
-      <Section>{content}</Section>
+    <Page title='Om Opino'>
+      <Section>
+        <p>
+          Tillykke med din Opino app. Du har nu taget det første skridt på din
+          rejse mod at blive bedre til det du gør. Feedback giver dig mulighed
+          for at udvikle dig, blive klogere på, hvad du kan gøre anderledes, og
+          hvad du i forvejen gør godt.
+        </p>
+        <br />
+        <p>
+          Du har nu mulighed for at få direkte feedback og følge din egen
+          personlige udvikling. Feedback skal være hurtigt, effektivt og
+          værdifuldt. Er du i tvivl om, hvordan du omsætter den feedback du får,
+          står vi altid klar til at hjælpe dig.
+        </p>
+        <br />
+        <b>Kontakt os på info@spinoff.nu.</b>
+      </Section>
       <style jsx>{`
         .container {
           position: absolute;
@@ -29,30 +39,5 @@ const Aboute = ({ content }: abouteprops) => {
     </Page>
   )
 }
-
-// export async function getStaticProps() {
-//   const postsDirectory = path.join(process.cwd(), 'static/content.txt')
-//   console.log(postsDirectory)
-
-//   const filenames = fs.readdirSync(postsDirectory)
-
-//   const content = filenames.map(filename => {
-//     const filePath = path.join(postsDirectory, filename)
-//     const fileContents = fs.readFileSync(filePath, 'utf8')
-
-//     // Generally you would parse/transform the contents
-//     // For example you can transform markdown to HTML here
-
-//     return {
-//       filename,
-//       content: fileContents
-//     }
-//   })
-//   // By returning { props: posts }, the Blog component
-//   // will receive `posts` as a prop at build time
-//   return {
-//     content
-//   }
-// }
 
 export default Aboute

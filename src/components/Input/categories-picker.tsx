@@ -4,9 +4,9 @@ import makeAnimated from 'react-select/animated'
 import Modal from 'react-modal'
 import { observer } from 'mobx-react-lite'
 import { ChevronDown, X } from 'react-feather'
-import { useState, useEffect, useCallback } from 'react'
-import Category from '../models/Category'
-import IOptionsValue from '../models/OptionsValue'
+import { useState, useEffect } from 'react'
+import Category from '../../models/Category'
+import IOptionsValue from '../../models/OptionsValue'
 import CustomCheckbox from './checkbox'
 
 type Props = {
@@ -60,15 +60,15 @@ export default observer(
       settempDataList(values)
     }, [values])
 
-    const val = useCallback(
-      (item: Category) => {
-        return (
-          categoriesValues?.filter(i => i?.value === item?.categoryId).length >=
-          0
-        )
-      },
-      [categoriesValues]
-    )
+    // const val = useCallback(
+    //   (item: Category) => {
+    //     return (
+    //       categoriesValues?.filter(i => i?.value === item?.categoryId).length >=
+    //       0
+    //     )
+    //   },
+    //   [categoriesValues]
+    // )
 
     const customStyles = {
       content: {

@@ -1,27 +1,24 @@
 import React, { useCallback } from 'react'
-import { Bar } from 'react-chartjs-2'
-import FetchStates from '../stores/requestState'
-import GraphData from '../models/GraphData'
+import { Line } from 'react-chartjs-2'
+import FetchStates from '../../../stores/requestState'
+import GraphData from '../../../models/GraphData'
 
-interface BarGraphProps {
+interface LineGraphProps {
   data: GraphData | null
   fetchState: FetchStates
   useFixedXAxis: boolean
 }
 
-const BarGraph: React.FC<BarGraphProps> = (props: BarGraphProps) => {
+const LineGraph: React.FC<LineGraphProps> = (props: LineGraphProps) => {
   const { data, useFixedXAxis } = props
-  const { labels, dataPoints } = data
-
   const height = 300
-
   const graphData = useCallback(
     (canvas: any) => {
       const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
       const gradient = ctx.createLinearGradient(0, 0, 0, height)
       gradient.addColorStop(0, 'rgb(23, 161, 129, 1)')
       gradient.addColorStop(1, 'rgb(23, 161, 129, 0.2)')
-
+      const { labels, dataPoints } = data
       return {
         labels,
         datasets: [
@@ -39,11 +36,11 @@ const BarGraph: React.FC<BarGraphProps> = (props: BarGraphProps) => {
         ]
       }
     },
-    [dataPoints, labels]
+    [data]
   )
 
   const graphOptions = useCallback(() => {
-    // const { dataPoints } = data
+    const { dataPoints } = data
 
     const autoScaleOptions = {
       scales: {
@@ -85,13 +82,18 @@ const BarGraph: React.FC<BarGraphProps> = (props: BarGraphProps) => {
     return useFixedXAxis
       ? { ...options, ...fixedScaleOptions }
       : { ...options, ...autoScaleOptions }
-  }, [dataPoints, useFixedXAxis])
+  }, [data, useFixedXAxis])
 
   return (
     <div className='line-chart'>
-      <Bar data={graphData} options={graphOptions()} />
+      <Line data={graphData} options={graphOptions()} />
+      <style jsx>{`
+        .line-chart {
+          width: 100%;
+        }
+      `}</style>
     </div>
   )
 }
 
-export default BarGraph
+export default LineGraph

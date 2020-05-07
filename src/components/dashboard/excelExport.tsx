@@ -1,5 +1,5 @@
 import ReactExport from 'react-export-excel'
-import FeedbackDate from '../models/FeedbackDate'
+import FeedbackDate from '../../models/FeedbackDate'
 
 const { ExcelFile } = ReactExport
 const { ExcelSheet } = ReactExport.ExcelFile
@@ -21,15 +21,7 @@ const DashboardExcelDownload = ({ data, downloadBtn }: excelDataset) => {
 
   return (
     <ExcelFile element={downloadBtn}>
-      <ExcelSheet
-        data={exportData}
-        name='Feedback'
-        // element={
-        //   <a role='button' tabIndex={0} className='button float-right'>
-        //     Filter data
-        //   </a>
-        // }
-      >
+      <ExcelSheet data={exportData} name='Feedback'>
         <ExcelColumn label='Dato' value='date' />
         <ExcelColumn label='Tilbagemelding' value='answer' />
         <ExcelColumn label='Kategorier' value='categories' />

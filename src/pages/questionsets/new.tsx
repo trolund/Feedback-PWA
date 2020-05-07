@@ -4,13 +4,13 @@ import { toast } from 'react-toastify'
 import { observer } from 'mobx-react-lite'
 import { Plus, Save } from 'react-feather'
 import { useRouter } from 'next/router'
-import Page from '../../components/page'
-import Section from '../../components/section'
+import Page from '../../components/essentials/page'
+import Section from '../../components/essentials/section'
 import QuestionSet from '../../models/QuestionSet'
 import FetchStates from '../../stores/requestState'
-import withAuth from '../../services/withAuth'
+import withAuth from '../../components/hoc/withAuth'
 import rootStore from '../../stores/RootStore'
-import QuestionListDrag from '../../components/question-list-drag'
+import QuestionListDrag from '../../components/questions/question-list-drag'
 
 const QuestionSetPage = withAuth(
   observer(() => {

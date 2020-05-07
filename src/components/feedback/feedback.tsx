@@ -5,10 +5,10 @@ import Collapsible from 'react-collapsible'
 import Modal from 'react-modal'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 import { MessageCircle, Monitor, X } from 'react-feather'
-import Feedback from '../models/Feedback'
-import FetchStates from '../stores/requestState'
+import Feedback from '../../models/Feedback'
+import FetchStates from '../../stores/requestState'
 import FeedbackProcessbar from './feedback-progressbar'
-import CustomCheckbox from './checkbox'
+import CustomCheckbox from '../Input/checkbox'
 
 interface IProp {
   feedback: Feedback[] | undefined

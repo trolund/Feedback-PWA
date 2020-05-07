@@ -4,15 +4,15 @@ import { User, Mail, Phone, Key, Briefcase, Hash, X } from 'react-feather'
 import Router from 'next/router'
 import Modal from 'react-modal'
 import Link from 'next/link'
-import Page from '../components/page'
-import Section from '../components/section'
+import Page from '../components/essentials/page'
+import Section from '../components/essentials/section'
 import Registration from '../models/Registration'
 import Company from '../models/Company'
 import * as mail from '../../public/Animations/mail.json'
-import AnimationOverlay from '../components/animation-overlay'
+import AnimationOverlay from '../components/essentials/animation-overlay'
 import FetchStates from '../stores/requestState'
 import rootStore from '../stores/RootStore'
-import CustomInput from '../components/custom-input'
+import CustomInput from '../components/Input/custom-input'
 import {
   validateEmail,
   validatePhone,
@@ -20,7 +20,7 @@ import {
   validateNewPassword,
   validateNotEmpty
 } from '../services/validationService'
-import CustomCheckbox from '../components/checkbox'
+import CustomCheckbox from '../components/Input/checkbox'
 
 export default () => {
   const [newCompany, setNewCompany] = useState(false)

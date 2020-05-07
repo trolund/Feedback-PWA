@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 import Link from 'next/link'
 import { Trash } from 'react-feather'
-import QuestionSet from '../models/QuestionSet'
+import QuestionSet from '../../models/QuestionSet'
 
 type QuestionList = {
   questionSetlist: QuestionSet[]

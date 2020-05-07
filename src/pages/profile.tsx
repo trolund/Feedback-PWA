@@ -11,12 +11,12 @@ import {
   Mail
 } from 'react-feather'
 import Router from 'next/router'
-import Page from '../components/page'
-import Section from '../components/section'
-import withAuth from '../services/withAuth'
+import Page from '../components/essentials/page'
+import Section from '../components/essentials/section'
+import withAuth from '../components/hoc/withAuth'
 import rootStore from '../stores/RootStore'
-import CustomInput from '../components/custom-input'
-import MiddelLoader from '../components/middelLoading'
+import CustomInput from '../components/Input/custom-input'
+import MiddelLoader from '../components/essentials/middelLoading'
 import IUser from '../models/User'
 
 // import { User as Avatar } from '../models/User'

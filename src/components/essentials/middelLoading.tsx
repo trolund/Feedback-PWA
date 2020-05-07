@@ -1,5 +1,5 @@
 import Lottie from 'react-lottie'
-import * as loadingAni from '../../public/Animations/loading.json'
+import * as loadingAni from '../../../public/Animations/loading.json'
 
 type loadingprops = {
   loading: boolean

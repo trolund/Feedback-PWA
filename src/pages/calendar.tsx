@@ -6,17 +6,17 @@ import { EventInput } from '@fullcalendar/core'
 import { Plus } from 'react-feather'
 import daLocale from '@fullcalendar/core/locales/da'
 import MobileCalendar from '../components/mobile-calendar'
-import Page from '../components/page'
+import Page from '../components/essentials/page'
 import CalView from '../models/CalView'
 import MeetingModel from '../models/MeetingModel'
 import { getCompanyId } from '../services/authService'
 import WindowDimensions from '../models/types/WindowDimensions'
-import withAuth from '../services/withAuth'
+import withAuth from '../components/hoc/withAuth'
 import rootStore from '../stores/RootStore'
-import BottomModal from '../components/bottom-modal'
+import BottomModal from '../components/essentials/bottom-modal'
 
 import MobileMultiSelecter from '../components/add-meeting'
-import { convertAllDatesToLocal, applyOffSet } from '../services/dateService'
+import { applyOffSet } from '../services/dateService'
 
 let FullCalendarNoSSRWrapper
 

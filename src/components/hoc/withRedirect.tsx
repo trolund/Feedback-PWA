@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import Router from 'next/router'
-import { tokenValid, getToken } from './authService'
+import { tokenValid, getToken } from '../../services/authService'
 
 const withRedirect = WrappedComponent => {
   const Wrapper = props => {

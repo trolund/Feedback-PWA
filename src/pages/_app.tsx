@@ -4,7 +4,7 @@ import '../styles/global.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 import 'react-infinite-calendar/styles.css'
-import Prompt from '../components/AddToHomescreenPrompt'
+import Prompt from '../components/essentials/AddToHomescreenPrompt'
 
 const App = ({ Component, pageProps }: AppProps) => {
   // create fingerprint if needed

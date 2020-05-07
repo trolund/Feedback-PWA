@@ -48,8 +48,6 @@ export default class AuthStore {
     isFacilitator: boolean,
     isVAdmin: boolean
   ) => {
-    console.log(isAdmin, isFacilitator, isVAdmin)
-
     this.isAdmin = isAdmin
     this.isFacilitator = isFacilitator
     this.isVAdmin = isVAdmin

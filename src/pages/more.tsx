@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite'
 import { ChevronRight } from 'react-feather'
 import Link from 'next/link'
-import Page from '../components/page'
-import Section from '../components/section'
-import withAuth from '../services/withAuth'
+import Page from '../components/essentials/page'
+import Section from '../components/essentials/section'
+import withAuth from '../components/hoc/withAuth'
 
 type LinkType = {
   title: string

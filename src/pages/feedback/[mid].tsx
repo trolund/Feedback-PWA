@@ -2,11 +2,11 @@ import { observer } from 'mobx-react-lite'
 import { useEffect, useContext, useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import Page from '../../components/page'
+import Page from '../../components/essentials/page'
 import FeedbackViewPager from '../../components/feedback/FeedbackViewPager'
 import createFingerprint from '../../services/fingerprintService'
 import rootStore from '../../stores/RootStore'
-import MiddelLoader from '../../components/middelLoading'
+import MiddelLoader from '../../components/essentials/middelLoading'
 import FetchStates from '../../stores/requestState'
 
 const Feedback: NextPage = observer(() => {

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import Router from 'next/router'
 import Lottie from 'react-lottie'
-import * as animationSuccess from '../../public/Animations/success.json'
-import * as animationError from '../../public/Animations/error.json'
-import { savedTokenValid } from '../services/authService'
+import * as animationSuccess from '../../../public/Animations/success.json'
+import * as animationError from '../../../public/Animations/error.json'
+import { savedTokenValid } from '../../services/authService'
 
 type overlayProps = {
   success: boolean

@@ -2,13 +2,13 @@
 import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { View } from 'react-view-pager'
-import FeedbackModel from '../models/FeedbackModel'
-import Bad from '../../public/images/meget_sur.png'
-import VeryHappy from '../../public/images/meget_glad.png'
-import Happy from '../../public/images/tilfreds.png'
-import Mad from '../../public/images/sur.png'
-import VoteScale from '../models/vote'
-import rootStore from '../stores/RootStore'
+import FeedbackModel from '../../models/FeedbackModel'
+import Bad from '../../../public/images/meget_sur.png'
+import VeryHappy from '../../../public/images/meget_glad.png'
+import Happy from '../../../public/images/tilfreds.png'
+import Mad from '../../../public/images/sur.png'
+import VoteScale from '../../models/vote'
+import rootStore from '../../stores/RootStore'
 
 interface SmileyIcon {
   value: VoteScale

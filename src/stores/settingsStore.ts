@@ -19,6 +19,12 @@ export default class SettingsStore {
 
   @persist @observable isLight: boolean = false
 
+  @persist @observable showTitleInBottomNav: boolean = false
+
+  @action setShowTitleInBottomNav = (value: boolean) => {
+    this.showTitleInBottomNav = value
+  }
+
   @action toggleLightMode = () => {
     if (!this.isLight) {
       try {

@@ -1,4 +1,4 @@
-import { getInitials } from '../helpers'
+import { getInitials } from '../../helpers'
 
 type Props = {
   size?: number

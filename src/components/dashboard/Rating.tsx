@@ -3,7 +3,7 @@ import { observer } from 'mobx-react'
 import { PieChart } from 'react-feather'
 import StarRatingComponent from 'react-star-rating-component'
 import { Pie } from 'react-chartjs-2'
-import rootStore from '../stores/RootStore'
+import rootStore from '../../stores/RootStore'
 
 interface IProp {}
 

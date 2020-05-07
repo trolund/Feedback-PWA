@@ -1,5 +1,5 @@
 import { ChevronDown } from 'react-feather'
-import IOptionsValue from '../models/OptionsValue'
+import IOptionsValue from '../../models/OptionsValue'
 
 type Props = {
   placeholder?: string

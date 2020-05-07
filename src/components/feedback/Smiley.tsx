@@ -1,4 +1,4 @@
-import VoteScale from '../models/vote'
+import VoteScale from '../../models/vote'
 
 interface IProp {
   on: boolean

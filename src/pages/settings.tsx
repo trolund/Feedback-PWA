@@ -1,9 +1,17 @@
 import { observer } from 'mobx-react-lite'
-import Page from '../components/page'
-import Section from '../components/section'
+import { useContext } from 'react'
+import Page from '../components/essentials/page'
+import Section from '../components/essentials/section'
 import ThemeButton from '../components/theme-button'
+import Switch from '../components/essentials/switch'
+
+import rootStore from '../stores/RootStore'
 
 const Settings = observer(() => {
+  const {
+    settingStore: { showTitleInBottomNav, setShowTitleInBottomNav }
+  } = useContext(rootStore)
+
   return (
     <Page title='Indstillinger'>
       <Section>
@@ -21,9 +29,12 @@ const Settings = observer(() => {
             </div>
           </li>
           <li>
-            <h4 className='float-left'>Sprog</h4>
+            <h4 className='float-left'>Hvis title i bund baren</h4>
             <div className='float-right'>
-              <ThemeButton />
+              <Switch
+                setValue={setShowTitleInBottomNav}
+                value={showTitleInBottomNav}
+              />
             </div>
           </li>
         </ul>

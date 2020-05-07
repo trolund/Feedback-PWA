@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Search } from 'react-feather'
-import CustomInput from './custom-input'
+import CustomInput from '../Input/custom-input'
 
 type SearchBarProps = {
   show: boolean
