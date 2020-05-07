@@ -2,26 +2,88 @@ import jwtDecode from 'jwt-decode'
 import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
+import { NextPageContext } from 'next'
 import TokenModel from '../models/TokenModel'
+import Roles from '../models/enums/roles'
 
 const TOKENKEY = 'token'
+
+const safeRedirect = (destination: string, ctx: NextPageContext) => {
+  if (typeof window === 'undefined') {
+    ctx.res.writeHead(302, { Location: destination })
+    ctx.res.end()
+  } else {
+    Router.push(destination)
+  }
+}
 
 export const login = ({ token }) => {
   cookie.set(TOKENKEY, token, { expires: 1 })
   Router.push('/home')
 }
 
-export const auth = ctx => {
+export const tokenValid = (token: string): boolean => {
+  try {
+    const obj: any = jwtDecode(token)
+    if (obj) {
+      const date: number = obj.exp
+      return date >= Date.now() / 1000
+    }
+  } catch (e) {
+    return false
+  }
+  return false
+}
+
+// returns true if the user does not have the roles to get access to the page.
+const noAccess = (roles: Roles[], tokenObj: TokenModel) => {
+  return !roles
+    .map(
+      requiredRole =>
+        roles.includes(requiredRole) && !tokenObj.role.includes(requiredRole)
+    )
+    .includes(false)
+}
+
+const blockWithRoles = (
+  roles: Roles[],
+  tokenObj: TokenModel,
+  ctx: NextPageContext
+) => {
+  // If roles is present check premisions
+  if (roles) {
+    if (noAccess(roles, tokenObj)) {
+      safeRedirect('/home', ctx)
+    }
+  }
+}
+
+export const tokenObjValid = (token: TokenModel): boolean => {
+  try {
+    if (token) {
+      const date: number = token.exp
+      return date >= Date.now() / 1000
+    }
+  } catch (e) {
+    return false
+  }
+  return false
+}
+
+export const auth = (ctx: NextPageContext, roles?: Roles[]) => {
   const { token } = nextCookie(ctx)
 
   // If there's no token, it means the user is not logged in.
   if (!token) {
-    if (typeof window === 'undefined') {
-      ctx.res.writeHead(302, { Location: '/login' })
-      ctx.res.end()
-    } else {
-      Router.push('/login')
+    safeRedirect('/login', ctx)
+  } else {
+    const tokenObj: TokenModel = jwtDecode(token)
+    // If token is expired
+    if (!tokenObjValid(tokenObj)) {
+      safeRedirect('/login', ctx)
     }
+    // If roles is suplied check if user have access, if not go back to safety
+    blockWithRoles(roles, tokenObj, ctx)
   }
 
   return token
@@ -45,24 +107,8 @@ export const getCompanyId = (tokenInput?: string): number => {
     const token: TokenModel = jwtDecode(tokenStr)
     return token.CID
   } catch (e) {
-    console.debug(e)
     return -1
   }
-}
-
-export const tokenValid = (token: string) => {
-  try {
-    const obj: any = jwtDecode(token)
-    if (obj) {
-      const date: number = obj.exp
-      console.log(date, Date.now() / 1000)
-
-      return date >= Date.now() / 1000
-    }
-  } catch (e) {
-    console.error(e)
-  }
-  return false
 }
 
 export const getRoles = (): string[] => {
@@ -70,7 +116,6 @@ export const getRoles = (): string[] => {
     const token: TokenModel = jwtDecode(getToken())
     return token.role
   } catch (e) {
-    console.log(e)
     return []
   }
 }
@@ -88,7 +133,7 @@ export const savedTokenValid = () => {
       return date >= Date.now() / 1000
     }
   } catch (e) {
-    console.error(e)
+    return false
   }
   return false
 }

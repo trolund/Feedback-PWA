@@ -11,26 +11,15 @@ import Roles from '../../models/enums/roles'
 const withAuth = (WrappedComponent, roles?: Roles[]) => {
   const Wrapper = props => {
     const {
-      authStore: { setRoles, isAdmin, isFacilitator, isVAdmin }
+      authStore: { setRoles, isAdmin }
     } = useContext(rootStore)
 
+    // if logout happens go to login page
     const syncLogout = event => {
       if (event.key === 'logout') {
         console.debug('logged out from storage!')
         setRoles(null, null, null)
         Router.push('/login')
-      }
-    }
-
-    const blockWithRoles = () => {
-      if (roles) {
-        if (
-          (roles.includes(Roles.ADMIN) && !isAdmin) ||
-          (roles.includes(Roles.FACILITATOR) && !isFacilitator) ||
-          (roles.includes(Roles.VADMIN) && !isVAdmin)
-        ) {
-          Router.back()
-        }
       }
     }
 
@@ -44,12 +33,10 @@ const withAuth = (WrappedComponent, roles?: Roles[]) => {
           token.role.includes(Roles.VADMIN)
         )
       }
-      blockWithRoles()
     }, [isAdmin, props.token, setRoles])
 
     useEffect(() => {
       window.addEventListener('storage', syncLogout)
-
       return () => {
         window.removeEventListener('storage', syncLogout)
         window.localStorage.removeItem('logout')
@@ -60,7 +47,7 @@ const withAuth = (WrappedComponent, roles?: Roles[]) => {
   }
 
   Wrapper.getInitialProps = async ctx => {
-    const token = auth(ctx)
+    const token = auth(ctx, roles)
 
     const componentProps =
       WrappedComponent.getInitialProps &&
