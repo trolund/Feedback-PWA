@@ -9,7 +9,7 @@ const Section = ({ children }: Props) => (
     <style jsx>{`
       @media only screen and (max-width: 450px) {
         section {
-          padding: 5px !important;
+          padding: var(--gap-small) !important;
         }
       }
       section {

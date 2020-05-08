@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { Trash } from 'react-feather'
 import QuestionSet from '../../models/QuestionSet'
+import { getCompanyId } from '../../services/authService'
 
 type QuestionList = {
   questionSetlist: QuestionSet[]
@@ -24,15 +25,19 @@ const QuestionSetList: React.FC<QuestionList> = ({
                 as={`/questionsets/${item?.questionSetId}`}
               >
                 <a>
-                  <b className='qnumber'>{item.questions.length}</b>
+                  {/* <b className='qnumber'>{item.questions.length}</b> */}
                   <p className='name'>{item.name}</p>
-                  <Trash
-                    className='del-btn'
-                    role='button'
-                    tabIndex={0}
-                    onClick={() => deleteFunc(item.questionSetId, index)}
-                    onKeyDown={() => deleteFunc(item.questionSetId, index)}
-                  />
+                  {(getCompanyId() === item.companyId ||
+                    getCompanyId() ===
+                      Number(process.env.spinOffCompenyId)) && ( // TODO use env var
+                    <Trash
+                      className='del-btn'
+                      role='button'
+                      tabIndex={0}
+                      onClick={() => deleteFunc(item.questionSetId, index)}
+                      onKeyDown={() => deleteFunc(item.questionSetId, index)}
+                    />
+                  )}
                 </a>
               </Link>
             </li>

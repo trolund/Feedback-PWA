@@ -14,7 +14,8 @@ module.exports = withImages(
       dest: 'public'
     },
     env: {
-      apiUrl: 'https://feedbackbackend.azurewebsites.net'
+      apiUrl: 'https://feedbackbackend.azurewebsites.net',
+      spinOffCompenyId: 1
     },
     webpack: (config, { isServer }) => {
       let newConfig

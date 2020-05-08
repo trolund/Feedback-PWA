@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Trash, MoreVertical } from 'react-feather'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import Question from '../../models/Question'
 import QuestionSet from '../../models/QuestionSet'
+import rootStore from '../../stores/RootStore'
 
 const reorder = (list: Question[], startIndex: number, endIndex: number) => {
   const result = Array.from(list)
@@ -20,25 +21,22 @@ type QuestionItemProps = {
   index: number
   deleteFunc: (index: number) => void
   changeItemFunc: (newQuestion: string, index: number) => void
+  qSet: QuestionSet
 }
 
 function QuestionItem({
   question,
   index,
   changeItemFunc,
-  deleteFunc
+  deleteFunc,
+  qSet
 }: QuestionItemProps) {
+  const {
+    authStore: { getCompanyId }
+  } = useContext(rootStore)
   return (
     <Draggable draggableId={question?.questionId} index={index}>
       {provided => (
-        // <div
-        //   style={{ backgroundColor: 'red' }}
-        //   ref={provided.innerRef}
-        //   {...provided.draggableProps}
-        //   {...provided.dragHandleProps}
-        // >
-        //   {quote.content}
-        // </div>
         <li
           ref={provided.innerRef}
           {...provided.draggableProps}
@@ -54,7 +52,10 @@ function QuestionItem({
             value={question.theQuestion}
             onChange={e => changeItemFunc(e.target.value, index)}
           />
-          <Trash onClick={() => deleteFunc(index)} />
+          {(getCompanyId() === qSet.companyId ||
+            getCompanyId() === Number(process.env.spinOffCompenyId)) && (
+            <Trash onClick={() => deleteFunc(index)} />
+          )}
           <style jsx>{`
             input {
               margin-left: 20px;
@@ -143,6 +144,7 @@ function QuestionListDrag({
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {questionSet.questions.map((question: Question, index: number) => (
               <QuestionItem
+                qSet={questionSet}
                 question={question}
                 index={index}
                 key={question.questionId}

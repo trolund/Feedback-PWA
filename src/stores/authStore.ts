@@ -61,6 +61,10 @@ export default class AuthStore {
     this.user = input
   }
 
+  getCompanyId = (): number => {
+    return this?.user?.companyId
+  }
+
   @action login = async (
     email: string,
     password: string,

@@ -23,6 +23,10 @@ const links: LinkType[] = [
   {
     title: 'Indstillinger',
     href: '/settings'
+  },
+  {
+    title: 'Om Opino',
+    href: '/aboute'
   }
 ]
 

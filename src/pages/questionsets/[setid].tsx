@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from 'react'
 import https from 'https'
 import { NextPage } from 'next'
 import { observer } from 'mobx-react-lite'
-import { Plus, Save, Trash } from 'react-feather'
+import { Plus, Save, Trash, Feather } from 'react-feather'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import fetch from 'isomorphic-unfetch'
@@ -17,6 +17,7 @@ import { auth } from '../../services/authService'
 import rootStore from '../../stores/RootStore'
 import QuestionListDrag from '../../components/questions/question-list-drag'
 import { sortQuestionsByIndex } from '../../services/sortService'
+import { makeid } from '../../services/utilsService'
 
 type pageProps = {
   initQSet: QuestionSet
@@ -26,9 +27,14 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   const router = useRouter()
   const { setid } = router.query
   const [qset, setQset] = useState(initQSet)
-  // const [name, setName] = useState(initQSet?.name)
+
   const {
-    questionSetStore: { fetchQuestionSet, updateQuestionSet, deleteQuestionSet }
+    questionSetStore: {
+      fetchQuestionSet,
+      updateQuestionSet,
+      deleteQuestionSet
+    },
+    authStore: { getCompanyId }
   } = useContext(rootStore)
 
   useEffect(() => {
@@ -40,7 +46,11 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   }, [fetchQuestionSet, qset, setid])
 
   const addQuestion = () => {
-    qset.questions.push({ theQuestion: '', index: qset.questions.length + 1 })
+    qset.questions.push({
+      theQuestion: '',
+      index: qset.questions.length + 1,
+      questionId: makeid(8)
+    })
     setQset({ ...qset, questions: [...qset.questions] })
   }
 
@@ -69,10 +79,17 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
     })
   }
 
-  return (
-    <Page
-      title={qset?.name}
-      component={
+  const sendTemplate = () => {
+    router.push({
+      pathname: '/questionsets/new',
+      query: { setid: qset.questionSetId }
+    })
+  }
+
+  const SaveBtn = () => {
+    return (
+      (getCompanyId() === qset.companyId ||
+        getCompanyId() === Number(process.env.spinOffCompenyId)) && (
         <Save
           onClick={updateClickHandler}
           style={{
@@ -82,8 +99,12 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
             marginTop: '2px'
           }}
         />
-      }
-    >
+      )
+    )
+  }
+
+  return (
+    <Page title={qset?.name} component={<SaveBtn />}>
       <CustomToast />
       <Section>
         <div className='topbar'>
@@ -94,11 +115,6 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
             value={qset.name}
             onChange={e => setQset({ ...qset, name: e.target.value })}
           />
-          {/* <Picker
-            optionGroups={companies.optionGroups}
-            valueGroups={companies.valueGroups}
-            
-          /> */}
         </div>
         <QuestionListDrag
           questionSet={qset}
@@ -106,23 +122,26 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
           deleteFunc={deleteQuestion}
           changeItemFunc={itemChange}
         />
-        <li className='addbtn'>
-          <button
-            type='button'
-            className='button bottombtn'
-            onClick={addQuestion}
-          >
-            <Plus
-              style={{
-                width: '20px',
-                height: '20px',
-                marginRight: '-20px',
-                float: 'left'
-              }}
-            />
-            Tilføj spørgsmål
-          </button>
-        </li>
+        {(getCompanyId() === qset.companyId ||
+          getCompanyId() === Number(process.env.spinOffCompenyId)) && (
+          <li className='addbtn'>
+            <button
+              type='button'
+              className='button bottombtn'
+              onClick={addQuestion}
+            >
+              <Plus
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  marginRight: '-20px',
+                  float: 'left'
+                }}
+              />
+              Tilføj spørgsmål
+            </button>
+          </li>
+        )}
         <hr
           style={{ width: '120px', marginLeft: 'auto', marginRight: 'auto' }}
         />
@@ -130,9 +149,9 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
           <button
             type='button'
             className='button bottombtn'
-            onClick={deleteClickHandler}
+            onClick={sendTemplate}
           >
-            <Trash
+            <Feather
               style={{
                 width: '20px',
                 height: '20px',
@@ -140,9 +159,38 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
                 float: 'left'
               }}
             />
-            slet
+            Brug som skabelon
           </button>
         </li>
+        {(getCompanyId() === qset.companyId ||
+          getCompanyId() === Number(process.env.spinOffCompenyId)) && (
+          <>
+            <hr
+              style={{
+                width: '120px',
+                marginLeft: 'auto',
+                marginRight: 'auto'
+              }}
+            />
+            <li>
+              <button
+                type='button'
+                className='button bottombtn'
+                onClick={deleteClickHandler}
+              >
+                <Trash
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    marginRight: '-20px',
+                    float: 'left'
+                  }}
+                />
+                slet
+              </button>
+            </li>
+          </>
+        )}
       </Section>
 
       <style jsx>{`

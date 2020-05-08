@@ -14,7 +14,8 @@ module.exports = withImages(
       dest: 'public'
     },
     env: {
-      apiUrl: process.env.API_URL
+      apiUrl: process.env.API_URL,
+      spinOffCompenyId: 1
     },
     webpack: (config, { isServer }) => {
       let newConfig

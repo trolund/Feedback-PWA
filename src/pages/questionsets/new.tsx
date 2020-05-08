@@ -1,6 +1,8 @@
 /* eslint-disable func-names */
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { toast } from 'react-toastify'
+import { NextPage } from 'next'
+import https from 'https'
 import { observer } from 'mobx-react-lite'
 import { Plus, Save } from 'react-feather'
 import { useRouter } from 'next/router'
@@ -8,34 +10,35 @@ import Page from '../../components/essentials/page'
 import Section from '../../components/essentials/section'
 import QuestionSet from '../../models/QuestionSet'
 import FetchStates from '../../stores/requestState'
-import withAuth from '../../components/hoc/withAuth'
 import rootStore from '../../stores/RootStore'
 import QuestionListDrag from '../../components/questions/question-list-drag'
+import { auth, getCompanyId } from '../../services/authService'
+import ApiRoutes from '../../stores/api/ApiRoutes'
+import { sortQuestionsByIndex } from '../../services/sortService'
+import { makeid } from '../../services/utilsService'
 
-const QuestionSetPage = withAuth(
-  observer(() => {
+type QuestionSetPageProps = {
+  templeteData?: QuestionSet
+}
+
+const QuestionSetPage: NextPage = observer(
+  ({ templeteData }: QuestionSetPageProps) => {
     const router = useRouter()
     const newQset = {
       name: '',
       questions: []
     } as QuestionSet
+
     const [qset, setQset] = useState(newQset)
     const {
       questionSetStore: { createQuestionSet }
     } = useContext(rootStore)
 
-    const makeid = length => {
-      let result = ''
-      const characters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-      const charactersLength = characters.length
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(
-          Math.floor(Math.random() * charactersLength)
-        )
+    useEffect(() => {
+      if (templeteData) {
+        setQset(templeteData)
       }
-      return result
-    }
+    }, [templeteData])
 
     const addQuestion = () => {
       qset.questions.push({
@@ -63,6 +66,8 @@ const QuestionSetPage = withAuth(
     const removeIds = (qSet: QuestionSet): QuestionSet => {
       return {
         ...qSet,
+        companyId: getCompanyId(),
+        questionSetId: undefined,
         questions: qSet.questions.map(i => ({ ...i, questionId: undefined }))
       } as QuestionSet
     }
@@ -102,28 +107,7 @@ const QuestionSetPage = withAuth(
               value={qset.name}
               onChange={e => setQset({ ...qset, name: e.target.value })}
             />
-            {/* <Picker
-            optionGroups={companies.optionGroups}
-            valueGroups={companies.valueGroups}
-            
-          /> */}
           </div>
-          {/* <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId='list'>
-              {provided => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <QuestionList
-                    key={provided.innerRef}
-                    {...provided.droppableProps}
-                    questionList={qset?.questions}
-                    deleteFunc={deleteQuestion}
-                    changeItemFunc={itemChange}
-                  />
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext> */}
           <QuestionListDrag
             setQuestionSet={setQuestionSet}
             questionSet={qset}
@@ -175,7 +159,36 @@ const QuestionSetPage = withAuth(
         `}</style>
       </Page>
     )
-  })
+  }
 )
+
+QuestionSetPage.getInitialProps = async function(ctx) {
+  const {
+    query: { setid }
+  } = ctx
+  const token = auth(ctx)
+
+  const options = {
+    agent: new https.Agent({
+      rejectUnauthorized: false // TODO fix for production with real SSL CERT
+    })
+  }
+  const url = ApiRoutes.QuestionSetById(String(setid))
+  let data: QuestionSet | null = null
+  try {
+    const response = await fetch(url, {
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      ...options
+    })
+
+    data = await response.json()
+    data = { ...data, questions: data.questions.sort(sortQuestionsByIndex) }
+  } catch (e) {
+    console.error(e)
+  }
+  return {
+    templeteData: data
+  }
+}
 
 export default QuestionSetPage
