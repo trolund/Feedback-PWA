@@ -8,6 +8,7 @@ import createFingerprint from '../../services/fingerprintService'
 import rootStore from '../../stores/RootStore'
 import MiddelLoader from '../../components/essentials/middelLoading'
 import FetchStates from '../../stores/requestState'
+import Section from '../../components/essentials/section'
 
 const Feedback: NextPage = observer(() => {
   const router = useRouter()
@@ -22,16 +23,10 @@ const Feedback: NextPage = observer(() => {
     createFingerprint().then(newFingerprint => {
       setFingerprint(newFingerprint)
       fetchQuestions(String(mid), newFingerprint).then(code => {
-        console.log(code)
-
         setStatusCode(code)
       })
     })
   }, [fetchQuestions, mid])
-
-  useEffect(() => {
-    console.log(statusCode)
-  }, [statusCode])
 
   return (
     <>
@@ -40,20 +35,23 @@ const Feedback: NextPage = observer(() => {
         text='Forbereder skema'
       />
       <Page showBottomNav={false} showHead={false}>
-        {statusCode === 400 && <p>Mødet er lukket</p>}
-        {statusCode === 404 && <p>Mødet findes ikke</p>}
-        {statusCode === 401 && <p>Man kan kun give feedback en gang</p>}
-        {questions !== null && (
-          <FeedbackViewPager
-            initQuestions={questions}
-            mid={String(mid)}
-            fingerprint={fingerprint}
-          />
-        )}
+        <Section>
+          {statusCode === 400 && <p>Mødet er lukket</p>}
+          {statusCode === 404 && <p>Mødet findes ikke</p>}
+          {statusCode === 401 && <p>Man kan kun give feedback en gang</p>}
+          {questions !== null && (
+            <FeedbackViewPager
+              initQuestions={questions}
+              mid={String(mid)}
+              fingerprint={fingerprint}
+            />
+          )}
+        </Section>
         <style jsx global>{`
           .frame {
             height: 80vh !important;
             padding-bottom: 10px;
+            outline: none;
           }
         `}</style>
         <style jsx>{`

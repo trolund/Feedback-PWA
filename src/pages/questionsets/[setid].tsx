@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from 'react'
 import https from 'https'
 import { NextPage } from 'next'
 import { observer } from 'mobx-react-lite'
-import { Plus, Save, Trash, Feather } from 'react-feather'
+import { Plus, Save, Trash, Feather, Lock } from 'react-feather'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import fetch from 'isomorphic-unfetch'
@@ -108,6 +108,12 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
       <CustomToast />
       <Section>
         <div className='topbar'>
+          {getCompanyId() !== qset.companyId && (
+            <p className='warning'>
+              <Lock style={{ marginBottom: '-5px' }} /> Dette møde kan ikke
+              ændres da det er et standard spørgsmåls sæt
+            </p>
+          )}
           <input
             className='float-left name'
             type='text'
@@ -198,6 +204,13 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
           .topbar {
             float: none;
           }
+        }
+
+        .warning {
+          text-align: center;
+          margin: auto;
+          padding: 15px;
+          padding-bottom: 25px;
         }
 
         .name {

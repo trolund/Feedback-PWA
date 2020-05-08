@@ -21,8 +21,7 @@ const Smiley: React.FC<IProp> = ({ img, type, setVote, on }) => {
       onClick={onClickHandler}
     >
       <div />
-
-      <style jsx>{`
+      {/* <style jsx>{`
         .option {
           width: 80;
           height: 80;
@@ -39,7 +38,7 @@ const Smiley: React.FC<IProp> = ({ img, type, setVote, on }) => {
         .off {
           opacity: 0.5;
         }
-      `}</style>
+      `}</style> */}
     </div>
   )
 }

@@ -102,15 +102,15 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
       <style jsx>{`
         @media only screen and (max-width: 350px) {
           .smiley {
-            width: 55px !important;
-            height: 55px !important;
+            min-width: 55px !important;
+            min-height: 55px !important;
             margin: 2px !important;
           }
         }
         .question {
           width: 100%;
           text-align: center;
-          height: 40%;
+          height: fit-content;
           padding-bottom: 50px;
         }
         .question h2 {
@@ -139,8 +139,8 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
         }
         .smiley {
           background-size: contain;
-          width: 75px !important;
-          height: 75px !important;
+          width: 65px !important;
+          height: 65px !important;
           border-radius: 50%;
           transition: filter 0.5s;
           cursor: pointer;
@@ -148,6 +148,12 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
         .smiley:hover {
           filter: contrast(2);
         }
+
+        .smiley:focus {
+          outline: 0px;
+          outline: none;
+        }
+
         .comment {
           display: block;
           text-align: center;
