@@ -156,8 +156,7 @@ textarea {
 
 input:focus,
 select:focus,
-textarea:focus,
-button:focus {
+textarea:focus {
   outline: none;
   outline: 0px;
   box-sizing: border-box;

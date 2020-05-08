@@ -9,7 +9,12 @@ import rootStore from '../stores/RootStore'
 
 const Settings = observer(() => {
   const {
-    settingStore: { showTitleInBottomNav, setShowTitleInBottomNav }
+    settingStore: {
+      showTitleInBottomNav,
+      setShowTitleInBottomNav,
+      setRealtimeFeedbackDefault,
+      realtimeFeedbackDefault
+    }
   } = useContext(rootStore)
 
   return (
@@ -23,11 +28,18 @@ const Settings = observer(() => {
             </div>
           </li>
           <li>
-            <h4 className='float-left'>Sprog</h4>
+            <h4 className='float-left'>Realtids tilbagemeldinger</h4>
             <div className='float-right'>
-              <ThemeButton />
+              <Switch
+                setValue={setRealtimeFeedbackDefault}
+                value={realtimeFeedbackDefault}
+              />
             </div>
           </li>
+          {/* <li>
+            <h4 className='float-left'>Sprog</h4>
+            <div className='float-right'>Kommer snart.</div>
+          </li> */}
           <li>
             <h4 className='float-left'>Hvis title i bund baren</h4>
             <div className='float-right'>

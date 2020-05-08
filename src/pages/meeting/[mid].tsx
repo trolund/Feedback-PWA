@@ -56,12 +56,15 @@ const Post: NextPage = observer(
       questionSetStore,
       feedbackStore,
       meetingStore: { deleteMeeting, update, state },
-      categoriesStore
+      categoriesStore,
+      settingStore: { realtimeFeedbackDefault }
     } = useContext(rootStore)
 
     const [meeting, setMeeting] = useState(initMeeting)
     const [meetingCategories] = useState(initCategories)
-    const [isRealTimeDateOn, setRealTimeDateOn] = useState(false)
+    const [isRealTimeDateOn, setRealTimeDateOn] = useState(
+      realtimeFeedbackDefault
+    )
 
     useEffect(() => {
       setMeeting(applyOffSetToMeeting(initMeeting))
