@@ -26,7 +26,7 @@ const ApiRoutes = {
   updateMeeting: `${apiUrl()}/Api/Meeting`,
   deleteMeeting: `${apiUrl()}/Api/Meeting/Delete`,
   meetingsByDay: (day: Date) =>
-    `${apiUrl()}/Api/Meeting/ByDay/${day.toISOString()}`,
+    `${apiUrl()}/Api/Meeting/ByDay/${day.toUTCString()}`,
   createUser: `${apiUrl()}/Api/User/Post`,
   updateUserPassword: `${apiUrl()}/Api/User/newPassword`,
   updateUserInfo: `${apiUrl()}/Api/User/userUpdate`,
