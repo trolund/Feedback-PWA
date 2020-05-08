@@ -4,7 +4,7 @@ import FetchStates from './requestState'
 
 declare global {
   interface Window {
-    isLight: boolean
+    isDark: boolean
   }
 }
 
@@ -30,7 +30,7 @@ export default class SettingsStore {
       try {
         this.isLight = !this.isLight
         document.querySelector('html').classList.add('light')
-        window.isLight = true
+        window.isDark = true
       } catch (err) {
         // todo
       }
@@ -38,7 +38,7 @@ export default class SettingsStore {
       try {
         this.isLight = !this.isLight
         document.querySelector('html').classList.remove('light')
-        window.isLight = false
+        window.isDark = false
       } catch (err) {
         // todo
       }

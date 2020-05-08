@@ -2,16 +2,17 @@ import { useState } from 'react'
 import { getLightMode, toggleLightMode } from '../theme'
 
 const ThemeButton = () => {
-  const [light, setLight] = useState(getLightMode())
+  const [dark, setDark] = useState(getLightMode())
 
   function toggle() {
-    setLight(!light)
+    const newVal = !dark
+    setDark(newVal)
     toggleLightMode()
   }
 
   return (
     <button type='button' onClick={toggle}>
-      {light ? 'Light' : 'Dark'} mode
+      {!dark ? 'Light' : 'Dark'} mode
       <style jsx>{`
         button {
           color: var(--label);

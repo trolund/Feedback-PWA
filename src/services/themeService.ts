@@ -1,6 +1,6 @@
 declare global {
   interface Window {
-    isLight: boolean
+    isDark: boolean
   }
 }
 
@@ -8,23 +8,23 @@ const isServer = typeof window === 'undefined'
 
 export function getLightMode() {
   if (!isServer) {
-    return window.isLight
+    return window.isDark
   }
-  return false
+  return true
 }
 
 export default function toggleLightMode(isLight: boolean) {
   if (!isLight) {
     try {
       document.querySelector('html').classList.add('light')
-      window.isLight = isLight
+      window.isDark = isLight
     } catch (err) {
       // todo
     }
   } else {
     try {
       document.querySelector('html').classList.remove('light')
-      window.isLight = isLight
+      window.isDark = isLight
     } catch (err) {
       // todo
     }
