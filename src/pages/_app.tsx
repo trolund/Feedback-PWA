@@ -7,30 +7,6 @@ import 'react-infinite-calendar/styles.css'
 import Prompt from '../components/essentials/AddToHomescreenPrompt'
 
 const App = ({ Component, pageProps }: AppProps) => {
-  // create fingerprint if needed
-  // const {
-  //   authStore: { fingerprint, setFingerprint }
-  // } = useContext(rootStore)
-  // useEffect(() => {
-  //   if (fingerprint === null || fingerprint.exp < Date.now()) {
-  //     window.addEventListener('load', () => {
-  //       // wait to get consistent fingerprint
-  //       setTimeout(async () => {
-  //         const newFingerprint = await createFingerprint()
-  //         setFingerprint(newFingerprint)
-  //         const cookie = new Cookies()
-  //         cookie.set('fingerprint', newFingerprint)
-
-  //         // cookie.addChangeListener(async () =>
-  //         //   cookie.set('fingerprint', await createFingerprint())
-  //         // )
-  //         // eslint-disable-next-line no-restricted-globals
-  //         // location.reload()
-  //       }, 500)
-  //     })
-  //   }
-  // }, [fingerprint, setFingerprint])
-
   return (
     <>
       <Head>

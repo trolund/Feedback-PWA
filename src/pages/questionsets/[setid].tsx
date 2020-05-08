@@ -66,6 +66,12 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
 
   const updateClickHandler = () => {
     updateQuestionSet(qset)
+      .then(() => {
+        toast('Sættet er updateret!')
+      })
+      .catch(() => {
+        toast('Der skete en fejl ved updateringen!')
+      })
   }
 
   const deleteClickHandler = () => {
@@ -226,6 +232,7 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
           max-height: 120px;
         }
       `}</style>
+      <CustomToast />
     </Page>
   )
 })

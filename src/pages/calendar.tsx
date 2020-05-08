@@ -3,7 +3,7 @@ import Router from 'next/router'
 import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { EventInput } from '@fullcalendar/core'
-import { Plus } from 'react-feather'
+import { Plus, Search } from 'react-feather'
 import daLocale from '@fullcalendar/core/locales/da'
 import MobileCalendar from '../components/mobile-calendar'
 import Page from '../components/essentials/page'
@@ -17,6 +17,7 @@ import BottomModal from '../components/essentials/bottom-modal'
 
 import MobileMultiSelecter from '../components/add-meeting'
 import { applyOffSet } from '../services/dateService'
+import CustomInput from '../components/Input/custom-input'
 
 let FullCalendarNoSSRWrapper
 
@@ -138,61 +139,74 @@ const CalendarView = withAuth(
     const showCalendar = useCallback(() => {
       if (!showCal) return <div>Loading ...</div>
       return (
-        <FullCalendarNoSSRWrapper
-          locale={daLocale}
-          trigger={e => console.log(e)}
-          // viewHeight={5100}
-          // header={false}
-          header={
-            windowDim.width > 500
-              ? {
-                  right:
-                    windowDim.width > 500
-                      ? 'prev,next today myCustomButton'
-                      : '',
-                  left:
-                    windowDim.width > 500
-                      ? 'dayGridMonth,timeGridWeek,listWeek'
-                      : '',
-                  center: windowDim.width > 500 ? 'title' : ''
-                }
-              : null
-          }
-          views={{
-            dayGridMonth: {
-              // name of view
-              // titleFormat: { year: "numeric", month: "2-digit", day: "2-digit" }
-              // other view-specific options here
+        <>
+          <div style={{ paddingTop: '20px', paddingBottom: '20px' }}>
+            <CustomInput
+              logo={<Search />}
+              fill
+              type='text'
+              className='filter'
+              placeholder='Søgeord'
+              value={searchWord}
+              onChange={setSearchWord}
+            />
+          </div>
+          <FullCalendarNoSSRWrapper
+            locale={daLocale}
+            trigger={e => console.log(e)}
+            // viewHeight={5100}
+            // header={false}
+            header={
+              windowDim.width > 500
+                ? {
+                    right:
+                      windowDim.width > 500
+                        ? 'prev,next today myCustomButton'
+                        : '',
+                    left:
+                      windowDim.width > 500
+                        ? 'dayGridMonth,timeGridWeek,listWeek'
+                        : '',
+                    center: windowDim.width > 500 ? 'title' : ''
+                  }
+                : null
             }
-          }}
-          customButtons={{
-            myCustomButton: {
-              text: 'Tilføj møde',
-              click: () => Router.push('/meeting/new')
-            }
-          }}
-          defaultView='dayGridMonth'
-          weekends
-          events={events.filter(filterEventsCallback)}
-          weekNumbers={false}
-          listDayFormat
-          // themeSystem='bootstrap'
-          eventClick={(event: any) => {
-            clickOnEvent(event)
-          }}
-          datesRender={e => setCalViewProp(e.view)}
-          // dayRender={e => console.log("dayRender ", e)}
-          dateClick={info => {
-            // alert("Clicked on: " + info.dateStr);
-            // alert(
-            //   "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
-            // );
-            // alert("Current view: " + info.view.type);
-            // change the day's background color just for fun
-            // eslint-disable-next-line no-param-reassign
-            info.dayEl.style.backgroundColor = 'red'
-          }}
-        />
+            views={{
+              dayGridMonth: {
+                // name of view
+                // titleFormat: { year: "numeric", month: "2-digit", day: "2-digit" }
+                // other view-specific options here
+              }
+            }}
+            // customButtons={{
+            //   myCustomButton: {
+            //     text: 'Tilføj møde',
+            //     click: () => Router.push('/meeting/new')
+            //   }
+            // }}
+            defaultView='dayGridMonth'
+            weekends
+            events={events.filter(filterEventsCallback)}
+            weekNumbers={false}
+            listDayFormat
+            // themeSystem='bootstrap'
+            eventClick={(event: any) => {
+              clickOnEvent(event)
+            }}
+            datesRender={e => setCalViewProp(e.view)}
+            // dayRender={e => console.log("dayRender ", e)}
+            dateClick={info => {
+              // alert("Clicked on: " + info.dateStr);
+              // alert(
+              //   "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
+              // );
+              // alert("Current view: " + info.view.type);
+              // change the day's background color just for fun
+              // eslint-disable-next-line no-param-reassign
+              info.dayEl.style.backgroundColor = 'red'
+            }}
+          />
+        </>
       )
     }, [events, filterEventsCallback, showCal, windowDim.width])
 

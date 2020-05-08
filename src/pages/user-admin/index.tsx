@@ -1,7 +1,8 @@
 import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
-import { Save } from 'react-feather'
+import { Save, Search } from 'react-feather'
+import { toast } from 'react-toastify'
 import UserAdmin from '../../models/user-admin'
 import Page from '../../components/essentials/page'
 import Section from '../../components/essentials/section'
@@ -10,6 +11,8 @@ import FetchStates from '../../stores/requestState'
 import CustomCheckbox from '../../components/Input/checkbox'
 import withAuth from '../../components/hoc/withAuth'
 import rootStore from '../../stores/RootStore'
+import CustomToast from '../../components/essentials/custom-Toast'
+import CustomInput from '../../components/Input/custom-input'
 
 const AllQuestionSets = withAuth(
   observer(() => {
@@ -26,7 +29,16 @@ const AllQuestionSets = withAuth(
     }, [userAdminStore, query])
 
     const saveClickHandler = () => {
-      userAdminStore.updateUsers(list.filter(u => u.modifyed === true))
+      userAdminStore
+        .updateUsers(list.filter(u => u.modifyed === true))
+        .then(res => {
+          if (res === FetchStates.DONE) {
+            toast('Brugere er updateret')
+          } else {
+            toast('Brugere blev ikke updateret')
+          }
+        })
+        .catch(() => toast('Brugere blev ikke updateret'))
     }
 
     const updateDelete = (value: boolean, index: number) => {
@@ -46,23 +58,21 @@ const AllQuestionSets = withAuth(
     return (
       <Page
         title='Bruger administration'
-        component={
-          <button type='button' onClick={saveClickHandler}>
-            <Save /> Gem
-          </button>
-        }
+        component={<Save onClick={saveClickHandler} />}
       >
         <Section>
           <div>
-            <input
+            <CustomInput
+              logo={<Search />}
+              fill
               type='text'
               className='filter'
-              placeholder='word'
+              placeholder='Søgeord'
               value={query?.searchword}
               onChange={e =>
                 setQuery({
                   ...query,
-                  searchword: e.target.value
+                  searchword: e
                 } as userAdminQuery)
               }
             />
@@ -155,26 +165,10 @@ const AllQuestionSets = withAuth(
             border-bottom: 1px solid var(--divider);
           }
         `}</style>
+        <CustomToast />
       </Page>
     )
   })
 )
-
-// AllQuestionSets.getInitialProps = async ctx => {
-//   const { jwttoken } = cookies(ctx)
-//   const url = ApiRoutes.QuestionSetNames
-//   let data: QuestionSet[] | null = null
-//   try {
-//     const response = await fetch(url, {
-//       headers: !jwttoken ? {} : { Authorization: `Bearer ${jwttoken}` }
-//     })
-//     data = await response.json()
-//   } catch (e) {
-//     console.error(e)
-//   }
-//   return {
-//     initPageProps: data
-//   }
-// }
 
 export default AllQuestionSets

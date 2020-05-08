@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import {
   Calendar,
@@ -67,16 +67,21 @@ const BottomNav = () => {
     settingStore: { showTitleInBottomNav }
   } = useContext(rootStore)
 
-  const showItem = (link: LinkType) =>
-    (link.roles.includes('Admin') && isAdmin) ||
-    (link.roles.includes('VAdmin') && isVAdmin) ||
-    (link.roles.includes('Facilitator') && isFacilitator)
+  const showItem = useCallback(
+    (link: LinkType) =>
+      (link.roles.includes('Admin') && isAdmin) ||
+      (link.roles.includes('VAdmin') && isVAdmin) ||
+      (link.roles.includes('Facilitator') && isFacilitator),
+    [isAdmin, isFacilitator, isVAdmin]
+  )
 
   return (
     <nav>
       <div>
         {links.map(link => {
           if (link.roles !== undefined) {
+            console.log(!showItem(link))
+
             if (!showItem(link)) return null
           }
           if (link.requireCompanyConfirm) {
