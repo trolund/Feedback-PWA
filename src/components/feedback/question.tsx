@@ -168,6 +168,7 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
           transition: var(--transition-colors);
           border-radius: 15px;
           margin-top: 30px;
+          max-width: 80vw;
         }
         .not-selected {
           box-sizing: border-box;

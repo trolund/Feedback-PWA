@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import { useEffect, useContext, useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import { Lock, Compass, Send } from 'react-feather'
 import Page from '../../components/essentials/page'
 import FeedbackViewPager from '../../components/feedback/FeedbackViewPager'
 import createFingerprint from '../../services/fingerprintService'
@@ -32,13 +33,51 @@ const Feedback: NextPage = observer(() => {
     <>
       <MiddelLoader
         loading={fetchState === FetchStates.LOADING}
-        text='Forbereder skema'
+        text='Tilbagemelding er anonym'
       />
       <Page showBottomNav={false} showHead={false}>
         <Section>
-          {statusCode === 400 && <p>Mødet er lukket</p>}
-          {statusCode === 404 && <p>Mødet findes ikke</p>}
-          {statusCode === 401 && <p>Man kan kun give feedback en gang</p>}
+          {statusCode === 400 && fetchState === FetchStates.DONE && (
+            <div style={{ textAlign: 'center' }}>
+              <Lock
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  marginLeft: 'auto',
+                  marginRight: 'auto'
+                }}
+              />
+              <p className='msg'>
+                Mødet er ikke længere åben for Tilbagemeldinger.
+              </p>
+            </div>
+          )}
+          {statusCode === 404 && fetchState === FetchStates.DONE && (
+            <div style={{ textAlign: 'center' }}>
+              <Compass
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  marginLeft: 'auto',
+                  marginRight: 'auto'
+                }}
+              />
+              <p className='msg'>Mødet blev ikke fundet.</p>
+            </div>
+          )}
+          {statusCode === 401 && fetchState === FetchStates.DONE && (
+            <div style={{ textAlign: 'center' }}>
+              <Send
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  marginLeft: 'auto',
+                  marginRight: 'auto'
+                }}
+              />
+              <p className='msg'>Man kan kun give feedback en gang</p>
+            </div>
+          )}
           {questions !== null && (
             <FeedbackViewPager
               initQuestions={questions}
@@ -49,12 +88,18 @@ const Feedback: NextPage = observer(() => {
         </Section>
         <style jsx global>{`
           .frame {
-            height: 80vh !important;
+            height: 75vh !important;
             padding-bottom: 10px;
             outline: none;
           }
         `}</style>
         <style jsx>{`
+          .msg {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+          }
+
           .controller-container {
             max-width: 1200px;
             margin-left: auto;
@@ -64,7 +109,8 @@ const Feedback: NextPage = observer(() => {
           .pager-controls {
             padding: 30px;
             position: fixed;
-            bottom: 0px;
+            height: 50px;
+            bottom: env(safe-area-inset-bottom, 20px);
             left: 0px;
             right: 0px;
             width: 100%;

@@ -28,7 +28,7 @@ const CalendarView = withAuth(
     const initEvent: EventInput[] = []
     const [events, setEvnets] = useState(initEvent)
     const [searchWord, setSearchWord] = useState('')
-    const [inputOpen, setInputOpen] = useState(false)
+    // const [inputOpen, setInputOpen] = useState(false)
 
     const [showCal, setShowCal] = useState(false)
     const [windowDim, setWindowDim] = useState({
@@ -94,7 +94,7 @@ const CalendarView = withAuth(
 
     const filterEventsCallback = useCallback(
       (item: EventInput) => {
-        if (searchWord.length >= 1 && inputOpen) {
+        if (searchWord.length >= 1) {
           if (item.title?.toLowerCase().includes(searchWord.toLowerCase())) {
             return item
           }
@@ -103,7 +103,7 @@ const CalendarView = withAuth(
         }
         return null
       },
-      [inputOpen, searchWord]
+      [searchWord]
     )
 
     useEffect(() => {
@@ -208,7 +208,7 @@ const CalendarView = withAuth(
           />
         </>
       )
-    }, [events, filterEventsCallback, showCal, windowDim.width])
+    }, [events, filterEventsCallback, searchWord, showCal, windowDim.width])
 
     // <SearchBtn
     //   inputOpen={inputOpen}

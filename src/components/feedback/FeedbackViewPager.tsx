@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { observer } from 'mobx-react'
 import { ViewPager, Frame, Track } from 'react-view-pager'
-import { X } from 'react-feather'
+import { X, Send } from 'react-feather'
 import Modal from 'react-modal'
 import rootStore from '../../stores/RootStore'
 import QuestionSet from '../../models/QuestionSet'
@@ -113,7 +113,7 @@ const FeedbackViewPager = observer(
                   className='pager-control pager-control--prev button float-left'
                   onClick={() => prev()}
                 >
-                  tilbage
+                  Tilbage
                 </button>
               )}
               <button
@@ -122,9 +122,16 @@ const FeedbackViewPager = observer(
                 onClick={e => next(e)}
                 disabled={feedback[page]?.answer === -1}
               >
-                {page === questions?.questions?.length - 1
-                  ? 'Send besvarelse'
-                  : 'Næste'}
+                {page === questions?.questions?.length - 1 ? (
+                  <>
+                    <Send
+                      style={{ marginBottom: '-7px', marginRight: '10px' }}
+                    />
+                    Send besvarelse
+                  </>
+                ) : (
+                  'Næste'
+                )}
               </button>
             </div>
           </nav>

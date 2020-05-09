@@ -2,12 +2,6 @@ import { observable, action } from 'mobx'
 import { persist } from 'mobx-persist'
 import FetchStates from './requestState'
 
-declare global {
-  interface Window {
-    isDark: boolean
-  }
-}
-
 export default class SettingsStore {
   // status
   @observable state = FetchStates.DONE
@@ -21,8 +15,14 @@ export default class SettingsStore {
 
   @persist @observable showTitleInBottomNav: boolean = false
 
+  @persist @observable showDefQuestionSets: boolean = false
+
   @action setRealtimeFeedbackDefault = (value: boolean) => {
     this.realtimeFeedbackDefault = value
+  }
+
+  @action setShowDefQuestionSets = (value: boolean) => {
+    this.showDefQuestionSets = value
   }
 
   @action setShowTitleInBottomNav = (value: boolean) => {

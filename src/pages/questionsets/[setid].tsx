@@ -204,7 +204,6 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
           </>
         )}
       </Section>
-
       <style jsx>{`
         @media only screen and (max-width: 400px) {
           .topbar {
