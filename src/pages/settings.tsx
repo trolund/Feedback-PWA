@@ -13,7 +13,9 @@ const Settings = observer(() => {
       showTitleInBottomNav,
       setShowTitleInBottomNav,
       setRealtimeFeedbackDefault,
-      realtimeFeedbackDefault
+      realtimeFeedbackDefault,
+      setHideTempQuestionSets,
+      hideTempQuestionSets
     }
   } = useContext(rootStore)
 
@@ -33,6 +35,15 @@ const Settings = observer(() => {
               <Switch
                 setValue={setRealtimeFeedbackDefault}
                 value={realtimeFeedbackDefault}
+              />
+            </div>
+          </li>
+          <li>
+            <h4 className='float-left'>Hvis ikke templete spørgsmåls sæt</h4>
+            <div className='float-right'>
+              <Switch
+                setValue={setHideTempQuestionSets}
+                value={hideTempQuestionSets}
               />
             </div>
           </li>

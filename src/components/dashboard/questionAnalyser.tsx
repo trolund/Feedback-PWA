@@ -4,6 +4,8 @@ import { useCallback, useContext, useState, useEffect } from 'react'
 import rootStore from '../../stores/RootStore'
 import CalculationService from '../../services/calculationService'
 import FeedbackDate from '../../models/FeedbackDate'
+import { filterTempletes } from '../../services/utilsService'
+import GraphData from '../../models/GraphData'
 
 type Props = {
   data: FeedbackDate[]
@@ -14,11 +16,12 @@ const QuestionAnalyser = observer(({ data }: Props) => {
   const calculationService = new CalculationService()
   const [questionSet, setQuestionSet] = useState('')
   const {
-    questionSetStore: { QSetNames, fetchQuestionSetNames }
+    questionSetStore: { QSetNames, fetchQuestionSetNames },
+    settingStore: { hideTempQuestionSets }
   } = useContext(rootStore)
 
   useEffect(() => {
-    if (!QSetNames) {
+    if (QSetNames.length === 0) {
       fetchQuestionSetNames()
     }
   }, [QSetNames, fetchQuestionSetNames])
@@ -67,7 +70,8 @@ const QuestionAnalyser = observer(({ data }: Props) => {
     [calcData]
   )
   return (
-    <div>
+    <div className='container'>
+      <h5>Feedback fordelt på spørgsmål</h5>
       <div className='select-css'>
         <select
           name='select'
@@ -76,14 +80,42 @@ const QuestionAnalyser = observer(({ data }: Props) => {
           }}
         >
           <option>- Vælg spørgsmåls sæt -</option>
-          {QSetNames?.map(item => (
+          {QSetNames?.filter(
+            hideTempQuestionSets ? filterTempletes : () => true
+          ).map(item => (
             <option key={item.questionSetId} value={item.questionSetId}>
               {item.name}
             </option>
           ))}
         </select>
       </div>
-      <Bar data={graphData} options={chartOptions} />
+      {(calcData() as GraphData).labels.length === 0 ? (
+        <div>Ingen Tilbagemeldinger endnu på dette spørgsmåls sæt.</div>
+      ) : (
+        <Bar data={graphData} options={chartOptions} />
+      )}
+      <style jsx>{`
+        .container {
+          background-color: var(--surface);
+          border-radius: var(--border-radius);
+          padding: var(--gap-small);
+          margin-bottom: var(--gap-small);
+        }
+
+        .container h5 {
+          margin-top: 5px;
+          margin-bottom: 10px;
+          width: 100%;
+          text-align: center;
+        }
+
+        h4 {
+          color: var(--fg);
+          margin-left: var(--gap-small);
+          font-weight: 500;
+          letter-spacing: 0.0035em;
+        }
+      `}</style>
     </div>
   )
 })

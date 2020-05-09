@@ -1,3 +1,5 @@
+import QuestionSet from '../models/QuestionSet'
+
 /* eslint-disable import/prefer-default-export */
 export const makeid = length => {
   let result = ''
@@ -9,3 +11,6 @@ export const makeid = length => {
   }
   return result
 }
+
+export const filterTempletes = (n: QuestionSet) =>
+  n.companyId !== Number(process.env.spinOffCompenyId)

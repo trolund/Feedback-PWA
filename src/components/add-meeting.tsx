@@ -19,6 +19,7 @@ import {
   validateTextInput,
   validateStartAndEndDate
 } from '../services/validationService'
+import { filterTempletes } from '../services/utilsService'
 
 type AddMeetingProps = {
   callBack: () => void
@@ -26,9 +27,12 @@ type AddMeetingProps = {
 }
 
 const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
-  const { questionSetStore, categoriesStore, meetingStore } = useContext(
-    rootStore
-  )
+  const {
+    questionSetStore,
+    categoriesStore,
+    meetingStore,
+    settingStore: { hideTempQuestionSets }
+  } = useContext(rootStore)
   const [meeting, setMeeting] = useState({} as MeetingModel)
   const [meetingCategories, setMeetingCategories] = useState([])
   const [date, setDate] = useState(new Date())
@@ -85,7 +89,9 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
             onChange={value => setQuestionSet(value)}
             values={
               questionSetStore.QSetNames
-                ? questionSetStore.QSetNames.map(
+                ? questionSetStore.QSetNames.filter(
+                    hideTempQuestionSets ? filterTempletes : () => true
+                  ).map(
                     q =>
                       ({
                         label: q.name,

@@ -17,6 +17,12 @@ export default class SettingsStore {
 
   @persist @observable showDefQuestionSets: boolean = false
 
+  @persist @observable hideTempQuestionSets: boolean = false
+
+  @action setHideTempQuestionSets = (value: boolean) => {
+    this.hideTempQuestionSets = value
+  }
+
   @action setRealtimeFeedbackDefault = (value: boolean) => {
     this.realtimeFeedbackDefault = value
   }
