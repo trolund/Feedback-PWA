@@ -201,8 +201,12 @@ const DashboardFilter = observer(() => {
         }
 
         .btn-group {
+          z-index: 9999;
           right: 15px;
           position: absolute;
+          background-color: var(--base);
+          border-radius: var(--border-radius);
+          padding: 7px 7px 5px 2px;
         }
 
         .btn-group > span {

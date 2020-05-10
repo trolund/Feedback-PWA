@@ -1,5 +1,4 @@
-/* eslint-disable react/no-array-index-key */
-import { useContext, useState, useEffect } from 'react'
+import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import {
   Settings,
@@ -19,19 +18,11 @@ import CustomInput from '../components/Input/custom-input'
 import MiddelLoader from '../components/essentials/middelLoading'
 import IUser from '../models/User'
 
-// import { User as Avatar } from '../models/User'
-
 const Profile = withAuth(
   observer(() => {
     const {
-      authStore: { getUser, signout, updateUserInfo, setUser: setUserGlobale }
+      authStore: { signout, user, updateUserInfo, setUser }
     } = useContext(rootStore)
-    const [user, setUser] = useState(null)
-
-    useEffect(() => {
-      setUser(getUser())
-    }, [getUser])
-
     const SettingsBtn = () => {
       return <Settings onClick={() => Router.push('/settings')} />
     }
@@ -46,7 +37,6 @@ const Profile = withAuth(
           phoneNumber: updatedUser.phoneNumber
         } as IUser
 
-        setUserGlobale(newUser)
         setUser(newUser)
       })
     }
@@ -57,16 +47,6 @@ const Profile = withAuth(
           <MiddelLoader loading={user === null} />
           {user !== null && (
             <ul>
-              {/* <li>
-              <Avater
-                style={{
-                  width: '90px',
-                  height: '90px',
-                  marginLeft: 'auto',
-                  marginRight: 'auto'
-                }}
-              />
-            </li> */}
               <li>
                 <CustomInput
                   fill
@@ -141,8 +121,8 @@ const Profile = withAuth(
                 <Settings style={{ marginBottom: '-5px' }} />
                 {user.roles.length > 0 ? (
                   <ul>
-                    {user.roles.map((role, index) => (
-                      <li key={index}>{role}</li>
+                    {user.roles.map(role => (
+                      <li key={role}>{role}</li>
                     ))}
                   </ul>
                 ) : (

@@ -52,7 +52,7 @@ const links: LinkType[] = [
     requireCompanyConfirm: false
   },
   {
-    title: 'Administration',
+    title: 'Mere',
     icon: <MoreHorizontal />,
     href: '/more',
     roles: ['Admin', 'VAdmin'],
@@ -83,8 +83,7 @@ const BottomNav = () => {
             if (!showItem(link)) return null
           }
           if (link.requireCompanyConfirm) {
-            // eslint-disable-next-line no-extra-boolean-cast
-            if (!Boolean(user?.companyConfirmed)) {
+            if (!user?.companyConfirmed) {
               return null
             }
           }

@@ -5,7 +5,7 @@ export default interface IUser {
   companyName?: string
   firstname?: string
   lastname?: string
-  companyConfirmed?: string
+  companyConfirmed?: boolean
   phoneNumber?: string
   roles?: string[]
   token?: string

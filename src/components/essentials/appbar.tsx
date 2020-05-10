@@ -108,6 +108,7 @@ const Header = (props: appbarProps) => {
           height: 100%;
           position: absolute;
           display: block;
+          margin-top: 10px;
           top: calc(env(safe-area-inset-top) / 2 + (72px / 2));
           left: 25px;
         }

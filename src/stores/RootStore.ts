@@ -17,7 +17,7 @@ const doHydration = (root: RootStore) => {
   // only hydrate on the client side
   if (!isServer) {
     const hydrate = create({
-      storage: LocalForage,
+      storage: localStorage,
       jsonify: true
     })
     // hydrate all presistent stores

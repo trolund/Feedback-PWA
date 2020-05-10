@@ -1,7 +1,10 @@
 import Head from 'next/head'
+import { useContext } from 'react'
+import { observer } from 'mobx-react-lite'
 import { motion } from 'framer-motion'
 import Appbar from './appbar'
 import BottomNav from './bottom-nav'
+import rootStore from '../../stores/RootStore'
 
 // import BackAppHeader from './backAppbar'
 
@@ -26,6 +29,10 @@ const Page = ({
   fullscreen,
   bgColor
 }: Props) => {
+  const {
+    settingStore: { animation }
+  } = useContext(rootStore)
+
   const showHeader = showHead === undefined ? true : showHead
   const showBottomNaver = showBottomNav === undefined ? true : showBottomNav
   const showTheBackButton = showBackButton === undefined ? true : showBackButton
@@ -37,7 +44,7 @@ const Page = ({
       {showHeader && (
         <>
           <Head>
-            <title>{title ? `SpinOff | ${title}` : 'SpinOff'}</title>
+            <title>{title ? `Opion | ${title}` : 'Opion'}</title>
           </Head>
           <Appbar
             title={title}
@@ -49,8 +56,13 @@ const Page = ({
 
       {/* {showTheBackButton && <BackAppHeader />} */}
       <motion.div
-        style={{ opacity: 0, marginTop: '-50px' }}
-        animate={{ opacity: 1, marginTop: '0px' }}
+        initial={animation ? { scale: 1, opacity: 0, y: -15 } : {}}
+        animate={animation ? { scale: 1, opacity: 1, y: 0 } : {}}
+        transition={{
+          type: 'spring',
+          stiffness: 260,
+          damping: 20
+        }}
       >
         <main
           style={
@@ -88,4 +100,4 @@ const Page = ({
   )
 }
 
-export default Page
+export default observer(Page)

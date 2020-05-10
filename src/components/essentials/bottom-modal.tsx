@@ -20,7 +20,7 @@ const BottomModal = (props: BottomModalProps) => {
   })
 
   useEffect(() => {
-    setMaxHeight(show ? '94vh' : '0px')
+    setMaxHeight(show ? '95vh' : '0px')
     setBottom(show ? '0' : '-50vh')
   }, [props, show])
 
@@ -86,11 +86,10 @@ const BottomModal = (props: BottomModalProps) => {
           }
 
           .content-container {
-             {
-              /* overflow: scroll;
-            width: 100%;
-            height: 100%; */
-            }
+            overflow: scroll;
+            max-height: 94vh;
+            min-height: 400px;
+            padding-bottom: calc(env(safe-area-inset-bottom) + 72px);
           }
         `}</style>
       </div>

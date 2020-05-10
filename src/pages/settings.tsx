@@ -15,7 +15,9 @@ const Settings = observer(() => {
       setRealtimeFeedbackDefault,
       realtimeFeedbackDefault,
       setHideTempQuestionSets,
-      hideTempQuestionSets
+      hideTempQuestionSets,
+      animation,
+      setAnimation
     }
   } = useContext(rootStore)
 
@@ -45,6 +47,12 @@ const Settings = observer(() => {
                 setValue={setHideTempQuestionSets}
                 value={hideTempQuestionSets}
               />
+            </div>
+          </li>
+          <li>
+            <h4 className='float-left'>Slå animationer</h4>
+            <div className='float-right'>
+              <Switch setValue={setAnimation} value={animation} />
             </div>
           </li>
           {/* <li>

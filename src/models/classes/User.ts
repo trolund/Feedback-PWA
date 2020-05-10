@@ -14,7 +14,7 @@ export default class User implements IUser {
 
   @persist lastname?: string
 
-  @persist companyConfirmed?: string
+  @persist companyConfirmed?: boolean
 
   @persist phoneNumber?: string
 

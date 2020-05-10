@@ -8,7 +8,7 @@ type loadingprops = {
 
 const MiddelLoader: React.FC<loadingprops> = ({ loading, text }) => {
   const defaultOptions = {
-    loop: false,
+    loop: true,
     autoplay: true,
     animationData: (loadingAni as any).default,
     rendererSettings: {

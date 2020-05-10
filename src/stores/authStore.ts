@@ -1,5 +1,4 @@
 import { observable, action } from 'mobx'
-import { Cookies } from 'react-cookie'
 import { persist } from 'mobx-persist'
 import JwtDecode from 'jwt-decode'
 import IUser from '../models/User'
@@ -10,11 +9,8 @@ import { login, getToken, logout } from '../services/authService'
 import TokenModel from '../models/TokenModel'
 import NewPasswordModel from '../models/NewPasswordModel'
 import User from '../models/classes/User'
-import Fingerprint from '../models/classes/Fingerprint'
 
 export default class AuthStore {
-  cookies = new Cookies()
-
   @observable state: FetchStates = FetchStates.DONE
 
   @observable msg: string = ''
@@ -23,7 +19,7 @@ export default class AuthStore {
 
   @persist @observable token: string = null
 
-  @persist('object', Fingerprint) @observable fingerprint: Fingerprint = null
+  // @persist('object', Fingerprint) @observable fingerprint: Fingerprint = null
 
   @persist @observable isAdmin: boolean = null
 
@@ -39,9 +35,9 @@ export default class AuthStore {
     this.state = state
   }
 
-  @action setFingerprint = (newFingerprint: string) => {
-    this.fingerprint = new Fingerprint(newFingerprint)
-  }
+  // @action setFingerprint = (newFingerprint: string) => {
+  //   this.fingerprint = new Fingerprint(newFingerprint)
+  // }
 
   @action setRoles = (
     isAdmin: boolean,
@@ -89,7 +85,7 @@ export default class AuthStore {
 
       if (response.status === 200) {
         this.user = await response.json()
-        localStorage.setItem('user', JSON.stringify(this.user))
+        // localStorage.setItem('user', JSON.stringify(this.user))
         this.msg = `Velkommen! ${this.user.firstname}`
 
         this.token = this.user.token
@@ -153,9 +149,8 @@ export default class AuthStore {
     } catch (e) {
       this.msg = e.statusText ?? 'User not signout'
       this.user = null
-      localStorage.setItem('token', null)
-      localStorage.setItem('user', null)
-      this.cookies.set('jwttoken', null)
+      // localStorage.setItem('token', null)
+      // localStorage.setItem('user', null)
       this.state = FetchStates.FAILED
       return FetchStates.FAILED
     }

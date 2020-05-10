@@ -17,7 +17,13 @@ export default class SettingsStore {
 
   @persist @observable showDefQuestionSets: boolean = false
 
-  @persist @observable hideTempQuestionSets: boolean = false
+  @persist @observable hideTempQuestionSets: boolean = true
+
+  @persist @observable animation: boolean = false
+
+  @action setAnimation = (value: boolean) => {
+    this.animation = value
+  }
 
   @action setHideTempQuestionSets = (value: boolean) => {
     this.hideTempQuestionSets = value
