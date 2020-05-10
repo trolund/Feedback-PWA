@@ -58,12 +58,6 @@ const Header = (props: appbarProps) => {
       </nav>
 
       <style jsx>{`
-        .right-component {
-          position: absolute;
-          text-align: center;
-          top: calc(env(safe-area-inset-top) - 10px + 50%);
-          right: 25px;
-        }
         header {
           padding: 0 var(--gap);
           padding-top: env(safe-area-inset-top) / 2;
@@ -103,10 +97,29 @@ const Header = (props: appbarProps) => {
           width: 50%;
           margin: auto;
           position: absolute;
-          top: calc(env(safe-area-inset-top) + 50%);
+          top: calc(env(safe-area-inset-top) / 2 + (72px / 2));
           left: 50%;
           transform: translate(-50%, -50%);
           text-align: center;
+        }
+
+        .back-btn {
+          width: 150px;
+          height: 100%;
+          position: absolute;
+          display: block;
+          top: calc(env(safe-area-inset-top) / 2 + (72px / 2));
+          left: 25px;
+        }
+
+        .right-component {
+          width: fit-content;
+          height: 100%;
+          position: absolute;
+          display: block;
+          margin-top: -10px;
+          top: calc(env(safe-area-inset-top) / 2 + (72px / 2));
+          right: 25px;
         }
 
         nav {
