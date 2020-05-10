@@ -25,11 +25,11 @@ export default class AuthStore {
 
   @persist('object', Fingerprint) @observable fingerprint: Fingerprint = null
 
-  @observable isAdmin: boolean = null
+  @persist @observable isAdmin: boolean = null
 
-  @observable isVAdmin: boolean = null
+  @persist @observable isVAdmin: boolean = null
 
-  @observable isFacilitator: boolean = null
+  @persist @observable isFacilitator: boolean = null
 
   // @computed getToken = (): string => {
   //   return this.user.token

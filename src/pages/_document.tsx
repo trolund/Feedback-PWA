@@ -23,12 +23,12 @@ class MyDocument extends Document {
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: `
-                window.isLight = false
+                window.isDark = false
                 try {
-                  const isLight = window.localStorage.getItem('light-mode')
-                  if (isLight) {
-                    document.querySelector('html').className = 'light'
-                    window.isLight = true
+                  const isDark = window.localStorage.getItem('light-mode')
+                  if (isDark) {
+                    document.querySelector('html').className = 'dark'
+                    window.isDark = true
                   }
                 } catch (err) {}
             `
