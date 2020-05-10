@@ -1,5 +1,6 @@
 import { createContext } from 'react'
 import { create } from 'mobx-persist'
+import LocalForage from 'localforage'
 import DashboardStore from './dashboard-store'
 import AuthStore from './authStore'
 import CategoriesStore from './CategoriesStore'
@@ -16,7 +17,7 @@ const doHydration = (root: RootStore) => {
   // only hydrate on the client side
   if (!isServer) {
     const hydrate = create({
-      storage: localStorage,
+      storage: LocalForage,
       jsonify: true
     })
     // hydrate all presistent stores

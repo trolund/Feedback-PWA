@@ -5,6 +5,8 @@
 
 :root {
   --accent: #19896f;
+  --accent-dark: #126451;
+  --accent-darker: #0e493b;
   --text: #282828;
   --label: #6a6b6e;
   --surface: #efefef;
@@ -48,10 +50,7 @@
   --accent-dark: #126451;
   --text: #eeeff1;
   --label: #8a8b8e;
-
-
   --backdrop: rgba(10, 10, 10, 0.75);
-
   --surface: #313236;
   --surface-hover: rgb(62, 62, 66);
   --divider: #2d2e31;

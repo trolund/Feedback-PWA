@@ -1,7 +1,5 @@
 import { ToastContainer, toast } from 'react-toastify'
 
-type initState = {}
-
 const CustomToast = () => {
   return (
     <>

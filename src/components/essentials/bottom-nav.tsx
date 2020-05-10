@@ -80,8 +80,6 @@ const BottomNav = () => {
       <div>
         {links.map(link => {
           if (link.roles !== undefined) {
-            console.log(!showItem(link))
-
             if (!showItem(link)) return null
           }
           if (link.requireCompanyConfirm) {

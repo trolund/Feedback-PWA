@@ -316,6 +316,7 @@ const CalendarView = withAuth(
         }
 
         .fc-button-group button {
+          border: 0px;
           box-sizing: border-box;
           background-color: var(--accent);
           box-shadow: 0 0 0 rgba(255, 255, 255, 0);
@@ -324,6 +325,11 @@ const CalendarView = withAuth(
           transition: border-color 0.15s ease-out, color 0.25s ease-out,
             background-color 0.15s ease-out, box-shadow 0.15s ease-out; 
           }
+
+          .fc-button-group button:hover {
+          background-color: var(--accent-darker);
+          }
+
           .fc-event {
             background-color: var(--accent) ;
             border-color: var(--accent);
