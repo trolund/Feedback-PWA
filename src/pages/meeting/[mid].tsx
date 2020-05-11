@@ -23,7 +23,6 @@ import CustomTimepicker from '../../components/Input/custom-timepicker'
 import CategoriesPicker from '../../components/Input/categories-picker'
 import MeetingModel from '../../models/MeetingModel'
 import FeedbackBatch from '../../models/FeedbackBatch'
-import CustomToast from '../../components/essentials/custom-Toast'
 import MeetingCategory from '../../models/MeetingCategory'
 import IOptionsValue from '../../models/OptionsValue'
 import { getCompanyId, getToken } from '../../services/authService'
@@ -439,7 +438,6 @@ const Post: NextPage = observer(
             margin-top: 10px;
           }
         `}</style>
-        <CustomToast />
       </Page>
     )
   }

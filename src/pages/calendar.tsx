@@ -20,7 +20,6 @@ import { applyOffSet } from '../services/dateService'
 import CustomInput from '../components/Input/custom-input'
 import MiddelLoader from '../components/essentials/middelLoading'
 import FetchStates from '../stores/requestState'
-import CustomToast from '../components/essentials/custom-Toast'
 
 let FullCalendarNoSSRWrapper
 
@@ -255,7 +254,6 @@ const CalendarView = withAuth(
           }
           setShow={setShowModal}
         />
-        <CustomToast />
         {/* <Seachbar value={searchWord} setValue={setSearchWord} /> */}
         {/* <CreateMeetingModal
         questionContext={questionContext}

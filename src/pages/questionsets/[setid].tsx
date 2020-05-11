@@ -12,7 +12,6 @@ import Section from '../../components/essentials/section'
 import QuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import FetchStates from '../../stores/requestState'
-import CustomToast from '../../components/essentials/custom-Toast'
 import { auth } from '../../services/authService'
 import rootStore from '../../stores/RootStore'
 import QuestionListDrag from '../../components/questions/question-list-drag'
@@ -111,7 +110,6 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
 
   return (
     <Page title={qset?.name} component={<SaveBtn />}>
-      <CustomToast />
       <Section>
         <div className='topbar'>
           {getCompanyId() !== qset.companyId && (
@@ -231,7 +229,6 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
           max-height: 120px;
         }
       `}</style>
-      <CustomToast />
     </Page>
   )
 })

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Appbar from './appbar'
 import BottomNav from './bottom-nav'
 import rootStore from '../../stores/RootStore'
+import CustomToast from './custom-Toast'
 
 // import BackAppHeader from './backAppbar'
 
@@ -73,7 +74,7 @@ const Page = ({
         </main>
       </motion.div>
       {showBottomNaver && <BottomNav />}
-
+      <CustomToast />
       <style jsx>{`
         @media only screen and (max-width: 650px) {
           main {

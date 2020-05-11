@@ -70,7 +70,7 @@ const AddMeeting = observer(
     const fuldformValid = (): boolean =>
       validateStartAndEndDate(startTime, endTime).valid &&
       validateTextInput(meeting?.name, 80, false).valid &&
-      validateTextInput(meeting?.name, 1500, true).valid &&
+      validateTextInput(meeting?.discription, 1500, true).valid &&
       questionSet === 'null'
 
     const createMeeting = () => {
@@ -178,7 +178,8 @@ const AddMeeting = observer(
             <CustomTextarea
               fill
               error={
-                validateTextInput(meeting?.name, 1500, true).valid && showErrors
+                validateTextInput(meeting?.discription, 1500, true).valid &&
+                showErrors
               }
               value={meeting?.discription}
               placeholder='Kommentar'

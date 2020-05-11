@@ -11,7 +11,6 @@ import FetchStates from '../../stores/requestState'
 import CustomCheckbox from '../../components/Input/checkbox'
 import withAuth from '../../components/hoc/withAuth'
 import rootStore from '../../stores/RootStore'
-import CustomToast from '../../components/essentials/custom-Toast'
 import CustomInput from '../../components/Input/custom-input'
 
 const AllQuestionSets = withAuth(
@@ -165,7 +164,6 @@ const AllQuestionSets = withAuth(
             border-bottom: 1px solid var(--divider);
           }
         `}</style>
-        <CustomToast />
       </Page>
     )
   })

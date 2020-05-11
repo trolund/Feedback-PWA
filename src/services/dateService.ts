@@ -19,6 +19,7 @@ export const applyOffSetToMeeting = (meeting: MeetingModel) => {
 export const spliceDateAndTime = (datePart: Date, timePart: Date): Date => {
   const returnDate: Date = new Date()
   returnDate.setUTCFullYear(datePart.getUTCFullYear())
+  returnDate.setDate(datePart.getDate())
   returnDate.setMonth(datePart.getMonth())
   returnDate.setHours(timePart.getHours())
   returnDate.setMinutes(timePart.getMinutes())
