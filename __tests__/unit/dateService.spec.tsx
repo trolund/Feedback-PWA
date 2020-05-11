@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 /* eslint-disable no-undef */
-import { spliceDateAndTime } from '../src/services/dateService'
+import { spliceDateAndTime } from '../../src/services/dateService'
 
 describe('validate date manipulation', () => {
   describe('test password validation', () => {

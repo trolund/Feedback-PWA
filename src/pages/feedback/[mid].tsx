@@ -21,12 +21,14 @@ const Feedback: NextPage = observer(() => {
   const [fingerprint, setFingerprint] = useState('')
 
   useEffect(() => {
-    createFingerprint().then(newFingerprint => {
-      setFingerprint(newFingerprint)
-      fetchQuestions(String(mid), newFingerprint).then(code => {
-        setStatusCode(code)
+    if (mid !== undefined) {
+      createFingerprint().then(newFingerprint => {
+        setFingerprint(newFingerprint)
+        fetchQuestions(String(mid), newFingerprint).then(code => {
+          setStatusCode(code)
+        })
       })
-    })
+    }
   }, [fetchQuestions, mid])
 
   return (
@@ -35,7 +37,7 @@ const Feedback: NextPage = observer(() => {
         loading={fetchState === FetchStates.LOADING}
         text='Tilbagemelding er anonym'
       />
-      <Page showBottomNav={false} showHead={false}>
+      <Page showBottomNav={false} showHead={false} fullscreen>
         <Section>
           {statusCode === 400 && fetchState === FetchStates.DONE && (
             <div style={{ textAlign: 'center' }}>

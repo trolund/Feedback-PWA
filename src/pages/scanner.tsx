@@ -19,11 +19,8 @@ const Scanner = observer(() => {
     if (data) {
       setLoadingmsg('Forbereder spørgsmål')
       setLoading(true)
-      const parts = data.split(',')
-      console.log('====================================')
-      console.log(parts[-1])
-      console.log('====================================')
-      Router.push(`/feedback/${parts[-1]}`)
+      const parts = data.split('/')
+      Router.push(`/feedback/${parts[parts.length - 1]}`)
     }
   }
   const handleError = err => {

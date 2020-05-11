@@ -49,9 +49,10 @@ export default withRedirect(
         showHead={false}
         showBackButton={false}
         bgColor='darkslategrey'
+        fullscreen
       >
         <Section>
-          <div className='logo' />
+          <div className='logo' style={{ marginTop: '10vh' }} />
           <CustomInput
             error={errorMsg.length > 0}
             className='meeting-id-input center'

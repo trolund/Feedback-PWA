@@ -4,7 +4,7 @@ import {
   validatePassword,
   validateEmail,
   validatePhone
-} from '../src/services/validationService'
+} from '../../src/services/validationService'
 
 describe('input validation service', () => {
   describe('test password validation', () => {

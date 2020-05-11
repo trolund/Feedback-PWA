@@ -114,6 +114,7 @@ const Day: NextPage = observer(() => {
             <MobileMultiSelecter
               callBack={fetchMeetings}
               setShowModal={setShowModal}
+              initDate={selectedDay}
             />
           }
           setShow={setShowModal}
