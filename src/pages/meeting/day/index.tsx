@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useDrag } from 'react-use-gesture'
+import Moment from 'moment'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, Coffee, Plus } from 'react-feather'
 import MobileMultiSelecter from '../../../components/add-meeting'
@@ -13,6 +14,8 @@ import rootStore from '../../../stores/RootStore'
 import MiddelLoader from '../../../components/essentials/middelLoading'
 import FetchStates from '../../../stores/requestState'
 import BottomModal from '../../../components/essentials/bottom-modal'
+import { sortEventByDate } from '../../../services/sortService'
+import { applyOffSet } from '../../../services/dateService'
 
 const Day: NextPage = observer(() => {
   const router = useRouter()
@@ -147,10 +150,13 @@ const Day: NextPage = observer(() => {
         <Section>
           <ul>
             {events?.length === 0 && <NoMeetings />}
-            {events?.map(m => (
+            {events?.sort(sortEventByDate)?.map(m => (
               <li key={m.shortId}>
                 <Link href='/meeting/[mid]' as={`/meeting/${m.shortId}`}>
                   <a>
+                    <p style={{ display: 'inline' }}>
+                      {Moment(applyOffSet(m.startTime)).format('HH:mm')}
+                    </p>
                     <p className='text'>{m.name}</p>
                   </a>
                 </Link>
@@ -166,6 +172,8 @@ const Day: NextPage = observer(() => {
           .text {
             width: fit-content;
             max-width: 90vw;
+            display: inline;
+            margin-left: 15px;
           }
 
           .arrow {

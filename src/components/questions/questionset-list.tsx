@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 /* eslint-disable react/no-array-index-key */
 import Link from 'next/link'
+import { useContext } from 'react'
 import { Trash } from 'react-feather'
 import QuestionSet from '../../models/QuestionSet'
-import { getCompanyId } from '../../services/authService'
+import rootStore from '../../stores/RootStore'
 
 type QuestionList = {
   questionSetlist: QuestionSet[]
@@ -14,6 +15,10 @@ const QuestionSetList: React.FC<QuestionList> = ({
   questionSetlist,
   deleteFunc
 }) => {
+  const {
+    authStore: { getCompanyId }
+  } = useContext(rootStore)
+
   return (
     <ul>
       {questionSetlist ? (
@@ -24,20 +29,22 @@ const QuestionSetList: React.FC<QuestionList> = ({
                 href='/questionsets/[setid]'
                 as={`/questionsets/${item?.questionSetId}`}
               >
+                {}
                 <a>
-                  {/* <b className='qnumber'>{item.questions.length}</b> */}
                   <p className='name'>{item.name}</p>
-                  {(getCompanyId() === item.companyId ||
-                    getCompanyId() ===
-                      Number(process.env.spinOffCompenyId)) && ( // TODO use env var
-                    <Trash
-                      className='del-btn'
-                      role='button'
-                      tabIndex={0}
-                      onClick={() => deleteFunc(item.questionSetId, index)}
-                      onKeyDown={() => deleteFunc(item.questionSetId, index)}
-                    />
-                  )}
+                  <span className='float-right'>
+                    {(getCompanyId() === item.companyId ||
+                      getCompanyId() ===
+                        Number(process.env.spinOffCompenyId)) && (
+                      <Trash
+                        className='del-btn'
+                        role='button'
+                        tabIndex={0}
+                        onClick={() => deleteFunc(item.questionSetId, index)}
+                        onKeyDown={() => deleteFunc(item.questionSetId, index)}
+                      />
+                    )}
+                  </span>
                 </a>
               </Link>
             </li>

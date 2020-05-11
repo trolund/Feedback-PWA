@@ -228,7 +228,7 @@ const FeedbackView = observer((props: IProp) => {
           </div>
         )}
         <div className='end-result'>
-          <h2>Overodtnet resultat</h2>
+          <h2 style={{ width: 'max-content' }}>Overodtnet resultat</h2>
           <CircularProgressbar
             styles={buildStyles({
               textColor: 'var(--accent)',
