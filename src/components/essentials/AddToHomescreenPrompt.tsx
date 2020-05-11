@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 import { DownloadCloud, X } from 'react-feather'
 import IBeforeInstallPromptEvent from '../../models/types/IBeforeInstallPromptEvent'
 import IosShare from '../../../public/images/iosShare.png'
+import { logEvent } from '../../utils/analytics'
+import rootStore from '../../stores/RootStore'
 
 const Prompt = () => {
+  const {
+    authStore: { getUser }
+  } = useContext(rootStore)
   const [isVisible, setVisibleState] = useState(false)
   const [isIOSVisible, setIOSVisibleState] = useState(false)
   const [prompt, setState] = useState<IBeforeInstallPromptEvent | null>(null)
@@ -35,16 +40,22 @@ const Prompt = () => {
       setState(e)
     }
 
+    const logIndstall = () =>
+      logEvent('appinstalled', 'appinstalled-success', 0, getUser().id)
+
     if (isIos() && !isInStandaloneMode()) {
       setIOSVisibleState(true)
       setVisibleState(true)
     }
 
     window.addEventListener('beforeinstallprompt', ready as any)
+    window.addEventListener('appinstalled', logIndstall)
+
     return () => {
       window.removeEventListener('beforeinstallprompt', ready as any)
+      window.removeEventListener('appinstalled', logIndstall)
     }
-  }, [promptToInstall])
+  }, [getUser, promptToInstall])
 
   useEffect(() => {
     if (prompt) {

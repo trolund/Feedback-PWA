@@ -1,9 +1,3 @@
-declare global {
-  interface Window {
-    isDark: boolean
-  }
-}
-
 const isServer = typeof window === 'undefined'
 
 export function getLightMode() {

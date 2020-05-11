@@ -1,11 +1,12 @@
 import Head from 'next/head'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { motion } from 'framer-motion'
 import Appbar from './appbar'
 import BottomNav from './bottom-nav'
 import rootStore from '../../stores/RootStore'
 import CustomToast from './custom-Toast'
+import { initGA, logPageView } from '../../utils/analytics'
 
 // import BackAppHeader from './backAppbar'
 
@@ -33,6 +34,14 @@ const Page = ({
   const {
     settingStore: { animation }
   } = useContext(rootStore)
+
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA()
+      window.GA_INITIALIZED = true
+    }
+    logPageView()
+  }, [])
 
   const showHeader = showHead === undefined ? true : showHead
   const showBottomNaver = showBottomNav === undefined ? true : showBottomNav

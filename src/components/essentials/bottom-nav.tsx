@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useContext, useCallback } from 'react'
+import { useContext, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import {
   Calendar,
@@ -35,7 +35,7 @@ const links: LinkType[] = [
   {
     title: 'Giv Tilbagemelding',
     icon: <CheckCircle />,
-    href: '/tasks',
+    href: '/feedback',
     requireCompanyConfirm: false
   },
   {
@@ -64,8 +64,15 @@ const BottomNav = () => {
   const { pathname } = useRouter()
   const {
     authStore: { isAdmin, isVAdmin, isFacilitator, user },
-    settingStore: { showTitleInBottomNav }
+    settingStore: { showTitleInBottomNav, setBottombarVisable }
   } = useContext(rootStore)
+
+  useEffect(() => {
+    setBottombarVisable(true)
+    return () => {
+      setBottombarVisable(false)
+    }
+  }, [setBottombarVisable])
 
   const showItem = useCallback(
     (link: LinkType) =>

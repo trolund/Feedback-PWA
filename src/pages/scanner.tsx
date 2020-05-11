@@ -5,6 +5,7 @@ import Router from 'next/router'
 import Page from '../components/essentials/page'
 import Section from '../components/essentials/section'
 import MiddelLoader from '../components/essentials/middelLoading'
+import { logEvent } from '../utils/analytics'
 
 const QrReader = dynamic(() => import('react-qr-reader'), {
   ssr: false
@@ -20,11 +21,13 @@ const Scanner = observer(() => {
       setLoadingmsg('Forbereder spørgsmål')
       setLoading(true)
       const parts = data.split('/')
+      logEvent('scanner-event', 'Scanner sucesss', 0, parts[parts.length - 1])
       Router.push(`/feedback/${parts[parts.length - 1]}`)
     }
   }
   const handleError = err => {
     console.error(err)
+    logEvent('scanner-event', 'Scanner error', 0, JSON.stringify(err))
     setError('Fejl ved læsning.')
   }
   return (

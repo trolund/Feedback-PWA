@@ -21,6 +21,12 @@ export default class SettingsStore {
 
   @persist @observable animation: boolean = false
 
+  @persist @observable bottombarVisable: boolean = false
+
+  @action setBottombarVisable = (value: boolean) => {
+    this.bottombarVisable = value
+  }
+
   @action setAnimation = (value: boolean) => {
     this.animation = value
   }

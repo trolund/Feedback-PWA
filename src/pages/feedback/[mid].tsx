@@ -10,26 +10,49 @@ import rootStore from '../../stores/RootStore'
 import MiddelLoader from '../../components/essentials/middelLoading'
 import FetchStates from '../../stores/requestState'
 import Section from '../../components/essentials/section'
+import { logEvent } from '../../utils/analytics'
 
 const Feedback: NextPage = observer(() => {
   const router = useRouter()
   const { mid } = router.query
   const {
-    questionStore: { fetchQuestions, questions, fetchState }
+    questionStore: { fetchQuestions, questions, fetchState },
+    authStore: { getUser }
   } = useContext(rootStore)
   const [statusCode, setStatusCode] = useState(0)
   const [fingerprint, setFingerprint] = useState('')
 
   useEffect(() => {
     if (mid !== undefined) {
-      createFingerprint().then(newFingerprint => {
-        setFingerprint(newFingerprint)
-        fetchQuestions(String(mid), newFingerprint).then(code => {
-          setStatusCode(code)
+      createFingerprint()
+        .then(newFingerprint => {
+          setFingerprint(newFingerprint)
+          logEvent(
+            'fingerprint',
+            'fingerprint-creation-success',
+            0,
+            `${newFingerprint} ${getUser().id}`
+          )
+          fetchQuestions(String(mid), newFingerprint).then(code => {
+            setStatusCode(code)
+            logEvent(
+              'fingerprint',
+              'fingerprint-fetchQuestionss',
+              0,
+              `${newFingerprint} ${getUser().id} ${String(mid)}`
+            )
+          })
         })
-      })
+        .catch(e =>
+          logEvent(
+            'fingerprint',
+            'fingerprint-creation-error',
+            0,
+            JSON.stringify(e)
+          )
+        )
     }
-  }, [fetchQuestions, mid])
+  }, [fetchQuestions, getUser, mid])
 
   return (
     <>

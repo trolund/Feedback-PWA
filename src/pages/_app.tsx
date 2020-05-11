@@ -6,6 +6,13 @@ import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 import 'react-infinite-calendar/styles.css'
 import Prompt from '../components/essentials/AddToHomescreenPrompt'
 
+declare global {
+  interface Window {
+    isDark: boolean
+    GA_INITIALIZED: boolean
+  }
+}
+
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>

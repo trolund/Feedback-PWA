@@ -1,10 +1,8 @@
-/* eslint-disable no-undef */
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
 import { Hash, LogIn, Maximize, Smile, AlertCircle } from 'react-feather'
-// import PWAPrompt from 'react-ios-pwa-prompt'
 import Lottie from 'react-lottie'
 import Page from '../components/essentials/page'
 import Section from '../components/essentials/section'
@@ -13,7 +11,7 @@ import FetchStates from '../stores/requestState'
 import CustomInput from '../components/Input/custom-input'
 import rootStore from '../stores/RootStore'
 import withRedirect from '../components/hoc/withRedirect'
-// import states from '../stores/requestState'
+import { logLaunched } from '../utils/loggingHelprer'
 
 export default withRedirect(
   observer(() => {
@@ -22,6 +20,14 @@ export default withRedirect(
     } = useContext(rootStore)
     const [errorMsg, setErrorMsg] = useState('')
     const [meetingId, setMeetingId] = useState('')
+
+    // log Launched mode
+    useEffect(() => {
+      window.addEventListener('load', logLaunched)
+      return () => {
+        window.removeEventListener('load', logLaunched)
+      }
+    }, [])
 
     const defaultOptions = {
       loop: false,
