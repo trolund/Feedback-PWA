@@ -10,3 +10,6 @@ export const logLaunched = () => {
     logEvent('Launched', 'Launched: Browser Tab')
   }
 }
+
+export const logIndstall = () =>
+  logEvent('appinstalled', 'appinstalled-success')

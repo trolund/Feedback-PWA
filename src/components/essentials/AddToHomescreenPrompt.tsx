@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback, useContext } from 'react'
 import { DownloadCloud, X } from 'react-feather'
 import IBeforeInstallPromptEvent from '../../models/types/IBeforeInstallPromptEvent'
 import IosShare from '../../../public/images/iosShare.png'
-import { logEvent } from '../../utils/analytics'
 import rootStore from '../../stores/RootStore'
+import { logIndstall } from '../../utils/loggingHelprer'
 
 const Prompt = () => {
   const {
@@ -39,9 +39,6 @@ const Prompt = () => {
       e.preventDefault()
       setState(e)
     }
-
-    const logIndstall = () =>
-      logEvent('appinstalled', 'appinstalled-success', 0, getUser().id)
 
     if (isIos() && !isInStandaloneMode()) {
       setIOSVisibleState(true)

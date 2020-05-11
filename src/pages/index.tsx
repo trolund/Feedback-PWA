@@ -4,6 +4,7 @@ import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
 import { Hash, LogIn, Maximize, Smile, AlertCircle } from 'react-feather'
 import Lottie from 'react-lottie'
+import Prompt from '../components/essentials/AddToHomescreenPrompt'
 import Page from '../components/essentials/page'
 import Section from '../components/essentials/section'
 import * as loading from '../../public/Animations/loading.json'
@@ -204,6 +205,7 @@ export default withRedirect(
             margin-bottom: 20px;
           }
         `}</style>
+        <Prompt />
       </Page>
     )
   })
