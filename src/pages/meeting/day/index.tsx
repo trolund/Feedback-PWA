@@ -1,16 +1,18 @@
-import { useEffect, useContext, useState } from 'react'
+import { useEffect, useContext, useState, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useDrag } from 'react-use-gesture'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, Coffee } from 'react-feather'
+import { ChevronLeft, ChevronRight, Coffee, Plus } from 'react-feather'
+import MobileMultiSelecter from '../../../components/add-meeting'
 import Page from '../../../components/essentials/page'
 import Section from '../../../components/essentials/section'
 import MeetingModel from '../../../models/MeetingModel'
 import rootStore from '../../../stores/RootStore'
 import MiddelLoader from '../../../components/essentials/middelLoading'
 import FetchStates from '../../../stores/requestState'
+import BottomModal from '../../../components/essentials/bottom-modal'
 
 const Day: NextPage = observer(() => {
   const router = useRouter()
@@ -18,6 +20,7 @@ const Day: NextPage = observer(() => {
 
   const [selectedDay, setSelectedDay] = useState(new Date(Number(date)))
   const [events, setEvents] = useState([] as MeetingModel[])
+  const [showModal, setShowModal] = useState(false)
   const { meetingStore } = useContext(rootStore)
 
   const setURL = () => {
@@ -51,13 +54,16 @@ const Day: NextPage = observer(() => {
     setSelectedDay(new Date(Number(date)))
   }, [date])
 
-  useEffect(() => {
+  const fetchMeetings = useCallback(() => {
     if (selectedDay && selectedDay.toString() !== 'Invalid Date')
       meetingStore.fetchMeetingByDay(selectedDay).then(() => {
         setEvents(meetingStore.meetings)
       })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [meetingStore.fetchMeetingByDay, selectedDay])
+  }, [meetingStore, selectedDay])
+
+  useEffect(() => {
+    fetchMeetings()
+  }, [fetchMeetings, meetingStore.fetchMeetingByDay, selectedDay])
 
   let sameSwipe: boolean = false
 
@@ -97,7 +103,21 @@ const Day: NextPage = observer(() => {
 
   return (
     <div {...bind()}>
-      <Page title='Møder' showBackButton>
+      <Page
+        title='Møder'
+        showBackButton
+        component={<Plus onClick={() => setShowModal(!showModal)} />}
+      >
+        <BottomModal
+          show={showModal}
+          content={
+            <MobileMultiSelecter
+              callBack={fetchMeetings}
+              setShowModal={setShowModal}
+            />
+          }
+          setShow={setShowModal}
+        />
         <MiddelLoader loading={meetingStore.state === FetchStates.LOADING} />
         <div className='bar'>
           <div className='date'>

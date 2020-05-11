@@ -1,6 +1,7 @@
 // const { apiUrl } = process.env.apiUrl
 
-// const isServer = () => typeof window === 'undefined'
+const isServer = () => typeof window === 'undefined'
+
 const apiUrl = () => {
   // if (!isServer) return process.env.API_URL
   return process.env.apiUrl
@@ -12,6 +13,14 @@ const appendCategoriesParms = (inputStr: string, categories: string[]) => {
   returnStr += categoriesStr
 
   return returnStr
+}
+
+const ownBaseUrl = (): string => {
+  if (!isServer()) {
+    const getUrl = window.location
+    return `${getUrl.protocol}//${getUrl.host}`
+  }
+  return ''
 }
 
 const ApiRoutes = {
@@ -30,7 +39,7 @@ const ApiRoutes = {
   createUser: `${apiUrl()}/Api/User/Post`,
   updateUserPassword: `${apiUrl()}/Api/User/newPassword`,
   updateUserInfo: `${apiUrl()}/Api/User/userUpdate`,
-  qrcode: (mid: string) => `/feedback/${String(mid)}`,
+  qrcode: (mid: string) => `${ownBaseUrl()}/feedback/${String(mid)}`,
   meetingByShortId: (id: string) => `${apiUrl()}/Api/Meeting/ShortId/${id}`,
   login: `${apiUrl()}/Api/User/authenticate`,
   CreateFeedbackBatch: () => `${apiUrl()}/Api/FeedbackBatch`,

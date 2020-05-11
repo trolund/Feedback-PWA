@@ -27,8 +27,9 @@ const CustomDatepicker = ({ value, onChange, error }: Props) => {
         />
         <Calendar
           style={{
-            marginTop: '-37px',
-            position: 'absolute',
+            height: '84px',
+            maxWidth: '45px',
+            marginTop: '-70px',
             marginLeft: '15px'
           }}
           role='button'
@@ -90,11 +91,6 @@ const CustomDatepicker = ({ value, onChange, error }: Props) => {
           outline: 0px;
         }
 
-         {
-          /* .container input:hover {
-          background-color: var(--surface-hover);
-        } */
-        }
         .container {
           width: 160px;
           user-select: none;

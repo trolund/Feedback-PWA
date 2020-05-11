@@ -23,7 +23,7 @@ const Scanner = observer(() => {
       console.log('====================================')
       console.log(parts[-1])
       console.log('====================================')
-      Router.push(data)
+      Router.push(`/feedback/${parts[-1]}`)
     }
   }
   const handleError = err => {

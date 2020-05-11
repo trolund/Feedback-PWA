@@ -363,8 +363,11 @@ const Post: NextPage = observer(
                   Brug denne unikke qrkode til let at give dine deltagere adgang
                   til at give dig feedback. kopier evt billede ind i et slide
                   show eller hav denne side klar. eller brug{' '}
-                  <a href={ApiRoutes.qrcode(String(mid))}>
-                    {ApiRoutes.qrcode(String(mid))}
+                  <a
+                    href={ApiRoutes.qrcode(String(mid))}
+                    style={{ fontWeight: 700 }}
+                  >
+                    {ApiRoutes.qrcode(String(mid)).split('/')[4]}
                   </a>
                 </p>
               </div>

@@ -67,8 +67,11 @@ export const days = [
   'Onsdag',
   'Torsdag',
   'Fredag',
+  'Lørdag',
   'Søndag'
 ]
+
+export const daysShort = () => days.map(d => d.slice(0, 3))
 
 export const startAndEndOfWeek = date => {
   // If no date object supplied, use current date

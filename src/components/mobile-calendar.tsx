@@ -2,6 +2,7 @@ import React from 'react'
 import Router from 'next/router'
 import InfiniteCalendar from 'react-infinite-calendar'
 import WindowDimensions from '../models/types/WindowDimensions'
+import { daysShort } from '../services/dateService'
 
 // Render the Calendar
 const today = new Date()
@@ -23,6 +24,12 @@ const MobileCalendar = ({ dim }: props) => {
   return (
     <>
       <InfiniteCalendar
+        locale={{
+          headerFormat: 'dddd, D MMM',
+          weekdays: daysShort(),
+          blank: 'Ingen dag valgt',
+          todayLabel: { long: 'I dag' }
+        }}
         width={dim.width}
         height={dim.height - 300}
         selected={today}

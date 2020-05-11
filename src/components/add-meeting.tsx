@@ -2,6 +2,7 @@
 import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Save } from 'react-feather'
+import { toast } from 'react-toastify'
 import CategoriesPicker from './Input/categories-picker'
 import FetchStates from '../stores/requestState'
 import CustomDatepicker from './Input/custom-datepicker'
@@ -39,6 +40,8 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
   const [startTime, setStartTime] = useState(new Date())
   const [endTime, setEndTime] = useState(new Date())
   const [questionSet, setQuestionSet] = useState('')
+  const [showErrors, setShowErrors] = useState(false)
+  const [Selecter, setSelecter] = useState('null')
 
   useEffect(() => {
     categoriesStore.fetchCategories(String(getCompanyId())).then(() => {
@@ -53,26 +56,41 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
     setStartTime(new Date())
     setQuestionSet('')
     setMeetingCategories([])
+    setSelecter('null')
   }
 
-  const createMeeting = () => {
-    const eTime = spliceDateAndTime(date, endTime)
-    const newMeeting: MeetingModel = {
-      ...meeting,
-      endTime: eTime,
-      startTime: spliceDateAndTime(date, startTime),
-      topic: 'emne',
-      questionsSetId: questionSet,
-      location: 'et sted'
-    }
+  const fuldformValid = (): boolean =>
+    validateStartAndEndDate(startTime, endTime).valid &&
+    validateTextInput(meeting?.name, 80, false).valid &&
+    validateTextInput(meeting?.name, 1500, true).valid &&
+    questionSet === 'null'
 
-    meetingStore.create(newMeeting).then(res => {
-      if (res === FetchStates.DONE) {
-        callBack()
-        reset()
-        setShowModal(false)
+  const createMeeting = () => {
+    if (fuldformValid) {
+      const eTime = spliceDateAndTime(date, endTime)
+      const newMeeting: MeetingModel = {
+        ...meeting,
+        endTime: eTime,
+        startTime: spliceDateAndTime(date, startTime),
+        topic: 'emne',
+        questionsSetId: questionSet,
+        location: 'et sted'
       }
-    })
+
+      meetingStore.create(newMeeting).then(res => {
+        if (res === FetchStates.DONE) {
+          callBack()
+          reset()
+          setShowModal(false)
+          toast(`Mødet ${newMeeting.name} er nu oprettet.`)
+        } else if (res === FetchStates.FAILED) {
+          toast('Der skete en fejl ved oprettelsen af møde prøv igen')
+        }
+      })
+    } else {
+      setShowErrors(true)
+      toast('Der skete en fejl ved oprettelsen af møde prøv igen')
+    }
   }
 
   return (
@@ -83,6 +101,7 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
         </li>
         <li>
           <CustomSelect
+            defaultValue={Selecter}
             error={questionSet === 'null'}
             fill
             placeholder='- Vælg spørgsmåls sæt -'
@@ -105,7 +124,9 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
         <li>
           <CustomInput
             fill
-            error={validateTextInput(meeting?.name, 80, false).valid}
+            error={
+              validateTextInput(meeting?.name, 80, false).valid && showErrors
+            }
             type='text'
             placeholder='Navn på mødet'
             value={meeting?.name}
@@ -145,7 +166,9 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
         <li>
           <CustomTextarea
             fill
-            error={validateTextInput(meeting?.name, 1500, true).valid}
+            error={
+              validateTextInput(meeting?.name, 1500, true).valid && showErrors
+            }
             value={meeting?.discription}
             placeholder='Kommentar'
             onChange={e => setMeeting({ ...meeting, discription: e })}
@@ -153,7 +176,9 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
         </li>
         <li>
           <CustomDatepicker
-            error={validateStartAndEndDate(date, new Date()).valid}
+            error={
+              validateStartAndEndDate(date, new Date()).valid && showErrors
+            }
             value={date}
             onChange={newDate => {
               setDate(newDate)
@@ -164,7 +189,9 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
           <span>
             <p>Start tid</p>
             <CustomTimepicker
-              error={validateStartAndEndDate(startTime, endTime).valid}
+              error={
+                validateStartAndEndDate(startTime, endTime).valid && showErrors
+              }
               value={startTime}
               onChange={newTime => {
                 setStartTime(newTime)
@@ -174,7 +201,9 @@ const AddMeeting = observer(({ callBack, setShowModal }: AddMeetingProps) => {
           <span>
             <p>Slut tid</p>
             <CustomTimepicker
-              error={validateStartAndEndDate(startTime, endTime).valid}
+              error={
+                validateStartAndEndDate(startTime, endTime).valid && showErrors
+              }
               value={endTime}
               onChange={newTime => {
                 setEndTime(newTime)

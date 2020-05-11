@@ -18,12 +18,19 @@ import BottomModal from '../components/essentials/bottom-modal'
 import MobileMultiSelecter from '../components/add-meeting'
 import { applyOffSet } from '../services/dateService'
 import CustomInput from '../components/Input/custom-input'
+import MiddelLoader from '../components/essentials/middelLoading'
+import FetchStates from '../stores/requestState'
+import CustomToast from '../components/essentials/custom-Toast'
 
 let FullCalendarNoSSRWrapper
 
 const CalendarView = withAuth(
   observer(() => {
     const { meetingStore, categoriesStore } = useContext(rootStore)
+    const {
+      meetingStore: { state: meetingState },
+      categoriesStore: { state: catState }
+    } = useContext(rootStore)
     const [calViewProp, setCalViewProp] = useState({})
     const initEvent: EventInput[] = []
     const [events, setEvnets] = useState(initEvent)
@@ -74,9 +81,6 @@ const CalendarView = withAuth(
 
     function mapEvents(myevents: MeetingModel[]) {
       return myevents.map(item => {
-        console.log('====================================')
-        console.log(item.name, applyOffSet(item.endTime).toISOString())
-        console.log('====================================')
         return {
           id: item.shortId,
           title: item.name,
@@ -89,8 +93,6 @@ const CalendarView = withAuth(
         } as EventInput
       })
     }
-
-    // function filterEvents(item: EventInput) {}
 
     const filterEventsCallback = useCallback(
       (item: EventInput) => {
@@ -137,9 +139,16 @@ const CalendarView = withAuth(
     }
 
     const showCalendar = useCallback(() => {
-      if (!showCal) return <div>Loading ...</div>
+      if (!showCal) return <></>
       return (
         <>
+          <MiddelLoader
+            loading={
+              !showCal ||
+              meetingState === FetchStates.LOADING ||
+              catState === FetchStates.LOADING
+            }
+          />
           <div style={{ paddingTop: '20px', paddingBottom: '20px' }}>
             <CustomInput
               logo={<Search />}
@@ -203,12 +212,23 @@ const CalendarView = withAuth(
               // alert("Current view: " + info.view.type);
               // change the day's background color just for fun
               // eslint-disable-next-line no-param-reassign
-              info.dayEl.style.backgroundColor = 'red'
+              info.dayEl.style.backgroundColor = 'var(--overlay)'
+              Router.push(
+                `/meeting/day?date=${new Date(String(info.dateStr)).getTime()}`
+              )
             }}
           />
         </>
       )
-    }, [events, filterEventsCallback, searchWord, showCal, windowDim.width])
+    }, [
+      catState,
+      events,
+      filterEventsCallback,
+      meetingState,
+      searchWord,
+      showCal,
+      windowDim.width
+    ])
 
     // <SearchBtn
     //   inputOpen={inputOpen}
@@ -235,6 +255,7 @@ const CalendarView = withAuth(
           }
           setShow={setShowModal}
         />
+        <CustomToast />
         {/* <Seachbar value={searchWord} setValue={setSearchWord} /> */}
         {/* <CreateMeetingModal
         questionContext={questionContext}
