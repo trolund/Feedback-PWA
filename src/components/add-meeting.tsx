@@ -31,8 +31,8 @@ type AddMeetingProps = {
 const AddMeeting = observer(
   ({ callBack, setShowModal, initDate }: AddMeetingProps) => {
     const {
-      questionSetStore,
-      categoriesStore,
+      questionSetStore: { fetchQuestionSetNames, QSetNames },
+      categoriesStore: { fetchCategories, state, categories },
       meetingStore,
       settingStore: { hideTempQuestionSets }
     } = useContext(rootStore)
@@ -55,11 +55,12 @@ const AddMeeting = observer(
     }, [initDate])
 
     useEffect(() => {
-      categoriesStore.fetchCategories(String(getCompanyId())).then(() => {
-        setMeetingCategories(categoriesStore.categories)
+      fetchCategories(String(getCompanyId())).then(() => {
+        setMeetingCategories(categories)
       })
-      questionSetStore.fetchQuestionSetNames()
-    }, [categoriesStore, questionSetStore])
+      fetchQuestionSetNames()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchCategories, fetchQuestionSetNames])
 
     const reset = () => {
       setMeeting({ name: '', discription: '' } as MeetingModel)
@@ -131,8 +132,8 @@ const AddMeeting = observer(
               placeholder='- Vælg spørgsmåls sæt -'
               onChange={value => setQuestionSet(value)}
               values={
-                questionSetStore.QSetNames
-                  ? questionSetStore.QSetNames.filter(
+                QSetNames
+                  ? QSetNames.filter(
                       hideTempQuestionSets ? filterTempletes : () => true
                     ).map(
                       q =>
@@ -160,7 +161,7 @@ const AddMeeting = observer(
           <li>
             <CategoriesPicker
               fill
-              loading={categoriesStore.state === FetchStates.LOADING}
+              loading={state === FetchStates.LOADING}
               values={meeting.meetingCategories?.map(
                 item =>
                   ({
@@ -171,7 +172,7 @@ const AddMeeting = observer(
                     value: item.categoryId
                   } as IOptionsValue)
               )}
-              categories={categoriesStore?.categories}
+              categories={categories || []}
               setTags={newTags => {
                 setMeeting({
                   ...meeting,

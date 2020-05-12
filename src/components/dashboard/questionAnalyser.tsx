@@ -22,7 +22,8 @@ const QuestionAnalyser = observer(({ data }: Props) => {
 
   useEffect(() => {
     fetchQuestionSetNames()
-  }, [fetchQuestionSetNames])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const chartOptions = {
     responsive: true,

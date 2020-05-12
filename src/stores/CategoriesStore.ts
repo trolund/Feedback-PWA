@@ -13,7 +13,7 @@ export default class CategoriesStore {
   // data
   @observable categories: Category[] | null = null
 
-  @action async fetchCategories(companyId: string) {
+  @action fetchCategories = async (companyId: string) => {
     this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.Categories(companyId)
