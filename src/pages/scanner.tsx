@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
+import { toast } from 'react-toastify'
 import { observer } from 'mobx-react-lite'
 import Router from 'next/router'
 import Page from '../components/essentials/page'
 import Section from '../components/essentials/section'
 import MiddelLoader from '../components/essentials/middelLoading'
 import { logEvent } from '../utils/analytics'
-import { toast } from 'react-toastify'
 
 const QrReader = dynamic(() => import('react-qr-reader'), {
   ssr: false

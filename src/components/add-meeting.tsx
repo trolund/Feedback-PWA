@@ -106,7 +106,14 @@ const AddMeeting = observer(
       }
     }
 
-    console.log(questionSet === 'null' || questionSet === '')
+    const minDate = () => {
+      const d = new Date()
+      d.setSeconds(0)
+      d.setMinutes(0)
+      d.setHours(0)
+
+      return d
+    }
 
     return (
       <div>
@@ -202,7 +209,7 @@ const AddMeeting = observer(
           </li>
           <li>
             <CustomDatepicker
-              minValue={new Date()}
+              minValue={minDate()}
               error={validateStartAndEndDate(date, new Date()).valid}
               value={date}
               onChange={newDate => {
