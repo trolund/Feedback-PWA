@@ -45,6 +45,9 @@ const AddMeeting = observer(
     const [showErrors, setShowErrors] = useState(false)
     const [Selecter, setSelecter] = useState('null')
 
+    // errors
+    const [timeError, setTimeError] = useState(false)
+
     useEffect(() => {
       if (initDate && initDate.toString() !== 'Invalid Date') {
         setDate(initDate)
@@ -101,9 +104,18 @@ const AddMeeting = observer(
       }
     }
 
+    console.log(questionSet === 'null' || questionSet === '')
+
     return (
       <div>
-        <span style={{ position: 'absolute', right: '15px', padding: '10px' }}>
+        <span
+          style={{
+            position: 'absolute',
+            right: '15px',
+            padding: '10px',
+            zIndex: 9999999
+          }}
+        >
           <X onClick={() => setShowModal(false)} />
         </span>
         <ul>
@@ -113,7 +125,7 @@ const AddMeeting = observer(
           <li>
             <CustomSelect
               defaultValue={Selecter}
-              error={questionSet === 'null'}
+              error={questionSet === 'null' || questionSet === ''}
               fill
               placeholder='- Vælg spørgsmåls sæt -'
               onChange={value => setQuestionSet(value)}
@@ -188,9 +200,8 @@ const AddMeeting = observer(
           </li>
           <li>
             <CustomDatepicker
-              error={
-                validateStartAndEndDate(date, new Date()).valid && showErrors
-              }
+              minValue={new Date()}
+              error={validateStartAndEndDate(date, new Date()).valid}
               value={date}
               onChange={newDate => {
                 setDate(newDate)
@@ -201,26 +212,26 @@ const AddMeeting = observer(
             <span>
               <p>Start tid</p>
               <CustomTimepicker
-                error={
-                  validateStartAndEndDate(startTime, endTime).valid &&
-                  showErrors
-                }
+                maxValue={endTime}
+                error={timeError}
                 value={startTime}
                 onChange={newTime => {
                   setStartTime(newTime)
+                  setTimeError(!validateStartAndEndDate(newTime, endTime).valid)
                 }}
               />
             </span>
-            <span>
+            <span style={{ marginLeft: '10px' }}>
               <p>Slut tid</p>
               <CustomTimepicker
-                error={
-                  validateStartAndEndDate(startTime, endTime).valid &&
-                  showErrors
-                }
+                minValue={startTime}
+                error={timeError}
                 value={endTime}
                 onChange={newTime => {
                   setEndTime(newTime)
+                  setTimeError(
+                    !validateStartAndEndDate(startTime, newTime).valid
+                  )
                 }}
               />
             </span>

@@ -6,9 +6,17 @@ type Props = {
   onChange: (data: Date) => void
   value: Date
   error?: boolean
+  minValue?: Date
+  maxValue?: Date
 }
 
-const CustomTimepicker = ({ value, onChange, error }: Props) => {
+const CustomTimepicker = ({
+  value,
+  onChange,
+  error,
+  minValue,
+  maxValue
+}: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   const [dateValue, setDateValue] = useState(value)
 
@@ -16,34 +24,49 @@ const CustomTimepicker = ({ value, onChange, error }: Props) => {
     setDateValue(value)
   }, [value])
 
+  const minProp = minValue !== null ? { min: minValue } : {}
+  const maxProp = maxValue !== null ? { max: maxValue } : {}
+
   return (
     <>
-      <div
-        role='button'
-        tabIndex={0}
-        className='container'
-        onKeyDown={() => setIsOpen(!isOpen)}
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <div className='container'>
         <input
+          className={error ? 'input-error' : ''}
           readOnly
           value={dateValue
             .toTimeString()
             .split(' ')[0]
             .slice(0, 5)}
+          // onChange={e => {
+          //   if (/^([0-1][0-9]|2[0-3]):([0-5][0-9])$/.test(e.target.value)) {
+          //     const timecomponents = e.target.value.split(':')
+          //     const newTime = dateValue
+          //     newTime.setHours(Number(timecomponents[0]))
+          //     newTime.setMinutes(Number(timecomponents[1]))
+          //     setDateValue(newTime)
+          //   } else {
+          //     console.log('nope', e)
+          //   }
+          // }}
           style={{ paddingLeft: '50px' }}
         />
         <Clock
           style={{
-            marginTop: '-33px',
-            position: 'absolute',
+            height: '84px',
+            maxWidth: '45px',
+            marginTop: '-70px',
             marginLeft: '15px'
           }}
+          role='button'
+          tabIndex={0}
+          onKeyDown={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(!isOpen)}
         />
       </div>
       <DatePicker
+        {...minProp}
+        {...maxProp}
         // theme='ios'
-        className={error ? 'input-error' : ''}
         confirmText='Ok'
         cancelText='Luk'
         isOpen={isOpen}
@@ -77,24 +100,22 @@ const CustomTimepicker = ({ value, onChange, error }: Props) => {
           border-radius: var(--border-radius);
           width: 110px;
           color: var(--text);
-          padding: var(--gap-small);
+          padding: 16px 16px 16px 16px;
           background: var(--base);
           display: flex;
           align-items: center;
           transition: var(--transition-colors);
-          border-color: var(--label);
-          border: 1px solid;
-          border-radius: 15px;
+          border: 0px solid;
           background-color: var(--surface);
-          user-select: none;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+            rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+          outline: 0px;
         }
 
-        .container input:hover {
-          background-color: var(--surface-hover);
-        }
         .container {
           width: 110px;
           user-select: none;
+          margin-bottom: -25px;
         }
 
         .container :global(> svg) {

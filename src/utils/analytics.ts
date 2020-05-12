@@ -1,8 +1,12 @@
 import ReactGA from 'react-ga'
 
 export const initGA = () => {
-  console.log('GA init')
-  ReactGA.initialize('UA-166139475-1')
+  if (process.env.ENV === 'production') {
+    console.log('GA init')
+    ReactGA.initialize('UA-166139475-1')
+  } else {
+    console.log('GA not init because in dev')
+  }
 }
 export const logPageView = () => {
   console.log(`Logging pageview for ${window.location.pathname}`)

@@ -14,6 +14,7 @@ module.exports = withImages(
       dest: 'public'
     },
     env: {
+      ENV: process.env.NODE_ENV,
       apiUrl: process.env.API_URL,
       spinOffCompenyId: 1
     },

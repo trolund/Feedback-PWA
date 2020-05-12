@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "dev": "next",
+    "dev": "NODE_ENV=development next",
     "build": "next build",
     "start": "node node_modules/next/dist/bin/next start -p $PORT",
     "start:local": "next start -p 5000",

@@ -14,6 +14,7 @@ module.exports = withImages(
       dest: 'public'
     },
     env: {
+      ENV: 'production',
       apiUrl: 'https://feedbackbackend.azurewebsites.net',
       spinOffCompenyId: 1
     },

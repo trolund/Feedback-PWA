@@ -3,7 +3,8 @@
 import {
   validatePassword,
   validateEmail,
-  validatePhone
+  validatePhone,
+  validateStartAndEndDate
 } from '../../src/services/validationService'
 
 describe('input validation service', () => {
@@ -66,6 +67,64 @@ describe('input validation service', () => {
       expect(valid.valid).toBe(true)
       expect(inValid.valid).toBe(false)
       expect(inValid2.valid).toBe(false)
+    })
+  })
+
+  describe('test time input validation', () => {
+    it('should validate a two time input where a is before b - positive test', function() {
+      const a = new Date()
+      const b = new Date()
+
+      // + one hour
+      b.setHours(b.getHours() + 1)
+
+      const res = validateStartAndEndDate(a, b).valid
+
+      expect(res).toBe(true)
+    })
+    it('should validate a two time input where a is before b - positive test', function() {
+      const a = new Date()
+      const b = new Date()
+
+      // + teen hour
+      b.setHours(b.getHours() + 10)
+
+      const res = validateStartAndEndDate(a, b).valid
+
+      expect(res).toBe(true)
+    })
+    it('should validate a two time input where a is before b - negtiv test', function() {
+      const a = new Date()
+      const b = new Date()
+
+      // - one hour
+      b.setHours(b.getHours() - 1)
+
+      const res = validateStartAndEndDate(a, b).valid
+
+      expect(res).toBe(false)
+    })
+    it('should validate a two time input where a is before b - positive (min) test', function() {
+      const a = new Date()
+      const b = new Date()
+
+      // + one hour
+      b.setMinutes(b.getMinutes() + 1)
+
+      const res = validateStartAndEndDate(a, b).valid
+
+      expect(res).toBe(true)
+    })
+    it('should validate a two time input where a is before b - negtiv (min) test', function() {
+      const a = new Date()
+      const b = new Date()
+
+      // - one min
+      b.setMinutes(b.getMinutes() - 1)
+
+      const res = validateStartAndEndDate(a, b).valid
+
+      expect(res).toBe(false)
     })
   })
 })

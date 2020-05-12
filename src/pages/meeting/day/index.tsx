@@ -104,13 +104,22 @@ const Day: NextPage = observer(() => {
     )
   }
 
+  const AddBtn = () => {
+    const d = new Date()
+    d.setHours(0)
+    d.setMinutes(0)
+    d.setSeconds(0)
+    d.setMilliseconds(0)
+    return (
+      d.getTime() <= selectedDay.getTime() && (
+        <Plus onClick={() => setShowModal(!showModal)} />
+      )
+    )
+  }
+
   return (
     <div {...bind()}>
-      <Page
-        title='Møder'
-        showBackButton
-        component={<Plus onClick={() => setShowModal(!showModal)} />}
-      >
+      <Page title='Møder' showBackButton component={<AddBtn />}>
         <BottomModal
           show={showModal}
           content={

@@ -6,15 +6,18 @@ type Props = {
   onChange: (data: Date) => void
   value: Date
   error?: boolean
+  minValue?: Date
 }
 
-const CustomDatepicker = ({ value, onChange, error }: Props) => {
+const CustomDatepicker = ({ value, onChange, error, minValue }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   const [dateValue, setDateValue] = useState(value)
 
   useEffect(() => {
     setDateValue(value)
   }, [value])
+
+  const minProp = minValue !== null ? { min: minValue } : {}
 
   return (
     <>
@@ -39,6 +42,7 @@ const CustomDatepicker = ({ value, onChange, error }: Props) => {
         />
       </div>
       <DatePicker
+        {...minProp}
         // theme='ios'
         className={error ? 'input-error' : ''}
         confirmText='Ok'
@@ -94,6 +98,7 @@ const CustomDatepicker = ({ value, onChange, error }: Props) => {
         .container {
           width: 160px;
           user-select: none;
+          margin-bottom: -25px;
         }
 
         .container :global(> svg) {
