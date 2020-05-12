@@ -354,7 +354,7 @@ const Post: NextPage = observer(
                 <QRCode
                   bgColor='var(--surface)'
                   fgColor='var(--accent)'
-                  level='Q'
+                  level='H'
                   style={{ width: 256 }}
                   value={ApiRoutes.qrcode(String(mid))}
                 />

@@ -39,7 +39,8 @@ const ApiRoutes = {
   createUser: `${apiUrl()}/Api/User/Post`,
   updateUserPassword: `${apiUrl()}/Api/User/newPassword`,
   updateUserInfo: `${apiUrl()}/Api/User/userUpdate`,
-  qrcode: (mid: string) => `${ownBaseUrl()}/feedback/${String(mid)}`,
+  // qrcode: (mid: string) => `${ownBaseUrl()}/feedback/${String(mid)}`,  // TODO fix to this
+  qrcode: (mid: string) => `/feedback/${String(mid)}`,
   meetingByShortId: (id: string) => `${apiUrl()}/Api/Meeting/ShortId/${id}`,
   login: `${apiUrl()}/Api/User/authenticate`,
   CreateFeedbackBatch: () => `${apiUrl()}/Api/FeedbackBatch`,
