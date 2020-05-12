@@ -86,14 +86,14 @@ const BottomNav = () => {
     <nav>
       <div>
         {links.map(link => {
-          if (link.roles !== undefined) {
-            if (!showItem(link)) return <></>
-          }
-          if (link.requireCompanyConfirm) {
-            if (!user?.companyConfirmed) {
-              return <></>
-            }
-          }
+          // if (link.roles !== undefined) {
+          //   if (!showItem(link)) return <></>
+          // }
+          // if (link.requireCompanyConfirm) {
+          //   if (!user?.companyConfirmed) {
+          //     return <></>
+          //   }
+          // }
           return (
             <Link href={link.href} key={link.title}>
               <a
