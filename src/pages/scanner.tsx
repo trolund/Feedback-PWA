@@ -6,6 +6,7 @@ import Page from '../components/essentials/page'
 import Section from '../components/essentials/section'
 import MiddelLoader from '../components/essentials/middelLoading'
 import { logEvent } from '../utils/analytics'
+import { toast } from 'react-toastify'
 
 const QrReader = dynamic(() => import('react-qr-reader'), {
   ssr: false
@@ -25,11 +26,16 @@ const Scanner = observer(() => {
       Router.push(`/feedback/${parts[parts.length - 1]}`)
     }
   }
+
   const handleError = err => {
     console.error(err)
     logEvent('scanner-event', 'Scanner error', 0, JSON.stringify(err))
     setError('Fejl ved læsning.')
+    toast(
+      'Fejl ved læsning, din endhed understøtter muligvis ikke at bruge kameraet.'
+    )
   }
+
   return (
     <Page
       title='QR kode scanner'
