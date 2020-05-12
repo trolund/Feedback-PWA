@@ -22,7 +22,7 @@ const QuestionAnalyser = observer(({ data }: Props) => {
 
   useEffect(() => {
     fetchQuestionSetNames()
-  }, [QSetNames, fetchQuestionSetNames])
+  }, [fetchQuestionSetNames])
 
   const chartOptions = {
     responsive: true,
