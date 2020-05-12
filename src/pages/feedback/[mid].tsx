@@ -54,6 +54,10 @@ const Feedback: NextPage = observer(() => {
     }
   }, [fetchQuestions, getUser, mid])
 
+  useEffect(() => {
+    logEvent('Feedback side', String(statusCode))
+  }, [statusCode])
+
   return (
     <>
       <MiddelLoader

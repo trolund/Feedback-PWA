@@ -8,6 +8,7 @@ import IQuestionSet from '../../models/QuestionSet'
 import FetchStates from '../../stores/requestState'
 import Question from './question'
 import FeedbackOverlay from './FeedbackDoneOverlay'
+import { logEvent } from '../../utils/analytics'
 
 type FeedbackViewPagerProps = {
   initQuestions: IQuestionSet
@@ -61,15 +62,18 @@ const FeedbackViewPager = observer(
               setSuccess(true)
               setOverlayText('Tak for din besvarelse')
               setShowOverlay(true)
+              logEvent('Feedback', 'feedback send - succes')
             } else {
               setSuccess(false)
               setOverlayText('Der skete desværre en fejl')
               setShowOverlay(true)
+              logEvent('Feedback', 'feedback send - error')
             }
           })
         } else {
           setModalOpen(true)
           console.log('Feedback er ikke klar!')
+          logEvent('Feedback', 'feedback send - not ready')
         }
       } else {
         increment()

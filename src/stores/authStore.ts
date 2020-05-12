@@ -9,6 +9,7 @@ import { login, getToken, logout } from '../services/authService'
 import TokenModel from '../models/TokenModel'
 import NewPasswordModel from '../models/NewPasswordModel'
 import User from '../models/classes/User'
+import { logEvent } from '../utils/analytics'
 
 export default class AuthStore {
   @observable state: FetchStates = FetchStates.DONE
@@ -84,6 +85,7 @@ export default class AuthStore {
       this.msg = response.statusText
 
       if (response.status === 200) {
+        logEvent('Login', 'login success', 200, email)
         this.user = await response.json()
         // localStorage.setItem('user', JSON.stringify(this.user))
         this.msg = `Velkommen! ${this.user.firstname}`
@@ -101,6 +103,7 @@ export default class AuthStore {
       }
 
       if (response.status === 500) {
+        logEvent('Login', 'login error - 500', 500, email)
         this.msg = 'Server problem, kontakt Administator.'
         this.state = FetchStates.FAILED
         return FetchStates.FAILED
@@ -108,14 +111,16 @@ export default class AuthStore {
 
       if (response.status === 403) {
         this.msg = 'Email eller password er forkert, prøv igen'
+        logEvent('Login', 'login error - 403', 403, email)
         this.state = FetchStates.FAILED
         return FetchStates.FAILED
       }
-
+      logEvent('Login', 'login error - unknown', 0, email)
       this.msg = 'Ukendt fejl, kontakt Administator.'
       this.state = FetchStates.FAILED
       return FetchStates.FAILED
     } catch (e) {
+      logEvent('Login', 'login error - unknown', 0, email)
       this.user = null
       this.state = FetchStates.FAILED
       return FetchStates.FAILED

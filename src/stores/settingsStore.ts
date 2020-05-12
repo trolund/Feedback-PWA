@@ -1,6 +1,7 @@
 import { observable, action } from 'mobx'
 import { persist } from 'mobx-persist'
 import FetchStates from './requestState'
+import { logEvent } from '../utils/analytics'
 
 export default class SettingsStore {
   // status
@@ -29,14 +30,29 @@ export default class SettingsStore {
 
   @action setAnimation = (value: boolean) => {
     this.animation = value
+    if (value) {
+      logEvent('animation', 'disabled')
+    } else {
+      logEvent('animation', 'enabled')
+    }
   }
 
   @action setHideTempQuestionSets = (value: boolean) => {
     this.hideTempQuestionSets = value
+    if (value) {
+      logEvent('hide templete sets', 'enabled')
+    } else {
+      logEvent('hide templete sets', 'disabled')
+    }
   }
 
   @action setRealtimeFeedbackDefault = (value: boolean) => {
     this.realtimeFeedbackDefault = value
+    if (value) {
+      logEvent('realtime feedback default', 'enabled')
+    } else {
+      logEvent('realtime feedback default', 'disabled')
+    }
   }
 
   @action setShowDefQuestionSets = (value: boolean) => {
@@ -45,5 +61,10 @@ export default class SettingsStore {
 
   @action setShowTitleInBottomNav = (value: boolean) => {
     this.showTitleInBottomNav = value
+    if (value) {
+      logEvent('title in bottom Navigation', 'enabled')
+    } else {
+      logEvent('title in bottom Navigation', 'disabled')
+    }
   }
 }

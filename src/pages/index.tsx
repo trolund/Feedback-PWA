@@ -14,6 +14,7 @@ import rootStore from '../stores/RootStore'
 import withRedirect from '../components/hoc/withRedirect'
 import { logLaunched } from '../utils/loggingHelprer'
 import { getIOSVersion } from '../services/deviceInfoService'
+import { logEvent } from '../utils/analytics'
 
 export default withRedirect(
   observer(() => {
@@ -44,9 +45,11 @@ export default withRedirect(
       setErrorMsg('')
       isMeetingOpen(meetingId).then((result: boolean) => {
         if (result) {
+          logEvent('Meeting open', 'send to feedback')
           Router.push(`/feedback/${meetingId}`)
         } else {
           setErrorMsg('Noget gik galt')
+          logEvent('Meeting open', 'error')
         }
       })
     }

@@ -12,6 +12,7 @@ import rootStore from '../../stores/RootStore'
 import CustomInput from '../../components/Input/custom-input'
 import FetchStates from '../../stores/requestState'
 import { getIOSVersion } from '../../services/deviceInfoService'
+import { logEvent } from '../../utils/analytics'
 
 const Task = withAuth(
   observer(() => {
@@ -31,12 +32,15 @@ const Task = withAuth(
     }
 
     const checkMeetingClickHandler = () => {
+      // Todo Split into service - også brugt i root index side
       setErrorMsg('')
       isMeetingOpen(meetingId).then((result: boolean) => {
         if (result) {
+          logEvent('Meeting open', 'send to feedback')
           Router.push(`/feedback/${meetingId}`)
         } else {
           setErrorMsg('Noget gik galt')
+          logEvent('Meeting open', 'error')
         }
       })
     }

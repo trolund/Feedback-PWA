@@ -82,11 +82,17 @@ export default class FeedbackStore {
         body: json,
         redirect: 'follow'
       })
-
       this.msg = response.statusText
-      this.state = FetchStates.DONE
-      // const data = await response.json()
-      return FetchStates.DONE
+
+      // every thing seme to go as planed :)
+      if (response.status === 200) {
+        this.state = FetchStates.DONE
+        return FetchStates.DONE
+      }
+
+      // the ser dit not produce status code 200 and feedback was not safely deliverd.
+      this.state = FetchStates.FAILED
+      return FetchStates.FAILED
     } catch (e) {
       this.state = FetchStates.FAILED
       this.msg = e.statusText
