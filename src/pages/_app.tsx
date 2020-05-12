@@ -16,7 +16,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>Feedback</title>
+        <title>Opino</title>
         <meta charSet='utf-8' />
         <meta name='mobile-web-app-capable' content='yes' />
         {/* <meta name='apple-mobile-web-app-capable' content='yes' />  https://bugs.webkit.org/show_bug.cgi?id=185448 - gets the camera too work */}
@@ -158,14 +158,6 @@ const App = ({ Component, pageProps }: AppProps) => {
           media='(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)'
         />
       </Head>
-      {/* <CookieConsent
-        buttonClasses='button'
-        containerClasses='cookie-box'
-        contentClasses='text-capitalize'
-      >
-        This website uses cookies to enhance the user experience.{' '}
-        <span style={{ fontSize: '10px' }}>This bit of text is smaller :O</span>
-      </CookieConsent> */}
       <Component {...pageProps} />
     </>
   )
