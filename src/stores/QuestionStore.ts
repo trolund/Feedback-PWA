@@ -1,7 +1,7 @@
 import { observable, action } from 'mobx'
 //  import RootStore from './RootStore'
 import FetchStates from './requestState'
-import QuestionSet from '../models/QuestionSet'
+import IQuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
 
 // import questionTestData from './api/DummyData/questionTestData.json'
@@ -14,7 +14,7 @@ export default class QuestionStore {
   @observable meetingId = null
 
   // data
-  @observable questions: QuestionSet = null
+  @observable questions: IQuestionSet = null
 
   @action fetchQuestions = async (
     meetingId: string,
@@ -31,7 +31,7 @@ export default class QuestionStore {
 
       this.msg = response.statusText
 
-      const data: QuestionSet = await response.json()
+      const data: IQuestionSet = await response.json()
 
       if ('msg' in data) {
         this.questions = null

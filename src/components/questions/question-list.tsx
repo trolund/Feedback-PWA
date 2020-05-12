@@ -1,21 +1,21 @@
 /* eslint-disable react/no-array-index-key */
 import { Trash } from 'react-feather'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import Question from '../../models/Question'
-import QuestionSet from '../../models/QuestionSet'
+import IQuestion from '../../models/Question'
+import IQuestionSet from '../../models/QuestionSet'
 
 type QuestionListProps = {
-  questionList: Question[]
+  questionList: IQuestion[]
   deleteFunc: (index: number) => void
   changeItemFunc: (newQuestion: string, index: number) => void
-  qset: QuestionSet
-  setQset: (questionSet: QuestionSet) => void
+  qset: IQuestionSet
+  setQset: (questionSet: IQuestionSet) => void
 }
 
 const QuestionList: React.FC<QuestionListProps> = props => {
   const { questionList, deleteFunc, changeItemFunc } = props
 
-  const reorder = (list: Question[], startIndex: number, endIndex: number) => {
+  const reorder = (list: IQuestion[], startIndex: number, endIndex: number) => {
     const result = Array.from(list)
     const [removed] = result.splice(startIndex, 1)
     result.splice(endIndex, 0, removed)

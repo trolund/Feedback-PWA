@@ -21,9 +21,7 @@ const QuestionAnalyser = observer(({ data }: Props) => {
   } = useContext(rootStore)
 
   useEffect(() => {
-    if (QSetNames.length === 0) {
-      fetchQuestionSetNames()
-    }
+    fetchQuestionSetNames()
   }, [QSetNames, fetchQuestionSetNames])
 
   const chartOptions = {

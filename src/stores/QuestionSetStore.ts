@@ -1,20 +1,23 @@
 import { observable, action } from 'mobx'
+import { persist } from 'mobx-persist'
 import FetchStates from './requestState'
-import QuestionSet from '../models/QuestionSet'
+import IQuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
 import { getToken } from '../services/authService'
 import { sortQuestionsByIndex } from '../services/sortService'
+
+import QuestionSet from '../models/classes/QuestionSet'
 
 export default class QuestionSetStore {
   // status
   @observable state = FetchStates.DONE
 
-  msg = ''
+  @observable msg = ''
 
   // data
-  @observable QSetNames: QuestionSet[] = []
+  @persist('list', QuestionSet) @observable QSetNames: IQuestionSet[] = []
 
-  @observable qSet: QuestionSet | null = null
+  @persist('object', QuestionSet) @observable qSet: IQuestionSet | null = null
 
   constructor() {
     this.fetchQuestionSetNames()
@@ -31,7 +34,7 @@ export default class QuestionSetStore {
       })
       this.msg = response.statusText
 
-      const data: QuestionSet[] = await response.json()
+      const data: IQuestionSet[] = await response.json()
       this.QSetNames = data
     } catch (e) {
       this.state = FetchStates.FAILED
@@ -51,7 +54,7 @@ export default class QuestionSetStore {
       })
       this.msg = response.statusText
 
-      const data: QuestionSet = await response.json()
+      const data: IQuestionSet = await response.json()
       this.qSet = {
         ...data,
         questions: data.questions.sort(sortQuestionsByIndex)
@@ -63,7 +66,7 @@ export default class QuestionSetStore {
     }
   }
 
-  @action updateQuestionSet = async (entity: QuestionSet) => {
+  @action updateQuestionSet = async (entity: IQuestionSet) => {
     this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateQuestionSet
@@ -88,7 +91,7 @@ export default class QuestionSetStore {
     }
   }
 
-  @action deleteQuestionSet = async (entity: QuestionSet) => {
+  @action deleteQuestionSet = async (entity: IQuestionSet) => {
     this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateQuestionSet
@@ -116,7 +119,7 @@ export default class QuestionSetStore {
     }
   }
 
-  @action createQuestionSet = async (entity: QuestionSet) => {
+  @action createQuestionSet = async (entity: IQuestionSet) => {
     this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateQuestionSet

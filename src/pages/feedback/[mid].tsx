@@ -63,7 +63,7 @@ const Feedback: NextPage = observer(() => {
       <Page showBottomNav={false} showHead={false} fullscreen>
         <Section>
           {statusCode === 400 && fetchState === FetchStates.DONE && (
-            <div style={{ textAlign: 'center' }}>
+            <div className='msg-container'>
               <Lock
                 style={{
                   width: '80px',
@@ -73,12 +73,12 @@ const Feedback: NextPage = observer(() => {
                 }}
               />
               <p className='msg'>
-                Mødet er ikke længere åben for Tilbagemeldinger.
+                Mødet er ikke åben for Tilbagemeldinger på dette tidspunkt.
               </p>
             </div>
           )}
           {statusCode === 404 && fetchState === FetchStates.DONE && (
-            <div style={{ textAlign: 'center' }}>
+            <div className='msg-container'>
               <Compass
                 style={{
                   width: '80px',
@@ -91,7 +91,7 @@ const Feedback: NextPage = observer(() => {
             </div>
           )}
           {statusCode === 401 && fetchState === FetchStates.DONE && (
-            <div style={{ textAlign: 'center' }}>
+            <div className='msg-container'>
               <Send
                 style={{
                   width: '80px',
@@ -119,6 +119,16 @@ const Feedback: NextPage = observer(() => {
           }
         `}</style>
         <style jsx>{`
+          .msg-container {
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 680px;
+            max-height: 300px;
+          }
+
           .msg {
             text-align: center;
             margin-left: auto;

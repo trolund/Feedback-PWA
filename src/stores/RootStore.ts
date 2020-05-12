@@ -27,7 +27,7 @@ const doHydration = (root: RootStore) => {
     // hydrate('categoriesStore', root.categoriesStore)
     // hydrate('feedbackStore', root.feedbackStore)
     // hydrate('meetingStore', root.meetingStore)
-    // hydrate('questionSetStore', root.questionSetStore)
+    hydrate('questionSetStore', root.questionSetStore)
     // hydrate('questionStore', root.questionStore)
     // hydrate('userAdminStore', root.userAdminStore)
   }

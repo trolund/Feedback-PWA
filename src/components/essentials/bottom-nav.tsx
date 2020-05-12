@@ -22,7 +22,7 @@ type LinkType = {
 const BottomNav = () => {
   const { pathname } = useRouter()
   const {
-    authStore: { isAdmin, isVAdmin, isFacilitator, user },
+    authStore: { isAdmin, isVAdmin, isFacilitator },
     settingStore: { showTitleInBottomNav, setBottombarVisable }
   } = useContext(rootStore)
 
@@ -86,9 +86,9 @@ const BottomNav = () => {
     <nav>
       <div>
         {links.map(link => {
-          // if (link.roles !== undefined) {
-          //   if (!showItem(link)) return <></>
-          // }
+          if (link.roles !== undefined) {
+            if (!showItem(link)) return <></>
+          }
           // if (link.requireCompanyConfirm) {
           //   if (!user?.companyConfirmed) {
           //     return <></>

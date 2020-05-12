@@ -8,7 +8,7 @@ import { Plus, Save } from 'react-feather'
 import { useRouter } from 'next/router'
 import Page from '../../components/essentials/page'
 import Section from '../../components/essentials/section'
-import QuestionSet from '../../models/QuestionSet'
+import IQuestionSet from '../../models/QuestionSet'
 import FetchStates from '../../stores/requestState'
 import rootStore from '../../stores/RootStore'
 import QuestionListDrag from '../../components/questions/question-list-drag'
@@ -18,7 +18,7 @@ import { sortQuestionsByIndex } from '../../services/sortService'
 import { makeid } from '../../services/utilsService'
 
 type QuestionSetPageProps = {
-  templeteData?: QuestionSet
+  templeteData?: IQuestionSet
 }
 
 const QuestionSetPage: NextPage = observer(
@@ -27,7 +27,7 @@ const QuestionSetPage: NextPage = observer(
     const newQset = {
       name: '',
       questions: []
-    } as QuestionSet
+    } as IQuestionSet
 
     const [qset, setQset] = useState(newQset)
     const {
@@ -59,17 +59,17 @@ const QuestionSetPage: NextPage = observer(
       setQset({ ...qset, questions: [...qset.questions] })
     }
 
-    const setQuestionSet = (questionSet: QuestionSet) => {
+    const setQuestionSet = (questionSet: IQuestionSet) => {
       setQset(questionSet)
     }
 
-    const removeIds = (qSet: QuestionSet): QuestionSet => {
+    const removeIds = (qSet: IQuestionSet): IQuestionSet => {
       return {
         ...qSet,
         companyId: getCompanyId(),
         questionSetId: undefined,
         questions: qSet.questions.map(i => ({ ...i, questionId: undefined }))
-      } as QuestionSet
+      } as IQuestionSet
     }
 
     const createClickHandler = () => {
@@ -174,7 +174,7 @@ QuestionSetPage.getInitialProps = async function(ctx) {
     })
   }
   const url = ApiRoutes.QuestionSetById(String(setid))
-  let data: QuestionSet | null = null
+  let data: IQuestionSet | null = null
   try {
     const response = await fetch(url, {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },

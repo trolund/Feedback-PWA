@@ -4,13 +4,13 @@ import { ViewPager, Frame, Track } from 'react-view-pager'
 import { X, Send } from 'react-feather'
 import Modal from 'react-modal'
 import rootStore from '../../stores/RootStore'
-import QuestionSet from '../../models/QuestionSet'
+import IQuestionSet from '../../models/QuestionSet'
 import FetchStates from '../../stores/requestState'
 import Question from './question'
 import FeedbackOverlay from './FeedbackDoneOverlay'
 
 type FeedbackViewPagerProps = {
-  initQuestions: QuestionSet
+  initQuestions: IQuestionSet
   mid: string
   fingerprint: string
 }

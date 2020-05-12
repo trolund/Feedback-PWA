@@ -58,7 +58,8 @@ const AddMeeting = observer(
       categoriesStore.fetchCategories(String(getCompanyId())).then(() => {
         setMeetingCategories(categoriesStore.categories)
       })
-    }, [categoriesStore])
+      questionSetStore.fetchQuestionSetNames()
+    }, [categoriesStore, questionSetStore])
 
     const reset = () => {
       setMeeting({ name: '', discription: '' } as MeetingModel)

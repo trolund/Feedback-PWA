@@ -3,11 +3,11 @@
 import Link from 'next/link'
 import { useContext } from 'react'
 import { Trash } from 'react-feather'
-import QuestionSet from '../../models/QuestionSet'
+import IQuestionSet from '../../models/QuestionSet'
 import rootStore from '../../stores/RootStore'
 
 type QuestionList = {
-  questionSetlist: QuestionSet[]
+  questionSetlist: IQuestionSet[]
   deleteFunc: (qSetId: string, index: number) => void
 }
 

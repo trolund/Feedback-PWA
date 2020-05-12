@@ -1,8 +1,8 @@
 /* eslint-disable import/prefer-default-export */
-import Question from '../models/Question'
+import IQuestion from '../models/Question'
 import MeetingModel from '../models/MeetingModel'
 
-export const sortQuestionsByIndex = (a: Question, b: Question) => {
+export const sortQuestionsByIndex = (a: IQuestion, b: IQuestion) => {
   if (a.index < b.index) {
     return -1
   }

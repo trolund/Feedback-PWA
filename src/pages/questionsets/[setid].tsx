@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 import fetch from 'isomorphic-unfetch'
 import Page from '../../components/essentials/page'
 import Section from '../../components/essentials/section'
-import QuestionSet from '../../models/QuestionSet'
+import IQuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import FetchStates from '../../stores/requestState'
 import { auth } from '../../services/authService'
@@ -19,7 +19,7 @@ import { sortQuestionsByIndex } from '../../services/sortService'
 import { makeid } from '../../services/utilsService'
 
 type pageProps = {
-  initQSet: QuestionSet
+  initQSet: IQuestionSet
 }
 
 const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
@@ -39,7 +39,7 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   useEffect(() => {
     if (qset === null) {
       fetchQuestionSet(String(setid)).then(() => {
-        setQset(qset as QuestionSet)
+        setQset(qset as IQuestionSet)
       })
     }
   }, [fetchQuestionSet, qset, setid])
@@ -244,7 +244,7 @@ QuestionSetPage.getInitialProps = async function(ctx) {
     })
   }
   const url = ApiRoutes.QuestionSetById(String(setid))
-  let data: QuestionSet | null = null
+  let data: IQuestionSet | null = null
   try {
     const response = await fetch(url, {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },

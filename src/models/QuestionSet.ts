@@ -1,8 +1,8 @@
-import Question from './Question'
+import IQuestion from './Question'
 
-export default interface QuestionSet {
+export default interface IQuestionSet {
   questionSetId?: string
   name: string
   companyId: number
-  questions: Question[]
+  questions: IQuestion[]
 }

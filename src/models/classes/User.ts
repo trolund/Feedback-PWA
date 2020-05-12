@@ -1,24 +1,25 @@
 import { persist } from 'mobx-persist'
+import { observable } from 'mobx'
 import IUser from '../User'
 
 export default class User implements IUser {
-  @persist id?: string
+  @persist @observable id?: string
 
-  @persist companyId?: number
+  @persist @observable companyId?: number
 
-  @persist email?: string
+  @persist @observable email?: string
 
-  @persist companyName?: string
+  @persist @observable companyName?: string
 
-  @persist firstname?: string
+  @persist @observable firstname?: string
 
-  @persist lastname?: string
+  @persist @observable lastname?: string
 
-  @persist companyConfirmed?: boolean
+  @persist @observable companyConfirmed?: boolean
 
-  @persist phoneNumber?: string
+  @persist @observable phoneNumber?: string
 
-  @persist('list') roles?: string[]
+  @persist('list') @observable roles?: string[]
 
-  @persist token?: string
+  @persist @observable token?: string
 }

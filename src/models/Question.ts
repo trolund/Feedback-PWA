@@ -1,4 +1,4 @@
-export default interface Question {
+export default interface IQuestion {
   questionId?: string
   questionSetId?: string
   theQuestion: string

@@ -1,7 +1,7 @@
 import FetchStates from '../requestState'
 import FeedbackBatch from '../../models/FeedbackBatch'
 import FeedbackModel from '../../models/FeedbackModel'
-import QuestionSet from '../../models/QuestionSet'
+import IQuestionSet from '../../models/QuestionSet'
 
 export interface InitialDataFeedback {
   state: FetchStates
@@ -13,5 +13,5 @@ export interface InitialDataFeedback {
 export interface InitialDataQuestion {
   fetchState: FetchStates
   msg: string
-  questions: QuestionSet | {}
+  questions: IQuestionSet | {}
 }

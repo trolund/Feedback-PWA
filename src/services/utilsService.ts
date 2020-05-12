@@ -1,4 +1,4 @@
-import QuestionSet from '../models/QuestionSet'
+import IQuestionSet from '../models/QuestionSet'
 
 /* eslint-disable import/prefer-default-export */
 export const makeid = length => {
@@ -12,5 +12,5 @@ export const makeid = length => {
   return result
 }
 
-export const filterTempletes = (n: QuestionSet) =>
+export const filterTempletes = (n: IQuestionSet) =>
   n.companyId !== Number(process.env.spinOffCompenyId)

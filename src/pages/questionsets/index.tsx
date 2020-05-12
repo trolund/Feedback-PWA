@@ -8,12 +8,12 @@ import { Plus } from 'react-feather'
 import Page from '../../components/essentials/page'
 import Section from '../../components/essentials/section'
 import QuestionSetList from '../../components/questions/questionset-list'
-import QuestionSet from '../../models/QuestionSet'
+import IQuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import { auth } from '../../services/authService'
 
 type pageProps = {
-  initPageProps: QuestionSet[]
+  initPageProps: IQuestionSet[]
 }
 
 const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
@@ -64,7 +64,7 @@ const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
 AllQuestionSets.getInitialProps = async ctx => {
   const token = auth(ctx)
   const url = ApiRoutes.QuestionSetNames
-  let data: QuestionSet[] | null = null
+  let data: IQuestionSet[] | null = null
 
   const options = {
     agent: new https.Agent({

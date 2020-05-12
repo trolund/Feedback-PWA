@@ -1,27 +1,27 @@
 import React, { useContext } from 'react'
 import { Trash, MoreVertical } from 'react-feather'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import Question from '../../models/Question'
-import QuestionSet from '../../models/QuestionSet'
+import IQuestion from '../../models/Question'
+import IQuestionSet from '../../models/QuestionSet'
 import rootStore from '../../stores/RootStore'
 
-const reorder = (list: Question[], startIndex: number, endIndex: number) => {
+const reorder = (list: IQuestion[], startIndex: number, endIndex: number) => {
   const result = Array.from(list)
   const [removed] = result.splice(startIndex, 1)
   result.splice(endIndex, 0, removed)
   return result
 }
 
-const updateIndex = (list: Question[]): Question[] => {
-  return list.map((question, index) => ({ ...question, index } as Question))
+const updateIndex = (list: IQuestion[]): IQuestion[] => {
+  return list.map((question, index) => ({ ...question, index } as IQuestion))
 }
 
 type QuestionItemProps = {
-  question: Question
+  question: IQuestion
   index: number
   deleteFunc: (index: number) => void
   changeItemFunc: (newQuestion: string, index: number) => void
-  qSet: QuestionSet
+  qSet: IQuestionSet
 }
 
 function QuestionItem({
@@ -81,7 +81,7 @@ function QuestionItem({
 }
 
 type ListProps = {
-  questions: Question[]
+  questions: IQuestion[]
   deleteFunc: (index: number) => void
   changeItemFunc: (newQuestion: string, index: number) => void
 }
@@ -111,10 +111,10 @@ type ListProps = {
 //   ))
 
 type ListDragProps = {
-  questionSet: QuestionSet
+  questionSet: IQuestionSet
   deleteFunc: (index: number) => void
   changeItemFunc: (newQuestion: string, index: number) => void
-  setQuestionSet: (questionSet: QuestionSet) => void
+  setQuestionSet: (questionSet: IQuestionSet) => void
 }
 
 function QuestionListDrag({
@@ -142,7 +142,7 @@ function QuestionListDrag({
       <Droppable droppableId='list'>
         {provided => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
-            {questionSet.questions.map((question: Question, index: number) => (
+            {questionSet.questions.map((question: IQuestion, index: number) => (
               <QuestionItem
                 qSet={questionSet}
                 question={question}
