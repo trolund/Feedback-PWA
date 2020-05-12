@@ -19,47 +19,6 @@ type LinkType = {
   requireCompanyConfirm: boolean
 }
 
-const links: LinkType[] = [
-  {
-    title: 'Oversigt',
-    icon: <Home />,
-    href: '/home',
-    requireCompanyConfirm: false
-  },
-  {
-    title: 'Kalendar',
-    icon: <Calendar />,
-    href: '/calendar',
-    requireCompanyConfirm: true
-  },
-  {
-    title: 'Giv Tilbagemelding',
-    icon: <CheckCircle />,
-    href: '/feedback',
-    requireCompanyConfirm: false
-  },
-  {
-    title: 'Profil',
-    icon: <User />,
-    href: '/profile',
-    requireCompanyConfirm: false
-  },
-  {
-    title: 'Om Opino',
-    icon: <HelpCircle />,
-    href: '/aboute',
-    roles: ['Facilitator'],
-    requireCompanyConfirm: false
-  },
-  {
-    title: 'Mere',
-    icon: <MoreHorizontal />,
-    href: '/more',
-    roles: ['Admin', 'VAdmin'],
-    requireCompanyConfirm: true
-  }
-]
-
 const BottomNav = () => {
   const { pathname } = useRouter()
   const {
@@ -81,6 +40,47 @@ const BottomNav = () => {
       (link.roles.includes('Facilitator') && isFacilitator),
     [isAdmin, isFacilitator, isVAdmin]
   )
+
+  const links: LinkType[] = [
+    {
+      title: 'Oversigt',
+      icon: <Home />,
+      href: '/home',
+      requireCompanyConfirm: false
+    },
+    {
+      title: 'Kalendar',
+      icon: <Calendar />,
+      href: '/calendar',
+      requireCompanyConfirm: true
+    },
+    {
+      title: 'Giv Tilbagemelding',
+      icon: <CheckCircle />,
+      href: '/feedback',
+      requireCompanyConfirm: false
+    },
+    {
+      title: 'Profil',
+      icon: <User />,
+      href: '/profile',
+      requireCompanyConfirm: false
+    },
+    {
+      title: 'Om Opino',
+      icon: <HelpCircle />,
+      href: '/aboute',
+      roles: ['Facilitator'],
+      requireCompanyConfirm: false
+    },
+    {
+      title: 'Mere',
+      icon: <MoreHorizontal />,
+      href: '/more',
+      roles: ['Admin', 'VAdmin'],
+      requireCompanyConfirm: true
+    }
+  ]
 
   return (
     <nav>
