@@ -19,10 +19,6 @@ export default class QuestionSetStore {
 
   @persist('object', QuestionSet) @observable qSet: IQuestionSet | null = null
 
-  constructor() {
-    this.fetchQuestionSetNames()
-  }
-
   @action fetchQuestionSetNames = async () => {
     this.state = FetchStates.LOADING
     try {
@@ -30,7 +26,13 @@ export default class QuestionSetStore {
       const token = getToken()
 
       const response = await fetch(url, {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` }
+        method: 'GET',
+        headers: !token
+          ? {}
+          : {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
       })
       this.msg = response.statusText
 
