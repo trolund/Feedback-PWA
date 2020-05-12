@@ -13,6 +13,7 @@ import CustomInput from '../components/Input/custom-input'
 import rootStore from '../stores/RootStore'
 import withRedirect from '../components/hoc/withRedirect'
 import { logLaunched } from '../utils/loggingHelprer'
+import { getIOSVersion } from '../services/deviceInfoService'
 
 export default withRedirect(
   observer(() => {
@@ -114,25 +115,27 @@ export default withRedirect(
               />
               Giv Feedback
             </button>
-            <Link href='/scanner' key='scanner'>
-              <button
-                title='scanner'
-                type='button'
-                aria-label='scanner'
-                className='center button loginBtn'
-              >
-                <Maximize
-                  style={{
-                    width: '20px',
-                    height: '20px',
-                    marginRight: '-20px',
-                    float: 'left'
-                  }}
-                  color='white'
-                />
-                Scan kode
-              </button>
-            </Link>
+            {(getIOSVersion() >= 13 || getIOSVersion() === undefined) && (
+              <Link href='/scanner' key='scanner'>
+                <button
+                  title='scanner'
+                  type='button'
+                  aria-label='scanner'
+                  className='center button loginBtn'
+                >
+                  <Maximize
+                    style={{
+                      width: '20px',
+                      height: '20px',
+                      marginRight: '-20px',
+                      float: 'left'
+                    }}
+                    color='white'
+                  />
+                  Scan kode
+                </button>
+              </Link>
+            )}
             <hr />
             <Link href='/login' key='login'>
               <button

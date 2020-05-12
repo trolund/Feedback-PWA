@@ -11,6 +11,7 @@ import withAuth from '../../components/hoc/withAuth'
 import rootStore from '../../stores/RootStore'
 import CustomInput from '../../components/Input/custom-input'
 import FetchStates from '../../stores/requestState'
+import { getIOSVersion } from '../../services/deviceInfoService'
 
 const Task = withAuth(
   observer(() => {
@@ -90,27 +91,29 @@ const Task = withAuth(
                 Giv Feedback
               </button>
             </li>
-            <li>
-              <Link href='/scanner' key='scanner'>
-                <button
-                  title='scanner'
-                  type='button'
-                  aria-label='scanner'
-                  className='button bottombtn'
-                >
-                  <Maximize
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                      marginRight: '-20px',
-                      float: 'left'
-                    }}
-                    color='white'
-                  />
-                  Scan kode
-                </button>
-              </Link>
-            </li>
+            {(getIOSVersion() >= 13 || getIOSVersion() === undefined) && (
+              <li>
+                <Link href='/scanner' key='scanner'>
+                  <button
+                    title='scanner'
+                    type='button'
+                    aria-label='scanner'
+                    className='button bottombtn'
+                  >
+                    <Maximize
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        marginRight: '-20px',
+                        float: 'left'
+                      }}
+                      color='white'
+                    />
+                    Scan kode
+                  </button>
+                </Link>
+              </li>
+            )}
           </ul>
         </Section>
         <style jsx>{`

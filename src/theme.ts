@@ -1,4 +1,4 @@
-const isServer = typeof window === 'undefined'
+import isServer from './utils/helper'
 
 export function getLightMode() {
   if (!isServer) {
