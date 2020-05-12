@@ -87,11 +87,11 @@ const BottomNav = () => {
       <div>
         {links.map(link => {
           if (link.roles !== undefined) {
-            if (!showItem(link)) return null
+            if (!showItem(link)) return <></>
           }
           if (link.requireCompanyConfirm) {
             if (!user?.companyConfirmed) {
-              return null
+              return <></>
             }
           }
           return (

@@ -16,6 +16,8 @@ type props = {
   dim: WindowDimensions
 }
 
+// const da = dynamic(() => )
+
 const MobileCalendar = ({ dim }: props) => {
   const onDaySelect = (date: Date) => {
     Router.push(`/meeting/day?date=${date.getTime()}`)
