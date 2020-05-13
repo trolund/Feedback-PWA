@@ -65,8 +65,9 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
 
   const updateClickHandler = () => {
     updateQuestionSet(qset)
-      .then(() => {
-        toast('Sættet er updateret!')
+      .then(res => {
+        if (res === FetchStates.DONE) toast('Sættet er updateret!')
+        else toast('Der skete en fejl ved updateringen!')
       })
       .catch(() => {
         toast('Der skete en fejl ved updateringen!')
@@ -74,14 +75,18 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   }
 
   const deleteClickHandler = () => {
-    deleteQuestionSet(qset).then(res => {
-      if (res === FetchStates.DONE) {
-        toast('Spørgsmåls sæt er slettet!')
-        router.push('/questionsets')
-      } else {
+    deleteQuestionSet(qset)
+      .then(res => {
+        if (res === FetchStates.DONE) {
+          toast('Spørgsmåls sæt er slettet!')
+          router.push('/questionsets')
+        } else {
+          toast('Der skete en fejl ved sletningen.')
+        }
+      })
+      .catch(() => {
         toast('Der skete en fejl ved sletningen.')
-      }
-    })
+      })
   }
 
   const sendTemplate = () => {

@@ -68,7 +68,9 @@ export default class QuestionSetStore {
     }
   }
 
-  @action updateQuestionSet = async (entity: IQuestionSet) => {
+  @action updateQuestionSet = async (
+    entity: IQuestionSet
+  ): Promise<FetchStates> => {
     this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateQuestionSet
@@ -87,9 +89,17 @@ export default class QuestionSetStore {
         redirect: 'follow'
       })
       this.msg = response.statusText
+
+      if (response.status === 200) {
+        this.state = FetchStates.DONE
+        return FetchStates.DONE
+      }
+      this.state = FetchStates.FAILED
+      return FetchStates.FAILED
     } catch (e) {
       this.state = FetchStates.FAILED
       this.msg = e.statusText
+      return FetchStates.FAILED
     }
   }
 
@@ -112,7 +122,10 @@ export default class QuestionSetStore {
         redirect: 'follow'
       })
       this.msg = response.statusText
-      return FetchStates.DONE
+      if (response.status === 200) {
+        return FetchStates.DONE
+      }
+      return FetchStates.FAILED
     } catch (e) {
       this.state = FetchStates.FAILED
 
@@ -139,8 +152,14 @@ export default class QuestionSetStore {
         body: json,
         redirect: 'follow'
       })
+
       this.msg = response.statusText
-      return FetchStates.DONE
+      if (response.status === 200) {
+        this.state = FetchStates.DONE
+        return FetchStates.DONE
+      }
+      this.state = FetchStates.FAILED
+      return FetchStates.FAILED
     } catch (e) {
       this.state = FetchStates.FAILED
       this.msg = e.statusText
