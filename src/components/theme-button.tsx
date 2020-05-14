@@ -12,7 +12,7 @@ const ThemeButton = () => {
 
   return (
     <button type='button' onClick={toggle}>
-      {!dark ? 'Light' : 'Dark'} mode
+      {!dark ? 'Lyst' : 'Mørkt'} mode
       <style jsx>{`
         button {
           color: var(--label);

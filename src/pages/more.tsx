@@ -17,7 +17,7 @@ const links: LinkType[] = [
     href: '/user-admin'
   },
   {
-    title: 'Spørgsmåls sæt',
+    title: 'Spørgsmålssæt',
     href: '/questionsets'
   },
   {

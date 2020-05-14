@@ -136,7 +136,7 @@ const AddMeeting = observer(
               defaultValue={Selecter}
               error={questionSet === 'null' || questionSet === ''}
               fill
-              placeholder='- Vælg spørgsmåls sæt -'
+              placeholder='- Vælg spørgsmålssæt -'
               onChange={value => setQuestionSet(value)}
               values={
                 QSetNames

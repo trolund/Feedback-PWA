@@ -78,7 +78,7 @@ const QuestionAnalyser = observer(({ data }: Props) => {
             setQuestionSet(e.target.value)
           }}
         >
-          <option>- Vælg spørgsmåls sæt -</option>
+          <option>- Vælg spørgsmålssæt -</option>
           {QSetNames?.filter(
             hideTempQuestionSets ? filterTempletes : () => true
           )?.map(item => (
@@ -89,7 +89,7 @@ const QuestionAnalyser = observer(({ data }: Props) => {
         </select>
       </div>
       {(calcData() as GraphData)?.labels.length === 0 ? (
-        <div>Ingen Tilbagemeldinger endnu på dette spørgsmåls sæt.</div>
+        <div>Ingen tilbagemeldinger endnu på dette spørgsmålssæt.</div>
       ) : (
         <Bar data={graphData} options={chartOptions} />
       )}

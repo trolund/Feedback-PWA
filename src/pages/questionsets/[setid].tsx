@@ -66,11 +66,11 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   const updateClickHandler = () => {
     updateQuestionSet(qset)
       .then(res => {
-        if (res === FetchStates.DONE) toast('Sættet er updateret!')
-        else toast('Der skete en fejl ved updateringen!')
+        if (res === FetchStates.DONE) toast('Sættet er Opdateret!')
+        else toast('Der skete en fejl ved Opdateringen!')
       })
       .catch(() => {
-        toast('Der skete en fejl ved updateringen!')
+        toast('Der skete en fejl ved Opdateringen!')
       })
   }
 
@@ -78,7 +78,7 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
     deleteQuestionSet(qset)
       .then(res => {
         if (res === FetchStates.DONE) {
-          toast('Spørgsmåls sæt er slettet!')
+          toast('Spørgsmålssæt er slettet!')
           router.push('/questionsets')
         } else {
           toast('Der skete en fejl ved sletningen.')
@@ -120,7 +120,7 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
           {getCompanyId() !== qset.companyId && (
             <p className='warning'>
               <Lock style={{ marginBottom: '-5px' }} /> Dette møde kan ikke
-              ændres da det er et standard spørgsmåls sæt
+              ændres da det er et standard spørgsmålssæt
             </p>
           )}
           <input

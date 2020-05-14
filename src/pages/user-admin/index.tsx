@@ -32,12 +32,12 @@ const AllQuestionSets = withAuth(
         .updateUsers(list.filter(u => u.modifyed === true))
         .then(res => {
           if (res === FetchStates.DONE) {
-            toast('Brugere er updateret')
+            toast('Brugere er Opdateret')
           } else {
-            toast('Brugere blev ikke updateret')
+            toast('Brugere blev ikke Opdateret')
           }
         })
-        .catch(() => toast('Brugere blev ikke updateret'))
+        .catch(() => toast('Brugere blev ikke Opdateret'))
     }
 
     const updateDelete = (value: boolean, index: number) => {

@@ -129,7 +129,7 @@ const FeedbackView = observer((props: IProp) => {
         <h2 className='float-left'>Tilbagemeldinger</h2>
         <Monitor style={{ margin: '7px' }} onClick={() => setShowModal(true)} />
         <CustomCheckbox
-          label='Hvis feedback løbende'
+          label='Vis tilbagemeldinger løbende'
           checked={props.isRealtime}
           onChange={e => props.setIsRealtime(e)}
         />
@@ -149,7 +149,7 @@ const FeedbackView = observer((props: IProp) => {
               setActiveTab(1)
             }}
           >
-            Feedback
+            Tilbagemeldinger
           </span>
           <span
             className={activeTab !== 2 ? 'tab-btn-selected tab-btn' : 'tab-btn'}
@@ -160,7 +160,7 @@ const FeedbackView = observer((props: IProp) => {
               setActiveTab(2)
             }}
           >
-            Kommentare
+            Kommentarer
           </span>
         </nav>
         {activeTab === 1 && (
@@ -178,7 +178,7 @@ const FeedbackView = observer((props: IProp) => {
                     />
                   ))
               ) : (
-                <p>Ingen Tilbagemeldinger</p>
+                <p>Ingen tilbagemeldinger</p>
               )}
             </div>
           </div>
@@ -222,13 +222,13 @@ const FeedbackView = observer((props: IProp) => {
                     return null
                   })
               ) : (
-                <p>Ingen Tilbagemeldinger</p>
+                <p>Ingen tilbagemeldinger</p>
               )}
             </div>
           </div>
         )}
         <div className='end-result'>
-          <h2 style={{ width: 'max-content' }}>Overodtnet resultat</h2>
+          <h2 style={{ width: 'max-content' }}>Samlet resultat</h2>
           <CircularProgressbar
             styles={buildStyles({
               textColor: 'var(--accent)',

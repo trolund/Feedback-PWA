@@ -95,7 +95,7 @@ const newMeetingPage = withAuth(
                   setQuestionSet(e.target.value)
                 }}
               >
-                <option>- Vælg spørgsmåls sæt -</option>
+                <option>- Vælg spørgsmålssæt -</option>
                 {questionSetStore.QSetNames?.map(item => (
                   <option key={item.questionSetId} value={item.questionSetId}>
                     {item.name}

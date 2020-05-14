@@ -140,7 +140,7 @@ export default () => {
             error={!validateNotEmpty(firstname).valid && showErrors}
             logo={<User />}
             type='text'
-            placeholder='Firstname'
+            placeholder='Fornavn'
             value={firstname}
             onChange={e => {
               setFirstname(e)
@@ -153,7 +153,7 @@ export default () => {
             error={!validateNotEmpty(lastname).valid && showErrors}
             logo={<User />}
             type='text'
-            placeholder='Lastname'
+            placeholder='Efternavn'
             value={lastname}
             onChange={e => {
               setLastname(e)
@@ -227,7 +227,7 @@ export default () => {
               onChange={() => {}}
               onClick={() => setNewCompany(!newCompany)}
             />
-            <label htmlFor='sizeWeight'>Existeende virksomhed</label>
+            <label htmlFor='sizeWeight'>Eksisterende virksomhed</label>
             <input
               type='radio'
               name='sizeBy'

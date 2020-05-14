@@ -196,8 +196,8 @@ const Post: NextPage = observer(
           startTime: spliceDateAndTime(date, startTime)
         } as MeetingModel)
         update(meeting).then(res => {
-          if (res === FetchStates.DONE) toast('Møde er updateret!')
-          else toast('Der skete en fejl ved updatering af mødet.')
+          if (res === FetchStates.DONE) toast('Møde er Opdateret!')
+          else toast('Der skete en fejl ved Opdatering af mødet.')
         })
       }
     }
@@ -239,7 +239,7 @@ const Post: NextPage = observer(
                   value={mid}
                   disabled
                 />
-                <label htmlFor='name'>Møde navn</label>
+                <label htmlFor='name'>Mødenavn</label>
                 <input
                   type='text'
                   name='name'
@@ -359,9 +359,9 @@ const Post: NextPage = observer(
                   value={ApiRoutes.qrcode(String(mid))}
                 />
                 <p>
-                  Brug denne unikke qrkode til let at give dine deltagere adgang
-                  til at give dig feedback. kopier evt billede ind i et slide
-                  show eller hav denne side klar. eller brug{' '}
+                  Brug denne unikke QR kode til let at give dine deltagere
+                  adgang til at give dig tilbagemeldinger. Kopier evt billede
+                  ind i et slideshow eller brug dette link
                   <a
                     href={ApiRoutes.qrcode(String(mid))}
                     style={{ fontWeight: 700 }}

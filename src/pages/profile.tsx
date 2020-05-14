@@ -111,8 +111,8 @@ const Profile = withAuth(
                   </span>
                 ) : (
                   <p>
-                    Du mangler at blive godkendt af din virksomheds
-                    administator.
+                    Du mangler at blive godkendt af din
+                    virksomheds-administator.
                   </p>
                 )}
               </li>
@@ -143,7 +143,7 @@ const Profile = withAuth(
                       float: 'left'
                     }}
                   />
-                  Updater bruger
+                  Opdater bruger
                 </button>
               </li>
               <li>

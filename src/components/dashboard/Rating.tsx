@@ -99,7 +99,7 @@ const Rating: React.FC<IProp> = observer(() => {
             className='float-left'
             style={{ fontSize: '0.6em', padding: '5px', marginBottom: '0px' }}
           >
-            {isOpen ? 'Hide' : 'Show'}
+            {isOpen ? 'Skjul' : 'Vis'}
           </p>
           <PieChart className='float-right' />
         </div>

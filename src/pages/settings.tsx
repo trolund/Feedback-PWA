@@ -26,13 +26,13 @@ const Settings = observer(() => {
       <Section>
         <ul>
           <li>
-            <h4 className='float-left'>Dark theme</h4>
+            <h4 className='float-left'>Mørkt tema</h4>
             <div className='float-right'>
               <ThemeButton />
             </div>
           </li>
           <li>
-            <h4 className='float-left'>Realtids tilbagemeldinger</h4>
+            <h4 className='float-left'>Live tilbagemeldinger</h4>
             <div className='float-right'>
               <Switch
                 setValue={setRealtimeFeedbackDefault}
@@ -41,7 +41,7 @@ const Settings = observer(() => {
             </div>
           </li>
           <li>
-            <h4 className='float-left'>Hvis ikke templete spørgsmåls sæt</h4>
+            <h4 className='float-left'>Vis ikke template spørgsmålssæt</h4>
             <div className='float-right'>
               <Switch
                 setValue={setHideTempQuestionSets}
@@ -50,7 +50,7 @@ const Settings = observer(() => {
             </div>
           </li>
           <li>
-            <h4 className='float-left'>Slå animationer</h4>
+            <h4 className='float-left'>Slå animationer fra</h4>
             <div className='float-right'>
               <Switch setValue={setAnimation} value={animation} />
             </div>
@@ -60,7 +60,7 @@ const Settings = observer(() => {
             <div className='float-right'>Kommer snart.</div>
           </li> */}
           <li>
-            <h4 className='float-left'>Hvis title i bund baren</h4>
+            <h4 className='float-left'>Vis titler i menuen</h4>
             <div className='float-right'>
               <Switch
                 setValue={setShowTitleInBottomNav}
