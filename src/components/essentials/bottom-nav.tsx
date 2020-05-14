@@ -19,10 +19,51 @@ type LinkType = {
   requireCompanyConfirm: boolean
 }
 
+const links: LinkType[] = [
+  {
+    title: 'Oversigt',
+    icon: <Home />,
+    href: '/home',
+    requireCompanyConfirm: false
+  },
+  {
+    title: 'Kalendar',
+    icon: <Calendar />,
+    href: '/calendar',
+    requireCompanyConfirm: true
+  },
+  {
+    title: 'Giv Tilbagemelding',
+    icon: <CheckCircle />,
+    href: '/feedback',
+    requireCompanyConfirm: false
+  },
+  {
+    title: 'Profil',
+    icon: <User />,
+    href: '/profile',
+    requireCompanyConfirm: false
+  },
+  {
+    title: 'Om Opino',
+    icon: <HelpCircle />,
+    href: '/aboute',
+    roles: ['Facilitator'],
+    requireCompanyConfirm: false
+  },
+  {
+    title: 'Mere',
+    icon: <MoreHorizontal />,
+    href: '/more',
+    roles: ['Admin', 'VAdmin'],
+    requireCompanyConfirm: true
+  }
+]
+
 const BottomNav = () => {
   const { pathname } = useRouter()
   const {
-    authStore: { isAdmin, isVAdmin, isFacilitator },
+    authStore: { isAdmin, isVAdmin, isFacilitator, getUser },
     settingStore: { showTitleInBottomNav, setBottombarVisable }
   } = useContext(rootStore)
 
@@ -34,79 +75,55 @@ const BottomNav = () => {
   }, [setBottombarVisable])
 
   const showItem = useCallback(
-    (link: LinkType) =>
-      (link.roles.includes('Admin') && isAdmin) ||
-      (link.roles.includes('VAdmin') && isVAdmin) ||
-      (link.roles.includes('Facilitator') && isFacilitator),
-    [isAdmin, isFacilitator, isVAdmin]
+    (link: LinkType) => {
+      if (link?.requireCompanyConfirm) {
+        if (link.roles) {
+          return (
+            (link.roles.includes('Admin') && isAdmin) ||
+            (link.roles.includes('VAdmin') && isVAdmin) ||
+            (link.roles.includes('Facilitator') && isFacilitator)
+          )
+        }
+        return true
+      }
+      if (link.roles) {
+        return (
+          ((link.roles.includes('Admin') && isAdmin) ||
+            (link.roles.includes('VAdmin') && isVAdmin) ||
+            (link.roles.includes('Facilitator') && isFacilitator)) &&
+          !getUser()?.companyConfirmed
+        )
+      }
+      return true
+    },
+    [getUser, isAdmin, isFacilitator, isVAdmin]
   )
-
-  const links: LinkType[] = [
-    {
-      title: 'Oversigt',
-      icon: <Home />,
-      href: '/home',
-      requireCompanyConfirm: false
-    },
-    {
-      title: 'Kalendar',
-      icon: <Calendar />,
-      href: '/calendar',
-      requireCompanyConfirm: true
-    },
-    {
-      title: 'Giv Tilbagemelding',
-      icon: <CheckCircle />,
-      href: '/feedback',
-      requireCompanyConfirm: false
-    },
-    {
-      title: 'Profil',
-      icon: <User />,
-      href: '/profile',
-      requireCompanyConfirm: false
-    },
-    {
-      title: 'Om Opino',
-      icon: <HelpCircle />,
-      href: '/aboute',
-      roles: ['Facilitator'],
-      requireCompanyConfirm: false
-    },
-    {
-      title: 'Mere',
-      icon: <MoreHorizontal />,
-      href: '/more',
-      roles: ['Admin', 'VAdmin'],
-      requireCompanyConfirm: true
-    }
-  ]
 
   return (
     <nav>
       <div>
-        {links.map(link => {
-          if (link.roles !== undefined) {
-            if (!showItem(link)) return <></>
-          }
+        {links.map(link => (
+          // if (link.roles !== undefined) {
+          //   if (!showItem(link)) return <></>
+          // }
           // if (link.requireCompanyConfirm) {
           //   if (!user?.companyConfirmed) {
           //     return <></>
           //   }
           // }
-          return (
-            <Link href={link.href} key={link.title}>
-              <a
-                title={link.title}
-                aria-label={link.title}
-                className={pathname === link.href ? 'active' : ''}
-              >
-                {link.icon}
-                {showTitleInBottomNav && <p>{link.title}</p>}
-              </a>
-            </Link>
-          )
-        })}
+
+          <Link href={link.href} key={link.title}>
+            <a
+              title={link.title}
+              aria-label={link.title}
+              className={pathname === link.href ? 'active' : ''}
+              style={{ display: showItem(link) ? 'flex' : 'none' }}
+            >
+              {link.icon}
+              {showTitleInBottomNav && <p>{link.title}</p>}
+            </a>
+          </Link>
+        ))}
       </div>
 
       <style jsx>{`
