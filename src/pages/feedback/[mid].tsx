@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import { useEffect, useContext, useState } from 'react'
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import { Lock, Compass, Send } from 'react-feather'
+import Router, { useRouter } from 'next/router'
+import { Lock, Compass, Send, ChevronLeft } from 'react-feather'
 import Page from '../../components/essentials/page'
 import FeedbackViewPager from '../../components/feedback/FeedbackViewPager'
 import createFingerprint from '../../services/fingerprintService'
@@ -58,6 +58,30 @@ const Feedback: NextPage = observer(() => {
     logEvent('Feedback side', String(statusCode))
   }, [statusCode])
 
+  const BackBtn = () => (
+    <button
+      type='button'
+      style={{
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        textAlign: 'center',
+        marginTop: '20vh'
+      }}
+      className='button'
+      onClick={() => Router.back()}
+    >
+      <ChevronLeft
+        style={{
+          marginBottom: '-5px',
+          marginRight: '5px',
+          height: '20px',
+          width: '20px'
+        }}
+      />{' '}
+      Tilbage
+    </button>
+  )
+
   return (
     <>
       <MiddelLoader
@@ -79,6 +103,7 @@ const Feedback: NextPage = observer(() => {
               <p className='msg'>
                 Mødet er ikke åben for Tilbagemeldinger på dette tidspunkt.
               </p>
+              <BackBtn />
             </div>
           )}
           {statusCode === 404 && fetchState === FetchStates.DONE && (

@@ -239,7 +239,7 @@ const Post: NextPage = observer(
             <div className='flex-item-left'>
               {' '}
               <form>
-                <label htmlFor='id'>Id</label>
+                <label htmlFor='id'>ID</label>
                 <input
                   type='text'
                   name='id'
@@ -248,7 +248,7 @@ const Post: NextPage = observer(
                   value={mid}
                   disabled
                 />
-                <label htmlFor='name'>Mødenavn</label>
+                <label htmlFor='name'>Aktivitetsnavn</label>
                 <input
                   type='text'
                   name='name'
@@ -359,7 +359,7 @@ const Post: NextPage = observer(
             </div>
             <div className='flex-item-right'>
               <div className='qrbox'>
-                <h4>Qrkode</h4>
+                <h4>QRkode</h4>
                 <QRCode
                   bgColor='var(--surface)'
                   fgColor='var(--accent)'
@@ -375,7 +375,8 @@ const Post: NextPage = observer(
                     href={ApiRoutes.qrcode(String(mid))}
                     style={{ fontWeight: 700 }}
                   >
-                    {ApiRoutes.qrcode(String(mid)).split('/')[4]}
+                    {' '}
+                    {ApiRoutes.qrcode(String(mid)).split('/')[2]}
                   </a>
                 </p>
               </div>

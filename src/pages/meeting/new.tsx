@@ -108,7 +108,7 @@ const newMeetingPage = withAuth(
             type='text'
             name='name'
             id='name'
-            placeholder='Navn på mødet'
+            placeholder='Aktivitetsnavn'
             required
             value={meeting?.name}
             onChange={e => setMeeting({ ...meeting, name: e.target.value })}
