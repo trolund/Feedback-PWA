@@ -30,10 +30,11 @@ const MobileCalendar = ({ dim }: props) => {
           headerFormat: 'dddd, D MMM',
           weekdays: daysShort(),
           blank: 'Ingen dag valgt',
-          todayLabel: { long: 'I dag' }
+          todayLabel: { long: 'I dag' },
+          weekStartsOn: 1
         }}
         width={dim.width}
-        height={dim.height - 300}
+        height={dim.height - 115}
         selected={today}
         onSelect={onDaySelect}
         theme={{
@@ -52,6 +53,7 @@ const MobileCalendar = ({ dim }: props) => {
           todayColor: 'var(--accent)',
           weekdayColor: 'var(--accent)'
         }}
+        displayOptions={{ showHeader: false, showOverlay: false }}
       />
       <style jsx global>{`
         .Cal__MonthList__root.Cal__MonthList__scrolling {

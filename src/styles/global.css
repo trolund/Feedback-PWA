@@ -17,6 +17,8 @@
   --overflow: #fff;
   --backdrop: rgba(230, 230, 230, 0.75);
 
+  --gradiant: linear-gradient(180deg, #21866ee5 0%, #126955e8 100%);
+
   --border-radius: 15px;
   --error: #a70450;
 

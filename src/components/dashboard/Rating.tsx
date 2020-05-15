@@ -85,7 +85,7 @@ const Rating: React.FC<IProp> = observer(() => {
   }
 
   return (
-    <div className='card' style={{ marginBottom: '10px' }}>
+    <div className='card'>
       <h5 className='card-header'>
         Overblik
         <div
@@ -97,11 +97,16 @@ const Rating: React.FC<IProp> = observer(() => {
         >
           <p
             className='float-left'
-            style={{ fontSize: '0.6em', padding: '5px', marginBottom: '0px' }}
+            style={{
+              fontSize: '0.6em',
+              padding: '5px',
+              marginBottom: '0px',
+              color: 'white'
+            }}
           >
             {isOpen ? 'Skjul' : 'Vis'}
           </p>
-          <PieChart className='float-right' />
+          <PieChart style={{ color: 'white' }} className='float-right' />
         </div>
       </h5>
 
@@ -156,6 +161,18 @@ const Rating: React.FC<IProp> = observer(() => {
           border-radius: var(--border-radius);
           padding: var(--gap-small);
           margin-bottom: var(--gap-small);
+        }
+
+        h5 {
+          margin-top: 0px;
+          color: white;
+        }
+
+        .card {
+          margin-bottom: var(--gap-small);
+          background: var(--gradiant);
+          padding: var(--gap-small);
+          border-radius: var(--border-radius);
         }
       `}</style>
     </div>

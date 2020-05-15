@@ -161,7 +161,7 @@ export default observer(
               onKeyPress={() => setShowModal(!showModal)}
               onClick={() => setShowModal(!showModal)}
             >
-              <div style={{ width: '100%' }}>categories</div>
+              <div style={{ width: '100%', marginLeft: '7px' }}>Kategorier</div>
               <span className='arrow'>
                 <ChevronDown />
               </span>
@@ -247,6 +247,7 @@ export default observer(
             border: 1px;
             width: 100%;
             padding: var(--gap-small);
+            outline: none;
 
             /* box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04); */
 

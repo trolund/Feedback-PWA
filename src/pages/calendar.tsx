@@ -356,8 +356,9 @@ const CalendarView = withAuth(
           }
 
           .cal-container {
-             height: calc(100% - 250px);
-  
+            top: calc(env(safe-area-inset-top) + 72px);
+            height: calc(100% - 240px);
+            position: absolute;
           }
           .fc-body {
             height: 90vh
