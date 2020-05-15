@@ -13,11 +13,6 @@ type appbarProps = {
 
 const Header = (props: appbarProps) => {
   const { title, backBtn, component } = props
-  // const [loaded, setLoaded] = useState(false)
-
-  // useEffect(() => {
-  //   setLoaded(true)
-  // }, [])
 
   const backClickHandler = () => {
     Router.back()
@@ -25,7 +20,6 @@ const Header = (props: appbarProps) => {
 
   return (
     <header>
-      {/* <UnnecessarilyComplexTitle loaded={loaded} /> */}
       {backBtn && (
         <a
           role='button'
@@ -35,28 +29,15 @@ const Header = (props: appbarProps) => {
           onClick={backClickHandler}
           onKeyDown={backClickHandler}
           className='float-left'
-          style={{ marginTop: '5px' }}
+          style={{ marginTop: '10px' }}
         >
           <ChevronLeft fontSize='inherit' className='back-icon' />
-          {/* <p className='back-text'>Back</p> */}
         </a>
       )}
       {title && <h3>{title}</h3>}
       <div className='float-right right-component'>{component}</div>
 
       <div style={{ flex: 1 }} />
-
-      <nav>
-        {/* <ThemeButton />
-        <div className='divider' /> */}
-
-        {/* <Link href='/profile'>
-          <a title='Profile' aria-label='Profile'>
-            <Avatar image='/images/avatar.jpg' />
-          </a>
-        </Link> */}
-      </nav>
-
       <style jsx>{`
         header {
           padding: 0 var(--gap);
@@ -72,13 +53,6 @@ const Header = (props: appbarProps) => {
           top: 0;
           left: 0;
           transition: var(--transition-colors);
-        }
-        .back-btn {
-          width: 150px;
-          height: 100%;
-          position: relative;
-          display: block;
-          margin: 20px;
         }
 
         .back-icon {
@@ -103,16 +77,6 @@ const Header = (props: appbarProps) => {
           text-align: center;
         }
 
-        .back-btn {
-          width: 150px;
-          height: 100%;
-          position: absolute;
-          display: block;
-          margin-top: 10px;
-          top: calc(env(safe-area-inset-top) / 2 + (72px / 2));
-          left: 25px;
-        }
-
         .right-component {
           width: fit-content;
           height: 100%;
@@ -121,21 +85,6 @@ const Header = (props: appbarProps) => {
           margin-top: -10px;
           top: calc(env(safe-area-inset-top) / 2 + (72px / 2));
           right: 25px;
-        }
-
-        nav {
-          display: flex;
-          align-items: center;
-          z-index: 4;
-        }
-
-        .divider {
-          margin: 0 var(--gap);
-          width: 1px;
-          height: 28px;
-          background: var(--divider);
-          display: flex;
-          transition: var(--transition-colors);
         }
       `}</style>
     </header>

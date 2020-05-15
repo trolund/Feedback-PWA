@@ -32,6 +32,7 @@ import {
   applyOffSetToMeeting,
   spliceDateAndTime
 } from '../../services/dateService'
+import CustomConfirmModal from '../../components/essentials/confirm-modal'
 
 type initMeetingProps = {
   initMeeting: MeetingModel
@@ -64,6 +65,7 @@ const Post: NextPage = observer(
     const [isRealTimeDateOn, setRealTimeDateOn] = useState(
       realtimeFeedbackDefault
     )
+    const [showConfirmModal, setShowConfirmModal] = useState(false)
 
     useEffect(() => {
       setMeeting(applyOffSetToMeeting(initMeeting))
@@ -225,6 +227,13 @@ const Post: NextPage = observer(
           />
         }
       >
+        <CustomConfirmModal
+          titel='Bekræft sletning'
+          onConfirm={deleteMeetingClickHandler}
+          setShow={setShowConfirmModal}
+          show={showConfirmModal}
+          content={<p>Er du sikker på du vil slette mødet {meeting.name}.</p>}
+        />
         <Section>
           <div className='flex-container'>
             <div className='flex-item-left'>
@@ -333,7 +342,7 @@ const Post: NextPage = observer(
                 <button
                   type='button'
                   className='button bottombtn'
-                  onClick={deleteMeetingClickHandler}
+                  onClick={() => setShowConfirmModal(true)}
                 >
                   <Trash
                     style={{

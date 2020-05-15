@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import fetch from 'isomorphic-unfetch'
 import { observer } from 'mobx-react-lite'
 import { NextPage } from 'next'
+import { toast } from 'react-toastify'
 import https from 'https'
 import Router from 'next/router'
 import { Plus } from 'react-feather'
@@ -12,20 +13,41 @@ import IQuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import { auth } from '../../services/authService'
 
+import FetchStates from '../../stores/requestState'
+import rootStore from '../../stores/RootStore'
+
 type pageProps = {
   initPageProps: IQuestionSet[]
 }
 
 const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
   const [list, setList] = useState(initPageProps)
+  const {
+    questionSetStore: { deleteQuestionSet, fetchQuestionSetNames }
+  } = useContext(rootStore)
 
   const addQuestionSetClickHandler = () => {
     Router.push(`/questionsets/new`)
   }
 
-  const deleteQuestion = (qSetId: string, index: number) => {
+  const optimisticDeleteQuestion = (qSet: IQuestionSet, index: number) => {
     list.splice(index, 1)
     setList([...list])
+
+    deleteQuestionSet(qSet)
+      .then(res => {
+        if (res === FetchStates.DONE) {
+          toast('Spørgsmålssæt er slettet!')
+          Router.push('/questionsets')
+        } else {
+          toast('Der skete en fejl ved sletningen.')
+          fetchQuestionSetNames()
+        }
+      })
+      .catch(() => {
+        toast('Der skete en fejl ved sletningen.')
+        fetchQuestionSetNames()
+      })
   }
 
   return (
@@ -34,7 +56,10 @@ const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
       component={<Plus onClick={addQuestionSetClickHandler} />}
     >
       <Section>
-        <QuestionSetList questionSetlist={list} deleteFunc={deleteQuestion} />
+        <QuestionSetList
+          questionSetlist={list}
+          deleteFunc={optimisticDeleteQuestion}
+        />
       </Section>
       <style jsx>{`
         @media only screen and (max-width: 400px) {

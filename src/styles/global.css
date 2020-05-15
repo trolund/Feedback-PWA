@@ -107,6 +107,7 @@ body {
   text-decoration: none;
   cursor: pointer;
   border: solid 1px var(--accent);
+  outline: none;
 }
 
 .button:hover {
@@ -325,7 +326,7 @@ a {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--surface);
+  background-color: var(--base);
   border-radius: var(--border-radius);
   padding: 10px;
   padding-top: env(safe-area-inset-top, 20px);

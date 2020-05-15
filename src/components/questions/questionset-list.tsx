@@ -1,14 +1,15 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 /* eslint-disable react/no-array-index-key */
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Trash } from 'react-feather'
 import IQuestionSet from '../../models/QuestionSet'
 import rootStore from '../../stores/RootStore'
+import CustomConfirmModal from '../essentials/confirm-modal'
 
 type QuestionList = {
   questionSetlist: IQuestionSet[]
-  deleteFunc: (qSetId: string, index: number) => void
+  deleteFunc: (qSet: IQuestionSet, index: number) => void
 }
 
 const QuestionSetList: React.FC<QuestionList> = ({
@@ -18,9 +19,19 @@ const QuestionSetList: React.FC<QuestionList> = ({
   const {
     authStore: { getCompanyId }
   } = useContext(rootStore)
+  const [showModal, setShowModal] = useState(false)
+  const [itemIndex, setItemIndex] = useState(-1)
+  const [qset, setQset] = useState({} as IQuestionSet)
 
   return (
     <ul>
+      <CustomConfirmModal
+        titel='Bekræft sletning'
+        content={<p>Er du sikker på du vil slette {qset.name}</p>}
+        onConfirm={() => deleteFunc(qset, itemIndex)}
+        setShow={setShowModal}
+        show={showModal}
+      />
       {questionSetlist ? (
         questionSetlist?.map((item, index) => {
           return (
@@ -39,9 +50,12 @@ const QuestionSetList: React.FC<QuestionList> = ({
                       <Trash
                         className='del-btn'
                         role='button'
-                        tabIndex={0}
-                        onClick={() => deleteFunc(item.questionSetId, index)}
-                        onKeyDown={() => deleteFunc(item.questionSetId, index)}
+                        onClick={e => {
+                          e.preventDefault()
+                          setQset(item)
+                          setItemIndex(index)
+                          setShowModal(true)
+                        }}
                       />
                     )}
                   </span>

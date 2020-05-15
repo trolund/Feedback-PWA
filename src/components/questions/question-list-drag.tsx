@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Trash, MoreVertical } from 'react-feather'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { observer } from 'mobx-react-lite'
 import IQuestion from '../../models/Question'
 import IQuestionSet from '../../models/QuestionSet'
 import rootStore from '../../stores/RootStore'
@@ -24,16 +25,28 @@ type QuestionItemProps = {
   qSet: IQuestionSet
 }
 
-function QuestionItem({
+const QuestionItem = ({
   question,
   index,
   changeItemFunc,
   deleteFunc,
   qSet
-}: QuestionItemProps) {
+}: QuestionItemProps) => {
   const {
     authStore: { getCompanyId }
   } = useContext(rootStore)
+
+  // used to show or hide based on company ID
+  const [showElement, setShowElement] = useState(false)
+
+  useEffect(() => {
+    const showBasedOnCompany = () =>
+      getCompanyId() === qSet.companyId ||
+      getCompanyId() === Number(process.env.spinOffCompenyId)
+
+    setShowElement(showBasedOnCompany())
+  }, [getCompanyId, qSet.companyId])
+
   return (
     <Draggable draggableId={question?.questionId} index={index}>
       {provided => (
@@ -50,16 +63,16 @@ function QuestionItem({
           <input
             type='text'
             value={question.theQuestion}
+            style={{ marginRight: showElement ? '20px' : '0px' }}
             onChange={e => changeItemFunc(e.target.value, index)}
           />
-          {(getCompanyId() === qSet.companyId ||
-            getCompanyId() === Number(process.env.spinOffCompenyId)) && (
-            <Trash onClick={() => deleteFunc(index)} />
-          )}
+          <Trash
+            onClick={() => deleteFunc(index)}
+            style={{ display: showElement ? 'block' : 'none' }}
+          />
           <style jsx>{`
             input {
               margin-left: 20px;
-              margin-right: 20px;
               width: 100%;
             }
             li {
@@ -80,36 +93,6 @@ function QuestionItem({
   )
 }
 
-type ListProps = {
-  questions: IQuestion[]
-  deleteFunc: (index: number) => void
-  changeItemFunc: (newQuestion: string, index: number) => void
-}
-
-// const QuoteList = React.memo(function List(props: ListProps) {
-//   const { questions, deleteFunc, changeItemFunc } = props
-//   return questions.map((question: Question, index: number) => (
-//     <QuestionItem
-//       question={question}
-//       index={index}
-//       key={question.questionId}
-//       deleteFunc={deleteFunc}
-//       changeItemFunc={changeItemFunc}
-//     />
-//   ))
-// })
-
-// const QuoteList = ({ questions, deleteFunc, changeItemFunc }: ListProps) =>
-//   questions.map((question: Question, index: number) => (
-//     <QuestionItem
-//       question={question}
-//       index={index}
-//       key={question.questionId}
-//       deleteFunc={deleteFunc}
-//       changeItemFunc={changeItemFunc}
-//     />
-//   ))
-
 type ListDragProps = {
   questionSet: IQuestionSet
   deleteFunc: (index: number) => void
@@ -117,59 +100,63 @@ type ListDragProps = {
   setQuestionSet: (questionSet: IQuestionSet) => void
 }
 
-function QuestionListDrag({
-  questionSet,
-  setQuestionSet,
-  deleteFunc,
-  changeItemFunc
-}: ListDragProps) {
-  const onDragEnd = result => {
-    // dropped outside the list
-    if (!result.destination) {
-      return
+const QuestionListDrag = observer(
+  ({
+    questionSet,
+    setQuestionSet,
+    deleteFunc,
+    changeItemFunc
+  }: ListDragProps) => {
+    const onDragEnd = result => {
+      // dropped outside the list
+      if (!result.destination) {
+        return
+      }
+      const items = reorder(
+        questionSet.questions,
+        result.source.index,
+        result.destination.index
+      )
+
+      setQuestionSet({ ...questionSet, questions: updateIndex(items) })
     }
-    const items = reorder(
-      questionSet.questions,
-      result.source.index,
-      result.destination.index
+
+    return (
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId='list'>
+          {provided => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {questionSet.questions.map(
+                (question: IQuestion, index: number) => (
+                  <QuestionItem
+                    qSet={questionSet}
+                    question={question}
+                    index={index}
+                    key={question.questionId}
+                    deleteFunc={deleteFunc}
+                    changeItemFunc={changeItemFunc}
+                  />
+                )
+              )}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+        <style jsx>{`
+          li:not(:last-child) {
+            border-bottom: 1px solid var(--divider);
+          }
+
+          h4 {
+            color: var(--fg);
+            margin-left: var(--gap-small);
+            font-weight: 500;
+            letter-spacing: 0.0035em;
+          }
+        `}</style>
+      </DragDropContext>
     )
-
-    setQuestionSet({ ...questionSet, questions: updateIndex(items) })
   }
-
-  return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId='list'>
-        {provided => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            {questionSet.questions.map((question: IQuestion, index: number) => (
-              <QuestionItem
-                qSet={questionSet}
-                question={question}
-                index={index}
-                key={question.questionId}
-                deleteFunc={deleteFunc}
-                changeItemFunc={changeItemFunc}
-              />
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-      <style jsx>{`
-        li:not(:last-child) {
-          border-bottom: 1px solid var(--divider);
-        }
-
-        h4 {
-          color: var(--fg);
-          margin-left: var(--gap-small);
-          font-weight: 500;
-          letter-spacing: 0.0035em;
-        }
-      `}</style>
-    </DragDropContext>
-  )
-}
+)
 
 export default QuestionListDrag

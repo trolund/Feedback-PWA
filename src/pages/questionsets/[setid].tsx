@@ -17,6 +17,7 @@ import rootStore from '../../stores/RootStore'
 import QuestionListDrag from '../../components/questions/question-list-drag'
 import { sortQuestionsByIndex } from '../../services/sortService'
 import { makeid } from '../../services/utilsService'
+import CustomConfirmModal from '../../components/essentials/confirm-modal'
 
 type pageProps = {
   initQSet: IQuestionSet
@@ -26,6 +27,8 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   const router = useRouter()
   const { setid } = router.query
   const [qset, setQset] = useState(initQSet)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showElement, setShowElement] = useState(false)
 
   const {
     questionSetStore: {
@@ -35,6 +38,16 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
     },
     authStore: { getCompanyId }
   } = useContext(rootStore)
+
+  // used to show or hide based on company ID
+
+  useEffect(() => {
+    const showBasedOnCompany = () =>
+      getCompanyId() === qset.companyId ||
+      getCompanyId() === Number(process.env.spinOffCompenyId)
+
+    setShowElement(showBasedOnCompany())
+  }, [getCompanyId, qset.companyId])
 
   useEffect(() => {
     if (qset === null) {
@@ -98,8 +111,7 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
 
   const SaveBtn = () => {
     return (
-      (getCompanyId() === qset.companyId ||
-        getCompanyId() === Number(process.env.spinOffCompenyId)) && (
+      showElement && (
         <Save
           onClick={updateClickHandler}
           style={{
@@ -113,11 +125,33 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
     )
   }
 
+  // const showBasedOnCompany = useCallback(
+  //   () =>
+  //     getCompanyId() === qset.companyId ||
+  //     getCompanyId() === Number(process.env.spinOffCompenyId),
+  //   [getCompanyId, qset.companyId]
+  // )
+
   return (
     <Page title={qset?.name} component={<SaveBtn />}>
       <Section>
+        <CustomConfirmModal
+          show={showConfirmModal}
+          setShow={setShowConfirmModal}
+          onConfirm={deleteClickHandler}
+          titel='Bekræft sletning'
+          content={
+            <>
+              <p>Er du sikker på du vil slette spørgsmålssættet {qset.name}.</p>
+              <p>
+                Alle tilbagemeldinger givet med dette sæt vil samtidigt blive
+                slettet.
+              </p>
+            </>
+          }
+        />
         <div className='topbar'>
-          {getCompanyId() !== qset.companyId && (
+          {!showElement && (
             <p className='warning'>
               <Lock style={{ marginBottom: '-5px' }} /> Dette møde kan ikke
               ændres da det er et standard spørgsmålssæt
@@ -137,8 +171,7 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
           deleteFunc={deleteQuestion}
           changeItemFunc={itemChange}
         />
-        {(getCompanyId() === qset.companyId ||
-          getCompanyId() === Number(process.env.spinOffCompenyId)) && (
+        {showElement && (
           <li className='addbtn'>
             <button
               type='button'
@@ -177,35 +210,31 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
             Brug som skabelon
           </button>
         </li>
-        {(getCompanyId() === qset.companyId ||
-          getCompanyId() === Number(process.env.spinOffCompenyId)) && (
-          <>
-            <hr
+        <hr
+          style={{
+            width: '120px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            display: showElement ? 'block' : 'none'
+          }}
+        />
+        <li style={{ display: showElement ? 'block' : 'none' }}>
+          <button
+            type='button'
+            className='button bottombtn'
+            onClick={() => setShowConfirmModal(true)}
+          >
+            <Trash
               style={{
-                width: '120px',
-                marginLeft: 'auto',
-                marginRight: 'auto'
+                width: '20px',
+                height: '20px',
+                marginRight: '-20px',
+                float: 'left'
               }}
             />
-            <li>
-              <button
-                type='button'
-                className='button bottombtn'
-                onClick={deleteClickHandler}
-              >
-                <Trash
-                  style={{
-                    width: '20px',
-                    height: '20px',
-                    marginRight: '-20px',
-                    float: 'left'
-                  }}
-                />
-                slet
-              </button>
-            </li>
-          </>
-        )}
+            slet
+          </button>
+        </li>
       </Section>
       <style jsx>{`
         @media only screen and (max-width: 400px) {
