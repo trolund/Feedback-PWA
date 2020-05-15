@@ -295,6 +295,11 @@ const CalendarView = withAuth(
             margin-top: -20px;
           }
 
+          .cal-container {
+ 
+            position: absolute;
+          }
+
           .fc-center h2 {
             font-size: 1.2em;
           }
