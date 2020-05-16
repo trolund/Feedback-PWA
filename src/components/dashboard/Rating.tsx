@@ -1,6 +1,7 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react'
 import { observer } from 'mobx-react'
 import { PieChart } from 'react-feather'
+import { motion } from 'framer-motion'
 import StarRatingComponent from 'react-star-rating-component'
 import { Pie } from 'react-chartjs-2'
 import rootStore from '../../stores/RootStore'
@@ -85,7 +86,7 @@ const Rating: React.FC<IProp> = observer(() => {
   }
 
   return (
-    <div className='card'>
+    <div className='color-card'>
       <h5 className='card-header'>
         Overblik
         <div
@@ -141,15 +142,46 @@ const Rating: React.FC<IProp> = observer(() => {
             <b className='Spinoffprimary-dark'>{conf()}</b>
           </div>
         </div>
-
-        {isOpen && <Pie data={myData} options={options} />}
+        <div
+          className='pie-container'
+          style={{ height: isOpen ? '20vh' : '0px' }}
+        >
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                delay: 0.4,
+                x: { type: 'spring', stiffness: 100 },
+                default: { duration: 0.5 }
+              }}
+            >
+              <div className='pie-box'>
+                <Pie data={myData} options={options} />
+              </div>
+            </motion.div>
+          )}
+        </div>
       </div>
       <style jsx>{`
+        .pie-container {
+          transition: height 0.5s ease-in-out;
+        }
+
         .flex-container {
           display: flex;
         }
 
         .flex-container > div {
+          text-align: center;
+          background-color: var(--surface);
+          border-radius: var(--border-radius);
+          padding: var(--gap-small);
+        }
+
+        .pie-box {
+          margin-top: var(--gap-small);
+          margin-bottom: var(--gap-small);
           text-align: center;
           background-color: var(--surface);
           border-radius: var(--border-radius);
@@ -166,13 +198,6 @@ const Rating: React.FC<IProp> = observer(() => {
         h5 {
           margin-top: 0px;
           color: white;
-        }
-
-        .card {
-          margin-bottom: var(--gap-small);
-          background: var(--gradiant);
-          padding: var(--gap-small);
-          border-radius: var(--border-radius);
         }
       `}</style>
     </div>

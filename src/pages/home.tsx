@@ -14,6 +14,7 @@ import TheNextWeek from '../components/dashboard/theNextWeek'
 import QuestionAnalyser from '../components/dashboard/questionAnalyser'
 import MiddelLoader from '../components/essentials/middelLoading'
 import FetchStates from '../stores/requestState'
+import Rating from '../components/dashboard/Rating'
 
 export default withAuth(
   observer(() => {
@@ -74,6 +75,7 @@ export default withAuth(
           content={<DashboardFilter />}
         />
         <Section>
+          <Rating />
           <DashboardOverview
             graphData={graphdata()}
             fetchState={state}

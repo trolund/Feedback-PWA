@@ -425,3 +425,18 @@ hr {
   float: right;
   margin: 5px;
 }
+
+
+.color-card {
+  margin-bottom: var(--gap-small);
+  background: var(--gradiant);
+  padding: var(--gap-small);
+  border-radius: var(--border-radius);
+}
+
+.card {
+  background-color: var(--surface);
+  border-radius: var(--border-radius);
+  padding: var(--gap-small);
+  margin-bottom: var(--gap-small);
+}

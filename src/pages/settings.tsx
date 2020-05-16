@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
+import { X, Check } from 'react-feather'
+import Switch from 'react-switch'
 import Page from '../components/essentials/page'
 import Section from '../components/essentials/section'
 import ThemeButton from '../components/theme-button'
-import Switch from '../components/essentials/switch'
 
 import rootStore from '../stores/RootStore'
 
@@ -33,26 +34,96 @@ const Settings = observer(() => {
           </li>
           <li>
             <h4 className='float-left'>Live tilbagemeldinger</h4>
-            <div className='float-right'>
+            <span className='float-right'>
               <Switch
-                setValue={setRealtimeFeedbackDefault}
-                value={realtimeFeedbackDefault}
+                onChange={setRealtimeFeedbackDefault}
+                checked={realtimeFeedbackDefault}
+                onColor='#19896f'
+                offColor='#6a6b6e'
+                uncheckedIcon={
+                  <X
+                    style={{
+                      width: '27px',
+                      height: '27px',
+                      padding: '5px',
+                      color: 'white'
+                    }}
+                  />
+                }
+                checkedIcon={
+                  <Check
+                    style={{
+                      width: '27px',
+                      height: '27px',
+                      padding: '5px',
+                      color: 'white'
+                    }}
+                  />
+                }
               />
-            </div>
+            </span>
           </li>
           <li>
             <h4 className='float-left'>Vis ikke template spørgsmålssæt</h4>
             <div className='float-right'>
               <Switch
-                setValue={setHideTempQuestionSets}
-                value={hideTempQuestionSets}
+                key='hej'
+                onChange={setHideTempQuestionSets}
+                checked={hideTempQuestionSets}
+                onColor='#19896f'
+                offColor='#6a6b6e'
+                uncheckedIcon={
+                  <X
+                    style={{
+                      width: '27px',
+                      height: '27px',
+                      padding: '5px',
+                      color: 'white'
+                    }}
+                  />
+                }
+                checkedIcon={
+                  <Check
+                    style={{
+                      width: '27px',
+                      height: '27px',
+                      padding: '5px',
+                      color: 'white'
+                    }}
+                  />
+                }
               />
             </div>
           </li>
           <li>
-            <h4 className='float-left'>Slå animationer fra</h4>
+            <h4 className='float-left'>Brug ikke side animationer</h4>
             <div className='float-right'>
-              <Switch setValue={setAnimation} value={animation} />
+              <Switch
+                onChange={setAnimation}
+                checked={animation}
+                onColor='#19896f'
+                offColor='#6a6b6e'
+                uncheckedIcon={
+                  <X
+                    style={{
+                      width: '27px',
+                      height: '27px',
+                      padding: '5px',
+                      color: 'white'
+                    }}
+                  />
+                }
+                checkedIcon={
+                  <Check
+                    style={{
+                      width: '27px',
+                      height: '27px',
+                      padding: '5px',
+                      color: 'white'
+                    }}
+                  />
+                }
+              />
             </div>
           </li>
           {/* <li>
@@ -63,8 +134,30 @@ const Settings = observer(() => {
             <h4 className='float-left'>Vis titler i menuen</h4>
             <div className='float-right'>
               <Switch
-                setValue={setShowTitleInBottomNav}
-                value={showTitleInBottomNav}
+                onChange={setShowTitleInBottomNav}
+                checked={showTitleInBottomNav}
+                onColor='#19896f'
+                offColor='#6a6b6e'
+                uncheckedIcon={
+                  <X
+                    style={{
+                      width: '27px',
+                      height: '27px',
+                      padding: '5px',
+                      color: 'white'
+                    }}
+                  />
+                }
+                checkedIcon={
+                  <Check
+                    style={{
+                      width: '27px',
+                      height: '27px',
+                      padding: '5px',
+                      color: 'white'
+                    }}
+                  />
+                }
               />
             </div>
           </li>
@@ -89,6 +182,8 @@ const Settings = observer(() => {
           margin-left: var(--gap-small);
           font-weight: 500;
           letter-spacing: 0.0035em;
+          width: inherit;
+          width: -webkit-fill-available;
         }
       `}</style>
     </Page>

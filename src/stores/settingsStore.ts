@@ -28,6 +28,8 @@ export default class SettingsStore {
     this.bottombarVisable = value
   }
 
+  @action getShowTitleInBottomNav = () => this.showTitleInBottomNav
+
   @action setAnimation = (value: boolean) => {
     this.animation = value
     if (value) {
@@ -57,6 +59,11 @@ export default class SettingsStore {
 
   @action setShowDefQuestionSets = (value: boolean) => {
     this.showDefQuestionSets = value
+    if (value) {
+      logEvent('Hide templete Question sets', 'enabled')
+    } else {
+      logEvent('realtime feedback default', 'disabled')
+    }
   }
 
   @action setShowTitleInBottomNav = (value: boolean) => {

@@ -76,6 +76,7 @@
     "react-spring": "^8.0.27",
     "react-star-rating-component": "^1.4.1",
     "react-super-responsive-table": "^5.1.1",
+    "react-switch": "^5.0.1",
     "react-toastify": "^5.5.0",
     "react-use-gesture": "^7.0.15",
     "react-view-pager": "^0.6.0",

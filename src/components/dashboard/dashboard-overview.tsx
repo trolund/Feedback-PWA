@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { PieChart, BarChart2 } from 'react-feather'
 import LineGraph from './charts/line-graph'
-import Rating from './Rating'
 import GraphData from '../../models/GraphData'
 import FetchStates from '../../stores/requestState'
 import BarGraph from './charts/bar-chart'
@@ -17,11 +16,7 @@ const DashboardOverview = (props: overviewprops) => {
   const { graphData, fetchState, useFixedXAxis } = props
 
   return (
-    <>
-      <Rating />
-      <p className='card-footer text-muted'>
-        Bygger på <b>{graphData.numberOfBatches ?? 0}</b> tilbagemeldinger
-      </p>
+    <div className='card'>
       <h5>
         Udvikling
         <div
@@ -48,6 +43,9 @@ const DashboardOverview = (props: overviewprops) => {
           useFixedXAxis={useFixedXAxis}
         />
       )}
+      <p className='card-footer text-muted'>
+        Bygger på <b>{graphData.numberOfBatches ?? 0}</b> tilbagemeldinger
+      </p>
       <style jsx>{`
         header {
           padding: 0 var(--gap);
@@ -71,6 +69,10 @@ const DashboardOverview = (props: overviewprops) => {
           z-index: 4;
         }
 
+        h5 {
+          margin-top: 0px;
+        }
+
         .divider {
           margin: 0 var(--gap);
           width: 1px;
@@ -80,7 +82,7 @@ const DashboardOverview = (props: overviewprops) => {
           transition: var(--transition-colors);
         }
       `}</style>
-    </>
+    </div>
   )
 }
 

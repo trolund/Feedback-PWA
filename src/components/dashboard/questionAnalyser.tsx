@@ -69,7 +69,7 @@ const QuestionAnalyser = observer(({ data }: Props) => {
     [calcData]
   )
   return (
-    <div className='container'>
+    <div className='container card'>
       <h5>Feedback fordelt på spørgsmål</h5>
       <div className='select-css'>
         <select
@@ -95,10 +95,6 @@ const QuestionAnalyser = observer(({ data }: Props) => {
       )}
       <style jsx>{`
         .container {
-          background-color: var(--surface);
-          border-radius: var(--border-radius);
-          padding: var(--gap-small);
-          margin-bottom: var(--gap-small);
         }
 
         .container h5 {
