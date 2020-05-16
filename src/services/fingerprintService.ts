@@ -11,7 +11,9 @@ export const hashComponents = (components: Fingerprint2.Component[]) => {
 const createFingerprint = async (): Promise<string> => {
   let fingerprint = null
   try {
-    const com = await Fingerprint2.getPromise()
+    const com = await Fingerprint2.getPromise({
+      audio: { excludeIOS11: true, timeout: 2000 }
+    })
     logEvent(
       'fingerprint',
       'fingerprint-creation-success',
