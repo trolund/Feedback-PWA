@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { useContext, useState, useEffect } from 'react'
+import { useContext } from 'react'
 import { X, Check } from 'react-feather'
 import Switch from 'react-switch'
 import Page from '../components/essentials/page'

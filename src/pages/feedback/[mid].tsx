@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import { useEffect, useContext, useState } from 'react'
 import { NextPage } from 'next'
 import Router, { useRouter } from 'next/router'
-import { Lock, Compass, Send, ChevronLeft } from 'react-feather'
+import { Lock, Compass, Send, ChevronLeft, X } from 'react-feather'
 import Page from '../../components/essentials/page'
 import FeedbackViewPager from '../../components/feedback/FeedbackViewPager'
 import createFingerprint from '../../services/fingerprintService'
@@ -33,15 +33,25 @@ const Feedback: NextPage = observer(() => {
             0,
             `${newFingerprint} ${getUser().id}`
           )
-          fetchQuestions(String(mid), newFingerprint).then(code => {
-            setStatusCode(code)
-            logEvent(
-              'fingerprint',
-              'fingerprint-fetchQuestionss',
-              0,
-              `${newFingerprint} ${getUser().id} ${String(mid)}`
-            )
-          })
+          fetchQuestions(String(mid), newFingerprint)
+            .then(code => {
+              setStatusCode(code)
+              logEvent(
+                'Feedback-question-fetch',
+                'fetchQuestions-sucsses',
+                0,
+                `${newFingerprint} ${getUser().id} ${String(mid)}`
+              )
+            })
+            .catch(e => {
+              logEvent(
+                'Feedback-question-fetch',
+                'fetchQuestions-error',
+                0,
+                JSON.stringify(e)
+              )
+              Router.back()
+            })
         })
         .catch(e =>
           logEvent(
@@ -86,10 +96,29 @@ const Feedback: NextPage = observer(() => {
     <>
       <MiddelLoader
         loading={fetchState === FetchStates.LOADING}
-        text='Tilbagemelding er anonym'
+        text='Tilbagemelding er anonyme'
       />
+      <span className='exit-btn'>
+        <X onClick={() => Router.back()} />
+      </span>
+
       <Page showBottomNav={false} showHead={false} fullscreen>
         <Section>
+          {(statusCode >= 500 || statusCode === 0) &&
+            fetchState === FetchStates.DONE && (
+              <div className='msg-container'>
+                <Lock
+                  style={{
+                    width: '80px',
+                    height: '80px',
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
+                  }}
+                />
+                <p className='msg'>Der skete en ukendt fejl.</p>
+                <BackBtn />
+              </div>
+            )}
           {statusCode === 400 && fetchState === FetchStates.DONE && (
             <div className='msg-container'>
               <Lock
@@ -142,9 +171,17 @@ const Feedback: NextPage = observer(() => {
         </Section>
         <style jsx global>{`
           .frame {
+            margin-top: 12vh;
+            margin-top: env(safe-area-inset-top + 75px, 12vh);
             height: 75vh !important;
             padding-bottom: 10px;
             outline: none;
+          }
+          .exit-btn {
+            position: absolute;
+            margin-top: 25px;
+            top: env(safe-area-inset-top, 50px);
+            right: 50px;
           }
         `}</style>
         <style jsx>{`

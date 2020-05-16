@@ -20,6 +20,10 @@ const links: LinkType[] = [
     title: 'Spørgsmålssæt',
     href: '/questionsets'
   },
+  // {
+  //   title: 'Kategorier',
+  //   href: '/categories'
+  // },
   {
     title: 'Indstillinger',
     href: '/settings'
