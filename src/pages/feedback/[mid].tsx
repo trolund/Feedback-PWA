@@ -10,7 +10,7 @@ import rootStore from '../../stores/RootStore'
 import MiddelLoader from '../../components/essentials/middelLoading'
 import FetchStates from '../../stores/requestState'
 import Section from '../../components/essentials/section'
-import { logEvent } from '../../utils/analytics'
+import { logEvent, logException } from '../../utils/analytics'
 
 const Feedback: NextPage = observer(() => {
   const router = useRouter()
@@ -53,14 +53,10 @@ const Feedback: NextPage = observer(() => {
               Router.back()
             })
         })
-        .catch(e =>
-          logEvent(
-            'fingerprint',
-            'fingerprint-creation-error',
-            0,
-            JSON.stringify(e)
-          )
-        )
+        .catch(e => {
+          logEvent('fingerprint', 'fingerprint-creation-error')
+          logException(e, false)
+        })
     }
   }, [fetchQuestions, getUser, mid])
 

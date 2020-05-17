@@ -1,5 +1,5 @@
 import Fingerprint2 from 'fingerprintjs2'
-import { logEvent } from '../utils/analytics'
+import { logEvent, logException } from '../utils/analytics'
 
 export const hashComponents = (components: Fingerprint2.Component[]) => {
   const values = components.map(component => component.value)
@@ -23,6 +23,7 @@ const createFingerprint = async (): Promise<string> => {
     fingerprint = hashComponents(com)
   } catch (e) {
     logEvent('fingerprint', 'fingerprint-creation-error', 0, JSON.stringify(e))
+    logException(e, false)
   }
   return fingerprint
 }
