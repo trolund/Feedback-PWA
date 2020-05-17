@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import { useEffect, useContext, useState } from 'react'
 import { NextPage } from 'next'
 import Router, { useRouter } from 'next/router'
-import { Lock, Compass, Send, ChevronLeft, X } from 'react-feather'
+import { Lock, Compass, Send, ChevronLeft, X, Loader, Box } from 'react-feather'
 import Page from '../../components/essentials/page'
 import FeedbackViewPager from '../../components/feedback/FeedbackViewPager'
 import createFingerprint from '../../services/fingerprintService'
@@ -21,9 +21,11 @@ const Feedback: NextPage = observer(() => {
   } = useContext(rootStore)
   const [statusCode, setStatusCode] = useState(0)
   const [fingerprint, setFingerprint] = useState('')
+  const [fpBeingCreated, setFpBeingCreated] = useState(false)
 
   useEffect(() => {
     if (mid !== undefined) {
+      setFpBeingCreated(true)
       createFingerprint()
         .then(newFingerprint => {
           setFingerprint(newFingerprint)
@@ -33,32 +35,41 @@ const Feedback: NextPage = observer(() => {
             0,
             `${newFingerprint} ${getUser().id}`
           )
-          fetchQuestions(String(mid), newFingerprint)
-            .then(code => {
-              setStatusCode(code)
-              logEvent(
-                'Feedback-question-fetch',
-                'fetchQuestions-sucsses',
-                0,
-                `${newFingerprint} ${getUser().id} ${String(mid)}`
-              )
-            })
-            .catch(e => {
-              logEvent(
-                'Feedback-question-fetch',
-                'fetchQuestions-error',
-                0,
-                JSON.stringify(e)
-              )
-              Router.back()
-            })
+          console.log('fingerprint: ', newFingerprint)
+          setFpBeingCreated(false)
         })
         .catch(e => {
           logEvent('fingerprint', 'fingerprint-creation-error')
           logException(e, false)
+          console.log(e)
+          setFpBeingCreated(false)
         })
     }
   }, [fetchQuestions, getUser, mid])
+
+  useEffect(() => {
+    if (fingerprint.length > 0) {
+      fetchQuestions(String(mid), fingerprint)
+        .then(code => {
+          setStatusCode(code)
+          logEvent(
+            'Feedback-question-fetch',
+            'fetchQuestions-sucsses',
+            0,
+            `${fingerprint} ${getUser().id} ${String(mid)}`
+          )
+        })
+        .catch(e => {
+          logEvent(
+            'Feedback-question-fetch',
+            'fetchQuestions-error',
+            0,
+            JSON.stringify(e)
+          )
+          Router.back()
+        })
+    }
+  }, [fetchQuestions, fingerprint, getUser, mid])
 
   useEffect(() => {
     logEvent('Feedback side', String(statusCode))
@@ -91,15 +102,21 @@ const Feedback: NextPage = observer(() => {
   return (
     <>
       <MiddelLoader
-        loading={fetchState === FetchStates.LOADING}
+        loading={fetchState === FetchStates.LOADING || fpBeingCreated}
         text='Tilbagemelding er anonyme'
       />
-      <span className='exit-btn'>
-        <X onClick={() => Router.back()} />
+      <span className='fingerprint-indicator'>
+        {fingerprint.length > 0 ? (
+          <Box color='var(--surface)' />
+        ) : (
+          <Loader color='var(--surface)' />
+        )}
       </span>
-
       <Page showBottomNav={false} showHead={false} fullscreen>
         <Section>
+          <span className='exit-btn'>
+            <X onClick={() => Router.back()} />
+          </span>
           {(statusCode >= 500 || statusCode === 0) &&
             fetchState === FetchStates.DONE && (
               <div className='msg-container'>
@@ -175,9 +192,16 @@ const Feedback: NextPage = observer(() => {
           }
           .exit-btn {
             position: absolute;
-            margin-top: 25px;
-            top: env(safe-area-inset-top, 50px);
-            right: 50px;
+            margin-top: 15px;
+            top: env(safe-area-inset-top, 25px);
+            right: 25px;
+          }
+
+          .fingerprint-indicator {
+            position: absolute;
+            margin-top: 15px;
+            top: env(safe-area-inset-top, 25px);
+            left: 25px;
           }
         `}</style>
         <style jsx>{`
