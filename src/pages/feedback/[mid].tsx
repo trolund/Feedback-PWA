@@ -66,10 +66,12 @@ const Feedback: NextPage = observer(() => {
             0,
             JSON.stringify(e)
           )
-          Router.back()
+          console.log('====================================')
+          console.log(statusCode)
+          console.log('====================================')
         })
     }
-  }, [fetchQuestions, fingerprint, getUser, mid])
+  }, [fetchQuestions, fingerprint, getUser, mid, statusCode])
 
   useEffect(() => {
     logEvent('Feedback side', String(statusCode))
