@@ -7,7 +7,8 @@ import {
   Key,
   Briefcase,
   Phone,
-  Mail
+  Mail,
+  Hash
 } from 'react-feather'
 import Router from 'next/router'
 import Page from '../components/essentials/page'
@@ -17,6 +18,7 @@ import rootStore from '../stores/RootStore'
 import CustomInput from '../components/Input/custom-input'
 import MiddelLoader from '../components/essentials/middelLoading'
 import IUser from '../models/User'
+import { getCompanyId } from '../services/authService'
 
 const Profile = withAuth(
   observer(() => {
@@ -116,7 +118,12 @@ const Profile = withAuth(
                   </p>
                 )}
               </li>
-
+              <li>
+                <Hash style={{ marginBottom: '-5px' }} />
+                <p style={{ marginLeft: '10px', display: 'inline' }}>
+                  Virksomheds ID - {getCompanyId() || 'unkendt'}
+                </p>
+              </li>
               <li>
                 <Settings style={{ marginBottom: '-5px' }} />
                 {user.roles.length > 0 ? (
