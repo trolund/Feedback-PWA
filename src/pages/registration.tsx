@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useContext } from 'react'
 import { User, Mail, Phone, Key, Briefcase, Hash, X } from 'react-feather'
+import { toast } from 'react-toastify'
 import Router from 'next/router'
+import { observer } from 'mobx-react-lite'
 import Modal from 'react-modal'
 import Link from 'next/link'
 import Page from '../components/essentials/page'
@@ -21,8 +23,9 @@ import {
   validateNotEmpty
 } from '../services/validationService'
 import CustomCheckbox from '../components/Input/checkbox'
+import MiddelLoader from '../components/essentials/middelLoading'
 
-export default () => {
+export default observer(() => {
   const [newCompany, setNewCompany] = useState(false)
   const [companyName, setCompanyName] = useState('')
   const [companyId, setCompanyId] = useState('')
@@ -37,7 +40,7 @@ export default () => {
   const [accept, setAccept] = useState(false)
   const [showGDPR, setShowGDPR] = useState(false)
   const {
-    authStore: { createUser }
+    authStore: { createUser, state, msg }
   } = useContext(rootStore)
 
   const createUserClickHandler = () => {
@@ -93,6 +96,10 @@ export default () => {
     createUser(model).then(res => {
       if (res === FetchStates.DONE) {
         setShowOverlay(true)
+      } else if (msg.includes('user with the email')) {
+        toast('Der findes allerede en bruger med denne email.')
+      } else {
+        toast('Brugeren blev ikke oprettet.')
       }
     })
   }
@@ -134,9 +141,21 @@ export default () => {
 
   return (
     <Page title='Opret bruger' showBottomNav={false} showBackButton>
+      {showOverlay && (
+        <AnimationOverlay
+          text='Aktiverings link er afsendt til dig.'
+          animation={mail}
+          onComplete={onAnimationComplete}
+        />
+      )}
+      <MiddelLoader
+        loading={state === FetchStates.LOADING}
+        text='Forsøger at oprette bruger'
+      />
       <Section>
         <li>
           <CustomInput
+            id='firstname'
             error={!validateNotEmpty(firstname).valid && showErrors}
             logo={<User />}
             type='text'
@@ -150,6 +169,7 @@ export default () => {
         {errorList(validateNotEmpty(firstname).validationErrors)}
         <li>
           <CustomInput
+            id='lastname'
             error={!validateNotEmpty(lastname).valid && showErrors}
             logo={<User />}
             type='text'
@@ -162,6 +182,7 @@ export default () => {
         </li>
         <li>
           <CustomInput
+            id='phone'
             error={!validatePhone(phone).valid && showErrors}
             logo={<Phone />}
             type='text'
@@ -175,9 +196,10 @@ export default () => {
         {errorList(validatePhone(phone).validationErrors)}
         <li>
           <CustomInput
+            id='email'
             error={!validateEmail(email).valid && showErrors}
             logo={<Mail />}
-            type='text'
+            type='email'
             placeholder='Email'
             value={email}
             onChange={e => {
@@ -188,6 +210,7 @@ export default () => {
         </li>
         <li>
           <CustomInput
+            id='password'
             error={!validatePassword(password).valid && showErrors}
             logo={<Key />}
             type='password'
@@ -201,6 +224,7 @@ export default () => {
         </li>
         <li>
           <CustomInput
+            id='passworda'
             error={
               !validateNewPassword(password, passwordAgain).valid && showErrors
             }
@@ -227,8 +251,11 @@ export default () => {
               onChange={() => {}}
               onClick={() => setNewCompany(!newCompany)}
             />
-            <label htmlFor='sizeWeight'>Eksisterende virksomhed</label>
+            <label className='newCompanybtn' htmlFor='sizeWeight'>
+              Eksisterende virksomhed
+            </label>
             <input
+              className='oldCompanybtn'
               type='radio'
               name='sizeBy'
               value='dimensions'
@@ -244,6 +271,7 @@ export default () => {
           <div>
             {!newCompany ? (
               <CustomInput
+                id='companyid'
                 logo={<Hash />}
                 type='text'
                 placeholder='Virksomheds ID'
@@ -289,6 +317,7 @@ export default () => {
             }}
           >
             <CustomCheckbox
+              id='accept'
               onChange={setAccept}
               checked={accept}
               label='Accepter vilkår'
@@ -315,7 +344,8 @@ export default () => {
 
         <Link href='#'>
           <button
-            disabled={!accept}
+            id='submit'
+            disabled={!accept || state === FetchStates.LOADING}
             tabIndex={0}
             type='button'
             title='login'
@@ -328,13 +358,7 @@ export default () => {
           </button>
         </Link>
       </Section>
-      {showOverlay && (
-        <AnimationOverlay
-          text='Aktiverings link er afsendt til dig.'
-          animation={mail}
-          onComplete={onAnimationComplete}
-        />
-      )}
+
       <style jsx>{`
         li {
           padding: var(--gap-small);
@@ -469,4 +493,4 @@ export default () => {
       `}</style>
     </Page>
   )
-}
+})

@@ -5,6 +5,7 @@ type Props = {
   logo?: JSX.Element
   type: string
   className?: string
+  id?: string
   center?: boolean
   error?: boolean
   fill?: boolean
@@ -19,7 +20,8 @@ const CustomInput = ({
   className,
   center,
   error,
-  fill
+  fill,
+  id
 }: Props) => {
   const fillSpace = fill ? { width: '100%' } : {}
   const LogoPadding = Logo ? { paddingLeft: '55px' } : { paddingLeft: '15px' }
@@ -33,6 +35,7 @@ const CustomInput = ({
       }}
     >
       <input
+        id={id ?? ''}
         className={error ? 'input-error' : ''}
         type={type}
         placeholder={placeholder}

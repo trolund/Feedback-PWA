@@ -6,6 +6,7 @@ type initState = {
   label: string
   noLabel?: boolean
   onChange?: (checked: boolean) => void
+  id?: string
 }
 
 const CustomCheckbox = (props: initState) => {
@@ -16,6 +17,8 @@ const CustomCheckbox = (props: initState) => {
     showLabel = noLabel
   }
 
+  const { id } = props
+
   const color = useCallback(
     () => (state ? 'var(--accent)' : 'var(--surface)'),
     [state]
@@ -23,6 +26,7 @@ const CustomCheckbox = (props: initState) => {
 
   return (
     <div
+      id={id || ''}
       className='container'
       role='button'
       tabIndex={0}

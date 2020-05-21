@@ -54,6 +54,10 @@ export default class AuthStore {
     return this.user
   }
 
+  @action setMsg = (msg: string) => {
+    this.msg = msg
+  }
+
   @action setUser = (input: IUser) => {
     this.user = input
   }
@@ -161,8 +165,8 @@ export default class AuthStore {
     }
   }
 
-  @action createUser = async (model: Registration) => {
-    // this.state = states.LOADING
+  @action createUser = async (model: Registration): Promise<FetchStates> => {
+    this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.createUser
 
@@ -176,17 +180,22 @@ export default class AuthStore {
         body: json
       })
 
-      this.msg = response.statusText
+      this.msg = await response.text()
+      console.log(this.msg)
 
-      this.user = await response.json()
-      // this.state = states.DONE
-      // this.setState(states.DONE)
-      return FetchStates.DONE
+      if (response.status === 200) {
+        this.state = FetchStates.DONE
+        return FetchStates.DONE
+      }
+
+      this.state = FetchStates.FAILED
+
+      return FetchStates.FAILED
     } catch (e) {
       // this.setState(states.FAILED)
       this.msg = e.statusText ?? 'User not Created'
       this.user = null
-      // this.state = states.FAILED
+      this.state = FetchStates.FAILED
       return FetchStates.FAILED
     }
   }
