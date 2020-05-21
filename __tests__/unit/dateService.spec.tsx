@@ -1,5 +1,5 @@
-/* eslint-disable func-names */
-/* eslint-disable no-undef */
+/// <reference types="jest" />
+
 import { spliceDateAndTime } from '../../src/services/dateService'
 
 describe('validate date manipulation', () => {

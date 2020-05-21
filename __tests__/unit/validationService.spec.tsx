@@ -1,5 +1,5 @@
-/* eslint-disable func-names */
-/* eslint-disable no-undef */
+/// <reference types="jest" />
+
 import {
   validatePassword,
   validateEmail,

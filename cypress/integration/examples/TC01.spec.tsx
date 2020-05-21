@@ -41,3 +41,5 @@ context('User registration', () => {
     cy.get('.toast').contains('allerede')
   })
 })
+
+export {} // to fake export for lint rule
