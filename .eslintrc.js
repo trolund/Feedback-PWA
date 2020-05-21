@@ -10,7 +10,8 @@ module.exports = {
     'airbnb',
     'airbnb/hooks',
     'plugin:prettier/recommended',
-    'prettier/react'
+    'prettier/react',
+    "plugin:cypress/recommended"
   ],
   /// Start typescript
   parser: '@typescript-eslint/parser',

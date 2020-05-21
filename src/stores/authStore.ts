@@ -165,7 +165,7 @@ export default class AuthStore {
     }
   }
 
-  @action createUser = async (model: Registration): Promise<FetchStates> => {
+  @action createUser = async (model: Registration): Promise<number> => {
     this.state = FetchStates.LOADING
     try {
       const url = ApiRoutes.createUser
@@ -181,22 +181,20 @@ export default class AuthStore {
       })
 
       this.msg = await response.text()
-      console.log(this.msg)
 
       if (response.status === 200) {
         this.state = FetchStates.DONE
-        return FetchStates.DONE
+      } else {
+        this.state = FetchStates.FAILED
       }
 
-      this.state = FetchStates.FAILED
-
-      return FetchStates.FAILED
+      return response.status
     } catch (e) {
       // this.setState(states.FAILED)
       this.msg = e.statusText ?? 'User not Created'
       this.user = null
       this.state = FetchStates.FAILED
-      return FetchStates.FAILED
+      return 0
     }
   }
 

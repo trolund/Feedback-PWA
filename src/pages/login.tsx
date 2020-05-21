@@ -46,6 +46,7 @@ const Login: NextPage = withRedirect(
         <Section>
           <form onSubmit={loginHandler}>
             <CustomInput
+              id='email'
               logo={<User color='white' />}
               className='center'
               type='text'
@@ -56,6 +57,7 @@ const Login: NextPage = withRedirect(
               }}
             />
             <CustomInput
+              id='password'
               logo={<Key color='white' />}
               className='center'
               type='password'
@@ -105,6 +107,7 @@ const Login: NextPage = withRedirect(
               </ul>
             )}
             <button
+              id='submit'
               type='submit'
               aria-label='login'
               className='button loginBtn center'

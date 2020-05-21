@@ -93,20 +93,16 @@ export default observer(() => {
       requesetedRoles.push('Facilitator')
     }
 
-    createUser(model).then(res => {
-      if (res === FetchStates.DONE) {
+    createUser(model).then(statuscode => {
+      if (statuscode === 200) {
         setShowOverlay(true)
-      } else if (msg.includes('user with the email')) {
+      } else if (statuscode === 409) {
         toast('Der findes allerede en bruger med denne email.')
       } else {
         toast('Brugeren blev ikke oprettet.')
       }
     })
   }
-
-  // const createUserClickHandler = () => {
-  //   setShowOverlay(true)
-  // }
 
   const onAnimationComplete = () => {
     Router.push('/login')
@@ -116,7 +112,7 @@ export default observer(() => {
     showErrors && (
       <ul>
         {errors.map(e => (
-          <li>{e}</li>
+          <li key={e}>{e}</li>
         ))}
         <style jsx>{`
           ul {
@@ -283,6 +279,7 @@ export default observer(() => {
             ) : (
               <>
                 <CustomInput
+                  id='companyname'
                   error={!validateNotEmpty(companyName).valid && showErrors}
                   logo={<Briefcase />}
                   type='text'
