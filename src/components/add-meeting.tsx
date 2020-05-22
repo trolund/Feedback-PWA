@@ -131,7 +131,7 @@ const AddMeeting = observer(
           <li>
             <h3>Opret møde</h3>
           </li>
-          <li>
+          <li data-cy='questionset-selector'>
             <CustomSelect
               defaultValue={Selecter}
               error={questionSet === 'null' || questionSet === ''}
@@ -153,7 +153,7 @@ const AddMeeting = observer(
               }
             />
           </li>
-          <li>
+          <li data-cy='meeting-name'>
             <CustomInput
               fill
               error={
@@ -165,7 +165,7 @@ const AddMeeting = observer(
               onChange={e => setMeeting({ ...meeting, name: e })}
             />
           </li>
-          <li>
+          <li data-cy='categories-selector'>
             <CategoriesPicker
               fill
               loading={state === FetchStates.LOADING}
@@ -195,7 +195,7 @@ const AddMeeting = observer(
               }}
             />
           </li>
-          <li>
+          <li data-cy='comment'>
             <CustomTextarea
               fill
               error={
@@ -207,7 +207,7 @@ const AddMeeting = observer(
               onChange={e => setMeeting({ ...meeting, discription: e })}
             />
           </li>
-          <li>
+          <li data-cy='meeting-date'>
             <CustomDatepicker
               minValue={minDate()}
               error={validateStartAndEndDate(date, new Date()).valid}
@@ -218,7 +218,7 @@ const AddMeeting = observer(
             />
           </li>
           <li>
-            <span>
+            <span data-cy='meeting-start-time'>
               <p>Start tid</p>
               <CustomTimepicker
                 maxValue={endTime}
@@ -230,7 +230,7 @@ const AddMeeting = observer(
                 }}
               />
             </span>
-            <span style={{ marginLeft: '10px' }}>
+            <span style={{ marginLeft: '10px' }} data-cy='meeting-end-time'>
               <p>Slut tid</p>
               <CustomTimepicker
                 minValue={startTime}
@@ -252,6 +252,7 @@ const AddMeeting = observer(
               onClick={() => {
                 createMeeting()
               }}
+              data-cy='create-meeting-btn'
             >
               <Save
                 style={{

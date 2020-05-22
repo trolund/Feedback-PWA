@@ -91,6 +91,25 @@ const BottomModal = (props: BottomModalProps) => {
             min-height: 400px;
             padding-bottom: calc(env(safe-area-inset-bottom) + 72px);
           }
+
+          .content-container::-webkit-scrollbar {
+            width: 11px;
+          }
+
+          .content-container {
+            scrollbar-width: thin;
+            scrollbar-color: var(--label) rgba(0, 0, 0, 0);
+          }
+
+          .content-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0);
+          }
+
+          .content-container::-webkit-scrollbar-thumb {
+            background-color: var(--label);
+            border-radius: 6px;
+            border: 3px solid rgba(0, 0, 0, 0);
+          }
         `}</style>
       </div>
     </div>

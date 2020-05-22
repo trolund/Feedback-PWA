@@ -118,6 +118,7 @@ const BottomNav = () => {
               aria-label={link.title}
               className={pathname === link.href ? 'active' : ''}
               style={{ display: showItem(link) ? 'flex' : 'none' }}
+              data-cy={link.href} // for testing
             >
               {link.icon}
               {showTitleInBottomNav && <p>{link.title}</p>}

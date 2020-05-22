@@ -1,0 +1,42 @@
+{
+  "justCreated": {
+    "firstname": "Troels",
+    "lastname": "Lund",
+    "phone": "29456660",
+
+    "email": "trolund@gmail.com",
+    "password": "Spinoff1234",
+
+    "companyId": "1"
+  },
+  "admin": {
+    "firstname": "Troels",
+    "lastname": "Lund",
+    "phone": "29456660",
+
+    "email": "admin@spinoff.com",
+    "password": "Spinoff1234",
+
+    "companyId": "1"
+  },
+  "vadmin": {
+    "firstname": "Troels",
+    "lastname": "Lund",
+    "phone": "29456660",
+
+    "email": "vadmin@spinoff.com",
+    "password": "Spinoff1234",
+
+    "companyId": "1"
+  },
+  "facilitator": {
+    "firstname": "Troels",
+    "lastname": "Lund",
+    "phone": "29456660",
+
+    "email": "facilitator@spinoff.com",
+    "password": "Spinoff1234",
+
+    "companyId": "1"
+  }
+}

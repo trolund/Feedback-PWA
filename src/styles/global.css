@@ -62,6 +62,24 @@
 }
 
 
+body::-webkit-scrollbar {
+  width: 11px;
+}
+
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--label) rgba(0, 0, 0, 0.0);
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.0);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--label);
+  border-radius: 6px;
+  border: 3px solid rgba(0, 0, 0, 0.0);
+}
 
 *,
 *::before,
