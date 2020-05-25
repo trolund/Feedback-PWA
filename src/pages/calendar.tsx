@@ -361,7 +361,6 @@ const CalendarView = withAuth(
           }
 
           .cal-container {
-            height: 100vh;
             position: relative;
           }
           .fc-body {

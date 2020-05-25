@@ -3,6 +3,14 @@
 import Moment from 'moment'
 import MeetingModel from '../models/MeetingModel'
 
+export const applyDates = (meeting: MeetingModel) => {
+  return {
+    ...meeting,
+    startTime: new Date(meeting.startTime),
+    endTime: new Date(meeting.endTime)
+  } as MeetingModel
+}
+
 export const applyOffSet = (date: Date): Date => {
   const utcOffset = Moment().utcOffset()
   const localTime = Moment(date).add(utcOffset, 'minutes')

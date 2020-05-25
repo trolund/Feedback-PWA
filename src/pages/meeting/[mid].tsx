@@ -30,7 +30,9 @@ import Category from '../../models/Category'
 import rootStore from '../../stores/RootStore'
 import {
   applyOffSetToMeeting,
-  spliceDateAndTime
+  spliceDateAndTime,
+  applyOffSet,
+  applyDates
 } from '../../services/dateService'
 import CustomConfirmModal from '../../components/essentials/confirm-modal'
 
@@ -60,7 +62,7 @@ const Post: NextPage = observer(
       settingStore: { realtimeFeedbackDefault }
     } = useContext(rootStore)
 
-    const [meeting, setMeeting] = useState(initMeeting)
+    const [meeting, setMeeting] = useState(applyDates(initMeeting))
     const [meetingCategories] = useState(initCategories)
     const [isRealTimeDateOn, setRealTimeDateOn] = useState(
       realtimeFeedbackDefault
@@ -71,9 +73,17 @@ const Post: NextPage = observer(
       setMeeting(applyOffSetToMeeting(initMeeting))
     }, [initMeeting])
 
-    const [date, setDate] = useState(new Date())
-    const [startTime, setStartTime] = useState(new Date())
-    const [endTime, setEndTime] = useState(new Date())
+    // useEffect(() => {
+    //   if (meeting) {
+    //     setDate(new Date(meeting?.startTime))
+    //     setStartTime(new Date(meeting?.startTime))
+    //     setEndTime(new Date(meeting?.endTime))
+    //   }
+    // }, [meeting])
+
+    // const [date, setDate] = useState(new Date())
+    // const [startTime, setStartTime] = useState(new Date())
+    // const [endTime, setEndTime] = useState(new Date())
 
     const joinMeetingRoom = useCallback(() => {
       hubConnection
@@ -129,17 +139,9 @@ const Post: NextPage = observer(
     }, [isRealTimeDateOn])
 
     useEffect(() => {
-      if (meeting) {
-        setDate(new Date(meeting?.startTime))
-        setStartTime(new Date(meeting?.startTime))
-        setEndTime(new Date(meeting?.endTime))
-      }
-    }, [meeting])
-
-    useEffect(() => {
       if (meeting?.questionsSetId)
         questionSetStore.fetchQuestionSet(meeting?.questionsSetId)
-    }, [meeting, questionSetStore])
+    }, [meeting.questionsSetId, questionSetStore])
 
     const count = useCallback(
       () => (feedbackBatch ? feedbackBatch?.length : 0),
@@ -190,13 +192,16 @@ const Post: NextPage = observer(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getAvg, getComments, questionSetStore])
 
+    // useEffect(() => {
+    //   setMeeting({
+    //     ...meeting,
+    //     endTime: spliceDateAndTime(applyOffSet(date), endTime),
+    //     startTime: spliceDateAndTime(applyOffSet(date), startTime)
+    //   } as MeetingModel)
+    // }, [date, endTime, startTime])
+
     const updateMeetingClickHandler = () => {
       if (meeting) {
-        setMeeting({
-          ...meeting,
-          endTime: spliceDateAndTime(date, endTime),
-          startTime: spliceDateAndTime(date, startTime)
-        } as MeetingModel)
         update(meeting).then(res => {
           if (res === FetchStates.DONE) toast('Møde er Opdateret!')
           else toast('Der skete en fejl ved Opdatering af mødet.')
@@ -272,33 +277,50 @@ const Post: NextPage = observer(
                   style={{ marginBottom: '20px' }}
                   className='flex-container'
                 >
-                  <div>
+                  <div className='date'>
                     <label htmlFor='exampleText'>Dato</label>
                     <CustomDatepicker
-                      value={date}
+                      value={meeting.startTime}
                       onChange={newDate => {
-                        setDate(newDate)
+                        setMeeting({
+                          ...meeting,
+                          endTime: spliceDateAndTime(
+                            applyOffSet(newDate),
+                            meeting.endTime
+                          ),
+                          startTime: spliceDateAndTime(
+                            applyOffSet(newDate),
+                            meeting.startTime
+                          )
+                        })
                       }}
                     />
                   </div>
-                  <div>
-                    {' '}
-                    <label htmlFor='exampleText'>Start tidspunkt</label>
-                    <CustomTimepicker
-                      value={startTime}
-                      onChange={newTime => {
-                        setStartTime(newTime)
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='exampleText'>Slut tidspunkt</label>
-                    <CustomTimepicker
-                      value={endTime}
-                      onChange={newTime => {
-                        setEndTime(newTime)
-                      }}
-                    />
+                  <div className='times'>
+                    <div>
+                      <label htmlFor='exampleText'>Start tidspunkt</label>
+                      <CustomTimepicker
+                        value={meeting.startTime}
+                        onChange={newTime => {
+                          setMeeting({
+                            ...meeting,
+                            startTime: newTime
+                          })
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='exampleText'>Slut tidspunkt</label>
+                      <CustomTimepicker
+                        value={meeting.endTime}
+                        onChange={newTime => {
+                          setMeeting({
+                            ...meeting,
+                            endTime: newTime
+                          })
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
                 <CategoriesPicker
@@ -411,11 +433,23 @@ const Post: NextPage = observer(
             max-width: 170px;
             max-height: 1670px;
           }
+          .date {
+            margin-top: var(--gap-small);
+          }
+
+          .times {
+            margin-top: var(--gap-small);
+            display: flex;
+          }
+
+          .times > div {
+            margin-left: var(--gap-small);
+          }
 
           .qrbox {
             float: right;
             border: solid rgb(193, 204, 218) 1px;
-            border-radius: 5px;
+            border-radius: var(--border-radius);
             padding: 15px;
           }
 

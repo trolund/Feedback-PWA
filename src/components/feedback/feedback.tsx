@@ -3,7 +3,11 @@ import { observer } from 'mobx-react-lite'
 import { Bar } from 'react-chartjs-2'
 import Collapsible from 'react-collapsible'
 import Modal from 'react-modal'
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
+import {
+  CircularProgressbar,
+  buildStyles,
+  CircularProgressbarWithChildren
+} from 'react-circular-progressbar'
 import { MessageCircle, Monitor, X } from 'react-feather'
 import Feedback from '../../models/Feedback'
 import FetchStates from '../../stores/requestState'
@@ -229,18 +233,29 @@ const FeedbackView = observer((props: IProp) => {
         )}
         <div className='end-result'>
           <h2 style={{ width: 'max-content' }}>Samlet resultat</h2>
-          <CircularProgressbar
+          <CircularProgressbarWithChildren
+            value={avgRes()}
             styles={buildStyles({
               textColor: 'var(--accent)',
               pathColor: 'var(--accent)',
               trailColor: 'var(--surface)',
-              strokeLinecap: 'round'
+              strokeLinecap: 'round',
+              textSize: '1rem',
+              pathTransitionDuration: 0.5
             })}
-            value={avgRes()}
-            text={`${avgRes().toFixed(2)}`}
             maxValue={3}
             minValue={0}
-          />
+          >
+            <div
+              style={{
+                fontSize: 40,
+                marginTop: -5,
+                color: 'var(--accent)'
+              }}
+            >
+              <strong>{avgRes().toFixed(2)}</strong>
+            </div>
+          </CircularProgressbarWithChildren>
         </div>
       </div>
       {showModal && (
@@ -335,6 +350,9 @@ const FeedbackView = observer((props: IProp) => {
         .end-result h2 {
           padding-top: 25px;
           padding-bottom: 25px;
+          text-align: center;
+          margin-left: auto;
+          margin-right: auto;
         }
       `}</style>
       <style jsx global>{`
