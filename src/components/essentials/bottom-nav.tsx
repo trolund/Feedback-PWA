@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useContext, useCallback, useEffect } from 'react'
+import { useContext, useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import {
   Calendar,
@@ -64,8 +64,35 @@ const BottomNav = () => {
   const { pathname } = useRouter()
   const {
     authStore: { isAdmin, isVAdmin, isFacilitator, getUser },
-    settingStore: { showTitleInBottomNav, setBottombarVisable }
+    settingStore: {
+      showTitleInBottomNav,
+      setBottombarVisable,
+      bottombarVisable
+    }
   } = useContext(rootStore)
+
+  const showItem = (link: LinkType) => {
+    if (link?.requireCompanyConfirm) {
+      if (link.roles) {
+        return (
+          (link.roles.includes('Admin') && isAdmin) ||
+          (link.roles.includes('VAdmin') && isVAdmin) ||
+          (link.roles.includes('Facilitator') && isFacilitator)
+        )
+      }
+    }
+    if (link.roles) {
+      return (
+        ((link.roles.includes('Admin') && isAdmin) ||
+          (link.roles.includes('VAdmin') && isVAdmin) ||
+          (link.roles.includes('Facilitator') && isFacilitator)) &&
+        !getUser()?.companyConfirmed
+      )
+    }
+    return true
+  }
+
+  const [navItems, setNavItems] = useState(links.filter(showItem))
 
   useEffect(() => {
     setBottombarVisable(true)
@@ -74,50 +101,16 @@ const BottomNav = () => {
     }
   }, [setBottombarVisable])
 
-  const showItem = useCallback(
-    (link: LinkType) => {
-      if (link?.requireCompanyConfirm) {
-        if (link.roles) {
-          return (
-            (link.roles.includes('Admin') && isAdmin) ||
-            (link.roles.includes('VAdmin') && isVAdmin) ||
-            (link.roles.includes('Facilitator') && isFacilitator)
-          )
-        }
-        return true
-      }
-      if (link.roles) {
-        return (
-          ((link.roles.includes('Admin') && isAdmin) ||
-            (link.roles.includes('VAdmin') && isVAdmin) ||
-            (link.roles.includes('Facilitator') && isFacilitator)) &&
-          !getUser()?.companyConfirmed
-        )
-      }
-      return true
-    },
-    [getUser, isAdmin, isFacilitator, isVAdmin]
-  )
-
   return (
     <nav>
       <div>
-        {links.map(link => (
-          // if (link.roles !== undefined) {
-          //   if (!showItem(link)) return <></>
-          // }
-          // if (link.requireCompanyConfirm) {
-          //   if (!user?.companyConfirmed) {
-          //     return <></>
-          //   }
-          // }
-
+        {navItems.map(link => (
           <Link href={link.href} key={link.title}>
             <a
               title={link.title}
               aria-label={link.title}
               className={pathname === link.href ? 'active' : ''}
-              style={{ display: showItem(link) ? 'flex' : 'none' }}
+              // style={{ display: showItem(link) ? 'flex' : 'none' }}
               data-cy={link.href} // for testing
             >
               {link.icon}
@@ -126,7 +119,6 @@ const BottomNav = () => {
           </Link>
         ))}
       </div>
-
       <style jsx>{`
         nav {
           padding-bottom: env(safe-area-inset-bottom);

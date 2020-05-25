@@ -9,6 +9,9 @@ declare global {
   interface Window {
     isDark: boolean
     GA_INITIALIZED: boolean
+    isAdmin: boolean
+    isVAdmin: boolean
+    isFacilitator: boolean
   }
 }
 

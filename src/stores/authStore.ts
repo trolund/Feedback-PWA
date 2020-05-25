@@ -10,6 +10,7 @@ import TokenModel from '../models/TokenModel'
 import NewPasswordModel from '../models/NewPasswordModel'
 import User from '../models/classes/User'
 import { logEvent } from '../utils/analytics'
+import isServer from '../utils/helper'
 
 export default class AuthStore {
   @observable state: FetchStates = FetchStates.DONE
@@ -100,6 +101,12 @@ export default class AuthStore {
         this.isFacilitator = token.role.includes('Facilitator')
         this.isVAdmin = token.role.includes('VAdmin')
         this.isAdmin = token.role.includes('Admin')
+
+        if (!isServer) {
+          window.isFacilitator = token.role.includes('Facilitator')
+          window.isVAdmin = token.role.includes('VAdmin')
+          window.isAdmin = token.role.includes('Admin')
+        }
 
         login({ token: this.user.token })
         this.state = FetchStates.DONE
