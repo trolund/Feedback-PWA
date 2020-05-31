@@ -72,11 +72,11 @@ const TheNextWeek = () => {
 
   return (
     <div className='container'>
-      <h5>Møder i Uge {getWeekNumber(new Date())}</h5>
+      <h5>Møder i uge {getWeekNumber(new Date())}</h5>
       <ul>
-        {meetingStore.state === FetchStates.LOADING && <LoadingMeetings />}
+        {meetingStore.fetchState === FetchStates.LOADING && <LoadingMeetings />}
         {meetings.length === 0 &&
-          meetingStore.state !== FetchStates.LOADING && <NoMeetings />}
+          meetingStore.fetchState !== FetchStates.LOADING && <NoMeetings />}
         {meetings.map((item: MeetingModel) => (
           <Link
             key={item.shortId}

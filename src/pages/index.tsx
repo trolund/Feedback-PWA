@@ -68,7 +68,7 @@ export default withRedirect(
             error={errorMsg.length > 0}
             className='meeting-id-input center'
             type='text'
-            placeholder='Møde ID'
+            placeholder='Indtast møde ID'
             value={meetingId}
             onChange={e => setMeetingId(e)}
             logo={

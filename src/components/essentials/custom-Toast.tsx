@@ -22,8 +22,7 @@ const CustomToast = () => {
         }
 
         .toast {
-          background: var(--overlay);
-          backdrop-filter: blur(3px);
+          background: var(--base);
         }
 
         .toast-container {

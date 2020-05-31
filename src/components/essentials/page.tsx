@@ -54,7 +54,7 @@ const Page = ({
       {showHeader && (
         <>
           <Head>
-            <title>{title ? `Opion | ${title}` : 'Opion'}</title>
+            <title>{title ? `Opino | ${title}` : 'Opino'}</title>
           </Head>
           <Appbar
             title={title}

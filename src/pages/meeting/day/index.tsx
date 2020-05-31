@@ -131,7 +131,9 @@ const Day: NextPage = observer(() => {
           }
           setShow={setShowModal}
         />
-        <MiddelLoader loading={meetingStore.state === FetchStates.LOADING} />
+        <MiddelLoader
+          loading={meetingStore.fetchState === FetchStates.LOADING}
+        />
         <div className='bar'>
           <div className='date'>
             {selectedDay.toString() !== 'Invalid Date'

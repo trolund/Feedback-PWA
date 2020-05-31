@@ -114,7 +114,7 @@ const newMeetingPage = withAuth(
             onChange={e => setMeeting({ ...meeting, name: e.target.value })}
           />
           <CategoriesPicker
-            loading={categoriesStore.state === FetchStates.LOADING}
+            loading={categoriesStore.fetchState === FetchStates.LOADING}
             values={meeting.meetingCategories?.map(
               item =>
                 ({

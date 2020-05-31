@@ -2,10 +2,11 @@ import { observable, action } from 'mobx'
 import { persist } from 'mobx-persist'
 import FetchStates from './requestState'
 import { logEvent } from '../utils/analytics'
+import IStoreFetchState from './StoreFetchState'
 
-export default class SettingsStore {
+export default class SettingsStore implements IStoreFetchState {
   // status
-  @observable state = FetchStates.DONE
+  @observable fetchState = FetchStates.DONE
 
   @observable msg = ''
 

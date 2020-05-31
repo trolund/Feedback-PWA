@@ -79,7 +79,7 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   const updateClickHandler = () => {
     updateQuestionSet(qset)
       .then(res => {
-        if (res === FetchStates.DONE) toast('Sættet er Opdateret!')
+        if (res === FetchStates.DONE) toast('Sættet er opdateret!')
         else toast('Der skete en fejl ved Opdateringen!')
       })
       .catch(() => {

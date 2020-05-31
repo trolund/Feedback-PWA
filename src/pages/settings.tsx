@@ -96,7 +96,7 @@ const Settings = observer(() => {
             </div>
           </li>
           <li>
-            <h4 className='float-left'>Brug ikke side animationer</h4>
+            <h4 className='float-left'>Brug animationer</h4>
             <div className='float-right'>
               <Switch
                 onChange={setAnimation}

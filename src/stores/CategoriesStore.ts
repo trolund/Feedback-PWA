@@ -3,10 +3,11 @@ import FetchStates from './requestState'
 import Category from '../models/Category'
 import ApiRoutes from './api/ApiRoutes'
 import { getToken } from '../services/authService'
+import IStoreFetchState from './StoreFetchState'
 
-export default class CategoriesStore {
+export default class CategoriesStore implements IStoreFetchState {
   // status
-  @observable state = FetchStates.DONE
+  @observable fetchState = FetchStates.DONE
 
   @observable msg = ''
 
@@ -14,7 +15,7 @@ export default class CategoriesStore {
   @observable categories: Category[] | null = null
 
   @action fetchCategories = async (companyId: string) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.Categories(companyId)
 
@@ -34,9 +35,9 @@ export default class CategoriesStore {
       const data: Category[] = await response.json()
 
       this.categories = data
-      this.state = FetchStates.DONE
+      this.fetchState = FetchStates.DONE
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       this.categories = null
     }

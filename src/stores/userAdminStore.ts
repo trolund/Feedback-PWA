@@ -4,11 +4,12 @@ import ApiRoutes from './api/ApiRoutes'
 import UserAdmin from '../models/user-admin'
 import userAdminQuery from '../models/userAdminQuery'
 import { getToken } from '../services/authService'
+import IStoreFetchState from './StoreFetchState'
 
-export default class UserAdminStore {
-  @observable fetchState: FetchStates | null = null
+export default class UserAdminStore implements IStoreFetchState {
+  @observable fetchState: FetchStates = FetchStates.DONE
 
-  @observable msg = null
+  @observable msg = ''
 
   @observable users: UserAdmin[] = null
 

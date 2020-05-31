@@ -10,8 +10,10 @@ import GraphXScale from '../models/GraphXScale'
 import { getToken } from '../services/authService'
 import IOptionsValue from '../models/OptionsValue'
 import OptionsValue from '../models/classes/OptionsValue'
+import { applyOffSet } from '../services/dateService'
+import IStoreFetchState from './StoreFetchState'
 
-export default class DashboardStore {
+export default class DashboardStore implements IStoreFetchState {
   @persist @observable showFilter: boolean = false
 
   @persist @observable startdateValue: number = new Date(
@@ -37,7 +39,7 @@ export default class DashboardStore {
   @persist @observable rating: number = 0
 
   // status
-  @observable state = FetchStates.DONE
+  @observable fetchState = FetchStates.DONE
 
   @observable msg = ''
 
@@ -101,11 +103,11 @@ export default class DashboardStore {
   }
 
   @action setState = (state: FetchStates) => {
-    this.state = state
+    this.fetchState = state
   }
 
   @action fetchRating = async () => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.userRating
       const token = getToken()
@@ -122,10 +124,10 @@ export default class DashboardStore {
       this.msg = response.statusText
 
       const data: number = await response.json()
-      this.state = FetchStates.DONE
+      this.fetchState = FetchStates.DONE
       this.rating = data
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       this.data = null
     }
@@ -172,11 +174,11 @@ export default class DashboardStore {
     searchWord?: string,
     ownData?: boolean
   ) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.DashboardDate(
-        start,
-        end,
+        applyOffSet(start),
+        applyOffSet(end),
         categories,
         searchWord,
         ownData
@@ -197,11 +199,11 @@ export default class DashboardStore {
       this.msg = response.statusText
 
       const data: FeedbackDate[] = await response.json()
-      this.state = FetchStates.DONE
+      this.fetchState = FetchStates.DONE
 
       this.data = data
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
 
       this.msg = e.statusText
       this.data = null

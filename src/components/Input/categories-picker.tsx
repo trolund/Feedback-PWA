@@ -25,7 +25,9 @@ export default observer(
   ({ categories, setTags, values, loading, center, fill, error }: Props) => {
     const swapPoint = 800
     const animatedComponents = makeAnimated()
-    const [categoriesValues, SetCategoriesValues] = useState(values)
+    const [categoriesValues, SetCategoriesValues] = useState(
+      values ? [...values] : []
+    )
     const [showModal, setShowModal] = useState(false)
     const [wWidth, setWWidth] = useState(0)
 
@@ -56,8 +58,11 @@ export default observer(
     // }, [showModal])
 
     useEffect(() => {
-      SetCategoriesValues(values)
-      settempDataList(values)
+      if (values) {
+        SetCategoriesValues([...values])
+        settempDataList([...values])
+      }
+      console.log('vales: ', values)
     }, [values])
 
     // const val = useCallback(
@@ -87,6 +92,7 @@ export default observer(
       <>
         {wWidth > swapPoint ? (
           <Select
+            key='desktopCatSelector'
             isLoading={loading}
             defaultValue={categoriesValues}
             options={categories?.map(
@@ -150,6 +156,7 @@ export default observer(
         ) : (
           <>
             <div
+              key='mobileCatSelector'
               className='select-css'
               style={{
                 ...fillSpace,
@@ -161,7 +168,17 @@ export default observer(
               onKeyPress={() => setShowModal(!showModal)}
               onClick={() => setShowModal(!showModal)}
             >
-              <div style={{ width: '100%', marginLeft: '7px' }}>Kategorier</div>
+              <div style={{ width: '100%', overflow: 'none' }}>
+                {categoriesValues?.length > 0 ? (
+                  categoriesValues.map(item => (
+                    <span key={item.value} className='mobile-cat-item'>
+                      {item.label}
+                    </span>
+                  ))
+                ) : (
+                  <span style={{ marginLeft: '7px' }}>Kategorier</span>
+                )}
+              </div>
               <span className='arrow'>
                 <ChevronDown />
               </span>
@@ -228,6 +245,14 @@ export default observer(
             z-index: 9999999;
             left: 0;
           }
+          .mobile-cat-item {
+            background-color: var(--accent);
+            padding: var(--gap-small);
+            margin-right: var(--gap-small);
+            color: whitesmoke;
+            border-radius: var(--border-radius);
+            font-size: small;
+          }
 
           .arrow {
             float: right;
@@ -248,6 +273,7 @@ export default observer(
             width: 100%;
             padding: var(--gap-small);
             outline: none;
+            overflow: hidden;
 
             /* box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04); */
 

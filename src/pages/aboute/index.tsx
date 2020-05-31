@@ -19,7 +19,9 @@ const Aboute = () => {
           står vi altid klar til at hjælpe dig.
         </p>
         <br />
-        <b>Kontakt os på info@spinoff.nu.</b>
+        <b>
+          Kontakt os på <a href='mailto: info@spinoff.nu'>info@spinoff.nu</a>.
+        </b>
       </Section>
       <style jsx>{`
         .container {

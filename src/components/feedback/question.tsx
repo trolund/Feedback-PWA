@@ -95,7 +95,7 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
       <textarea
         className='comment'
         value={comment}
-        placeholder='Kommentar'
+        placeholder='Skriv dine kommentar her'
         onChange={val => setComment(val.target.value)}
         onKeyDown={e => e.stopPropagation()}
       />
@@ -156,7 +156,7 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
 
         .comment {
           display: block;
-          text-align: center;
+          text-align: left;
           height: 100px;
           margin-left: auto;
           margin-right: auto;

@@ -27,8 +27,8 @@ const CalendarView = withAuth(
   observer(() => {
     const { meetingStore, categoriesStore } = useContext(rootStore)
     const {
-      meetingStore: { state: meetingState },
-      categoriesStore: { state: catState }
+      meetingStore: { fetchState: meetingState },
+      categoriesStore: { fetchState: catState }
     } = useContext(rootStore)
     const [calViewProp, setCalViewProp] = useState({})
     const initEvent: EventInput[] = []

@@ -128,7 +128,7 @@ const DashboardFilter = observer(() => {
         <CategoriesPicker
           fill
           values={tags}
-          loading={categoriesStore.state === FetchStates.LOADING}
+          loading={categoriesStore.fetchState === FetchStates.LOADING}
           categories={categoriesStore?.categories}
           setTags={selectedTags => setTags(selectedTags)}
         />

@@ -13,3 +13,6 @@ export const logLaunched = () => {
 
 export const logIndstall = () =>
   logEvent('appinstalled', 'appinstalled-success')
+
+export const logIndstallServiceWorker = () =>
+  logEvent('appinstalled', 'appinstalled-Service-worker-success')

@@ -19,6 +19,8 @@ import CustomInput from '../components/Input/custom-input'
 import MiddelLoader from '../components/essentials/middelLoading'
 import IUser from '../models/User'
 import { getCompanyId } from '../services/authService'
+import { toast } from 'react-toastify'
+import { logEvent } from '../utils/analytics'
 
 const Profile = withAuth(
   observer(() => {
@@ -31,15 +33,22 @@ const Profile = withAuth(
 
     const userUpdateClickHandler = () => {
       updateUserInfo(user).then(updatedUser => {
-        const newUser = {
-          ...user,
-          firstname: updatedUser.firstname,
-          lastname: updatedUser.lastname,
-          email: updatedUser.email,
-          phoneNumber: updatedUser.phoneNumber
-        } as IUser
+        if (user !== null) {
+          const newUser = {
+            ...user,
+            firstname: updatedUser.firstname,
+            lastname: updatedUser.lastname,
+            email: updatedUser.email,
+            phoneNumber: updatedUser.phoneNumber
+          } as IUser
 
-        setUser(newUser)
+          setUser(newUser)
+          toast('Bruger blev upateret')
+          logEvent('User-update', 'User-update-sucsess')
+        } else {
+          toast('Bruger blev ikke upateret')
+          logEvent('User-update', 'User-update-error')
+        }
       })
     }
 
@@ -127,7 +136,7 @@ const Profile = withAuth(
               <li>
                 <Settings style={{ marginBottom: '-5px' }} />
                 {user.roles.length > 0 ? (
-                  <ul>
+                  <ul className='role-list'>
                     {user.roles.map(role => (
                       <li key={role}>{role}</li>
                     ))}
@@ -213,6 +222,18 @@ const Profile = withAuth(
 
           li:not(:last-child) {
             border-bottom: 1px solid var(--divider);
+          }
+
+          .role-list {
+            list-style: none;
+            padding: 0;
+            border: none;
+            padding: var(--gap-small);
+          }
+
+          .role-list > li {
+            border: none;
+            display: inline;
           }
 
           h4 {

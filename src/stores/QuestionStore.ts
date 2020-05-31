@@ -3,10 +3,11 @@ import { observable, action } from 'mobx'
 import FetchStates from './requestState'
 import IQuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
+import IStoreFetchState from './StoreFetchState'
 
 // import questionTestData from './api/DummyData/questionTestData.json'
 
-export default class QuestionStore {
+export default class QuestionStore implements IStoreFetchState {
   @observable fetchState: FetchStates | null = null
 
   @observable msg = null

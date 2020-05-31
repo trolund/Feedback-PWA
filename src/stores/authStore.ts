@@ -10,10 +10,10 @@ import TokenModel from '../models/TokenModel'
 import NewPasswordModel from '../models/NewPasswordModel'
 import User from '../models/classes/User'
 import { logEvent } from '../utils/analytics'
-import isServer from '../utils/helper'
+import IStoreFetchState from './StoreFetchState'
 
-export default class AuthStore {
-  @observable state: FetchStates = FetchStates.DONE
+export default class AuthStore implements IStoreFetchState {
+  @observable fetchState: FetchStates = FetchStates.DONE
 
   @observable msg: string = ''
 
@@ -34,7 +34,7 @@ export default class AuthStore {
   // }
 
   @action setState = (state: FetchStates) => {
-    this.state = state
+    this.fetchState = state
   }
 
   // @action setFingerprint = (newFingerprint: string) => {
@@ -72,7 +72,7 @@ export default class AuthStore {
     password: string,
     rememberMe: boolean
   ) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     this.msg = ''
     try {
       const url = ApiRoutes.login
@@ -102,44 +102,38 @@ export default class AuthStore {
         this.isVAdmin = token.role.includes('VAdmin')
         this.isAdmin = token.role.includes('Admin')
 
-        if (!isServer) {
-          window.isFacilitator = token.role.includes('Facilitator')
-          window.isVAdmin = token.role.includes('VAdmin')
-          window.isAdmin = token.role.includes('Admin')
-        }
-
         login({ token: this.user.token })
-        this.state = FetchStates.DONE
+        this.fetchState = FetchStates.DONE
         return FetchStates.DONE
       }
 
       if (response.status === 500) {
         logEvent('Login', 'login error - 500', 500, email)
         this.msg = 'Server problem, kontakt Administator.'
-        this.state = FetchStates.FAILED
+        this.fetchState = FetchStates.FAILED
         return FetchStates.FAILED
       }
 
       if (response.status === 403) {
         this.msg = 'Email eller password er forkert, prøv igen'
         logEvent('Login', 'login error - 403', 403, email)
-        this.state = FetchStates.FAILED
+        this.fetchState = FetchStates.FAILED
         return FetchStates.FAILED
       }
       logEvent('Login', 'login error - unknown', 0, email)
       this.msg = 'Ukendt fejl, kontakt Administator.'
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return FetchStates.FAILED
     } catch (e) {
       logEvent('Login', 'login error - unknown', 0, email)
       this.user = null
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return FetchStates.FAILED
     }
   }
 
   @action signout = async () => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.signout
 
@@ -160,20 +154,20 @@ export default class AuthStore {
       logout()
       this.user = null
 
-      this.state = FetchStates.DONE
+      this.fetchState = FetchStates.DONE
       return FetchStates.DONE
     } catch (e) {
       this.msg = e.statusText ?? 'User not signout'
       this.user = null
       // localStorage.setItem('token', null)
       // localStorage.setItem('user', null)
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return FetchStates.FAILED
     }
   }
 
   @action createUser = async (model: Registration): Promise<number> => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.createUser
 
@@ -190,9 +184,9 @@ export default class AuthStore {
       this.msg = await response.text()
 
       if (response.status === 200) {
-        this.state = FetchStates.DONE
+        this.fetchState = FetchStates.DONE
       } else {
-        this.state = FetchStates.FAILED
+        this.fetchState = FetchStates.FAILED
       }
 
       return response.status
@@ -200,13 +194,13 @@ export default class AuthStore {
       // this.setState(states.FAILED)
       this.msg = e.statusText ?? 'User not Created'
       this.user = null
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return 0
     }
   }
 
   @action updatePassword = async (model: NewPasswordModel) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateUserPassword
 
@@ -227,20 +221,20 @@ export default class AuthStore {
 
       this.msg = response.statusText
       if (response.status === 200) {
-        this.state = FetchStates.DONE
+        this.fetchState = FetchStates.DONE
         return FetchStates.DONE
       }
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return FetchStates.FAILED
     } catch (e) {
       this.msg = e.statusText
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return FetchStates.FAILED
     }
   }
 
   @action updateUserInfo = async (model: IUser) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateUserInfo
 
@@ -261,14 +255,14 @@ export default class AuthStore {
 
       this.msg = response.statusText
       if (response.status === 200) {
-        this.state = FetchStates.DONE
+        this.fetchState = FetchStates.DONE
         return response.json() as IUser
       }
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return null
     } catch (e) {
       this.msg = e.statusText
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return null
     }
   }

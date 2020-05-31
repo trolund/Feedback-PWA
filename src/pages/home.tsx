@@ -21,7 +21,7 @@ export default withAuth(
     const {
       dashboardStore: {
         data,
-        state,
+        fetchState: state,
         cutoff,
         useFixedYAxis,
         useSkipZero,

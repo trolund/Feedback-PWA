@@ -4,10 +4,12 @@ import MeetingModel from '../models/MeetingModel'
 import { getToken } from '../services/authService'
 import ApiRoutes from './api/ApiRoutes'
 import IOptionsValue from '../models/OptionsValue'
+import { applyDates, applyOffSetToMeeting } from '../services/dateService'
+import IStoreFetchState from './StoreFetchState'
 
-export default class MeetingStore {
+export default class MeetingStore implements IStoreFetchState {
   // status
-  @observable state = FetchStates.DONE
+  @observable fetchState = FetchStates.DONE
 
   @observable meetingCreatedState = FetchStates.DONE
 
@@ -183,7 +185,7 @@ export default class MeetingStore {
   }
 
   @action fetchMeetings = async (start: Date, end: Date) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.MeetingsByDates(start, end)
       const token = getToken()
@@ -199,12 +201,12 @@ export default class MeetingStore {
       })
 
       this.msg = response.statusText
-      this.state = FetchStates.DONE
+      this.fetchState = FetchStates.DONE
 
       const data: MeetingModel[] = await response.json()
       this.meetings = data
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       this.meetings = []
     }
@@ -212,7 +214,7 @@ export default class MeetingStore {
 
   // /Api/Meeting/ShortId/{id}
   @action fetchMeetingByShortId = async (id: string) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.meetingByShortId(id)
       const token = getToken()
@@ -228,20 +230,22 @@ export default class MeetingStore {
       })
 
       this.msg = response.statusText
-      this.state = FetchStates.DONE
+      this.fetchState = FetchStates.DONE
 
-      const data: MeetingModel = await response.json()
+      const data: MeetingModel = applyOffSetToMeeting(
+        applyDates(await response.json())
+      )
       console.log('fetch mmeting response: ', data)
       this.meeting = data
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       this.meeting = null
     }
   }
 
   @action fetchMeetingByDay = async (day: Date) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.meetingsByDay(day)
       const token = getToken()
@@ -257,12 +261,12 @@ export default class MeetingStore {
       })
 
       this.msg = response.statusText
-      this.state = FetchStates.DONE
+      this.fetchState = FetchStates.DONE
 
       const data: MeetingModel[] = await response.json()
       this.meetings = data
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       this.meetings = null
     }

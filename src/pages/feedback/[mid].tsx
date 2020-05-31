@@ -66,9 +66,6 @@ const Feedback: NextPage = observer(() => {
             0,
             JSON.stringify(e)
           )
-          console.log('====================================')
-          console.log(statusCode)
-          console.log('====================================')
         })
     }
   }, [fetchQuestions, fingerprint, getUser, mid, statusCode])

@@ -7,10 +7,11 @@ import { getToken } from '../services/authService'
 import { sortQuestionsByIndex } from '../services/sortService'
 
 import QuestionSet from '../models/classes/QuestionSet'
+import IStoreFetchState from './StoreFetchState'
 
-export default class QuestionSetStore {
+export default class QuestionSetStore implements IStoreFetchState {
   // status
-  @observable state = FetchStates.DONE
+  @observable fetchState = FetchStates.DONE
 
   @observable msg = ''
 
@@ -20,7 +21,7 @@ export default class QuestionSetStore {
   @persist('object', QuestionSet) @observable qSet: IQuestionSet | null = null
 
   @action fetchQuestionSetNames = async () => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.QuestionSetNames
       const token = getToken()
@@ -39,14 +40,14 @@ export default class QuestionSetStore {
       const data: IQuestionSet[] = await response.json()
       this.QSetNames = data
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       this.QSetNames = []
     }
   }
 
   @action fetchQuestionSet = async (questionId: string) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.QuestionSetById(questionId)
       const token = getToken()
@@ -62,7 +63,7 @@ export default class QuestionSetStore {
         questions: data.questions.sort(sortQuestionsByIndex)
       }
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       this.qSet = null
     }
@@ -71,7 +72,7 @@ export default class QuestionSetStore {
   @action updateQuestionSet = async (
     entity: IQuestionSet
   ): Promise<FetchStates> => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateQuestionSet
       const token = getToken()
@@ -91,20 +92,20 @@ export default class QuestionSetStore {
       this.msg = response.statusText
 
       if (response.status === 200) {
-        this.state = FetchStates.DONE
+        this.fetchState = FetchStates.DONE
         return FetchStates.DONE
       }
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return FetchStates.FAILED
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       return FetchStates.FAILED
     }
   }
 
   @action deleteQuestionSet = async (entity: IQuestionSet) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateQuestionSet
       const token = getToken()
@@ -127,7 +128,7 @@ export default class QuestionSetStore {
       }
       return FetchStates.FAILED
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
 
       this.msg = e.statusText
       return FetchStates.FAILED
@@ -135,7 +136,7 @@ export default class QuestionSetStore {
   }
 
   @action createQuestionSet = async (entity: IQuestionSet) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.updateQuestionSet
       const token = getToken()
@@ -155,13 +156,13 @@ export default class QuestionSetStore {
 
       this.msg = response.statusText
       if (response.status === 200) {
-        this.state = FetchStates.DONE
+        this.fetchState = FetchStates.DONE
         return FetchStates.DONE
       }
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return FetchStates.FAILED
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       return FetchStates.FAILED
     }

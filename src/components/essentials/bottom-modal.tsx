@@ -36,8 +36,6 @@ const BottomModal = (props: BottomModalProps) => {
       }}
       role='button'
       tabIndex={0}
-      //   onKeyDown={() => setShow(false)}
-      //   onClick={() => setShow(false)}
     >
       <div
         className='bottom-modal-container'
@@ -89,10 +87,11 @@ const BottomModal = (props: BottomModalProps) => {
             overflow: scroll;
             max-height: 94vh;
             min-height: 400px;
-            padding-bottom: calc(env(safe-area-inset-bottom) + 72px);
+            padding-bottom: calc(env(safe-area-inset-bottom) + 75px) !important;
           }
 
-          .content-container::-webkit-scrollbar {
+           {
+            /* .content-container::-webkit-scrollbar {
             width: 11px;
           }
 
@@ -109,6 +108,7 @@ const BottomModal = (props: BottomModalProps) => {
             background-color: var(--label);
             border-radius: 6px;
             border: 3px solid rgba(0, 0, 0, 0);
+          } */
           }
         `}</style>
       </div>

@@ -3,7 +3,10 @@ import { DownloadCloud, X } from 'react-feather'
 import IBeforeInstallPromptEvent from '../../models/types/IBeforeInstallPromptEvent'
 import IosShare from '../../../public/images/iosShare.png'
 import rootStore from '../../stores/RootStore'
-import { logIndstall } from '../../utils/loggingHelprer'
+import {
+  logIndstall,
+  logIndstallServiceWorker
+} from '../../utils/loggingHelprer'
 
 const Prompt = () => {
   const {
@@ -47,10 +50,12 @@ const Prompt = () => {
 
     window.addEventListener('beforeinstallprompt', ready as any)
     window.addEventListener('appinstalled', logIndstall)
+    window.addEventListener('install', logIndstallServiceWorker)
 
     return () => {
       window.removeEventListener('beforeinstallprompt', ready as any)
       window.removeEventListener('appinstalled', logIndstall)
+      window.removeEventListener('install', logIndstallServiceWorker)
     }
   }, [getUser, promptToInstall])
 

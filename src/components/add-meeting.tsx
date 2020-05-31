@@ -32,7 +32,7 @@ const AddMeeting = observer(
   ({ callBack, setShowModal, initDate }: AddMeetingProps) => {
     const {
       questionSetStore: { fetchQuestionSetNames, QSetNames },
-      categoriesStore: { fetchCategories, state, categories },
+      categoriesStore: { fetchCategories, fetchState: state, categories },
       meetingStore,
       settingStore: { hideTempQuestionSets }
     } = useContext(rootStore)

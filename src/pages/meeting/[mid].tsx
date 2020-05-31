@@ -6,9 +6,7 @@ import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
 import { QRCode } from 'react-qr-svg'
 import { Save, Trash } from 'react-feather'
-import { NextPage, NextPageContext } from 'next'
-import cookies from 'next-cookies'
-import fetch from 'isomorphic-unfetch'
+import { NextPage } from 'next'
 import { toast } from 'react-toastify'
 import { HubConnectionBuilder, HubConnectionState } from '@aspnet/signalr'
 import https from 'https'
@@ -28,195 +26,227 @@ import IOptionsValue from '../../models/OptionsValue'
 import { getCompanyId, getToken } from '../../services/authService'
 import Category from '../../models/Category'
 import rootStore from '../../stores/RootStore'
-import {
-  applyOffSetToMeeting,
-  spliceDateAndTime,
-  applyOffSet,
-  applyDates
-} from '../../services/dateService'
+import { applyOffSet, spliceDateAndTime } from '../../services/dateService'
 import CustomConfirmModal from '../../components/essentials/confirm-modal'
+import withAuth from '../../components/hoc/withAuth'
+import MiddelLoader from '../../components/essentials/middelLoading'
 
-type initMeetingProps = {
-  initMeeting: MeetingModel
-  intitFeedback: FeedbackBatch[]
-  initCategories: Category[]
-}
+// type initMeetingProps = {
+//   initMeeting: MeetingModel
+//   intitFeedback: FeedbackBatch[]
+//   initCategories: Category[]
+// }
 
-const Post: NextPage = observer(
-  ({ initMeeting, intitFeedback, initCategories }: initMeetingProps) => {
-    const router = useRouter()
-    const { mid } = router.query
+const Post: NextPage = observer(() => {
+  const router = useRouter()
+  const { mid } = router.query
 
-    const hubConnection = new HubConnectionBuilder()
-      .withUrl(ApiRoutes.liveFeedback, {
-        accessTokenFactory: getToken
-      })
-      .build()
+  const hubConnection = new HubConnectionBuilder()
+    .withUrl(ApiRoutes.liveFeedback, {
+      accessTokenFactory: getToken
+    })
+    .build()
 
-    const [feedbackBatch, setFeedbackBatch] = useState(intitFeedback)
-    const {
-      questionSetStore,
-      feedbackStore,
-      meetingStore: { deleteMeeting, update, state },
-      categoriesStore,
-      settingStore: { realtimeFeedbackDefault }
-    } = useContext(rootStore)
+  const {
+    questionSetStore,
+    feedbackStore: {
+      fetchFeedback,
+      fetchState: FeedbackFetchState,
+      feedbackBatch,
+      setFeedbackBatch
+    },
+    meetingStore: {
+      deleteMeeting,
+      update,
+      fetchState: state,
+      meeting,
+      setMeeting,
+      fetchMeetingByShortId
+    },
+    categoriesStore: { fetchCategories, categories, fetchState: catFetchState },
+    settingStore: { realtimeFeedbackDefault }
+  } = useContext(rootStore)
 
-    const [meeting, setMeeting] = useState(applyDates(initMeeting))
-    const [meetingCategories] = useState(initCategories)
-    const [isRealTimeDateOn, setRealTimeDateOn] = useState(
-      realtimeFeedbackDefault
+  useEffect(() => {
+    fetchMeetingByShortId(String(mid))
+    fetchFeedback(String(mid))
+    fetchCategories(String(getCompanyId()))
+  }, [mid, getCompanyId])
+
+  // const [meeting, setMeeting] = useState(null)
+  // const [meetingCategories] = useState(null)
+  const [isRealTimeDateOn, setRealTimeDateOn] = useState(
+    realtimeFeedbackDefault
+  )
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+
+  const getMeetingCategories = () =>
+    meeting?.meetingCategories.map(
+      item =>
+        ({
+          label:
+            categories?.filter(i => i.categoryId === item.categoryId)[0]
+              ?.name ?? 'Henter...',
+          value: item.categoryId
+        } as IOptionsValue)
     )
-    const [showConfirmModal, setShowConfirmModal] = useState(false)
 
-    useEffect(() => {
-      setMeeting(applyOffSetToMeeting(initMeeting))
-    }, [initMeeting])
+  const [meetingCategories, setMeetingCategories] = useState(
+    getMeetingCategories()
+  )
 
-    // useEffect(() => {
-    //   if (meeting) {
-    //     setDate(new Date(meeting?.startTime))
-    //     setStartTime(new Date(meeting?.startTime))
-    //     setEndTime(new Date(meeting?.endTime))
-    //   }
-    // }, [meeting])
+  useEffect(() => {
+    const newVal = getMeetingCategories()
+    if (newVal) setMeetingCategories([...newVal])
+  }, [meeting, categories])
 
-    // const [date, setDate] = useState(new Date())
-    // const [startTime, setStartTime] = useState(new Date())
-    // const [endTime, setEndTime] = useState(new Date())
+  // useEffect(() => {
+  //   if (meeting) {
+  //     setDate(new Date(meeting?.startTime))
+  //     setStartTime(new Date(meeting?.startTime))
+  //     setEndTime(new Date(meeting?.endTime))
+  //   }
+  // }, [meeting])
 
-    const joinMeetingRoom = useCallback(() => {
+  // const [date, setDate] = useState(new Date())
+  // const [startTime, setStartTime] = useState(new Date())
+  // const [endTime, setEndTime] = useState(new Date())
+
+  const joinMeetingRoom = useCallback(() => {
+    hubConnection
+      .invoke('JoinRoom', String(mid))
+      .then(() => console.log(`joind room ${mid}`))
+      .catch(err => console.error(err))
+  }, [hubConnection, mid])
+
+  const leaveMeetingRoom = useCallback(() => {
+    if (hubConnection.state === HubConnectionState.Connected) {
       hubConnection
-        .invoke('JoinRoom', String(mid))
-        .then(() => console.log(`joind room ${mid}`))
+        .invoke('LeaveRoom', String(mid))
+        .then(() => console.log(`leaved room ${mid}`))
         .catch(err => console.error(err))
-    }, [hubConnection, mid])
+    }
+  }, [hubConnection, mid])
 
-    const leaveMeetingRoom = useCallback(() => {
-      if (hubConnection.state === HubConnectionState.Connected) {
-        hubConnection
-          .invoke('LeaveRoom', String(mid))
-          .then(() => console.log(`leaved room ${mid}`))
-          .catch(err => console.error(err))
-      }
-    }, [hubConnection, mid])
+  const subscripeToEvents = useCallback(() => {
+    hubConnection.on('sendfeedback', (data: FeedbackBatch[]) => {
+      setFeedbackBatch(data)
+    })
+    hubConnection.on('memberJoind', data => {
+      console.log('Join', data)
+    })
+  }, [hubConnection])
 
-    const subscripeToEvents = useCallback(() => {
-      hubConnection.on('sendfeedback', (data: FeedbackBatch[]) => {
-        setFeedbackBatch(data)
-      })
-      hubConnection.on('memberJoind', data => {
-        console.log('Join', data)
-      })
-    }, [hubConnection])
+  const openConnection = useCallback(() => {
+    hubConnection.start().then(() => {
+      joinMeetingRoom()
+      subscripeToEvents()
+    })
+  }, [hubConnection, joinMeetingRoom, subscripeToEvents])
 
-    const openConnection = useCallback(() => {
-      hubConnection.start().then(() => {
-        joinMeetingRoom()
-        subscripeToEvents()
-      })
-    }, [hubConnection, joinMeetingRoom, subscripeToEvents])
+  const closeConnection = useCallback(() => {
+    if (hubConnection.state === HubConnectionState.Connected) {
+      hubConnection.off('sendfeedback')
+      hubConnection.off('memberJoind')
+      leaveMeetingRoom()
+      hubConnection.stop()
+    }
+  }, [hubConnection, leaveMeetingRoom])
 
-    const closeConnection = useCallback(() => {
-      if (hubConnection.state === HubConnectionState.Connected) {
-        hubConnection.off('sendfeedback')
-        hubConnection.off('memberJoind')
-        leaveMeetingRoom()
-        hubConnection.stop()
-      }
-    }, [hubConnection, leaveMeetingRoom])
+  useEffect(() => {
+    if (isRealTimeDateOn) {
+      openConnection()
+    } else {
+      closeConnection()
+    }
+    return () => {
+      closeConnection()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRealTimeDateOn])
 
-    useEffect(() => {
-      if (isRealTimeDateOn) {
-        openConnection()
-      } else {
-        closeConnection()
-      }
-      return () => {
-        closeConnection()
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isRealTimeDateOn])
+  useEffect(() => {
+    if (meeting?.questionsSetId) {
+      questionSetStore.fetchQuestionSet(meeting?.questionsSetId)
+    }
+  }, [meeting, questionSetStore])
 
-    useEffect(() => {
-      if (meeting?.questionsSetId)
-        questionSetStore.fetchQuestionSet(meeting?.questionsSetId)
-    }, [meeting.questionsSetId, questionSetStore])
+  const count = useCallback(() => (feedbackBatch ? feedbackBatch?.length : 0), [
+    feedbackBatch
+  ])()
 
-    const count = useCallback(
-      () => (feedbackBatch ? feedbackBatch?.length : 0),
-      [feedbackBatch]
-    )()
+  const getAvg = useCallback(
+    (questionId: string) => {
+      const returnAvg = feedbackBatch
+        ?.map(i => i.feedback)
+        .flat()
+        .filter(x => x.questionId === questionId)
+        .reduce((avg, item, _, { length }) => {
+          return avg + item.answer / length
+        }, 0)
 
-    const getAvg = useCallback(
-      (questionId: string) => {
-        const returnAvg = feedbackBatch
-          ?.map(i => i.feedback)
-          .flat()
-          .filter(x => x.questionId === questionId)
-          .reduce((avg, item, _, { length }) => {
-            return avg + item.answer / length
-          }, 0)
+      return returnAvg || 0
+    },
+    [feedbackBatch]
+  )
 
-        return returnAvg || 0
-      },
-      [feedbackBatch]
-    )
-
-    const getComments = useCallback(
-      (questionId: string) => {
-        return feedbackBatch
-          ?.map(batch =>
-            batch.feedback.map(feed =>
-              feed.questionId === questionId ? feed.comment : null
-            )
+  const getComments = useCallback(
+    (questionId: string) => {
+      return feedbackBatch
+        ?.map(batch =>
+          batch.feedback.map(feed =>
+            feed.questionId === questionId ? feed.comment : null
           )
-          .flat()
-          .filter(s => s !== null)
-          .filter(s => s?.length! > 1)
-      },
-      [feedbackBatch]
-    )
+        )
+        .flat()
+        .filter(s => s !== null)
+        .filter(s => s?.length! > 1)
+    },
+    [feedbackBatch]
+  )
 
-    const feedback = useCallback(() => {
-      const { qSet } = questionSetStore
+  const feedback = useCallback(() => {
+    const { qSet } = questionSetStore
 
-      const theFeedback = qSet?.questions.map(item => {
-        return {
-          question: item.theQuestion,
-          comments: getComments(item.questionId),
-          voteAVG: getAvg(item.questionId)
-        } as Feedback
+    const theFeedback = qSet?.questions.map(item => {
+      return {
+        question: item.theQuestion,
+        comments: getComments(item.questionId),
+        voteAVG: getAvg(item.questionId)
+      } as Feedback
+    })
+    return theFeedback || []
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getAvg, getComments, questionSetStore])
+
+  // useEffect(() => {
+  //   setMeeting({
+  //     ...meeting,
+  //     endTime: spliceDateAndTime(applyOffSet(date), endTime),
+  //     startTime: spliceDateAndTime(applyOffSet(date), startTime)
+  //   } as MeetingModel)
+  // }, [date, endTime, startTime])
+
+  const updateMeetingClickHandler = () => {
+    if (meeting) {
+      update(meeting).then(res => {
+        if (res === FetchStates.DONE) toast('Møde er opdateret!')
+        else toast('Der skete en fejl ved Opdatering af mødet.')
       })
-      return theFeedback || []
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getAvg, getComments, questionSetStore])
-
-    // useEffect(() => {
-    //   setMeeting({
-    //     ...meeting,
-    //     endTime: spliceDateAndTime(applyOffSet(date), endTime),
-    //     startTime: spliceDateAndTime(applyOffSet(date), startTime)
-    //   } as MeetingModel)
-    // }, [date, endTime, startTime])
-
-    const updateMeetingClickHandler = () => {
-      if (meeting) {
-        update(meeting).then(res => {
-          if (res === FetchStates.DONE) toast('Møde er Opdateret!')
-          else toast('Der skete en fejl ved Opdatering af mødet.')
-        })
-      }
     }
+  }
 
-    const deleteMeetingClickHandler = () => {
-      if (meeting) {
-        deleteMeeting(meeting)
-        toast('Møde er slettet!')
-        Router.back()
-      }
+  const deleteMeetingClickHandler = () => {
+    if (meeting) {
+      deleteMeeting(meeting)
+      toast('Møde er slettet!')
+      Router.back()
     }
-    return (
+  }
+
+  return (
+    <>
+      <MiddelLoader loading={state === FetchStates.LOADING} />
       <Page
         showBottomNav={false}
         title={meeting?.name ?? 'loading...'}
@@ -237,23 +267,27 @@ const Post: NextPage = observer(
           onConfirm={deleteMeetingClickHandler}
           setShow={setShowConfirmModal}
           show={showConfirmModal}
-          content={<p>Er du sikker på du vil slette mødet {meeting.name}.</p>}
+          content={
+            <p>Er du sikker på du vil slette mødet {meeting?.name || ''}.</p>
+          }
         />
         <Section>
           <div className='flex-container'>
             <div className='flex-item-left'>
-              {' '}
               <form>
                 <label htmlFor='id'>ID</label>
-                <input
-                  type='text'
-                  name='id'
-                  id='id'
-                  placeholder='ID'
-                  value={mid}
-                  disabled
-                />
-                <label htmlFor='name'>Aktivitetsnavn</label>
+                {/* <input
+                type='text'
+                name='id'
+                id='id'
+                placeholder='ID'
+                value={mid}
+                disabled
+              /> */}
+                <h2 style={{ paddingBottom: '10px' }}>{String(mid)}</h2>
+                <label style={{ marginBottom: '10px' }} htmlFor='name'>
+                  Aktivitetsnavn
+                </label>
                 <input
                   type='text'
                   name='name'
@@ -264,7 +298,9 @@ const Post: NextPage = observer(
                     setMeeting({ ...meeting, name: e.target.value })
                   }
                 />
-                <label htmlFor='exampleText'>Beskrivelse</label>
+                <label style={{ marginBottom: '10px' }} htmlFor='exampleText'>
+                  Beskrivelse
+                </label>
                 <textarea
                   name='text'
                   id='exampleText'
@@ -280,7 +316,7 @@ const Post: NextPage = observer(
                   <div className='date'>
                     <label htmlFor='exampleText'>Dato</label>
                     <CustomDatepicker
-                      value={meeting.startTime}
+                      value={meeting?.startTime || new Date()}
                       onChange={newDate => {
                         setMeeting({
                           ...meeting,
@@ -300,7 +336,7 @@ const Post: NextPage = observer(
                     <div>
                       <label htmlFor='exampleText'>Start tidspunkt</label>
                       <CustomTimepicker
-                        value={meeting.startTime}
+                        value={meeting?.startTime || new Date()}
                         onChange={newTime => {
                           setMeeting({
                             ...meeting,
@@ -312,7 +348,7 @@ const Post: NextPage = observer(
                     <div>
                       <label htmlFor='exampleText'>Slut tidspunkt</label>
                       <CustomTimepicker
-                        value={meeting.endTime}
+                        value={meeting?.endTime || new Date()}
                         onChange={newTime => {
                           setMeeting({
                             ...meeting,
@@ -325,18 +361,9 @@ const Post: NextPage = observer(
                 </div>
                 <CategoriesPicker
                   fill
-                  loading={categoriesStore.state === FetchStates.LOADING}
-                  values={meeting?.meetingCategories.map(
-                    item =>
-                      ({
-                        label:
-                          meetingCategories?.filter(
-                            i => i.categoryId === item.categoryId
-                          )[0]?.name ?? 'Henter...',
-                        value: item.categoryId
-                      } as IOptionsValue)
-                  )}
-                  categories={meetingCategories}
+                  loading={catFetchState === FetchStates.LOADING}
+                  values={meetingCategories}
+                  categories={categories}
                   setTags={tags =>
                     setMeeting({
                       ...meeting,
@@ -356,7 +383,7 @@ const Post: NextPage = observer(
               <FeedbackView
                 feedback={feedback()}
                 count={count}
-                feedbackLoading={feedbackStore.state}
+                feedbackLoading={FeedbackFetchState}
                 isRealtime={isRealTimeDateOn}
                 setIsRealtime={setRealTimeDateOn}
               />
@@ -483,56 +510,55 @@ const Post: NextPage = observer(
           }
         `}</style>
       </Page>
-    )
-  }
-)
+    </>
+  )
+})
 
-export async function getServerSideProps(ctx: NextPageContext) {
-  const { token } = cookies(ctx)
-  const { query } = ctx
-  const { mid } = query
+// Post.getInitialProps = async (ctx: NextPageContext) => {
+//   const { token } = cookies(ctx)
+//   const { query } = ctx
+//   const { mid } = query
 
-  const options = {
-    agent: new https.Agent({
-      rejectUnauthorized: false // TODO fix for production with real SSL CERT
-    })
-  }
-  let data: MeetingModel | null = null
+//   const options = {
+//     agent: new https.Agent({
+//       rejectUnauthorized: false // TODO fix for production with real SSL CERT
+//     })
+//   }
+//   let data: MeetingModel | null = null
 
-  let feedbackData: FeedbackBatch[] | null = null
-  let CategoriesData: Category[] | null = null
-  try {
-    const response = await fetch(ApiRoutes.meetingByShortId(String(mid)), {
-      headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      ...options
-    })
-    data = await response.json()
-    const feedbackResponse = await fetch(ApiRoutes.Feedbackbatch(String(mid)), {
-      headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      ...options
-    })
-    feedbackData = await feedbackResponse.json()
-    console.log(feedbackData)
+//   let feedbackData: FeedbackBatch[] | null = null
+//   let CategoriesData: Category[] | null = null
+//   try {
+//     const response = await fetch(ApiRoutes.meetingByShortId(String(mid)), {
+//       headers: !token ? {} : { Authorization: `Bearer ${token}` },
+//       ...options
+//     })
+//     data = await response.json()
+//     const feedbackResponse = await fetch(ApiRoutes.Feedbackbatch(String(mid)), {
+//       headers: !token ? {} : { Authorization: `Bearer ${token}` },
+//       ...options
+//     })
+//     feedbackData = await feedbackResponse.json()
 
-    const responseCategories = await fetch(
-      ApiRoutes.Categories(String(getCompanyId(token))),
-      {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` },
-        ...options
-      }
-    )
-    CategoriesData = await responseCategories.json()
-  } catch (e) {
-    console.error(e)
-  }
+//     const responseCategories = await fetch(
+//       ApiRoutes.Categories(String(getCompanyId(token))),
+//       {
+//         headers: !token ? {} : { Authorization: `Bearer ${token}` },
+//         ...options
+//       }
+//     )
+//     CategoriesData = await responseCategories.json()
+//   } catch (e) {
+//     console.error(e)
+//   }
 
-  return {
-    props: {
-      initMeeting: data,
-      intitFeedback: feedbackData,
-      initCategories: CategoriesData
-    }
-  }
-}
+//   return {
+//     props: {
+//       initMeeting: data,
+//       intitFeedback: feedbackData,
+//       initCategories: CategoriesData
+//     }
+//   }
+// }
 
-export default Post
+export default withAuth(Post)

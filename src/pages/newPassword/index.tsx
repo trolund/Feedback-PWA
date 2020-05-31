@@ -16,7 +16,7 @@ import * as loading from '../../../public/Animations/loading.json'
 const NewPassword = withAuth(
   observer(() => {
     const {
-      authStore: { updatePassword, state }
+      authStore: { updatePassword, fetchState: state }
     } = useContext(rootStore)
 
     const [oldPassword, setOldPassword] = useState('')

@@ -40,7 +40,7 @@ export default observer(() => {
   const [accept, setAccept] = useState(false)
   const [showGDPR, setShowGDPR] = useState(false)
   const {
-    authStore: { createUser, state, msg }
+    authStore: { createUser, fetchState: state, msg }
   } = useContext(rootStore)
 
   const createUserClickHandler = () => {
@@ -248,7 +248,7 @@ export default observer(() => {
               onClick={() => setNewCompany(!newCompany)}
             />
             <label className='newCompanybtn' htmlFor='sizeWeight'>
-              Eksisterende virksomhed
+              Virksomheds ID
             </label>
             <input
               className='oldCompanybtn'

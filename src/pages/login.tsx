@@ -20,7 +20,7 @@ const Login: NextPage = withRedirect(
     const [password, setPassword] = useState('')
     const [loginBtnDisabled, setLoginBtnDisabled] = useState(true)
     const {
-      authStore: { login, state, msg }
+      authStore: { login, fetchState: state, msg }
     } = useContext(rootStore)
     const [inputFeedback, setinputFeedback] = useState([] as string[])
 
@@ -189,7 +189,7 @@ const Login: NextPage = withRedirect(
   })
 )
 
-// Login.getInitialProps = async ctx => {
+// Login. = async ctx => {
 //   const token = auth(ctx)
 
 //   if (ctx.res && tokenValid(token)) {

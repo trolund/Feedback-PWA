@@ -4,7 +4,7 @@
 @import '~@fullcalendar/timegrid/main.css';
 
 :root {
-  --accent: #19896f;
+  --accent: #0594A6;
   --accent-dark: #126451;
   --accent-darker: #0e493b;
   --text: #282828;
@@ -16,6 +16,9 @@
   --base-low: #fefefe2a;
   --overflow: #fff;
   --backdrop: rgba(230, 230, 230, 0.75);
+
+  --star: #adadad;
+
 
   --gradiant: linear-gradient(180deg, #21866ee5 0%, #126955e8 100%);
 
@@ -44,6 +47,29 @@
   --transition: 200ms ease-in-out;
   --transition-colors: color 50ms ease-in-out,
     background-color var(--transition), border-color var(--transition);
+
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+@media only screen and (max-width: 380px) {
+  :root {
+    --border-radius: 10px;
+
+    --gap-small: 0.50rem;
+    --gap: 1.1rem;
+    --gap-large: 2.2rem;
+
+  }
 }
 
 .dark {
@@ -62,7 +88,7 @@
 }
 
 
-body::-webkit-scrollbar {
+/* body::-webkit-scrollbar {
   width: 11px;
 }
 
@@ -79,7 +105,7 @@ body::-webkit-scrollbar-thumb {
   background-color: var(--label);
   border-radius: 6px;
   border: 3px solid rgba(0, 0, 0, 0.0);
-}
+} */
 
 *,
 *::before,
@@ -107,6 +133,8 @@ body {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
 }
+
+
 
 .button {
   color: whitesmoke;

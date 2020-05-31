@@ -124,6 +124,8 @@ const Rating: React.FC<IProp> = observer(() => {
             starCount={6}
             value={rating}
             starColor='var(--accent)'
+            emptyStarColor='var(--star)'
+
             // onStarClick={newRating => setRating(newRating)}
           />
         </div>
@@ -174,9 +176,17 @@ const Rating: React.FC<IProp> = observer(() => {
 
         .flex-container > div {
           text-align: center;
-          background-color: var(--surface);
+          color: white;
           border-radius: var(--border-radius);
           padding: var(--gap-small);
+        }
+
+        .flex-container > div p {
+          font-size: 10px;
+        }
+
+        .flex-container > div b {
+          font-size: 16px;
         }
 
         .pie-box {

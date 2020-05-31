@@ -268,17 +268,19 @@ const FeedbackView = observer((props: IProp) => {
           overlayClassName='Overlay'
           ariaHideApp={false} // TODO fjern dette og fix fejl
         >
-          <X
-            type='button'
-            className='close-modal'
-            onClick={() => setShowModal(false)}
-          />
-          <h3>Tilbagemeldinger</h3>
-          <CustomCheckbox
-            label='Hvis feedback løbende'
-            checked={props.isRealtime}
-            onChange={e => props.setIsRealtime(e)}
-          />
+          <div className='top-bar'>
+            <X
+              type='button'
+              className='close-modal'
+              onClick={() => setShowModal(false)}
+            />
+            <h3>Tilbagemeldinger</h3>
+            <CustomCheckbox
+              label='Hvis feedback løbende'
+              checked={props.isRealtime}
+              onChange={e => props.setIsRealtime(e)}
+            />
+          </div>
           <div className='chart-container'>
             <Bar data={graphData} options={chartOptions} />
           </div>
@@ -303,6 +305,7 @@ const FeedbackView = observer((props: IProp) => {
           height: 100%;
           padding: 25px;
           padding-bottom: 50px;
+          margin-top: calc(env(safe-area-inset-top) / 2 + (72px / 2));
         }
 
         .tab-content {
@@ -315,6 +318,18 @@ const FeedbackView = observer((props: IProp) => {
           border-top-left-radius: var(--border-radius);
           border-bottom: none;
           padding: 15px;
+        }
+
+        .top-bar {
+          position: absolute;
+          top: calc(env(safe-area-inset-top) + (72px / 2));
+          width: 100%;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+
+        .top-bar > h3 {
+          margin-bottom: 20px;
         }
 
         .tab-btn-selected {

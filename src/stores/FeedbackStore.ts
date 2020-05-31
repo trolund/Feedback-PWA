@@ -5,12 +5,13 @@ import FeedbackBatch from '../models/FeedbackBatch'
 import ApiRoutes from './api/ApiRoutes'
 import FeedbackModel from '../models/FeedbackModel'
 import { getToken } from '../services/authService'
+import IStoreFetchState from './StoreFetchState'
 
 // import authService from '../components/api-authorization/AuthorizeService'
 
-export default class FeedbackStore {
+export default class FeedbackStore implements IStoreFetchState {
   // status
-  @observable state = FetchStates.DONE
+  @observable fetchState = FetchStates.DONE
 
   @observable msg = ''
 
@@ -31,8 +32,14 @@ export default class FeedbackStore {
     }
   }
 
+  @action setFeedbackBatch = (data: FeedbackBatch[]) => {
+    if (data != null) {
+      this.feedbackBatch = data
+    }
+  }
+
   @action fetchFeedback = async (meetingId: string) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.Feedbackbatch(meetingId)
 
@@ -54,7 +61,7 @@ export default class FeedbackStore {
 
       this.feedbackBatch = data
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       this.feedbackBatch = null
     }
@@ -65,7 +72,7 @@ export default class FeedbackStore {
     meetingId: string,
     fingerprint
   ) => {
-    this.state = FetchStates.LOADING
+    this.fetchState = FetchStates.LOADING
 
     try {
       const url = ApiRoutes.CreateFeedbackBatch()
@@ -86,15 +93,15 @@ export default class FeedbackStore {
 
       // every thing seme to go as planed :)
       if (response.status === 200) {
-        this.state = FetchStates.DONE
+        this.fetchState = FetchStates.DONE
         return FetchStates.DONE
       }
 
       // the ser dit not produce status code 200 and feedback was not safely deliverd.
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       return FetchStates.FAILED
     } catch (e) {
-      this.state = FetchStates.FAILED
+      this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
       return FetchStates.FAILED
     }
