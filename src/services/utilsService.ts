@@ -14,3 +14,17 @@ export const makeid = length => {
 
 export const filterTempletes = (n: IQuestionSet) =>
   n.companyId !== Number(process.env.spinOffCompenyId)
+
+// export const copyImg = async src => {
+//   const img = await fetch(src)
+//   const imgBlob = await img.blob()
+//   try {
+//     navigator.clipboard.write([
+//       new ClipboardItem({
+//         'image/png': imgBlob // change image type accordingly
+//       })
+//     ])
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }

@@ -27,6 +27,10 @@ const CustomDatepicker = ({ value, onChange, error, minValue }: Props) => {
           style={{ paddingLeft: '50px' }}
           // onChange={e => onChange(new Date(e.target.value))}
           readOnly
+          role='button'
+          tabIndex={0}
+          onKeyDown={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(!isOpen)}
         />
         <Calendar
           style={{
@@ -35,10 +39,6 @@ const CustomDatepicker = ({ value, onChange, error, minValue }: Props) => {
             marginTop: '-70px',
             marginLeft: '15px'
           }}
-          role='button'
-          tabIndex={0}
-          onKeyDown={() => setIsOpen(!isOpen)}
-          onClick={() => setIsOpen(!isOpen)}
         />
       </div>
       <DatePicker

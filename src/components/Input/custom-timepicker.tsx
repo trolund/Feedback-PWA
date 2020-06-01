@@ -49,6 +49,10 @@ const CustomTimepicker = ({
           //   }
           // }}
           style={{ paddingLeft: '50px' }}
+          role='button'
+          tabIndex={0}
+          onKeyDown={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(!isOpen)}
         />
         <Clock
           style={{
@@ -57,10 +61,6 @@ const CustomTimepicker = ({
             marginTop: '-70px',
             marginLeft: '15px'
           }}
-          role='button'
-          tabIndex={0}
-          onKeyDown={() => setIsOpen(!isOpen)}
-          onClick={() => setIsOpen(!isOpen)}
         />
       </div>
       <DatePicker

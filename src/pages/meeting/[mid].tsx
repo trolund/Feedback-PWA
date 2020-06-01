@@ -9,7 +9,6 @@ import { Save, Trash } from 'react-feather'
 import { NextPage } from 'next'
 import { toast } from 'react-toastify'
 import { HubConnectionBuilder, HubConnectionState } from '@aspnet/signalr'
-import https from 'https'
 import Page from '../../components/essentials/page'
 import Section from '../../components/essentials/section'
 import FeedbackView from '../../components/feedback/feedback'
@@ -19,7 +18,6 @@ import FetchStates from '../../stores/requestState'
 import CustomDatepicker from '../../components/Input/custom-datepicker'
 import CustomTimepicker from '../../components/Input/custom-timepicker'
 import CategoriesPicker from '../../components/Input/categories-picker'
-import MeetingModel from '../../models/MeetingModel'
 import FeedbackBatch from '../../models/FeedbackBatch'
 import MeetingCategory from '../../models/MeetingCategory'
 import IOptionsValue from '../../models/OptionsValue'
@@ -30,12 +28,17 @@ import { applyOffSet, spliceDateAndTime } from '../../services/dateService'
 import CustomConfirmModal from '../../components/essentials/confirm-modal'
 import withAuth from '../../components/hoc/withAuth'
 import MiddelLoader from '../../components/essentials/middelLoading'
+import dynamic from 'next/dynamic'
 
 // type initMeetingProps = {
 //   initMeeting: MeetingModel
 //   intitFeedback: FeedbackBatch[]
 //   initCategories: Category[]
 // }
+
+const QrReader = dynamic(() => import('react-qr-reader'), {
+  ssr: false
+})
 
 const Post: NextPage = observer(() => {
   const router = useRouter()
