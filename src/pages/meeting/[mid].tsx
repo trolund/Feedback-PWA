@@ -126,7 +126,11 @@ const Post: NextPage = observer(() => {
     if (hubConnection.state === HubConnectionState.Connected) {
       hubConnection
         .invoke('LeaveRoom', String(mid))
-        .then(() => console.log(`leaved room ${mid}`))
+        .then(() => {
+          console.log(`leaved room ${mid}`)
+          hubConnection.stop().catch(err => console.error(err))
+          console.log(`real-time feedback connection closed.`)
+        })
         .catch(err => console.error(err))
     }
   }, [hubConnection, mid])
@@ -152,7 +156,6 @@ const Post: NextPage = observer(() => {
       hubConnection.off('sendfeedback')
       hubConnection.off('memberJoind')
       leaveMeetingRoom()
-      hubConnection.stop()
     }
   }, [hubConnection, leaveMeetingRoom])
 
@@ -290,7 +293,7 @@ const Post: NextPage = observer(() => {
                       name='name'
                       id='name'
                       placeholder='Navn på mødet'
-                      value={meeting?.name}
+                      value={meeting?.name || ''}
                       onChange={e =>
                         setMeeting({ ...meeting, name: e.target.value })
                       }

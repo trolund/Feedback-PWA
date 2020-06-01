@@ -92,9 +92,11 @@ export default observer(
       <>
         {wWidth > swapPoint ? (
           <Select
+            placeholder='Kategorier'
             key='desktopCatSelector'
             isLoading={loading}
-            defaultValue={categoriesValues}
+            defaultValue={tempDataList}
+            value={tempDataList}
             options={categories?.map(
               cat =>
                 ({
