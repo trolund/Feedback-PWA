@@ -487,3 +487,18 @@ hr {
   padding: var(--gap-small);
   margin-bottom: var(--gap-small);
 }
+
+/* list */
+
+.basic-list>li {
+  color: var(--fg);
+  padding: var(--gap-small);
+  background: var(--base);
+  display: flex;
+  align-items: center;
+  transition: var(--transition-colors);
+}
+
+.basic-list>li:not(:last-child) {
+  border-bottom: 1px solid var(--divider);
+}

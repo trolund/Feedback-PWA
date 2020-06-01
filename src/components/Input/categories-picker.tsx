@@ -261,7 +261,7 @@ export default observer(
             z-index: 1;
           }
           .select-css {
-            z-index: 10;
+            z-index: 1;
             display: block;
             color: #444;
             line-height: 1.3;

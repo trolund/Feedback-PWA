@@ -275,109 +275,109 @@ const Post: NextPage = observer(() => {
           <div className='flex-container'>
             <div className='flex-item-left'>
               <form>
-                <label htmlFor='id'>ID</label>
-                {/* <input
-                type='text'
-                name='id'
-                id='id'
-                placeholder='ID'
-                value={mid}
-                disabled
-              /> */}
-                <h2 style={{ paddingBottom: '10px' }}>{String(mid)}</h2>
-                <label style={{ marginBottom: '10px' }} htmlFor='name'>
-                  Aktivitetsnavn
-                </label>
-                <input
-                  type='text'
-                  name='name'
-                  id='name'
-                  placeholder='Navn på mødet'
-                  value={meeting?.name}
-                  onChange={e =>
-                    setMeeting({ ...meeting, name: e.target.value })
-                  }
-                />
-                <label style={{ marginBottom: '10px' }} htmlFor='exampleText'>
-                  Beskrivelse
-                </label>
-                <textarea
-                  name='text'
-                  id='exampleText'
-                  value={meeting?.discription}
-                  onChange={e =>
-                    setMeeting({ ...meeting, discription: e.target.value })
-                  }
-                />
-                <div
-                  style={{ marginBottom: '20px' }}
-                  className='flex-container'
-                >
-                  <div className='date'>
-                    <label htmlFor='exampleText'>Dato</label>
-                    <CustomDatepicker
-                      value={meeting?.startTime || new Date()}
-                      onChange={newDate => {
+                <ul className='basic-list'>
+                  <li>
+                    <label htmlFor='id'>ID</label>
+                    <h2 style={{ paddingBottom: '10px' }}>{String(mid)}</h2>
+                  </li>
+                  <li>
+                    <label htmlFor='name'>Aktivitetsnavn</label>
+                    <input
+                      type='text'
+                      name='name'
+                      id='name'
+                      placeholder='Navn på mødet'
+                      value={meeting?.name}
+                      onChange={e =>
+                        setMeeting({ ...meeting, name: e.target.value })
+                      }
+                    />
+                  </li>
+                  <li>
+                    <label htmlFor='exampleText'>Beskrivelse</label>
+                    <textarea
+                      name='text'
+                      id='exampleText'
+                      value={meeting?.discription}
+                      onChange={e =>
+                        setMeeting({ ...meeting, discription: e.target.value })
+                      }
+                    />
+                  </li>
+                  <li>
+                    <div
+                      style={{ marginBottom: '20px' }}
+                      className='flex-container'
+                    >
+                      <div className='date'>
+                        <label htmlFor='exampleText'>Dato</label>
+                        <CustomDatepicker
+                          value={meeting?.startTime || new Date()}
+                          onChange={newDate => {
+                            setMeeting({
+                              ...meeting,
+                              endTime: spliceDateAndTime(
+                                applyOffSet(newDate),
+                                meeting.endTime
+                              ),
+                              startTime: spliceDateAndTime(
+                                applyOffSet(newDate),
+                                meeting.startTime
+                              )
+                            })
+                          }}
+                        />
+                      </div>
+                      <div className='times'>
+                        <div>
+                          <label htmlFor='exampleText'>Start tidspunkt</label>
+                          <CustomTimepicker
+                            value={meeting?.startTime || new Date()}
+                            onChange={newTime => {
+                              setMeeting({
+                                ...meeting,
+                                startTime: newTime
+                              })
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor='exampleText'>Slut tidspunkt</label>
+                          <CustomTimepicker
+                            value={meeting?.endTime || new Date()}
+                            onChange={newTime => {
+                              setMeeting({
+                                ...meeting,
+                                endTime: newTime
+                              })
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <CategoriesPicker
+                      fill
+                      loading={catFetchState === FetchStates.LOADING}
+                      values={meetingCategories}
+                      categories={categories}
+                      setTags={tags =>
                         setMeeting({
                           ...meeting,
-                          endTime: spliceDateAndTime(
-                            applyOffSet(newDate),
-                            meeting.endTime
-                          ),
-                          startTime: spliceDateAndTime(
-                            applyOffSet(newDate),
-                            meeting.startTime
+                          meetingCategories: tags.map(
+                            item =>
+                              ({
+                                meetingId: meeting.shortId,
+                                categoryId: item.value,
+                                name: item.label
+                              } as MeetingCategory)
                           )
                         })
-                      }}
+                      }
                     />
-                  </div>
-                  <div className='times'>
-                    <div>
-                      <label htmlFor='exampleText'>Start tidspunkt</label>
-                      <CustomTimepicker
-                        value={meeting?.startTime || new Date()}
-                        onChange={newTime => {
-                          setMeeting({
-                            ...meeting,
-                            startTime: newTime
-                          })
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor='exampleText'>Slut tidspunkt</label>
-                      <CustomTimepicker
-                        value={meeting?.endTime || new Date()}
-                        onChange={newTime => {
-                          setMeeting({
-                            ...meeting,
-                            endTime: newTime
-                          })
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <CategoriesPicker
-                  fill
-                  loading={catFetchState === FetchStates.LOADING}
-                  values={meetingCategories}
-                  categories={categories}
-                  setTags={tags =>
-                    setMeeting({
-                      ...meeting,
-                      meetingCategories: tags.map(
-                        item =>
-                          ({
-                            meetingId: meeting.shortId,
-                            categoryId: item.value,
-                            name: item.label
-                          } as MeetingCategory)
-                      )
-                    })
-                  }
-                />
+                  </li>
+                </ul>
               </form>
               <hr />
               <FeedbackView
@@ -409,13 +409,17 @@ const Post: NextPage = observer(() => {
             <div className='flex-item-right'>
               <div className='qrbox'>
                 <h4>QRkode</h4>
-                <QRCode
-                  bgColor='var(--surface)'
-                  fgColor='var(--accent)'
-                  level='H'
-                  style={{ width: 256 }}
-                  value={ApiRoutes.qrcode(String(mid))}
-                />
+                {ApiRoutes.qrcode(String(mid)).includes('http') ? (
+                  <QRCode
+                    bgColor='var(--surface)'
+                    fgColor='var(--accent)'
+                    level='L'
+                    style={{ width: 256 }}
+                    value={ApiRoutes.qrcode(String(mid))}
+                  />
+                ) : (
+                  <p>Loading....</p>
+                )}
                 <p>
                   Brug denne unikke QR kode til let at give dine deltagere
                   adgang til at give dig tilbagemeldinger. Kopier evt billede
@@ -425,7 +429,7 @@ const Post: NextPage = observer(() => {
                     style={{ fontWeight: 700 }}
                   >
                     {' '}
-                    {ApiRoutes.qrcode(String(mid)).split('/')[2]}
+                    {ApiRoutes.qrcode(String(mid)).split('/')[4]}
                   </a>
                 </p>
               </div>
@@ -444,6 +448,10 @@ const Post: NextPage = observer(() => {
         )}
 
         <style jsx>{`
+          label {
+            display: none;
+          }
+
           .btn-group {
             height: 60px;
             text-align: right;

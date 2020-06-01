@@ -351,7 +351,7 @@ const FeedbackView = observer((props: IProp) => {
         .counter {
           font-weight: bold;
           text-align: center;
-          border-bottom: #19896f solid 5px;
+          border-bottom: var(--accent) solid 5px;
         }
 
         .end-result {
