@@ -213,7 +213,7 @@ const Day: NextPage = observer(() => {
             height: 35px;
             width: 100%;
             left: 0;
-            top: env(safe-area-inset-top) + 73px;
+            top: calc(var(--safe-area-inset-top) / 2 + var(--top-bar-height));
             position: fixed;
           }
 

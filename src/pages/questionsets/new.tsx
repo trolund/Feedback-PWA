@@ -16,6 +16,7 @@ import { auth, getCompanyId } from '../../services/authService'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import { sortQuestionsByIndex } from '../../services/sortService'
 import { makeid } from '../../services/utilsService'
+import withAuth from '../../components/hoc/withAuth'
 
 type QuestionSetPageProps = {
   templeteData?: IQuestionSet
@@ -191,4 +192,4 @@ QuestionSetPage.getInitialProps = async function(ctx) {
   }
 }
 
-export default QuestionSetPage
+export default withAuth(QuestionSetPage)

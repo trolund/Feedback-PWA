@@ -18,6 +18,7 @@ import QuestionListDrag from '../../components/questions/question-list-drag'
 import { sortQuestionsByIndex } from '../../services/sortService'
 import { makeid } from '../../services/utilsService'
 import CustomConfirmModal from '../../components/essentials/confirm-modal'
+import withAuth from '../../components/hoc/withAuth'
 
 type pageProps = {
   initQSet: IQuestionSet
@@ -294,4 +295,4 @@ QuestionSetPage.getInitialProps = async function(ctx) {
   }
 }
 
-export default QuestionSetPage
+export default withAuth(QuestionSetPage)

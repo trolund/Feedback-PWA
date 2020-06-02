@@ -10,6 +10,7 @@ import * as mail from '../../../public/Animations/mail.json'
 import * as success from '../../../public/Animations/success.json'
 import AnimationOverlay from '../../components/essentials/animation-overlay'
 import { validateNewPassword } from '../../services/validationService'
+import withAuth from '../../components/hoc/withAuth'
 
 type initprops = {
   resettoken?: string
@@ -184,4 +185,4 @@ export async function getServerSideProps(ctx: NextPageContext) {
   }
 }
 
-export default ResetPassword
+export default withAuth(ResetPassword)

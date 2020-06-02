@@ -360,6 +360,10 @@ const CalendarView = withAuth(
         {/* </div> */}
 
         <style jsx global>{`
+          .fixed-cal {
+            margin-top: -var(--safe-area-inset-top) / 2;
+          }
+
           .text {
             width: fit-content;
             max-width: 90vw;

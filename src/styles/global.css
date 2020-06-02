@@ -580,3 +580,7 @@ hr {
   background-color: var(--accent);
   border-color: var(--accent);
 }
+
+.fc-day {
+  background: linear-gradient(180deg, rgba(5, 148, 166, 0.10) 0%, rgba(5, 148, 166, 0.01) 100%);
+}

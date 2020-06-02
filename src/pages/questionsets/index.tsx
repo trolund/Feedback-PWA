@@ -15,6 +15,7 @@ import { auth } from '../../services/authService'
 
 import FetchStates from '../../stores/requestState'
 import rootStore from '../../stores/RootStore'
+import withAuth from '../../components/hoc/withAuth'
 
 type pageProps = {
   initPageProps: IQuestionSet[]
@@ -110,4 +111,4 @@ AllQuestionSets.getInitialProps = async ctx => {
   }
 }
 
-export default AllQuestionSets
+export default withAuth(AllQuestionSets)
