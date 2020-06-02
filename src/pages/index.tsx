@@ -238,7 +238,15 @@ export default withRedirect(
 
         <style jsx global>{`
           body {
-            background: var(--gradiant);
+            background-image: url('/images/bg_opion.svg');
+            background-color: var(--accent);
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-size: cover;
+
+             {
+              /* background: var(--gradiant); */
+            }
           }
         `}</style>
         <Prompt />
