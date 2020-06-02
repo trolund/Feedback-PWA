@@ -389,7 +389,7 @@ const CalendarView = withAuth(
             z-index: 10;
           }
           .bar {
-            top: calc(var(--safe-area-inset-top) + var(--top-bar-height));
+            top: calc(var(--safe-area-inset-top) / 2 + var(--top-bar-height));
             background-color: var(--accent);
             height: 35px;
             width: 100%;

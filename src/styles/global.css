@@ -19,7 +19,14 @@
 
   --star: #adadad;
 
-  --gradiant: linear-gradient(180deg, #0594a6 0%, #0a7e8d 100%);
+  --gradiant-start-color: #0594a6;
+  --gradiant-end-color: #0a7e8d;
+
+  --gradiant-start-color-tans: rgb(23, 161, 129, 1);
+  --gradiant-end-color-tans: #0a7e8d85;
+
+
+  --gradiant: linear-gradient(180deg, var(--gradiant-start-color) 0%, var(--gradiant-end-color) 100%);
 
   --border-radius: 15px;
   --error: #a70450;

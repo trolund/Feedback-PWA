@@ -14,6 +14,7 @@ import FetchStates from '../../stores/requestState'
 import FeedbackProcessbar from './feedback-progressbar'
 import CustomCheckbox from '../Input/checkbox'
 import CustomSwitch from '../Input/custom-switch'
+import { chartColors } from '../../services/colorContants'
 
 interface IProp {
   feedback: Feedback[] | undefined
@@ -97,8 +98,8 @@ const FeedbackView = observer((props: IProp) => {
     (canvas: any) => {
       const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
       const gradient = ctx.createLinearGradient(0, 0, 0, 400)
-      gradient.addColorStop(0, 'rgb(23, 161, 129, 1)')
-      gradient.addColorStop(1, 'rgb(23, 161, 129, 0.2)')
+      gradient.addColorStop(0, chartColors.start)
+      gradient.addColorStop(1, chartColors.end)
 
       return {
         labels: getLabels(),
@@ -106,12 +107,12 @@ const FeedbackView = observer((props: IProp) => {
           {
             label: 'Feedback',
             backgroundColor: gradient, // Put the gradient here as a fill color
-            borderColor: 'rgb(5, 107, 83)',
+            borderColor: chartColors.border,
             borderWidth: 2,
             pointColor: '#fff',
-            pointStrokeColor: 'rgb(5, 107, 83)',
+            pointStrokeColor: chartColors.border,
             pointHighlightFill: '#fff',
-            pointHighlightStroke: '#ff6c23',
+            pointHighlightStroke: chartColors.hightlight,
             data: props.feedback.map(i => i.voteAVG)
           }
         ]

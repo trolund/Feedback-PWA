@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { Line } from 'react-chartjs-2'
 import FetchStates from '../../../stores/requestState'
 import GraphData from '../../../models/GraphData'
+import { chartColors } from '../../../services/colorContants'
 
 interface LineGraphProps {
   data: GraphData | null
@@ -16,8 +17,8 @@ const LineGraph: React.FC<LineGraphProps> = (props: LineGraphProps) => {
     (canvas: any) => {
       const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
       const gradient = ctx.createLinearGradient(0, 0, 0, height)
-      gradient.addColorStop(0, 'rgb(23, 161, 129, 1)')
-      gradient.addColorStop(1, 'rgb(23, 161, 129, 0.2)')
+      gradient.addColorStop(0, chartColors.start)
+      gradient.addColorStop(1, chartColors.end)
       const { labels, dataPoints } = data
       return {
         labels,
@@ -25,12 +26,12 @@ const LineGraph: React.FC<LineGraphProps> = (props: LineGraphProps) => {
           {
             label: 'Progress',
             backgroundColor: gradient, // Put the gradient here as a fill color
-            borderColor: 'rgb(5, 107, 83)',
+            borderColor: chartColors.border,
             borderWidth: 2,
             pointColor: '#fff',
-            pointStrokeColor: 'rgb(5, 107, 83)',
+            pointStrokeColor: chartColors.border,
             pointHighlightFill: '#fff',
-            pointHighlightStroke: '#ff6c23',
+            pointHighlightStroke: chartColors.hightlight,
             data: dataPoints
           }
         ]

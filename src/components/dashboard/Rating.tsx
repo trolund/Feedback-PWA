@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import StarRatingComponent from 'react-star-rating-component'
 import { Pie } from 'react-chartjs-2'
 import rootStore from '../../stores/RootStore'
+import { genColor } from '../../services/colorContants'
 
 interface IProp {}
 
@@ -62,16 +63,8 @@ const Rating: React.FC<IProp> = observer(() => {
     datasets: [
       {
         label: 'Progress',
-        backgroundColor: [
-          'rgba(25,137,111,0.5)',
-          'rgba(25,137,111,1)',
-          'rgba(25,137,111,0.75)'
-        ],
-        hoverBackgroundColor: [
-          'rgb(5, 107, 83)',
-          'rgb(5, 107, 83)',
-          'rgb(5, 107, 83)'
-        ],
+        backgroundColor: [genColor(), genColor(), genColor()],
+        hoverBackgroundColor: [genColor(), genColor(), genColor()],
         borderColor: 'rgba(25,137,111,1)',
         borderWidth: 1,
         hoverBorderColor: 'rgba(25,137,111,1)',

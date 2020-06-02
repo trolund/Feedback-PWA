@@ -6,6 +6,7 @@ import CalculationService from '../../services/calculationService'
 import FeedbackDate from '../../models/FeedbackDate'
 import { filterTempletes } from '../../services/utilsService'
 import GraphData from '../../models/GraphData'
+import { chartColors } from '../../services/colorContants'
 
 type Props = {
   data: FeedbackDate[]
@@ -44,8 +45,8 @@ const QuestionAnalyser = observer(({ data }: Props) => {
     (canvas: any) => {
       const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
       const gradient = ctx.createLinearGradient(0, 0, 0, 400)
-      gradient.addColorStop(0, 'rgb(23, 161, 129, 1)')
-      gradient.addColorStop(1, 'rgb(23, 161, 129, 0.2)')
+      gradient.addColorStop(0, chartColors.start)
+      gradient.addColorStop(1, chartColors.end)
 
       const finalData = calcData()
 
@@ -55,12 +56,12 @@ const QuestionAnalyser = observer(({ data }: Props) => {
           {
             label: 'Tilbagemeldinger per spørgsmål',
             backgroundColor: gradient, // Put the gradient here as a fill color
-            borderColor: 'rgb(5, 107, 83)',
+            borderColor: chartColors.border,
             borderWidth: 2,
             pointColor: '#fff',
-            pointStrokeColor: 'rgb(5, 107, 83)',
+            pointStrokeColor: chartColors.border,
             pointHighlightFill: '#fff',
-            pointHighlightStroke: '#ff6c23',
+            pointHighlightStroke: chartColors.hightlight,
             data: finalData?.dataPoints || []
           }
         ]
