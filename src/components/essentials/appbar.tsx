@@ -28,8 +28,7 @@ const Header = (props: appbarProps) => {
           aria-label='Profile'
           onClick={backClickHandler}
           onKeyDown={backClickHandler}
-          className='float-left'
-          style={{ marginTop: '10px' }}
+          className='back-btn'
         >
           <ChevronLeft fontSize='inherit' className='back-icon' />
         </a>
@@ -41,9 +40,9 @@ const Header = (props: appbarProps) => {
       <style jsx>{`
         header {
           padding: 0 var(--gap);
-          padding-top: env(safe-area-inset-top) / 2;
+          padding-top: var(--safe-area-inset-top) / 2;
           width: 100%;
-          height: calc(env(safe-area-inset-top) / 2 + 72px);
+          height: calc(var(--safe-area-inset-top) / 2 + 72px);
           background: var(--base);
           border-bottom: 1px solid var(--divider);
           display: flex;
@@ -53,6 +52,16 @@ const Header = (props: appbarProps) => {
           top: 0;
           left: 0;
           transition: var(--transition-colors);
+        }
+
+        .back-btn {
+          width: fit-content;
+          height: 45px;
+          position: absolute;
+          display: block;
+          margin-top: -10px;
+          top: calc(var(--safe-area-inset-top) / 2 + (72px / 2));
+          left: 25px;
         }
 
         .back-icon {
@@ -71,7 +80,7 @@ const Header = (props: appbarProps) => {
           width: 50%;
           margin: auto;
           position: absolute;
-          top: calc(env(safe-area-inset-top) / 2 + (72px / 2));
+          top: calc(var(--safe-area-inset-top) / 2 + (72px / 2));
           left: 50%;
           transform: translate(-50%, -50%);
           text-align: center;
@@ -79,11 +88,11 @@ const Header = (props: appbarProps) => {
 
         .right-component {
           width: fit-content;
-          height: 100%;
+          height: 45px;
           position: absolute;
           display: block;
           margin-top: -10px;
-          top: calc(env(safe-area-inset-top) / 2 + (72px / 2));
+          top: calc(var(--safe-area-inset-top) / 2 + (72px / 2));
           right: 25px;
         }
       `}</style>

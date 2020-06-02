@@ -99,10 +99,6 @@ const CalendarView = withAuth(
         ),
         ssr: false
       })
-
-      // FullCalendarNoSSRWrapper = React.forwardRef((props, ref) => (
-      //   <TempCal {...props} forwardedRef={ref} />
-      // ))
       setShowCal(true)
     }, [])
 
@@ -393,13 +389,13 @@ const CalendarView = withAuth(
             z-index: 10;
           }
           .bar {
-            margin-top: -35px;
+            top: calc(var(--safe-area-inset-top) + var(--top-bar-height));
             background-color: var(--accent);
             height: 35px;
             width: 100%;
             left: 0;
             position: fixed;
-            z-index: 90;
+            z-index: 9;
           }
 
           .bar div {

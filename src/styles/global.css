@@ -49,6 +49,9 @@
 
   --safe-area-inset-top: env(safe-area-inset-top, 50px);
   --safe-area-inset-bottom: env(safe-area-inset-bottom, 50px);
+
+  --top-bar-height: 72px;
+  --bottom-bar-height: 72px;
 }
 
 @media only screen and (max-width: 380px) {

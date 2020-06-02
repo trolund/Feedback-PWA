@@ -121,9 +121,11 @@ const BottomNav = () => {
       </div>
       <style jsx>{`
         nav {
-          padding-bottom: env(safe-area-inset-bottom);
+          padding-bottom: var(--safe-area-inset-bottom);
           width: 100%;
-          height: calc(env(safe-area-inset-top) + 72px);
+          height: calc(
+            var(--safe-area-inset-bottom) + var(--bottom-bar-height)
+          );
           background: var(--base);
           border-top: 1px solid var(--divider);
           display: flex;
