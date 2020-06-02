@@ -223,8 +223,6 @@ export default withRedirect(
           .container {
             background: var(--backdrop);
             height: fit-content;
-            width: fit-content;
-            max-width: 400px;
             margin-left: auto;
             margin-right: auto;
             padding: var(--gap);

@@ -524,19 +524,19 @@ hr {
   .fixed-cal {
     margin-top: var(--height-diff);
     height: calc(100vh - (var(--safe-area-inset-bottom) + 73px + var(--safe-area-inset-top) + 73px) - var(--height-diff));
+
+    top: calc(var(--safe-area-inset-top) / 2 + var(--top-bar-height));
+    position: fixed;
   }
 }
 
-.fc-today {
-  background-color: var(--surface) !important;
-}
+
 
 .fc-button-primary:not(:disabled):active,
 .fc-button-primary:not(:disabled).fc-button-active {
   background-color: var(--accent);
   color: #fff;
   box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
-  border: none !important;
 }
 
 .fc-button-active {
@@ -569,19 +569,71 @@ hr {
   transition: all 0.3s;
   text-decoration: none;
   cursor: pointer;
-  border: solid 1px var(--accent);
   outline: none;
+  border: none;
 }
 
 .fc-button-group button:hover {
   background-color: var(--accent-darker);
 }
 
+/* .fc-view-container table,
+tbody,
+tr,
+td {
+  border: solid 2px rgba(0, 0, 0, 0) !important;
+} */
+
+/* .fc-day {
+  border: solid 2px rgba(0, 0, 0, 0) !important;
+} */
+
+/* .fc td,
+.fc th {
+  border: solid 2px rgba(0, 0, 0, 0) !important;
+} */
+
+.fc-view-container * {
+  border-color: rgba(255, 255, 255, 0);
+}
+
 .fc-event {
   background-color: var(--accent);
-  border-color: var(--accent);
+}
+
+.fc-today {
+  background-color: rgba(255, 255, 255, 0.096) !important;
 }
 
 .fc-day {
-  background: linear-gradient(180deg, rgba(5, 148, 166, 0.10) 0%, rgba(5, 148, 166, 0.01) 100%);
+  background: linear-gradient(200deg, rgba(5, 148, 166, 0.20) 0%, rgba(5, 148, 166, 0.05) 100%);
+  transition: all 0.2s ease-in-out;
+  /* border: 2px rgba(255, 255, 255, 0) solid !important; */
 }
+
+.fc-day:hover {
+  background: linear-gradient(200deg, rgba(159, 178, 180, 0.13) 0%, rgba(144, 197, 204, 0.09) 100%);
+}
+
+.fc-unthemed th,
+.fc-unthemed td,
+.fc-unthemed thead,
+.fc-unthemed tbody,
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-row,
+.fc-unthemed .fc-content,
+.fc-unthemed .fc-popover,
+.fc-unthemed .fc-list-view,
+.fc-unthemed .fc-list-heading td {
+  border-color: rgb(255, 0, 0, 0);
+}
+
+/* 
+.fc td,
+.fc th {
+  border: none;
+}
+
+.fc-row {
+  padding-bottom: 0px;
+} */
