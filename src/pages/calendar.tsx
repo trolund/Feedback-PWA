@@ -28,13 +28,14 @@ import MiddelLoader from '../components/essentials/middelLoading'
 import FetchStates from '../stores/requestState'
 import MobileCalendarV2 from '../components/mobile-calendarv2'
 import FullCalendar from '@fullcalendar/react'
+import { useDrag } from 'react-use-gesture'
 
 let FullCalendarNoSSRWrapper
 
 const CalendarView = withAuth(
   observer(() => {
     const mobileSwapPoint = 600
-    var ref2 = React.useRef<FullCalendar>()
+    var calRef = React.useRef<FullCalendar>()
 
     const { meetingStore, categoriesStore } = useContext(rootStore)
     const {
@@ -52,6 +53,18 @@ const CalendarView = withAuth(
       width: 100000,
       height: 100000
     } as WindowDimensions)
+
+    const bind = useDrag(({ movement: [mx] }) => {
+      console.log(mx)
+
+      if (mx > 190) {
+        let calendarApi2 = calRef.current.getApi()
+        calendarApi2.prev()
+      } else if (mx < -190) {
+        let calendarApi2 = calRef.current.getApi()
+        calendarApi2.next()
+      }
+    })
 
     const updateWindowDimensions = () => {
       setWindowDim({
@@ -82,7 +95,7 @@ const CalendarView = withAuth(
             listPlugin: import('@fullcalendar/list')
           } as any),
         render: (props: any, { calendar: Calendar, ...plugins }) => (
-          <Calendar ref={ref2} {...props} plugins={Object.values(plugins)} />
+          <Calendar ref={calRef} {...props} plugins={Object.values(plugins)} />
         ),
         ssr: false
       })
@@ -154,6 +167,7 @@ const CalendarView = withAuth(
 
     const showCalendar = useCallback(() => {
       if (!showCal) return <></>
+
       return (
         <>
           <MiddelLoader
@@ -164,21 +178,22 @@ const CalendarView = withAuth(
             }
           />
 
-          <div className='fixed-cal'>
+          <div className='fixed-cal' {...bind()}>
             <div
               className='bar'
               style={{
                 display: windowDim.width > mobileSwapPoint ? 'none' : 'block'
               }}
             >
-              <div className='date'>
-                {monthString(new Date((calViewProp as CalView).activeStart))}
-              </div>
+              <div className='date'>{(calViewProp as CalView).title}</div>
               <div className='float-left arrowbtn'>
                 <ChevronLeft
                   tabIndex={0}
                   onKeyPress={e => console.log(e)}
-                  onClick={() => {}}
+                  onClick={() => {
+                    let calendarApi2 = calRef.current.getApi()
+                    calendarApi2.prev()
+                  }}
                   color='white'
                 />
               </div>
@@ -187,7 +202,7 @@ const CalendarView = withAuth(
                 <ChevronRight
                   tabIndex={0}
                   onClick={() => {
-                    let calendarApi2 = ref2.current.getApi()
+                    let calendarApi2 = calRef.current.getApi()
                     calendarApi2.next()
                   }}
                   color='white'
@@ -347,7 +362,7 @@ const CalendarView = withAuth(
         {/* </div> */}
 
         <style jsx global>{`
-        .text {
+          .text {
             width: fit-content;
             max-width: 90vw;
             display: inline;
@@ -361,9 +376,9 @@ const CalendarView = withAuth(
           }
           .date {
             margin-top: 3px;
-            width: 100px;
+            width: 150px;
             left: 50%;
-            margin-left: -50px;
+            margin-left: -75px;
             position: absolute;
             display: flex;
             align-items: center;
@@ -386,102 +401,6 @@ const CalendarView = withAuth(
 
           .bar div {
             padding: 5px;
-          }
-        
-
-          {/* .fc-scroller {
-            height: 100% !important;
-            max-height: 80vh !important;
-          } */}
-
-          {/* @media only screen and (max-width: 650px) {
-             { */}
-              /* .fc-toolbar,
-          .fc-header-toolbar {
-            font-size: 0.8rem;
-            margin-top: -20px;
-          }
-
-          .cal-container {
- 
-            position: absolute;
-          }
-
-          .fc-center h2 {
-            font-size: 1.2em;
-          }
-
-          .fc-today-button {
-            border-top-right-radius: 0px;
-            border-bottom-right-radius: 0px;
-          }
-
-          .fc-left .fc-button-group {
-            position: absolute;
-            width: 100%;
-          }
-
-          .fc-left .fc-button-group button {
-            border-radius: 0px;
-          }
-
-          .fc-left {
-            padding-top: 50px;
-          }
-
-          .fc-header-toolbar {
-            height: 80px;
-          }
-        }
-
-        .fc-button-primary:not(:disabled):active,
-        .fc-button-primary:not(:disabled).fc-button-active {
-          background-color: var(--accent);
-          color: #fff;
-          box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
-          border: none !important;
-        }
-
-        .fc-button-active {
-          background-color: var(--accent-dark) !important;
-        }
-
-        .fc-button-group button {
-          border: 0px;
-          box-sizing: border-box;
-          background-color: var(--accent);
-          box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-          -webkit-transition: border-color 0.15s ease-out, color 0.25s ease-out,
-            background-color 0.15s ease-out, box-shadow 0.15s ease-out;
-          transition: border-color 0.15s ease-out, color 0.25s ease-out,
-            background-color 0.15s ease-out, box-shadow 0.15s ease-out; 
-          }
-
-          .fc-button-group button:hover {
-          background-color: var(--accent-darker);
-          }
-
-          .fc-event {
-            background-color: var(--accent) ;
-            border-color: var(--accent);
-            padding: 5px,
-          }
-
-          .cal-container {
-            position: relative;
-          }
-          .fc-body {
-            height: 90vh
-          }
-
-          .fc-row {
-            height: auto !important;
-          }
-
-          .fc-today {
-            background-color: var(--surface) !important;
-          } */
-            }
           }
         `}</style>
       </Page>
