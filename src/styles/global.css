@@ -47,17 +47,8 @@
   --transition-colors: color 50ms ease-in-out,
     background-color var(--transition), border-color var(--transition);
 
-  -webkit-touch-callout: none;
-  /* iOS Safari */
-  -webkit-user-select: none;
-  /* Safari */
-  -khtml-user-select: none;
-  /* Konqueror HTML */
-  -moz-user-select: none;
-  /* Old versions of Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
-  user-select: none;
+  --safe-area-inset-top: env(safe-area-inset-top, 50px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 50px);
 }
 
 @media only screen and (max-width: 380px) {
@@ -483,7 +474,7 @@ hr {
 
 /* list */
 
-.basic-list>li {
+.basic-list > li {
   color: var(--fg);
   padding: var(--gap-small);
   background: var(--base);
@@ -492,7 +483,7 @@ hr {
   transition: var(--transition-colors);
 }
 
-.basic-list>li:not(:last-child) {
+.basic-list > li:not(:last-child) {
   border-bottom: 1px solid var(--divider);
 }
 
@@ -501,7 +492,10 @@ hr {
 /* make height match viewport */
 .fixed-cal {
   --height-diff: 35px;
-  height: calc(100vh - (env(safe-area-inset-bottom) + 73px + env(safe-area-inset-top) + 73px));
+  height: calc(
+    100vh -
+      (env(safe-area-inset-bottom) + 73px + env(safe-area-inset-top) + 73px)
+  );
 }
 
 @media only screen and (max-width: 600px) {
@@ -519,14 +513,20 @@ hr {
     border: 0px;
   } */
 
-  .fc-today {
-    background-color: var(--surface) !important;
-  }
-
   .fixed-cal {
     margin-top: var(--height-diff);
-    height: calc(100vh - (env(safe-area-inset-bottom) + 73px + env(safe-area-inset-top) + 73px) - var(--height-diff));
+    height: calc(
+      100vh -
+        (
+          var(--safe-area-inset-bottom) + 73px + var(--safe-area-inset-top) +
+            73px
+        ) - var(--height-diff)
+    );
   }
+}
+
+.fc-today {
+  background-color: var(--surface) !important;
 }
 
 .fc-button-primary:not(:disabled):active,

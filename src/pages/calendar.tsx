@@ -147,6 +147,8 @@ const CalendarView = withAuth(
         )
         .then(() => {
           setEvnets(mapEvents(meetingStore.meetings))
+          let calendarApi2 = calRef.current.getApi()
+          calendarApi2.refetchEvents()
         })
     }
 
@@ -396,7 +398,7 @@ const CalendarView = withAuth(
             height: 35px;
             width: 100%;
             left: 0;
-            position: absolute;
+            position: fixed;
           }
 
           .bar div {
