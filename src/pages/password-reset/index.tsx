@@ -185,4 +185,4 @@ export async function getServerSideProps(ctx: NextPageContext) {
   }
 }
 
-export default withAuth(ResetPassword)
+export default ResetPassword
