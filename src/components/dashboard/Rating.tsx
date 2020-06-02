@@ -146,7 +146,7 @@ const Rating: React.FC<IProp> = observer(() => {
         </div>
         <div
           className='pie-container'
-          style={{ height: isOpen ? '20vh' : '0px' }}
+          style={{ maxHeight: isOpen ? '50vh' : '0px', height: 'fit-content' }}
         >
           {isOpen && (
             <motion.div
@@ -167,7 +167,7 @@ const Rating: React.FC<IProp> = observer(() => {
       </div>
       <style jsx>{`
         .pie-container {
-          transition: height 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
         }
 
         .flex-container {
@@ -191,7 +191,6 @@ const Rating: React.FC<IProp> = observer(() => {
 
         .pie-box {
           margin-top: var(--gap-small);
-          margin-bottom: var(--gap-small);
           text-align: center;
           background-color: var(--surface);
           border-radius: var(--border-radius);

@@ -399,6 +399,7 @@ const CalendarView = withAuth(
             width: 100%;
             left: 0;
             position: fixed;
+            z-index: 90;
           }
 
           .bar div {
