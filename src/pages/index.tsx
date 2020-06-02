@@ -48,7 +48,7 @@ export default withRedirect(
           logEvent('Meeting open', 'send to feedback')
           Router.push(`/feedback/${meetingId}`)
         } else {
-          setErrorMsg('Noget gik galt')
+          setErrorMsg('Dette er ikke et gyldigt ID')
           logEvent('Meeting open', 'error')
         }
       })
@@ -59,95 +59,59 @@ export default withRedirect(
         showBottomNav={false}
         showHead={false}
         showBackButton={false}
-        bgColor='darkslategrey'
+        bgColor='rgba(0,0,0,0)'
         fullscreen
       >
         <Section>
-          <div className='logo' style={{ marginTop: '10vh' }} />
-          <CustomInput
-            error={errorMsg.length > 0}
-            className='meeting-id-input center'
-            type='text'
-            placeholder='Indtast møde ID'
-            value={meetingId}
-            onChange={e => setMeetingId(e)}
-            logo={
-              fetchState === FetchStates.LOADING ? (
-                <div style={{ marginTop: '-7px', marginLeft: '-7px' }}>
-                  <Lottie options={defaultOptions} height={35} width={35} />
-                </div>
-              ) : (
-                // <Loader />
-                <Hash style={{ width: '20px', height: '20px' }} color='white' />
-              )
-            }
-            center
-          />
-          <p className='msg'>
-            {errorMsg && (
-              <AlertCircle
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  marginRight: '10px',
-                  marginTop: '2px;'
-                }}
-                color='white'
-              />
-            )}
-            {errorMsg ?? ''}
-          </p>
-          <div className='center buttons'>
-            <button
-              title='login'
-              aria-label='login'
-              onClick={checkMeetingClickHandler}
-              onKeyDown={checkMeetingClickHandler}
-              type='button'
-              tabIndex={0}
-              className='center button'
-            >
-              <Smile
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  marginRight: '-20px',
-                  float: 'left'
-                }}
-                color='white'
-              />
-              Giv Feedback
-            </button>
-            {(getIOSVersion() >= 13 || getIOSVersion() === undefined) && (
-              <Link href='/scanner' key='scanner'>
-                <button
-                  title='scanner'
-                  type='button'
-                  aria-label='scanner'
-                  className='center button loginBtn'
-                >
-                  <Maximize
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                      marginRight: '-20px',
-                      float: 'left'
-                    }}
+          <div className='container'>
+            <div className='logo' />
+            <CustomInput
+              error={errorMsg.length > 0}
+              className='meeting-id-input center'
+              type='text'
+              placeholder='Indtast møde ID'
+              value={meetingId}
+              onChange={e => setMeetingId(e)}
+              logo={
+                fetchState === FetchStates.LOADING ? (
+                  <div style={{ marginTop: '-7px', marginLeft: '-7px' }}>
+                    <Lottie options={defaultOptions} height={35} width={35} />
+                  </div>
+                ) : (
+                  // <Loader />
+                  <Hash
+                    style={{ width: '20px', height: '20px' }}
                     color='white'
                   />
-                  Scan kode
-                </button>
-              </Link>
-            )}
-            <hr />
-            <Link href='/login' key='login'>
+                )
+              }
+              center
+            />
+            <p className='msg'>
+              {errorMsg && (
+                <AlertCircle
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    marginRight: '10px',
+                    marginTop: '2px;'
+                  }}
+                  color='white'
+                />
+              )}
+              {errorMsg ?? ''}
+            </p>
+            <div className='center buttons'>
               <button
                 title='login'
-                type='button'
                 aria-label='login'
-                className='center button loginBtn'
+                onClick={checkMeetingClickHandler}
+                onKeyDown={checkMeetingClickHandler}
+                type='button'
+                tabIndex={0}
+                className='center button'
               >
-                <LogIn
+                <Smile
                   style={{
                     width: '20px',
                     height: '20px',
@@ -156,10 +120,54 @@ export default withRedirect(
                   }}
                   color='white'
                 />
-                Login
+                Giv Feedback
               </button>
-            </Link>
+              {(getIOSVersion() >= 13 || getIOSVersion() === undefined) && (
+                <Link href='/scanner' key='scanner'>
+                  <button
+                    title='scanner'
+                    type='button'
+                    aria-label='scanner'
+                    className='center button loginBtn'
+                  >
+                    <Maximize
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        marginRight: '-20px',
+                        float: 'left'
+                      }}
+                      color='white'
+                    />
+                    Scan kode
+                  </button>
+                </Link>
+              )}
+              <hr />
+              <Link href='/login' key='login'>
+                <button
+                  title='login'
+                  type='button'
+                  aria-label='login'
+                  className='center button loginBtn'
+                >
+                  <LogIn
+                    style={{
+                      width: '20px',
+                      height: '20px',
+                      marginRight: '-20px',
+                      float: 'left'
+                    }}
+                    color='white'
+                  />
+                  Login
+                </button>
+              </Link>
+            </div>
           </div>
+          {/* <div>
+            <p>Spinoff</p>
+          </div> */}
         </Section>
         <style jsx>{`
           hr {
@@ -202,6 +210,7 @@ export default withRedirect(
           }
           .logo {
             background-image: url('/images/logo.png');
+            background-position: center;
             background-size: contain;
             background-repeat: no-repeat;
             height: 100px;
@@ -209,6 +218,29 @@ export default withRedirect(
             margin-left: auto;
             margin-right: auto;
             margin-bottom: 20px;
+          }
+
+          .container {
+            background: var(--backdrop);
+            height: fit-content;
+            width: fit-content;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: var(--gap);
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 2px 6px 16px -6px rgba(0, 0, 0, 0.25);
+            border-radius: var(--border-radius);
+          }
+        `}</style>
+
+        <style jsx global>{`
+          body {
+            background: var(--gradiant);
           }
         `}</style>
         <Prompt />

@@ -16,6 +16,7 @@
   --base-low: #fefefe2a;
   --overflow: #fff;
   --backdrop: rgba(230, 230, 230, 0.75);
+  --backdrop-trans: rgba(230, 230, 230, 0.25);
 
   --star: #adadad;
 
