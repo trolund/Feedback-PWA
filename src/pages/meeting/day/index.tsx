@@ -209,11 +209,11 @@ const Day: NextPage = observer(() => {
             z-index: 10;
           }
           .bar {
-            margin-top: -1px;
             background-color: var(--accent);
             height: 35px;
             width: 100%;
             left: 0;
+            top: env(safe-area-inset-top) + 73px;
             position: fixed;
           }
 

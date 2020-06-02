@@ -80,6 +80,27 @@ export const days = [
   'Søndag'
 ]
 
+export const months = [
+  'Januar',
+  'Februar',
+  'Marts',
+  'April',
+  'Maj',
+  'Juni',
+  'Juli',
+  'August',
+  'September',
+  'Oktober',
+  'November',
+  'December'
+]
+
+export const monthString = (date: Date): string => {
+  const m = months[date.getMonth()]
+  const y = date.getUTCFullYear()
+  return `${m} ${y}`
+}
+
 export const daysShort = () => days.map(d => d.slice(0, 3))
 
 export const startAndEndOfWeek = date => {
@@ -113,4 +134,12 @@ export const getWeekNumber = (d: Date) => {
   )
 
   return weekNo
+}
+
+export const formatDateEventInput = date => {
+  if (typeof date === 'object') {
+    return `${date.getFullYear()}-${`0${date.getMonth() + 1}`.slice(
+      -2
+    )}-${`0${date.getDate()}`.slice(-2)}`
+  }
 }

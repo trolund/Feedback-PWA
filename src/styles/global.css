@@ -4,7 +4,7 @@
 @import '~@fullcalendar/timegrid/main.css';
 
 :root {
-  --accent: #0594A6;
+  --accent: #0594a6;
   --accent-dark: #126451;
   --accent-darker: #0e493b;
   --text: #282828;
@@ -18,7 +18,6 @@
   --backdrop: rgba(230, 230, 230, 0.75);
 
   --star: #adadad;
-
 
   --gradiant: linear-gradient(180deg, #21866ee5 0%, #126955e8 100%);
 
@@ -65,10 +64,9 @@
   :root {
     --border-radius: 10px;
 
-    --gap-small: 0.50rem;
+    --gap-small: 0.5rem;
     --gap: 1.1rem;
     --gap-large: 2.2rem;
-
   }
 }
 
@@ -86,7 +84,6 @@
   --base-low: #1f20222a;
   --overflow: #101015;
 }
-
 
 /* body::-webkit-scrollbar {
   width: 11px;
@@ -134,9 +131,8 @@ body {
   -webkit-user-select: none;
 }
 
-
-
-.button {
+.button,
+.fc-button {
   color: whitesmoke;
   font-family: var(--font);
   font-weight: var(--weight);
@@ -250,7 +246,6 @@ input:-webkit-autofill:focus {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
-
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -391,7 +386,7 @@ a {
   z-index: 999999 !important;
 }
 
-/* calander */
+/* calander
 
 .fc-time-grid tbody {
   padding-bottom: 150px !important;
@@ -404,7 +399,7 @@ a {
 .fc-view-container {
   max-height: 100% !important;
   min-height: 100% !important;
-}
+} */
 
 hr {
   opacity: 0.5;
@@ -441,7 +436,6 @@ hr {
   border-radius: var(--border-radius);
   min-width: 280px;
   height: fit-content;
-
 }
 
 .Modal h4 {
@@ -473,7 +467,6 @@ hr {
   margin: 5px;
 }
 
-
 .color-card {
   margin-bottom: var(--gap-small);
   background: var(--gradiant);
@@ -501,4 +494,88 @@ hr {
 
 .basic-list>li:not(:last-child) {
   border-bottom: 1px solid var(--divider);
+}
+
+/* mobile full cal */
+
+/* make height match viewport */
+.fixed-cal {
+  --height-diff: 35px;
+  height: calc(100vh - (env(safe-area-inset-bottom) + 73px + env(safe-area-inset-top) + 73px));
+}
+
+@media only screen and (max-width: 600px) {
+  .fc-event {
+    height: 5px;
+    font-size: 0px;
+    border-radius: 3px;
+  }
+
+  /* .fc-widget-header .fc-head-container {
+    background-color: var(--accent);
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 0px;
+  } */
+
+  .fc-today {
+    background-color: var(--surface) !important;
+  }
+
+  .fixed-cal {
+    margin-top: var(--height-diff);
+    height: calc(100vh - (env(safe-area-inset-bottom) + 73px + env(safe-area-inset-top) + 73px) - var(--height-diff));
+  }
+}
+
+.fc-button-primary:not(:disabled):active,
+.fc-button-primary:not(:disabled).fc-button-active {
+  background-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
+  border: none !important;
+}
+
+.fc-button-active {
+  background-color: var(--accent-dark) !important;
+}
+
+.fc-button-group button {
+  border: 0px;
+  box-sizing: border-box;
+  background-color: var(--accent);
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  -webkit-transition: border-color 0.15s ease-out, color 0.25s ease-out,
+    background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+  transition: border-color 0.15s ease-out, color 0.25s ease-out,
+    background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+  color: whitesmoke;
+  font-family: var(--font);
+  font-weight: var(--weight);
+  background: var(--base);
+  padding: var(--gap-small);
+  border-radius: var(--border-radius);
+  background: var(--accent);
+  transition: var(--transition-colors);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  transition: all 0.3s;
+  text-decoration: none;
+  cursor: pointer;
+  border: solid 1px var(--accent);
+  outline: none;
+}
+
+.fc-button-group button:hover {
+  background-color: var(--accent-darker);
+}
+
+.fc-event {
+  background-color: var(--accent);
+  border-color: var(--accent);
 }

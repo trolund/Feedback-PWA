@@ -1,9 +1,15 @@
 import dynamic from 'next/dynamic'
 import Router from 'next/router'
-import React, { useContext, useState, useEffect, useCallback } from 'react'
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  createRef
+} from 'react'
 import { observer } from 'mobx-react-lite'
-import { EventInput } from '@fullcalendar/core'
-import { Plus, Search } from 'react-feather'
+import { EventInput, Calendar } from '@fullcalendar/core'
+import { Plus, Search, ChevronLeft, ChevronRight } from 'react-feather'
 import daLocale from '@fullcalendar/core/locales/da'
 import MobileCalendar from '../components/mobile-calendar'
 import Page from '../components/essentials/page'
@@ -16,15 +22,20 @@ import rootStore from '../stores/RootStore'
 import BottomModal from '../components/essentials/bottom-modal'
 
 import MobileMultiSelecter from '../components/add-meeting'
-import { applyOffSet } from '../services/dateService'
+import { applyOffSet, monthString } from '../services/dateService'
 import CustomInput from '../components/Input/custom-input'
 import MiddelLoader from '../components/essentials/middelLoading'
 import FetchStates from '../stores/requestState'
+import MobileCalendarV2 from '../components/mobile-calendarv2'
+import FullCalendar from '@fullcalendar/react'
 
 let FullCalendarNoSSRWrapper
 
 const CalendarView = withAuth(
   observer(() => {
+    const mobileSwapPoint = 600
+    var ref2 = React.useRef<FullCalendar>()
+
     const { meetingStore, categoriesStore } = useContext(rootStore)
     const {
       meetingStore: { fetchState: meetingState },
@@ -71,10 +82,14 @@ const CalendarView = withAuth(
             listPlugin: import('@fullcalendar/list')
           } as any),
         render: (props: any, { calendar: Calendar, ...plugins }) => (
-          <Calendar {...props} plugins={Object.values(plugins)} />
+          <Calendar ref={ref2} {...props} plugins={Object.values(plugins)} />
         ),
         ssr: false
       })
+
+      // FullCalendarNoSSRWrapper = React.forwardRef((props, ref) => (
+      //   <TempCal {...props} forwardedRef={ref} />
+      // ))
       setShowCal(true)
     }, [])
 
@@ -148,75 +163,122 @@ const CalendarView = withAuth(
               catState === FetchStates.LOADING
             }
           />
-          <div style={{ paddingTop: '20px', paddingBottom: '20px' }}>
-            <CustomInput
-              logo={<Search />}
-              fill
-              type='text'
-              className='filter'
-              placeholder='Søgeord'
-              value={searchWord}
-              onChange={setSearchWord}
+
+          <div className='fixed-cal'>
+            <div
+              className='bar'
+              style={{
+                display: windowDim.width > mobileSwapPoint ? 'none' : 'block'
+              }}
+            >
+              <div className='date'>
+                {monthString(new Date((calViewProp as CalView).activeStart))}
+              </div>
+              <div className='float-left arrowbtn'>
+                <ChevronLeft
+                  tabIndex={0}
+                  onKeyPress={e => console.log(e)}
+                  onClick={() => {}}
+                  color='white'
+                />
+              </div>
+
+              <div className='float-right arrowbtn'>
+                <ChevronRight
+                  tabIndex={0}
+                  onClick={() => {
+                    let calendarApi2 = ref2.current.getApi()
+                    calendarApi2.next()
+                  }}
+                  color='white'
+                />
+              </div>
+            </div>
+            {/* <div style={{ paddingTop: '20px', paddingBottom: '20px' }}>
+              <CustomInput
+                logo={<Search />}
+                fill
+                type='text'
+                className='filter'
+                placeholder='Søgeord'
+                value={searchWord}
+                onChange={setSearchWord}
+              />
+            </div> */}
+
+            <FullCalendarNoSSRWrapper
+              locale={daLocale}
+              trigger={e => console.log(e)}
+              // viewHeight={5100}
+              // header={false}
+
+              header={
+                windowDim.width > mobileSwapPoint
+                  ? {
+                      right:
+                        windowDim.width > mobileSwapPoint
+                          ? 'prev,next today myCustomButton'
+                          : '',
+                      left:
+                        windowDim.width > mobileSwapPoint
+                          ? 'dayGridMonth,timeGridWeek,listWeek'
+                          : '',
+                      center: windowDim.width > mobileSwapPoint ? 'title' : ''
+                    }
+                  : null
+              }
+              views={{
+                dayGridMonth: {
+                  // name of view
+                  // titleFormat: { year: "numeric", month: "2-digit", day: "2-digit" }
+                  // other view-specific options here
+                }
+              }}
+              // customButtons={{
+              //   myCustomButton: {
+              //     text: 'Tilføj møde',
+              //     click: () => Router.push('/meeting/new')
+              //   }
+              // }}
+              defaultView='dayGridMonth'
+              weekends
+              events={events.filter(filterEventsCallback)}
+              weekNumbers={false}
+              listDayFormat
+              // themeSystem='bootstrap'
+              eventClick={(event: any) => {
+                if (windowDim.width > mobileSwapPoint) {
+                  clickOnEvent(event)
+                } else {
+                  console.log(event)
+
+                  Router.push(
+                    `/meeting/day?date=${new Date(
+                      String(event.event.start)
+                    ).getTime()}`
+                  )
+                }
+              }}
+              datesRender={e => setCalViewProp(e.view)}
+              // dayRender={e => console.log("dayRender ", e)}
+              dateClick={info => {
+                // alert("Clicked on: " + info.dateStr);
+                // alert(
+                //   "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
+                // );
+                // alert("Current view: " + info.view.type);
+                // change the day's background color just for fun
+                // eslint-disable-next-line no-param-reassign
+                info.dayEl.style.backgroundColor = 'var(--overlay)'
+                Router.push(
+                  `/meeting/day?date=${new Date(
+                    String(info.dateStr)
+                  ).getTime()}`
+                )
+              }}
+              height='parent'
             />
           </div>
-          <FullCalendarNoSSRWrapper
-            locale={daLocale}
-            trigger={e => console.log(e)}
-            // viewHeight={5100}
-            // header={false}
-            header={
-              windowDim.width > 500
-                ? {
-                    right:
-                      windowDim.width > 500
-                        ? 'prev,next today myCustomButton'
-                        : '',
-                    left:
-                      windowDim.width > 500
-                        ? 'dayGridMonth,timeGridWeek,listWeek'
-                        : '',
-                    center: windowDim.width > 500 ? 'title' : ''
-                  }
-                : null
-            }
-            views={{
-              dayGridMonth: {
-                // name of view
-                // titleFormat: { year: "numeric", month: "2-digit", day: "2-digit" }
-                // other view-specific options here
-              }
-            }}
-            // customButtons={{
-            //   myCustomButton: {
-            //     text: 'Tilføj møde',
-            //     click: () => Router.push('/meeting/new')
-            //   }
-            // }}
-            defaultView='dayGridMonth'
-            weekends
-            events={events.filter(filterEventsCallback)}
-            weekNumbers={false}
-            listDayFormat
-            // themeSystem='bootstrap'
-            eventClick={(event: any) => {
-              clickOnEvent(event)
-            }}
-            datesRender={e => setCalViewProp(e.view)}
-            // dayRender={e => console.log("dayRender ", e)}
-            dateClick={info => {
-              // alert("Clicked on: " + info.dateStr);
-              // alert(
-              //   "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
-              // );
-              // alert("Current view: " + info.view.type);
-              // change the day's background color just for fun
-              // eslint-disable-next-line no-param-reassign
-              info.dayEl.style.backgroundColor = 'var(--overlay)'
-              Router.push(
-                `/meeting/day?date=${new Date(String(info.dateStr)).getTime()}`
-              )
-            }}
-          />
         </>
       )
     }, [
@@ -274,22 +336,67 @@ const CalendarView = withAuth(
         toggle={toggle}
       /> */}
 
-        <div className='cal-container'>
-          {windowDim.width >= 650 ? (
+        {/* <div className='cal-container'> */}
+        {/* {windowDim.width >= 650 ? (
             showCalendar()
           ) : (
             <MobileCalendar dim={windowDim} />
-          )}
-        </div>
+            // <MobileCalendarV2 dim={windowDim} />
+          )} */}
+        {showCalendar()}
+        {/* </div> */}
 
         <style jsx global>{`
-        .fc-scroller {
-          height: 100% !important;
-          max-height: 80vh !important;
-        }
+        .text {
+            width: fit-content;
+            max-width: 90vw;
+            display: inline;
+            margin-left: 15px;
+          }
 
-        @media only screen and (max-width: 650px) {
-          .fc-toolbar,
+          .arrow {
+            float: right;
+            display: inline-block;
+            white-space: nowrap;
+          }
+          .date {
+            margin-top: 3px;
+            width: 100px;
+            left: 50%;
+            margin-left: -50px;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 1;
+            color: white;
+          }
+          .arrowbtn {
+            z-index: 10;
+          }
+          .bar {
+            margin-top: -35px;
+            background-color: var(--accent);
+            height: 35px;
+            width: 100%;
+            left: 0;
+            position: absolute;
+          }
+
+          .bar div {
+            padding: 5px;
+          }
+        
+
+          {/* .fc-scroller {
+            height: 100% !important;
+            max-height: 80vh !important;
+          } */}
+
+          {/* @media only screen and (max-width: 650px) {
+             { */}
+              /* .fc-toolbar,
           .fc-header-toolbar {
             font-size: 0.8rem;
             margin-top: -20px;
@@ -373,9 +480,10 @@ const CalendarView = withAuth(
 
           .fc-today {
             background-color: var(--surface) !important;
+          } */
+            }
           }
-        }
-      `}</style>
+        `}</style>
       </Page>
     )
   })

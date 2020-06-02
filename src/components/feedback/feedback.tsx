@@ -8,11 +8,12 @@ import {
   buildStyles,
   CircularProgressbarWithChildren
 } from 'react-circular-progressbar'
-import { MessageCircle, Monitor, X } from 'react-feather'
+import { MessageCircle, Monitor, X, Check } from 'react-feather'
 import Feedback from '../../models/Feedback'
 import FetchStates from '../../stores/requestState'
 import FeedbackProcessbar from './feedback-progressbar'
 import CustomCheckbox from '../Input/checkbox'
+import CustomSwitch from '../Input/custom-switch'
 
 interface IProp {
   feedback: Feedback[] | undefined
@@ -131,15 +132,20 @@ const FeedbackView = observer((props: IProp) => {
     <div>
       <div className='feedback-header'>
         <h2 className='float-left'>Tilbagemeldinger</h2>
-        <Monitor style={{ margin: '7px' }} onClick={() => setShowModal(true)} />
-        <CustomCheckbox
-          label='Vis tilbagemeldinger løbende'
-          checked={props.isRealtime}
-          onChange={e => props.setIsRealtime(e)}
-        />
-        <div className='float-right counter-container'>
-          Antal besvarelser
-          <h2 className='align-middle counter'>{props.count}</h2>
+        <div className='feedback-header-info'>
+          {/* Vis tilbagemeldinger løbende */}
+          <Monitor
+            style={{ margin: '0px', marginRight: '10px' }}
+            onClick={() => setShowModal(true)}
+          />
+          <CustomSwitch
+            onChange={props.setIsRealtime}
+            checked={props.isRealtime}
+          />
+          <div className='counter-container'>
+            <p>Antal besvarelser</p>
+            <h2 className='align-middle counter'>{props.count}</h2>
+          </div>
         </div>
       </div>
       <div>
@@ -275,11 +281,11 @@ const FeedbackView = observer((props: IProp) => {
               onClick={() => setShowModal(false)}
             />
             <h3>Tilbagemeldinger</h3>
-            <CustomCheckbox
+            {/* <CustomCheckbox
               label='Hvis feedback løbende'
               checked={props.isRealtime}
               onChange={e => props.setIsRealtime(e)}
-            />
+            /> */}
           </div>
           <div className='chart-container'>
             <Bar data={graphData} options={chartOptions} />
@@ -292,12 +298,21 @@ const FeedbackView = observer((props: IProp) => {
             float: center;
             width: 100%;
             padding: 10px;
-            margin: 10px;
+            margin-bottom: 20px;
           }
           .end-result {
             margin-left: auto;
             margin-right: auto;
           }
+
+          .feedback-header-info {
+            float: none;
+            width: 100%;
+          }
+        }
+
+        .feedback-header-info {
+          float: right;
         }
 
         .chart-container {
@@ -318,6 +333,15 @@ const FeedbackView = observer((props: IProp) => {
           border-top-left-radius: var(--border-radius);
           border-bottom: none;
           padding: 15px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          -webkit-touch-callout: none; /* iOS Safari */
+          -webkit-user-select: none; /* Chrome/Safari/Opera */
+          -khtml-user-select: none; /* Konqueror */
+          -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version */
         }
 
         .top-bar {
