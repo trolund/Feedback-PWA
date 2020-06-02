@@ -5,8 +5,8 @@
 
 :root {
   --accent: #0594a6;
-  --accent-dark: #126451;
-  --accent-darker: #0e493b;
+  --accent-dark: #067988;
+  --accent-darker: #075661;
   --text: #282828;
   --label: #6a6b6e;
   --surface: #efefef;
@@ -19,7 +19,7 @@
 
   --star: #adadad;
 
-  --gradiant: linear-gradient(180deg, #21866ee5 0%, #126955e8 100%);
+  --gradiant: linear-gradient(180deg, #0594a6 0%, #0a7e8d 100%);
 
   --border-radius: 15px;
   --error: #a70450;
@@ -474,7 +474,7 @@ hr {
 
 /* list */
 
-.basic-list > li {
+.basic-list>li {
   color: var(--fg);
   padding: var(--gap-small);
   background: var(--base);
@@ -483,7 +483,7 @@ hr {
   transition: var(--transition-colors);
 }
 
-.basic-list > li:not(:last-child) {
+.basic-list>li:not(:last-child) {
   border-bottom: 1px solid var(--divider);
 }
 
@@ -492,10 +492,7 @@ hr {
 /* make height match viewport */
 .fixed-cal {
   --height-diff: 35px;
-  height: calc(
-    100vh -
-      (env(safe-area-inset-bottom) + 73px + env(safe-area-inset-top) + 73px)
-  );
+  height: calc(100vh - (env(safe-area-inset-bottom) + 73px + env(safe-area-inset-top) + 73px));
 }
 
 @media only screen and (max-width: 600px) {
@@ -515,13 +512,7 @@ hr {
 
   .fixed-cal {
     margin-top: var(--height-diff);
-    height: calc(
-      100vh -
-        (
-          var(--safe-area-inset-bottom) + 73px + var(--safe-area-inset-top) +
-            73px
-        ) - var(--height-diff)
-    );
+    height: calc(100vh - (var(--safe-area-inset-bottom) + 73px + var(--safe-area-inset-top) + 73px) - var(--height-diff));
   }
 }
 
