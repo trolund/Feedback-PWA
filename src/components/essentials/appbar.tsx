@@ -9,10 +9,11 @@ type appbarProps = {
   title?: string
   backBtn?: boolean
   component?: JSX.Element
+  leftComponent?: JSX.Element
 }
 
 const Header = (props: appbarProps) => {
-  const { title, backBtn, component } = props
+  const { title, backBtn, component, leftComponent } = props
 
   const backClickHandler = () => {
     Router.back()
@@ -20,7 +21,7 @@ const Header = (props: appbarProps) => {
 
   return (
     <header>
-      {backBtn && (
+      {backBtn ? (
         <a
           role='button'
           tabIndex={0}
@@ -32,6 +33,8 @@ const Header = (props: appbarProps) => {
         >
           <ChevronLeft fontSize='inherit' className='back-icon' />
         </a>
+      ) : (
+        leftComponent && <div className='left-component'>{leftComponent}</div>
       )}
       {title && <h3>{title}</h3>}
       <div className='float-right right-component'>{component}</div>
@@ -55,6 +58,16 @@ const Header = (props: appbarProps) => {
         }
 
         .back-btn {
+          width: fit-content;
+          height: 45px;
+          position: absolute;
+          display: block;
+          margin-top: -10px;
+          top: calc(var(--safe-area-inset-top) / 2 + (72px / 2));
+          left: 25px;
+        }
+
+        .left-component {
           width: fit-content;
           height: 45px;
           position: absolute;

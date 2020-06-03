@@ -524,9 +524,7 @@ hr {
   .fixed-cal {
     margin-top: var(--height-diff);
     height: calc(100vh - (var(--safe-area-inset-bottom) + 73px + var(--safe-area-inset-top) + 73px) - var(--height-diff));
-
     top: calc(var(--safe-area-inset-top) / 2 + var(--top-bar-height));
-    position: fixed;
   }
 }
 
@@ -609,6 +607,10 @@ td {
   background: linear-gradient(200deg, rgba(5, 148, 166, 0.20) 0%, rgba(5, 148, 166, 0.05) 100%);
   transition: all 0.2s ease-in-out;
   /* border: 2px rgba(255, 255, 255, 0) solid !important; */
+}
+
+.fc-other-month {
+  background: linear-gradient(200deg, var(--surface) 0%, rgba(144, 197, 204, 0.09) 100%);
 }
 
 .fc-day:hover {

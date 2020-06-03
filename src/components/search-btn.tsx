@@ -15,46 +15,49 @@ const SearchBtn: React.FC<SearchBtnProps> = ({
 }) => {
   return (
     <div>
+      <Search
+        className='searchiconbtn float-left'
+        onClick={() => setInputOpen(!inputOpen)}
+      />
       <input
         type='search'
         className={
           inputOpen
-            ? 'searchInput-before searchInput float-left'
-            : 'searchInput-before float-left'
+            ? 'searchInput-before searchInput float-right'
+            : 'searchInput-before float-right'
         }
         value={searchWord}
         onChange={e => setSearchWord(e.target.value)}
       />
-      <Search
-        className='searchiconbtn float-right'
-        onClick={() => setInputOpen(!inputOpen)}
-      />
 
       <style jsx>{`
-        .searchiconbtn {
-           {
-            /* position: fixed !important;
-          top: 0px !important;
-          right: 15px !important; */
+         {
+          /* @media only screen and (min-width: 800px) {
+          .searchInput-before {
+            width: calc(100vw - 120px) !important;
+            max-width: 400px;
+            left: calc(25px + 25px);
           }
+        } */
         }
+
         .searchInput-before {
-          margin-top: -18px !important;
-          margin-right: 40px !important;
-          max-width: 500px;
-          padding-left: 0px !important;
-          padding-right: 0px !important;
+          margin-top: -25px !important;
+          width: calc(100vw - 120px) !important;
+          max-width: 400px;
+          padding: 16px !important;
           opacity: 0;
-          width: 0px !important;
+          position: fixed;
+          top: calc(var(--safe-area-inset-top) / 2 + (72px / 2));
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 99;
+          border-radius: var(--border-radius);
           transition: all 0.3s ease-in-out !important;
         }
         .searchInput {
           opacity: 1;
           display: block !important;
-          border-radius: var(--border-radius);
-          padding: 16px !important;
-          width: calc(100vw - 120px) !important;
-          position: relative;
         }
       `}</style>
     </div>

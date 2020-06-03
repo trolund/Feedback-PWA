@@ -18,6 +18,7 @@ type Props = {
   showBackButton?: boolean
   fullscreen?: boolean
   component?: JSX.Element
+  leftComponent?: JSX.Element
   bgColor?: string
 }
 
@@ -29,7 +30,8 @@ const Page = ({
   showBackButton,
   component,
   fullscreen,
-  bgColor
+  bgColor,
+  leftComponent
 }: Props) => {
   const {
     settingStore: { animation }
@@ -60,6 +62,7 @@ const Page = ({
             title={title}
             backBtn={showTheBackButton}
             component={component}
+            leftComponent={leftComponent}
           />
         </>
       )}

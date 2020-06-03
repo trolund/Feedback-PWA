@@ -29,6 +29,7 @@ import FetchStates from '../stores/requestState'
 import MobileCalendarV2 from '../components/mobile-calendarv2'
 import FullCalendar from '@fullcalendar/react'
 import { useDrag } from 'react-use-gesture'
+import SearchBtn from '../components/search-btn'
 
 let FullCalendarNoSSRWrapper
 
@@ -46,7 +47,7 @@ const CalendarView = withAuth(
     const initEvent: EventInput[] = []
     const [events, setEvnets] = useState(initEvent)
     const [searchWord, setSearchWord] = useState('')
-    // const [inputOpen, setInputOpen] = useState(false)
+    const [inputOpen, setInputOpen] = useState(false)
 
     const [showCal, setShowCal] = useState(false)
     const [windowDim, setWindowDim] = useState({
@@ -207,18 +208,19 @@ const CalendarView = withAuth(
                 />
               </div>
             </div>
-            {/* <div style={{ paddingTop: '20px', paddingBottom: '20px' }}>
-              <CustomInput
-                logo={<Search />}
-                fill
-                type='text'
-                className='filter'
-                placeholder='Søgeord'
-                value={searchWord}
-                onChange={setSearchWord}
-              />
-            </div> */}
-
+            {/* {windowDim.width > mobileSwapPoint && (
+              <div style={{ paddingTop: '20px', paddingBottom: '20px' }}>
+                <CustomInput
+                  logo={<Search />}
+                  fill
+                  type='text'
+                  className='filter'
+                  placeholder='Søgeord'
+                  value={searchWord}
+                  onChange={setSearchWord}
+                />
+              </div>
+            )} */}
             <FullCalendarNoSSRWrapper
               locale={daLocale}
               trigger={e => console.log(e)}
@@ -318,6 +320,14 @@ const CalendarView = withAuth(
         title='Kalender'
         showBackButton={false}
         component={<Plus onClick={() => setShowModal(!showModal)} />}
+        leftComponent={
+          <SearchBtn
+            inputOpen={inputOpen}
+            setInputOpen={setInputOpen}
+            searchWord={searchWord}
+            setSearchWord={setSearchWord}
+          />
+        }
       >
         <BottomModal
           show={showModal}
@@ -360,10 +370,6 @@ const CalendarView = withAuth(
         {/* </div> */}
 
         <style jsx global>{`
-          .fixed-cal {
-            margin-top: -var(--safe-area-inset-top) / 2;
-          }
-
           .text {
             width: fit-content;
             max-width: 90vw;
@@ -389,9 +395,11 @@ const CalendarView = withAuth(
             z-index: 1;
             color: white;
           }
+
           .arrowbtn {
             z-index: 10;
           }
+
           .bar {
             top: calc(var(--safe-area-inset-top) / 2 + var(--top-bar-height));
             background-color: var(--accent);
