@@ -15,6 +15,7 @@ import FeedbackProcessbar from './feedback-progressbar'
 import CustomCheckbox from '../Input/checkbox'
 import CustomSwitch from '../Input/custom-switch'
 import { chartColors } from '../../services/colorContants'
+import { sortFeedbackByQuestionsIndex } from '../../services/sortService'
 
 interface IProp {
   feedback: Feedback[] | undefined
@@ -49,16 +50,6 @@ const FeedbackView = observer((props: IProp) => {
         }, 0)
       : 0
   }, [props.feedback])
-
-  const sortQuestions = (a: Feedback, b: Feedback) => {
-    if (a.question < b.question) {
-      return -1
-    }
-    if (a.question > b.question) {
-      return 1
-    }
-    return 0
-  }
 
   const commentTitelBar = (title: string, count: number) => {
     return (
@@ -179,7 +170,7 @@ const FeedbackView = observer((props: IProp) => {
             <div className='questions'>
               {props.count > 0 ? (
                 props.feedback
-                  ?.sort(sortQuestions)
+                  ?.sort(sortFeedbackByQuestionsIndex)
                   .map((item, index) => (
                     <FeedbackProcessbar
                       key={index}
@@ -199,7 +190,7 @@ const FeedbackView = observer((props: IProp) => {
             <div className='questions'>
               {props.count > 0 ? (
                 props.feedback
-                  ?.sort(sortQuestions)
+                  ?.sort(sortFeedbackByQuestionsIndex)
                   .map((item: Feedback, index) => {
                     if (item.comments?.length > 0) {
                       return (
@@ -397,7 +388,7 @@ const FeedbackView = observer((props: IProp) => {
       `}</style>
       <style jsx global>{`
         .Collapsible {
-          background-color: #19896f;
+          background-color: var(--accent);
           border-radius: var(--border-radius);
         }
 
@@ -433,12 +424,12 @@ const FeedbackView = observer((props: IProp) => {
 
         .Collapsible__trigger {
           min-width: 100% !important;
-          padding: 10px;
+          padding: var(--gap-small);
           padding-left: 20px;
-          background-color: #19896f;
+          background-color: var(--accent);
           display: block;
           border-radius: var(--border-radius);
-          margin-top: 5px;
+          margin-top: var(--gap-small);
           color: whitesmoke;
         }
 

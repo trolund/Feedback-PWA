@@ -48,7 +48,7 @@ const FeedbackOverlay: React.FC<overlayProps> = ({ success, text }) => {
           isPaused={isPaused}
           eventListeners={[{ eventName: 'complete', callback: onComplete }]}
         />
-        <h3>{text}</h3>
+        <h3 data-cy='overlay-text'>{text}</h3>
       </div>
       <style jsx>{`
         .ani {

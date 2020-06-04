@@ -51,6 +51,7 @@ const CustomConfirmModal = ({
       <div className='actions'>
         <button
           type='button'
+          data-cy='cancel-btn'
           className='button float-left'
           onClick={() => setShow(false)}
         >
@@ -65,6 +66,7 @@ const CustomConfirmModal = ({
           Annuller
         </button>
         <button
+          data-cy='ok-btn'
           type='button'
           className='button float-right'
           onClick={() => {

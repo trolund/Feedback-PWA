@@ -211,6 +211,8 @@ const Post: NextPage = observer(() => {
 
     const theFeedback = qSet?.questions.map(item => {
       return {
+        questionIndex: item.index,
+        questionId: item.questionId,
         question: item.theQuestion,
         comments: getComments(item.questionId),
         voteAVG: getAvg(item.questionId)
@@ -278,18 +280,23 @@ const Post: NextPage = observer(() => {
               <form>
                 <ul className='basic-list'>
                   <li>
-                    <label htmlFor='id'>ID</label>
+                    <label data-cy='meetingId' htmlFor='id'>
+                      ID
+                    </label>
                     <h2 style={{ paddingBottom: '10px' }}>{String(mid)}</h2>
                   </li>
                   <li>
-                    <label htmlFor='id'>Spørgsmål sæt</label>
-                    <h4 style={{ margin: 0 }}>
-                      {questionSetStore?.qSet?.name || 'Henter...'}
+                    <label data-cy='questionSet' htmlFor='questionSet'>
+                      Spørgsmål sæt
+                    </label>
+                    <h4 id='questionSet' style={{ margin: 0 }}>
+                      {questionSetStore?.qSet?.name || 'Spørgsmålssæt'}
                     </h4>
                   </li>
                   <li>
                     <label htmlFor='name'>Aktivitetsnavn</label>
                     <input
+                      data-cy='eventName'
                       type='text'
                       name='name'
                       id='name'
@@ -303,6 +310,7 @@ const Post: NextPage = observer(() => {
                   <li>
                     <label htmlFor='exampleText'>Beskrivelse</label>
                     <textarea
+                      data-cy='discription'
                       name='text'
                       id='exampleText'
                       value={meeting?.discription}
@@ -396,6 +404,7 @@ const Post: NextPage = observer(() => {
               />
               <div style={{ width: '100%', padding: '10px' }}>
                 <button
+                  data-cy='meeting-delete'
                   type='button'
                   className='button bottombtn'
                   onClick={() => setShowConfirmModal(true)}
