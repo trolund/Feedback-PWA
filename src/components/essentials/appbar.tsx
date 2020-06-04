@@ -90,7 +90,8 @@ const Header = (props: appbarProps) => {
         }
 
         header h3 {
-          width: 50%;
+          width: calc(50% + 20px);
+          overflow: hidden;
           margin: auto;
           position: absolute;
           top: calc(var(--safe-area-inset-top) / 2 + (72px / 2));

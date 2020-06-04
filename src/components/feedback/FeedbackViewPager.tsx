@@ -116,6 +116,7 @@ const FeedbackViewPager = observer(
                   type='button'
                   className='pager-control pager-control--prev button float-left'
                   onClick={() => prev()}
+                  data-cy={`prev`}
                 >
                   Tilbage
                 </button>
@@ -124,6 +125,7 @@ const FeedbackViewPager = observer(
                 type='button'
                 className='pager-control pager-control--next button float-right'
                 onClick={e => next(e)}
+                data-cy={`next`}
                 disabled={feedback[page]?.answer === -1}
               >
                 {page === questions?.questions?.length - 1 ? (

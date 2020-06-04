@@ -37,7 +37,21 @@ const AddMeeting = observer(
       settingStore: { hideTempQuestionSets }
     } = useContext(rootStore)
     const [meeting, setMeeting] = useState({} as MeetingModel)
-    const [meetingCategories, setMeetingCategories] = useState([])
+
+    const getMeetingCategories = () =>
+      categories?.map(
+        item =>
+          ({
+            label:
+              categories?.filter(i => i.categoryId === item.categoryId)[0]
+                ?.name ?? 'Henter...',
+            value: item.categoryId
+          } as IOptionsValue)
+      )
+
+    const [meetingCategories, setMeetingCategories] = useState(
+      getMeetingCategories()
+    )
     const [date, setDate] = useState(initDate || new Date())
     const [startTime, setStartTime] = useState(new Date())
     const [endTime, setEndTime] = useState(new Date())
@@ -55,12 +69,15 @@ const AddMeeting = observer(
     }, [initDate])
 
     useEffect(() => {
-      fetchCategories(String(getCompanyId())).then(() => {
-        setMeetingCategories(categories)
-      })
+      fetchCategories(String(getCompanyId()))
       fetchQuestionSetNames()
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchCategories, fetchQuestionSetNames])
+
+    useEffect(() => {
+      const newVal = getMeetingCategories()
+      if (newVal) setMeetingCategories([...newVal])
+    }, [meeting, categories])
 
     const reset = () => {
       setMeeting({ name: '', discription: '' } as MeetingModel)
@@ -173,7 +190,7 @@ const AddMeeting = observer(
                 item =>
                   ({
                     label:
-                      meetingCategories?.filter(
+                      categories?.filter(
                         i => i.categoryId === item.categoryId
                       )[0]?.name ?? 'Henter...',
                     value: item.categoryId

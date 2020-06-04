@@ -432,6 +432,7 @@ const Post: NextPage = observer(() => {
                   <a
                     href={ApiRoutes.qrcode(String(mid))}
                     style={{ fontWeight: 700 }}
+                    data-cy='feedback-link'
                   >
                     {' '}
                     {ApiRoutes.qrcode(String(mid)).split('/')[4]}

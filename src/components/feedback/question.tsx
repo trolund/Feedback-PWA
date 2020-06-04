@@ -76,6 +76,7 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
               style={{ backgroundImage: `url(${item.img})` }}
               onKeyDown={smileyClick}
               onClick={smileyClick}
+              data-cy={`scale-${item.value}`}
             />
           ) : (
             <div
@@ -88,6 +89,7 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
               style={{ backgroundImage: `url(${item.img})` }}
               onKeyDown={smileyClick}
               onClick={smileyClick}
+              data-cy={`scale-${item.value}`}
             />
           )
         )}

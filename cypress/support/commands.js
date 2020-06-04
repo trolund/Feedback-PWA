@@ -25,6 +25,9 @@ Cypress.Commands.add("login", (email, password) => {
 
     // wait for confimation of login and redirect
     cy.location('pathname', { timeout: 10000 }).should('include', '/home')
+
+    // check the cookie have be set
+    // cy.getCookie('token').should('exist')
 })
 //
 //

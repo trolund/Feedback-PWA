@@ -40,8 +40,8 @@ const CalendarView = withAuth(
 
     const { meetingStore, categoriesStore } = useContext(rootStore)
     const {
-      meetingStore: { fetchState: meetingState },
-      categoriesStore: { fetchState: catState }
+      meetingStore: { fetchState: meetingState }
+      // categoriesStore: { fetchState: catState }
     } = useContext(rootStore)
     const [calViewProp, setCalViewProp] = useState({})
     const initEvent: EventInput[] = []
@@ -171,9 +171,9 @@ const CalendarView = withAuth(
         <>
           <MiddelLoader
             loading={
-              !showCal ||
-              meetingState === FetchStates.LOADING ||
-              catState === FetchStates.LOADING
+              !showCal || meetingState === FetchStates.LOADING
+              // ||
+              // catState === FetchStates.LOADING
             }
           />
 
@@ -297,7 +297,7 @@ const CalendarView = withAuth(
         </>
       )
     }, [
-      catState,
+      // catState,
       events,
       filterEventsCallback,
       meetingState,

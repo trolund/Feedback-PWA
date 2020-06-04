@@ -159,12 +159,12 @@ const Day: NextPage = observer(() => {
           </div>
         </div>
         <Section>
-          <ul>
+          <ul data-cy='meeting-list'>
             {events?.length === 0 && <NoMeetings />}
             {events?.sort(sortEventByDate)?.map(m => (
               <li key={m.shortId}>
                 <Link href='/meeting/[mid]' as={`/meeting/${m.shortId}`}>
-                  <a>
+                  <a style={{ width: '100%' }}>
                     <p style={{ display: 'inline' }}>
                       {Moment(applyOffSet(m.startTime)).format('HH:mm')}
                     </p>
