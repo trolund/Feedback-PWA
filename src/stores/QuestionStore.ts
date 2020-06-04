@@ -4,6 +4,7 @@ import FetchStates from './requestState'
 import IQuestionSet from '../models/QuestionSet'
 import ApiRoutes from './api/ApiRoutes'
 import IStoreFetchState from './StoreFetchState'
+import { sortQuestionsByIndex } from '../services/sortService'
 
 // import questionTestData from './api/DummyData/questionTestData.json'
 
@@ -37,7 +38,10 @@ export default class QuestionStore implements IStoreFetchState {
       if ('msg' in data) {
         this.questions = null
       } else {
-        this.questions = data
+        this.questions = {
+          ...data,
+          questions: data.questions.sort(sortQuestionsByIndex)
+        }
       }
 
       this.fetchState = FetchStates.DONE

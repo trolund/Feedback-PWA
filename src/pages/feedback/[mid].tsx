@@ -158,6 +158,7 @@ const Feedback: NextPage = observer(() => {
                 }}
               />
               <p className='msg'>Mødet blev ikke fundet.</p>
+              <BackBtn />
             </div>
           )}
           {statusCode === 401 && fetchState === FetchStates.DONE && (
@@ -171,6 +172,7 @@ const Feedback: NextPage = observer(() => {
                 }}
               />
               <p className='msg'>Man kan kun give feedback en gang</p>
+              <BackBtn />
             </div>
           )}
           {questions !== null && (

@@ -35,10 +35,6 @@ import dynamic from 'next/dynamic'
 //   initCategories: Category[]
 // }
 
-const QrReader = dynamic(() => import('react-qr-reader'), {
-  ssr: false
-})
-
 const Post: NextPage = observer(() => {
   const router = useRouter()
   const { mid } = router.query
@@ -284,6 +280,12 @@ const Post: NextPage = observer(() => {
                   <li>
                     <label htmlFor='id'>ID</label>
                     <h2 style={{ paddingBottom: '10px' }}>{String(mid)}</h2>
+                  </li>
+                  <li>
+                    <label htmlFor='id'>Spørgsmål sæt</label>
+                    <h4 style={{ margin: 0 }}>
+                      {questionSetStore?.qSet?.name || 'Henter...'}
+                    </h4>
                   </li>
                   <li>
                     <label htmlFor='name'>Aktivitetsnavn</label>
