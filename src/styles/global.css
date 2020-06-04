@@ -55,8 +55,8 @@
   --transition-colors: color 50ms ease-in-out,
     background-color var(--transition), border-color var(--transition);
 
-  --safe-area-inset-top: env(safe-area-inset-top, 50px);
-  --safe-area-inset-bottom: env(safe-area-inset-bottom, 50px);
+  --safe-area-inset-top: env(safe-area-inset-top, 0.5vh);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0.5vh);
 
   --top-bar-height: 72px;
   --bottom-bar-height: 72px;
@@ -523,7 +523,7 @@ hr {
 
   .fixed-cal {
     margin-top: var(--height-diff);
-    height: calc(100vh - (var(--safe-area-inset-bottom) * 2 + 73px + var(--safe-area-inset-top) * 2 + 73px) - var(--height-diff));
+    height: calc(100vh - (var(--safe-area-inset-bottom) / 2 + 73px + var(--safe-area-inset-top) / 2 + 73px) - var(--height-diff));
     top: calc(var(--safe-area-inset-top) / 2 + var(--top-bar-height));
   }
 }
