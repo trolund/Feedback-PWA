@@ -1,5 +1,7 @@
 /// <reference types="cypress">
 
+import devices from '../fixtures/deviceConstants'
+
 context('User registration', () => {
   beforeEach(() => {
     const pageLocation = '/registration'
@@ -7,6 +9,9 @@ context('User registration', () => {
     isLocal
       ? cy.visit(`${frontendLocal}${pageLocation}`)
       : cy.visit(`${frontendRemote}${pageLocation}`)
+
+    const { height, width } = devices.iphone
+    cy.viewport(width, height)
   })
 
   it('Exsisting firm', () => {

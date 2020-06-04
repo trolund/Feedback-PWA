@@ -319,9 +319,15 @@ const CalendarView = withAuth(
       <Page
         title='Kalender'
         showBackButton={false}
-        component={<Plus onClick={() => setShowModal(!showModal)} />}
+        component={
+          <Plus
+            data-cy='add-meeting-btn'
+            onClick={() => setShowModal(!showModal)}
+          />
+        }
         leftComponent={
           <SearchBtn
+            data-cy='search-btn'
             inputOpen={inputOpen}
             setInputOpen={setInputOpen}
             searchWord={searchWord}
@@ -339,36 +345,7 @@ const CalendarView = withAuth(
           }
           setShow={setShowModal}
         />
-        {/* <Seachbar value={searchWord} setValue={setSearchWord} /> */}
-        {/* <CreateMeetingModal
-        questionContext={questionContext}
-        setQuestionSet={setQuestionSet}
-        endTime={endTime}
-        setEndTime={setEndTime}
-        startTime={startTime}
-        setStartTime={setStartTime}
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-        date={date}
-        setDate={setDate}
-        discription={discription}
-        setDiscription={setDiscription}
-        name={name}
-        setName={setName}
-        createMeeting={createMeeting}
-        toggle={toggle}
-      /> */}
-
-        {/* <div className='cal-container'> */}
-        {/* {windowDim.width >= 650 ? (
-            showCalendar()
-          ) : (
-            <MobileCalendar dim={windowDim} />
-            // <MobileCalendarV2 dim={windowDim} />
-          )} */}
         {showCalendar()}
-        {/* </div> */}
-
         <style jsx global>{`
           .text {
             width: fit-content;

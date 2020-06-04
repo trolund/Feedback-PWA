@@ -165,9 +165,9 @@ export default withRedirect(
               </Link>
             </div>
           </div>
-          {/* <div>
-            <p>Spinoff</p>
-          </div> */}
+          <div>
+            <p><a href="spinoff.nu">- Spinoff -</a></p>
+          </div>
         </Section>
         <style jsx>{`
           hr {

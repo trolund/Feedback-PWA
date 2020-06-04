@@ -523,7 +523,7 @@ hr {
 
   .fixed-cal {
     margin-top: var(--height-diff);
-    height: calc(100vh - (var(--safe-area-inset-bottom) + 73px + var(--safe-area-inset-top) + 73px) - var(--height-diff));
+    height: calc(100vh - (var(--safe-area-inset-bottom) * 2 + 73px + var(--safe-area-inset-top) * 2 + 73px) - var(--height-diff));
     top: calc(var(--safe-area-inset-top) / 2 + var(--top-bar-height));
   }
 }

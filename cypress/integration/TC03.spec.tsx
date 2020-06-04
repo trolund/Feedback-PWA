@@ -1,36 +1,79 @@
 /// <reference types="cypress">
 
+import devices from '../fixtures/deviceConstants'
+
 context('Create meeting', () => {
   beforeEach(() => {
+    const { height, width } = devices.iphone
+    cy.viewport(width, height)
     cy.fixture('test-user-data.json').then(users => {
       const { facilitator } = users
       ;(cy as any).login(facilitator.email, facilitator.password)
     })
   })
-  it('minimal meeting infomation', () => {
+  it('Minimal meeting infomation', () => {
     cy.get('nav > div > a[data-cy="/calendar"]').click()
-    cy.wait(2500)
-    cy.get('.float-right > svg').click()
+
+    cy.location('pathname', { timeout: 10000 }).should('include', '/calendar')
+
+    cy.get('[data-cy="add-meeting-btn"]').click()
+
     cy.wait(600)
     cy.get('[data-cy="questionset-selector"] > .select-css > select').select(
-      'Foredrag'
+      'Foredrag ny'
     )
-    cy.get('[data-cy=meeting-name] > div > input').type(
-      'test meeting' + Date.now().toFixed(5)
-    )
+
     cy.get('[data-cy=meeting-name] > div > input').type(
       'test meeting' + Date.now().toFixed(5)
     )
 
-    // cy.get('[data-cy=meeting-end-time] > .container > svg').click()
+    cy.get('[data-cy=meeting-end-time]').click()
+    cy.get('.datepicker-col-1:visible') // hours col
+      .first()
+      .trigger('mousedown')
+      .trigger('mousemove', { which: 1, pageX: 600, pageY: 50 })
+      .trigger('mouseup')
 
-    // cy.get('.datepicker-content')
-    //   .trigger('mousedown', { which: 1, pageX: 600, pageY: 500 })
-    //   .trigger('mousemove', { which: 1, pageX: 600, pageY: 300 })
-    //   .trigger('mouseup')
+    cy.get('body').click()
 
     cy.get('[data-cy=create-meeting-btn]').click()
+    cy.wait(200)
+    cy.get('.toast').contains('er nu oprettet')
+  })
+
+  it('Meeting with multiple categories', () => {
+    cy.get('nav > div > a[data-cy="/calendar"]').click()
+
+    cy.location('pathname', { timeout: 10000 }).should('include', '/calendar')
+
+    cy.get('[data-cy="add-meeting-btn"]').click()
+
+    cy.wait(600)
+    cy.get('[data-cy="questionset-selector"] > .select-css > select').select(
+      'Foredrag ny'
+    )
+
+    cy.get('[data-cy=meeting-name] > div > input').type(
+      'test meeting' + Date.now().toFixed(5)
+    )
+
+    cy.get('[data-cy="categories-selector"]').click()
+    cy.get('[data-cy="cat-0"]').click('left')
+    cy.get('[data-cy="cat-1"]').click('left')
+
+    cy.get('[data-cy="exit-cat-picker"]').click()
+
+    cy.get('[data-cy=meeting-end-time]').click()
+    cy.get('.datepicker-col-1:visible') // hours col
+      .first()
+      .trigger('mousedown')
+      .trigger('mousemove', { which: 1, pageX: 600, pageY: 50 })
+      .trigger('mouseup')
+
+    cy.get('body').click()
+
+    cy.get('[data-cy=create-meeting-btn]').click()
+    cy.wait(200)
+    cy.get('.toast').contains('er nu oprettet')
   })
 })
-
-export {} // to fake export for lint rule

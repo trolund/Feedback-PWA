@@ -89,7 +89,6 @@
     "react-use-gesture": "^7.0.15",
     "react-view-pager": "^0.6.0",
     "reactive-qr": "^0.1.8",
-    "swipe-listener": "^1.1.0",
     "unfetch": "^4.1.0",
     "xlsx": "^0.15.6"
   },

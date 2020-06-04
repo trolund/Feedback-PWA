@@ -1,1 +1,35 @@
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1366 768"><defs><style>.cls-1,.cls-2{stroke:#fff;stroke-miterlimit:10;stroke-width:3px;}.cls-1{fill:url(#linear-gradient);}.cls-2{fill:none;}</style><linearGradient id="linear-gradient" x1="711" y1="951.5" x2="711" y2="138.5" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.16" stop-color="#fff" stop-opacity="0.06"/><stop offset="0.44" stop-color="#fff" stop-opacity="0.14"/><stop offset="0.72" stop-color="#fff" stop-opacity="0.18"/><stop offset="1" stop-color="#fff" stop-opacity="0.2"/></linearGradient></defs><title>Artboard 1</title><path class="cls-1" d="M1508.5,138.5l-11,813-1584-27v-118s267-423,514-423a10,10,0,0,0,20,.64c221.58,14.53,259.71,269.45,389,285.56,0,.26,0,.53,0,.8a10,10,0,0,0,20,0c0-.13,0-.26,0-.38,137.69-14.54,290.75-450.95,457.05-478.74a10,10,0,0,0,20-.88c0-.17,0-.34,0-.51C1505.54,189.32,1508.5,138.5,1508.5,138.5Z"/><path class="cls-2" d="M447.5,383.5c0,.22,0,.43,0,.64a10,10,0,1,1,0-.64Z"/><path class="cls-2" d="M856.5,670.5a10,10,0,0,1-20,0c0-.27,0-.54,0-.8a10,10,0,0,1,20,.42C856.5,670.24,856.5,670.37,856.5,670.5Z"/><path class="cls-2" d="M1333.5,190.5a10,10,0,0,1-20,.88,8.51,8.51,0,0,1,0-.88,10,10,0,0,1,20-.51C1333.5,190.16,1333.5,190.33,1333.5,190.5Z"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1366 768" style="enable-background:new 0 0 1366 768;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#F20C0C;stroke:#FFFFFF;stroke-width:3;stroke-miterlimit:10;}
+	.st1{fill:url(#SVGID_1_);stroke:#FFFFFF;stroke-width:3;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#FFFFFF;stroke-width:3;stroke-miterlimit:10;}
+</style>
+<g id="Layer_2">
+	<path class="st0" d="M1425,810H-37c-6.6,0-12-5.4-12-12V-22c0-6.6,5.4-12,12-12h1462c6.6,0,12,5.4,12,12v820
+		C1437,804.6,1431.6,810,1425,810z"/>
+</g>
+<g id="Layer_1">
+	<title>Artboard 1</title>
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="711" y1="-183.5" x2="711" y2="629.5" gradientTransform="matrix(1 0 0 -1 0 768)">
+		<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/>
+		<stop  offset="0.16" style="stop-color:#FFFFFF;stop-opacity:6.000000e-02"/>
+		<stop  offset="0.44" style="stop-color:#FFFFFF;stop-opacity:0.14"/>
+		<stop  offset="0.72" style="stop-color:#FFFFFF;stop-opacity:0.18"/>
+		<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0.2"/>
+	</linearGradient>
+	<path class="st1" d="M1508.5,138.5l-11,813l-1584-27v-118c0,0,267-423,514-423c-0.2,5.5,4.2,10.1,9.7,10.3s10.1-4.2,10.3-9.7l0,0
+		c221.6,14.5,259.7,269.5,389,285.6c0,0.3,0,0.5,0,0.8c0,5.5,4.5,10,10,10s10-4.5,10-10c0-0.1,0-0.3,0-0.4
+		c137.7-14.5,290.8-451,457.1-478.7c0.2,5.5,4.9,9.8,10.4,9.6c5.5-0.2,9.8-4.9,9.6-10.4c0-0.2,0-0.3,0-0.5
+		C1505.5,189.3,1508.5,138.5,1508.5,138.5z"/>
+	<path class="st2" d="M447.5,383.5c0,0.2,0,0.4,0,0.6c-0.2,5.5-4.8,9.9-10.3,9.7s-9.9-4.8-9.7-10.3c0.2-5.5,4.8-9.9,10.3-9.7
+		C443.1,374,447.3,378.2,447.5,383.5z"/>
+	<path class="st2" d="M856.5,670.5c0,5.5-4.5,10-10,10s-10-4.5-10-10c0-0.3,0-0.5,0-0.8c0.1-5.5,4.7-9.9,10.2-9.8
+		c5.5,0.1,9.9,4.7,9.8,10.2l0,0C856.5,670.2,856.5,670.4,856.5,670.5z"/>
+	<path class="st2" d="M1333.5,190.5c0.2,5.5-4,10.2-9.6,10.4c-5.5,0.2-10.2-4-10.4-9.6c0-0.3,0-0.6,0-0.9
+		c-0.1-5.5,4.2-10.1,9.7-10.3c5.5-0.1,10.1,4.2,10.3,9.7C1333.5,190.2,1333.5,190.3,1333.5,190.5z"/>
+</g>
+</svg>

@@ -200,11 +200,12 @@ export default observer(
                   type='button'
                   className='close-modal'
                   onClick={() => setShowModal(false)}
+                  data-cy='exit-cat-picker'
                 />
                 <h4>Vælg kategorier</h4>
                 <ul>
-                  {categories?.map(item => (
-                    <li key={item.categoryId}>
+                  {categories?.map((item, index) => (
+                    <li key={item.categoryId} data-cy={`cat-${index}`}>
                       <CustomCheckbox
                         label={item.name}
                         checked={

@@ -1,5 +1,7 @@
 /// <reference types="cypress">
 
+import devices from '../fixtures/deviceConstants'
+
 context('Login', () => {
   beforeEach(() => {
     const pageLocation = '/login'
@@ -7,6 +9,9 @@ context('Login', () => {
     isLocal
       ? cy.visit(`${frontendLocal}${pageLocation}`)
       : cy.visit(`${frontendRemote}${pageLocation}`)
+
+    const { height, width } = devices.iphone
+    cy.viewport(width, height)
   })
   it('Login with Admin user', () => {
     // login procedure
