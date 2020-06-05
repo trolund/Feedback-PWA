@@ -167,13 +167,8 @@ const Post: NextPage = observer(() => {
   }, [isRealTimeDateOn])
 
   useEffect(() => {
-    if (meeting?.questionsSetId) {
-      console.log(meeting?.questionsSetId)
+    if (meeting?.questionsSetId && qSet === null) {
       fetchQuestionSet(meeting?.questionsSetId)
-    }
-    return () => {
-      console.log('set null')
-      setQSet(null)
     }
   }, [meeting])
 
@@ -195,6 +190,12 @@ const Post: NextPage = observer(() => {
     },
     [feedbackBatch]
   )
+
+  useEffect(() => {
+    return () => {
+      setQSet(null)
+    }
+  }, [])
 
   const getComments = useCallback(
     (questionId: string) => {

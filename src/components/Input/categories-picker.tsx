@@ -62,7 +62,6 @@ export default observer(
         SetCategoriesValues([...values])
         settempDataList([...values])
       }
-      console.log('vales: ', values)
     }, [values])
 
     // const val = useCallback(
