@@ -223,7 +223,7 @@ const Post: NextPage = observer(() => {
     })
     return theFeedback || []
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getAvg, getComments])
+  }, [getAvg, getComments, qSet])
 
   // useEffect(() => {
   //   setMeeting({
