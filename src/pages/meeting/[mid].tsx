@@ -477,12 +477,6 @@ const Post: NextPage = observer(() => {
             }
           }
 
-          @media only screen and (max-width: 470px) {
-            .times > div:first-child {
-              margin-left: 0px;
-            }
-          }
-
           label {
             display: none;
           }
@@ -505,6 +499,7 @@ const Post: NextPage = observer(() => {
           }
           .date {
             margin-top: var(--gap-small);
+            margin-right: var(--gap-small);
           }
 
           .times {
@@ -512,7 +507,7 @@ const Post: NextPage = observer(() => {
             display: flex;
           }
 
-          .times > div {
+          .times > div:last-child {
             margin-left: var(--gap-small);
           }
 
