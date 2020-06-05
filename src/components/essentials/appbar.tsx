@@ -30,6 +30,7 @@ const Header = (props: appbarProps) => {
           onClick={backClickHandler}
           onKeyDown={backClickHandler}
           className='back-btn'
+          data-cy='back-btn'
         >
           <ChevronLeft fontSize='inherit' className='back-icon' />
         </a>

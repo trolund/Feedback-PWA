@@ -1,10 +1,15 @@
 import Page from '../../components/essentials/page'
 import Section from '../../components/essentials/section'
+import { savedTokenValid } from '../../services/authService'
 
 const Aboute = () => {
   return (
-    <Page title='Om Opino'>
+    <Page title='Om Opino' showBottomNav={savedTokenValid()}>
       <Section>
+        <div className='img-container'>
+          <img src='/images/logo.png' />
+        </div>
+
         <p>
           Tillykke med din Opino app. Du har nu taget det første skridt på din
           rejse mod at blive bedre til det du gør. Feedback giver dig mulighed
@@ -22,6 +27,11 @@ const Aboute = () => {
         <b>
           Kontakt os på <a href='mailto: info@spinoff.nu'>info@spinoff.nu</a>.
         </b>
+        <div className='img-container2'>
+          <a href='http://spinoff.nu'>
+            <img src='/images/spinoff_logo_color.gif' />
+          </a>
+        </div>
       </Section>
       <style jsx>{`
         .container {
@@ -32,6 +42,20 @@ const Aboute = () => {
           position: absolute;
           min-width: 100%;
           min-height: 100%;
+        }
+
+        .img-container {
+          background: var(--gradiant);
+          padding: var(--gap);
+          margin-bottom: var(--gap);
+          border-radius: var(--border-radius);
+        }
+
+        .img-container2 {
+          background-color: var(--surface);
+          padding: var(--gap);
+          margin-top: var(--gap);
+          border-radius: var(--border-radius);
         }
 
         .cam-view section div {

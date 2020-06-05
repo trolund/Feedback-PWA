@@ -165,6 +165,32 @@ const FeedbackViewPager = observer(
             Du skal besvare alle spørgsmål før du kan sende din besvarelse.
           </div>
         </Modal>
+        <style jsx>{`
+          @media only screen and (orientation: landscape) {
+            .view {
+              width: auto;
+              margin-left: auto;
+              margin-right: auto;
+            }
+
+            .frame {
+              margin-top: var(--safe-area-inset-top) + 15px;
+            }
+          }
+        `}</style>
+        <style jsx global>{`
+          @media only screen and (orientation: landscape) {
+            .view {
+              width: auto;
+              margin-left: auto;
+              margin-right: auto;
+            }
+
+            .frame {
+              margin-top: var(--safe-area-inset-top) + 15px;
+            }
+          }
+        `}</style>
       </>
     )
   }

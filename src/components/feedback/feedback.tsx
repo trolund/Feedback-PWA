@@ -273,11 +273,6 @@ const FeedbackView = observer((props: IProp) => {
               onClick={() => setShowModal(false)}
             />
             <h3>Tilbagemeldinger</h3>
-            {/* <CustomCheckbox
-              label='Hvis feedback løbende'
-              checked={props.isRealtime}
-              onChange={e => props.setIsRealtime(e)}
-            /> */}
           </div>
           <div className='chart-container'>
             <Bar data={graphData} options={chartOptions} />
@@ -310,9 +305,10 @@ const FeedbackView = observer((props: IProp) => {
         .chart-container {
           width: 100%;
           height: 100%;
-          padding: 25px;
-          padding-bottom: 50px;
-          margin-top: calc(env(safe-area-inset-top) / 2 + (72px / 2));
+          padding-top: calc(var(--safe-area-inset-top) + 60px);
+          padding-bottom: calc(var(--safe-area-inset-bottom) + 20px);
+          padding-right: calc(var(--safe-area-inset-right) + 20px);
+          padding-left: calc(var(--safe-area-inset-left) + 20px);
         }
 
         .tab-content {
@@ -338,10 +334,10 @@ const FeedbackView = observer((props: IProp) => {
 
         .top-bar {
           position: absolute;
-          top: calc(env(safe-area-inset-top) + (72px / 2));
           width: 100%;
-          padding-left: 20px;
-          padding-right: 20px;
+          top: calc(var(--safe-area-inset-top) + (72px / 3));
+          padding-right: calc(var(--safe-area-inset-right) + 20px);
+          padding-left: calc(var(--safe-area-inset-left) + 20px);
         }
 
         .top-bar > h3 {

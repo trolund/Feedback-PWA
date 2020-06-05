@@ -2,7 +2,14 @@ import { useContext, useState, useEffect } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { observer } from 'mobx-react-lite'
-import { Hash, LogIn, Maximize, Smile, AlertCircle } from 'react-feather'
+import {
+  Hash,
+  LogIn,
+  Maximize,
+  Smile,
+  AlertCircle,
+  HelpCircle
+} from 'react-feather'
 import Lottie from 'react-lottie'
 import Prompt from '../components/essentials/AddToHomescreenPrompt'
 import Page from '../components/essentials/page'
@@ -62,6 +69,11 @@ export default withRedirect(
         bgColor='rgba(0,0,0,0)'
         fullscreen
       >
+        <Link href='/aboute'>
+          <span className='help'>
+            <HelpCircle />
+          </span>
+        </Link>
         <Section>
           <div className='container'>
             <div className='logo' />
@@ -103,8 +115,8 @@ export default withRedirect(
             </p>
             <div className='center buttons'>
               <button
-                title='login'
-                aria-label='login'
+                title='feedbackbtn'
+                aria-label='feedbackbtn'
                 onClick={checkMeetingClickHandler}
                 onKeyDown={checkMeetingClickHandler}
                 type='button'
@@ -160,16 +172,37 @@ export default withRedirect(
                     }}
                     color='white'
                   />
-                  Login
+                  Login / opret bruger
                 </button>
               </Link>
             </div>
           </div>
           <div>
-            <p><a href="spinoff.nu">- Spinoff -</a></p>
+            <div className='spin'>
+              <a href='http://spinoff.nu'>
+                <img src='/images/spinoff_logo.svg' />
+              </a>
+            </div>
           </div>
         </Section>
         <style jsx>{`
+          .spin {
+            position: absolute;
+            bottom: 10px;
+            width: 100vw;
+            text-align: center;
+            left: 0;
+          }
+
+          .spin p {
+            color: whitesmoke;
+            font-size: 10px;
+          }
+
+          .spin img {
+            height: 50px;
+          }
+
           hr {
             opacity: 0.2;
             border: solid whitesmoke 0.5px;
@@ -234,19 +267,22 @@ export default withRedirect(
             box-shadow: 2px 6px 16px -6px rgba(0, 0, 0, 0.25);
             border-radius: var(--border-radius);
           }
+
+          .help {
+            right: 15px;
+            top: calc(var(--safe-area-inset-top) + 15px);
+            position: fixed;
+            color: white;
+          }
         `}</style>
 
         <style jsx global>{`
           body {
             background-image: url('/images/bg_opion.svg');
-            background-color: var(--accent);
+            background-color: var(--accent-dark);
             background-repeat: no-repeat;
             background-position: bottom;
             background-size: cover;
-
-             {
-              /* background: var(--gradiant); */
-            }
           }
         `}</style>
         <Prompt />

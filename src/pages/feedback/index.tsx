@@ -82,6 +82,7 @@ const Task = withAuth(
                 type='button'
                 tabIndex={0}
                 className='center button bottombtn'
+                data-cy='submit'
               >
                 <Smile
                   style={{

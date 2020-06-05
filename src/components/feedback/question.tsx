@@ -109,6 +109,14 @@ const Question: React.FC<IProp> = observer(({ question, questionId }) => {
             margin: 2px !important;
           }
         }
+
+        @media only screen and (orientation: landscape) {
+          .comment {
+            width: 70% !important;
+            height: auto;
+          }
+        }
+
         .question {
           width: 100%;
           text-align: center;

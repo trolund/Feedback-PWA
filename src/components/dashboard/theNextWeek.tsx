@@ -115,6 +115,8 @@ const TheNextWeek = () => {
           align-items: center;
           transition: var(--transition-colors);
           border-radius: var(--border-radius);
+          overflow: hidden;
+          white-space: nowrap;
         }
 
         li:not(:last-child) {

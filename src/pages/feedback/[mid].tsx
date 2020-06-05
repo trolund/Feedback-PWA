@@ -229,10 +229,13 @@ const Feedback: NextPage = observer(() => {
           }
 
           .pager-controls {
-            padding: 30px;
+            padding-right: calc(
+              var(--safe-area-inset-right) + var(--gap-small)
+            );
+            padding-left: calc(var(--safe-area-inset-left) + var(--gap-small));
             position: fixed;
             height: 50px;
-            bottom: env(safe-area-inset-bottom, 20px);
+            bottom: calc(var(--safe-area-inset-bottom) + var(--gap));
             left: 0px;
             right: 0px;
             width: 100%;

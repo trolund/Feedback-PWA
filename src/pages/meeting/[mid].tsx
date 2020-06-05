@@ -280,10 +280,10 @@ const Post: NextPage = observer(() => {
               <form>
                 <ul className='basic-list'>
                   <li>
-                    <label data-cy='meetingId' htmlFor='id'>
-                      ID
-                    </label>
-                    <h2 style={{ paddingBottom: '10px' }}>{String(mid)}</h2>
+                    <label htmlFor='id'>ID</label>
+                    <h2 data-cy='meetingId' style={{ paddingBottom: '10px' }}>
+                      {String(mid)}
+                    </h2>
                   </li>
                   <li>
                     <label data-cy='questionSet' htmlFor='questionSet'>
