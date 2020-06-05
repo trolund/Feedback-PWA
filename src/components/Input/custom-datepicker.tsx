@@ -98,7 +98,7 @@ const CustomDatepicker = ({ value, onChange, error, minValue }: Props) => {
         .container {
           width: 160px;
           user-select: none;
-          margin-bottom: -25px;
+          margin-bottom: -20px;
         }
 
         .container :global(> svg) {

@@ -46,7 +46,7 @@ const Post: NextPage = observer(() => {
     .build()
 
   const {
-    questionSetStore,
+    questionSetStore: { fetchQuestionSet, qSet, setQSet },
     feedbackStore: {
       fetchFeedback,
       fetchState: FeedbackFetchState,
@@ -168,9 +168,14 @@ const Post: NextPage = observer(() => {
 
   useEffect(() => {
     if (meeting?.questionsSetId) {
-      questionSetStore.fetchQuestionSet(meeting?.questionsSetId)
+      console.log(meeting?.questionsSetId)
+      fetchQuestionSet(meeting?.questionsSetId)
     }
-  }, [meeting, questionSetStore])
+    return () => {
+      console.log('set null')
+      setQSet(null)
+    }
+  }, [meeting])
 
   const count = useCallback(() => (feedbackBatch ? feedbackBatch?.length : 0), [
     feedbackBatch
@@ -207,8 +212,6 @@ const Post: NextPage = observer(() => {
   )
 
   const feedback = useCallback(() => {
-    const { qSet } = questionSetStore
-
     const theFeedback = qSet?.questions.map(item => {
       return {
         questionIndex: item.index,
@@ -220,7 +223,7 @@ const Post: NextPage = observer(() => {
     })
     return theFeedback || []
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getAvg, getComments, questionSetStore])
+  }, [getAvg, getComments])
 
   // useEffect(() => {
   //   setMeeting({
@@ -289,9 +292,15 @@ const Post: NextPage = observer(() => {
                     <label data-cy='questionSet' htmlFor='questionSet'>
                       Spørgsmål sæt
                     </label>
-                    <h4 id='questionSet' style={{ margin: 0 }}>
-                      {questionSetStore?.qSet?.name || 'Spørgsmålssæt'}
-                    </h4>
+                    <p
+                      id='questionSet'
+                      style={{
+                        margin: 0,
+                        color: qSet ? 'var(--text)' : 'var(--label)'
+                      }}
+                    >
+                      {qSet?.name || ' Spørgsmålssæt'}
+                    </p>
                   </li>
                   <li>
                     <label htmlFor='name'>Aktivitetsnavn</label>
@@ -320,10 +329,7 @@ const Post: NextPage = observer(() => {
                     />
                   </li>
                   <li>
-                    <div
-                      style={{ marginBottom: '20px' }}
-                      className='flex-container'
-                    >
+                    <div className='flex-container'>
                       <div className='date'>
                         <label htmlFor='exampleText'>Dato</label>
                         <CustomDatepicker
@@ -465,6 +471,18 @@ const Post: NextPage = observer(() => {
         )}
 
         <style jsx>{`
+          @media only screen and (max-width: 600px) {
+            .flex-container {
+              justify-content: left;
+            }
+          }
+
+          @media only screen and (max-width: 470px) {
+            .times > div:first-child {
+              margin-left: 0px;
+            }
+          }
+
           label {
             display: none;
           }

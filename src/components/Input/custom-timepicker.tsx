@@ -115,7 +115,7 @@ const CustomTimepicker = ({
         .container {
           width: 110px;
           user-select: none;
-          margin-bottom: -25px;
+          margin-bottom: -20px;
         }
 
         .container :global(> svg) {

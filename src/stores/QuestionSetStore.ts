@@ -18,7 +18,12 @@ export default class QuestionSetStore implements IStoreFetchState {
   // data
   @persist('list', QuestionSet) @observable QSetNames: IQuestionSet[] = []
 
-  @persist('object', QuestionSet) @observable qSet: IQuestionSet | null = null
+  // @persist('object', QuestionSet)
+  @observable qSet: IQuestionSet | null = null
+
+  @action setQSet = (val: IQuestionSet | null) => {
+    this.qSet = val
+  }
 
   @action fetchQuestionSetNames = async () => {
     this.fetchState = FetchStates.LOADING
