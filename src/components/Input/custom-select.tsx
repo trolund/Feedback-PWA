@@ -18,7 +18,8 @@ const CustomSelect = ({
   onChange,
   center,
   error,
-  fill
+  fill,
+  defaultValue
 }: Props) => {
   const fillSpace = fill ? { width: '100%' } : { width: 'fit-content' }
   return (
@@ -32,6 +33,7 @@ const CustomSelect = ({
     >
       <select
         name='select'
+        value={defaultValue}
         style={{ zIndex: 2, fontWeight: 300 }}
         onChange={e => {
           onChange(e.target.value)

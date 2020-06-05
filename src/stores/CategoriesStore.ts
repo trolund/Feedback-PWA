@@ -14,6 +14,10 @@ export default class CategoriesStore implements IStoreFetchState {
   // data
   @observable categories: Category[] | null = null
 
+  @action setCategories = (values: Category[]) => {
+    this.categories = values
+  }
+
   @action fetchCategories = async (companyId: string) => {
     this.fetchState = FetchStates.LOADING
     try {

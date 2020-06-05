@@ -49,15 +49,15 @@ const AddMeeting = observer(
           } as IOptionsValue)
       )
 
-    const [meetingCategories, setMeetingCategories] = useState(
-      getMeetingCategories()
-    )
+    // const [meetingCategories, setMeetingCategories] = useState(
+    //   getMeetingCategories()
+    // )
     const [date, setDate] = useState(initDate || new Date())
     const [startTime, setStartTime] = useState(new Date())
     const [endTime, setEndTime] = useState(new Date())
     const [questionSet, setQuestionSet] = useState('')
     const [showErrors, setShowErrors] = useState(false)
-    const [Selecter, setSelecter] = useState('null')
+    //  const [Selecter, setSelecter] = useState('null')
 
     // errors
     const [timeError, setTimeError] = useState(false)
@@ -74,19 +74,21 @@ const AddMeeting = observer(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchCategories, fetchQuestionSetNames])
 
-    useEffect(() => {
-      const newVal = getMeetingCategories()
-      if (newVal) setMeetingCategories([...newVal])
-    }, [meeting, categories])
+    // useEffect(() => {
+    //   const newVal = getMeetingCategories()
+    //   if (newVal) setMeetingCategories([...newVal])
+    // }, [meeting, categories])
 
     const reset = () => {
-      setMeeting({ name: '', discription: '' } as MeetingModel)
+      setMeeting({
+        name: '',
+        discription: '',
+        meetingCategories: []
+      } as MeetingModel)
       setDate(initDate || new Date())
       setEndTime(new Date())
       setStartTime(new Date())
-      setQuestionSet('')
-      setMeetingCategories([])
-      setSelecter('null')
+      setQuestionSet('null')
     }
 
     const fuldformValid = (): boolean =>
@@ -150,7 +152,7 @@ const AddMeeting = observer(
           </li>
           <li data-cy='questionset-selector'>
             <CustomSelect
-              defaultValue={Selecter}
+              defaultValue={questionSet}
               error={questionSet === 'null' || questionSet === ''}
               fill
               placeholder='- Vælg spørgsmålssæt -'
