@@ -57,7 +57,12 @@ const FeedbackViewPager = observer(
         feedback[page]?.answer !== -1
       ) {
         if (isFeedbackReady()) {
-          createFeedbackBatch(feedback, String(mid), fingerprint).then(res => {
+          createFeedbackBatch(
+            feedback,
+            String(mid),
+            fingerprint,
+            questions.questionSetId
+          ).then(res => {
             if (res === FetchStates.DONE) {
               setSuccess(true)
               setOverlayText('Tak for din besvarelse')

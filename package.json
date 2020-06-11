@@ -81,7 +81,7 @@
     "react-qr-reader": "^2.2.1",
     "react-qr-svg": "^2.2.1",
     "react-select": "^3.1.0",
-    "react-spring": "^8.0.27",
+    "react-spring": "^9.0.0-rc.3",
     "react-star-rating-component": "^1.4.1",
     "react-super-responsive-table": "^5.1.1",
     "react-switch": "^5.0.1",
@@ -89,6 +89,7 @@
     "react-use-gesture": "^7.0.15",
     "react-view-pager": "^0.6.0",
     "reactive-qr": "^0.1.8",
+    "rmc-pull-to-refresh": "^1.0.12",
     "unfetch": "^4.1.0",
     "xlsx": "^0.15.6"
   },

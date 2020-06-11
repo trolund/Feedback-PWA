@@ -1,4 +1,4 @@
-import isServer from './utils/helper'
+import isServer from './helper'
 
 export function getLightMode() {
   if (!isServer) {

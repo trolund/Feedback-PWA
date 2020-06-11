@@ -31,24 +31,12 @@ const CustomTimepicker = ({
     <>
       <div className='container'>
         <input
-          className={error ? 'input-error' : ''}
+          className={error ? 'input-error input' : 'input'}
           readOnly
           value={dateValue
             .toTimeString()
             .split(' ')[0]
             .slice(0, 5)}
-          // onChange={e => {
-          //   if (/^([0-1][0-9]|2[0-3]):([0-5][0-9])$/.test(e.target.value)) {
-          //     const timecomponents = e.target.value.split(':')
-          //     const newTime = dateValue
-          //     newTime.setHours(Number(timecomponents[0]))
-          //     newTime.setMinutes(Number(timecomponents[1]))
-          //     setDateValue(newTime)
-          //   } else {
-          //     console.log('nope', e)
-          //   }
-          // }}
-          style={{ paddingLeft: '50px' }}
           role='button'
           tabIndex={0}
           onKeyDown={() => setIsOpen(!isOpen)}
@@ -61,6 +49,7 @@ const CustomTimepicker = ({
             marginTop: '-70px',
             marginLeft: '15px'
           }}
+          onClick={() => setIsOpen(!isOpen)}
         />
       </div>
       <DatePicker
@@ -101,6 +90,7 @@ const CustomTimepicker = ({
           width: 110px;
           color: var(--text);
           padding: 16px 16px 16px 16px;
+          padding-left: 50px;
           background: var(--base);
           display: flex;
           align-items: center;

@@ -24,14 +24,14 @@ const CustomSelect = ({
   const fillSpace = fill ? { width: '100%' } : { width: 'fit-content' }
   return (
     <div
-      className='select-css'
+      className={error ? 'input-error select-css' : 'select-css'}
       style={{
         ...fillSpace,
-        textAlign: center ? 'center' : 'left',
-        boxShadow: error ? '0 0 0 2px var(--error) !important' : 'none'
+        textAlign: center ? 'center' : 'left'
       }}
     >
       <select
+        className={error ? 'input-error' : ''}
         name='select'
         value={defaultValue}
         style={{ zIndex: 2, fontWeight: 300 }}
@@ -47,7 +47,14 @@ const CustomSelect = ({
         ))}
       </select>
       <span className='arrow'>
-        <ChevronDown />
+        <ChevronDown
+          style={{
+            width: '20px',
+            height: '20px',
+            marginTop: '-3px',
+            marginBottom: '-3px'
+          }}
+        />
       </span>
 
       <style jsx>{`
@@ -81,22 +88,12 @@ const CustomSelect = ({
           border-radius: var(--border-radius);
           background-color: var(--surface);
           display: -ms-flexbox;
-          /* IE10 */
-          display: flex;
-          font-size: inherit;
-          font-family: inherit;
-          box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-            rgba(0, 0, 0, 0.06) 0px 1px 2px 0px !important;
-          -webkit-appearance: none;
-          margin: 0px;
-          border-width: 0px;
-          border-style: initial;
-          border-color: initial;
         }
 
         .select-css select {
           width: 100%;
-          padding: 15px;
+          padding: var(--gap-small);
+          background: none;
         }
 
         .select-css::-ms-expand {
@@ -117,10 +114,21 @@ const CustomSelect = ({
         } */
         }
 
+        select {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          text-indent: 1px;
+          text-overflow: '';
+        }
+
         .select-css option {
            {
             /* font-weight: normal; */
           }
+        }
+
+        .input-error {
+          box-shadow: 0 0 0 2px var(--error) !important;
         }
 
         /* Support for rtl text, explicit support for Arabic and Hebrew */

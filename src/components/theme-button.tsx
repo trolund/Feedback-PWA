@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getLightMode, toggleLightMode } from '../theme'
+import { getLightMode, toggleLightMode } from '../utils/theme'
 
 const ThemeButton = () => {
   const [dark, setDark] = useState(getLightMode())

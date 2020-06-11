@@ -26,8 +26,9 @@
   --gradiant-start-color-tans: rgb(23, 161, 129, 1);
   --gradiant-end-color-tans: #0a7e8d85;
 
-
-  --gradiant: linear-gradient(180deg, var(--gradiant-start-color) 0%, var(--gradiant-end-color) 100%);
+  --gradiant: linear-gradient(180deg,
+      var(--gradiant-start-color) 0%,
+      var(--gradiant-end-color) 100%);
 
   --border-radius: 15px;
   --error: #a70450;
@@ -60,11 +61,13 @@
   --safe-area-inset-right: env(safe-area-inset-right, 0.5vh);
   --safe-area-inset-left: env(safe-area-inset-left, 0.5vh);
 
+  --bottom-bar-space: 72px;
+
   --top-bar-height: 72px;
   --bottom-bar-height: 72px;
 }
 
-@media only screen and (max-width: 380px) {
+/* @media only screen and (max-width: 380px) {
   :root {
     --border-radius: 10px;
 
@@ -72,7 +75,7 @@
     --gap: 1.1rem;
     --gap-large: 2.2rem;
   }
-}
+} */
 
 .dark {
   --accent: #19896f;
@@ -195,7 +198,7 @@ textarea {
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   -webkit-appearance: none;
   margin: 0px;
-  padding: 16px 16px 16px 16px;
+  /* padding: 16px 16px 16px 16px; */
   border-width: 0px;
   border-style: initial;
   border-color: initial;
@@ -295,6 +298,7 @@ button,
 textarea,
 select {
   font: inherit;
+  border: none;
 }
 
 a {
@@ -342,7 +346,8 @@ a {
 /* custom styles for datepicker */
 
 .datepicker.default {
-  margin-bottom: 72px;
+  /* set bottom margin based on the bottom nav i open */
+  margin-bottom: calc(var(--safe-area-inset-bottom) + var(--bottom-bar-space));
   position: fixed;
 }
 
@@ -505,7 +510,7 @@ hr {
 /* make height match viewport */
 .fixed-cal {
   --height-diff: 35px;
-  height: calc(100vh - (env(safe-area-inset-bottom) + 73px + env(safe-area-inset-top) + 73px));
+  height: calc(100vh - (var(--safe-area-inset-bottom) + 73px + var(--safe-area-inset-top) + 73px));
 }
 
 @media only screen and (max-width: 600px) {
@@ -525,12 +530,9 @@ hr {
 
   .fixed-cal {
     margin-top: var(--height-diff);
-    height: calc(100vh - (var(--safe-area-inset-bottom) / 2 + 73px + var(--safe-area-inset-top) / 2 + 73px) - var(--height-diff));
-    top: calc(var(--safe-area-inset-top) / 2 + var(--top-bar-height));
+    height: calc(100vh - (var(--safe-area-inset-bottom) + 73px + var(--safe-area-inset-top) + 73px + var(--height-diff)));
   }
 }
-
-
 
 .fc-button-primary:not(:disabled):active,
 .fc-button-primary:not(:disabled).fc-button-active {
@@ -606,17 +608,23 @@ td {
 }
 
 .fc-day {
-  background: linear-gradient(200deg, rgba(5, 148, 166, 0.20) 0%, rgba(5, 148, 166, 0.05) 100%);
+  background: linear-gradient(200deg,
+      rgba(5, 148, 166, 0.2) 0%,
+      rgba(5, 148, 166, 0.05) 100%);
   transition: all 0.2s ease-in-out;
   /* border: 2px rgba(255, 255, 255, 0) solid !important; */
 }
 
 .fc-other-month {
-  background: linear-gradient(200deg, var(--surface) 0%, rgba(144, 197, 204, 0.09) 100%);
+  background: linear-gradient(200deg,
+      var(--surface) 0%,
+      rgba(144, 197, 204, 0.09) 100%);
 }
 
 .fc-day:hover {
-  background: linear-gradient(200deg, rgba(159, 178, 180, 0.13) 0%, rgba(144, 197, 204, 0.09) 100%);
+  background: linear-gradient(200deg,
+      rgba(159, 178, 180, 0.13) 0%,
+      rgba(144, 197, 204, 0.09) 100%);
 }
 
 .fc-unthemed th,

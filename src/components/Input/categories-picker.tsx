@@ -170,18 +170,30 @@ export default observer(
               onClick={() => setShowModal(!showModal)}
             >
               <div style={{ width: '100%', overflow: 'none' }}>
-                {categoriesValues?.length > 0 ? (
+                {categoriesValues?.length === 0 && (
+                  <div
+                    style={{ marginLeft: '12px', color: 'var(--text)' }}
+                    key='cat-label'
+                  >
+                    Kategorier
+                  </div>
+                )}
+                {categoriesValues?.length > 0 &&
                   categoriesValues.map(item => (
                     <span key={item.value} className='mobile-cat-item'>
                       {item.label}
                     </span>
-                  ))
-                ) : (
-                  <span style={{ marginLeft: '7px' }}>Kategorier</span>
-                )}
+                  ))}
               </div>
               <span className='arrow'>
-                <ChevronDown />
+                <ChevronDown
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    marginTop: '-3px',
+                    marginBottom: '-3px'
+                  }}
+                />
               </span>
             </div>
             {showModal && (
@@ -274,6 +286,7 @@ export default observer(
             border: 1px;
             width: 100%;
             padding: var(--gap-small);
+
             outline: none;
             overflow: hidden;
 
@@ -282,7 +295,7 @@ export default observer(
             appearance: none;
             border: 0px !important;
             color: var(--text);
-            background: var(--base);
+            background-color: var(--surface);
             display: flex;
             align-items: center;
             transition: var(--transition-colors);
@@ -290,22 +303,12 @@ export default observer(
             border-radius: var(--border-radius);
             background-color: var(--surface);
             display: -ms-flexbox;
-            /* IE10 */
-            display: flex;
-            font-size: inherit;
-            font-family: inherit;
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-              rgba(0, 0, 0, 0.06) 0px 1px 2px 0px !important;
-            -webkit-appearance: none;
-            margin: 0px;
-            border-width: 0px;
-            border-style: initial;
-            border-color: initial;
           }
 
           .select-css select {
             width: 100%;
             padding: 15px;
+            background: none;
           }
 
           .select-css::-ms-expand {

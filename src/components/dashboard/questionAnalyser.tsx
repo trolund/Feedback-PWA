@@ -1,5 +1,5 @@
 import { Bar } from 'react-chartjs-2'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { useCallback, useContext, useState, useEffect } from 'react'
 import rootStore from '../../stores/RootStore'
 import CalculationService from '../../services/calculationService'
@@ -25,6 +25,12 @@ const QuestionAnalyser = observer(({ data }: Props) => {
     fetchQuestionSetNames()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    console.log('====================================')
+    console.log(QSetNames)
+    console.log('====================================')
+  }, [QSetNames])
 
   const chartOptions = {
     responsive: true,

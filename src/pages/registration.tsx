@@ -297,7 +297,7 @@ export default observer(() => {
         <hr />
         <li style={{ textAlign: 'center' }}>
           <a
-            tabIndex={-1}
+            tabIndex={0}
             role='button'
             onKeyDown={() => setShowGDPR(true)}
             onClick={() => setShowGDPR(true)}

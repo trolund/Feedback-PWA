@@ -429,7 +429,7 @@ const Post: NextPage = observer(() => {
                 </button>
               </div>
             </div>
-            <div className='flex-item-right'>
+            <div className='flex-item-right center'>
               <div className='qrbox'>
                 <h4>QRkode</h4>
                 {ApiRoutes.qrcode(String(mid)).includes('http') ? (

@@ -1,5 +1,4 @@
-/* eslint-disable func-names */
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Save, X } from 'react-feather'
 import { toast } from 'react-toastify'
@@ -38,16 +37,16 @@ const AddMeeting = observer(
     } = useContext(rootStore)
     const [meeting, setMeeting] = useState({} as MeetingModel)
 
-    const getMeetingCategories = () =>
-      categories?.map(
-        item =>
-          ({
-            label:
-              categories?.filter(i => i.categoryId === item.categoryId)[0]
-                ?.name ?? 'Henter...',
-            value: item.categoryId
-          } as IOptionsValue)
-      )
+    // const getMeetingCategories = () =>
+    //   categories?.map(
+    //     item =>
+    //       ({
+    //         label:
+    //           categories?.filter(i => i.categoryId === item.categoryId)[0]
+    //             ?.name ?? 'Henter...',
+    //         value: item.categoryId
+    //       } as IOptionsValue)
+    //   )
 
     // const [meetingCategories, setMeetingCategories] = useState(
     //   getMeetingCategories()
@@ -95,19 +94,31 @@ const AddMeeting = observer(
       validateStartAndEndDate(startTime, endTime).valid &&
       validateTextInput(meeting?.name, 80, false).valid &&
       validateTextInput(meeting?.discription, 1500, true).valid &&
-      questionSet === 'null'
+      questionSet !== 'null'
 
     const createMeeting = () => {
-      if (fuldformValid) {
+      console.log('====================================')
+      console.log(
+        validateStartAndEndDate(startTime, endTime).valid,
+        validateTextInput(meeting?.name, 80, false).valid,
+        validateTextInput(meeting?.discription, 1500, true).valid,
+        questionSet !== 'null',
+        questionSet
+      )
+      console.log('====================================')
+      if (fuldformValid()) {
         const eTime = spliceDateAndTime(date, endTime)
+        const sTime = spliceDateAndTime(date, startTime)
+        console.log(sTime, eTime)
         const newMeeting: MeetingModel = {
           ...meeting,
           endTime: eTime,
-          startTime: spliceDateAndTime(date, startTime),
+          startTime: sTime,
           topic: 'emne',
           questionsSetId: questionSet,
           location: 'et sted'
         }
+        setShowErrors(false)
 
         meetingStore.create(newMeeting).then(res => {
           if (res === FetchStates.DONE) {
@@ -134,6 +145,24 @@ const AddMeeting = observer(
       return d
     }
 
+    const maxDateTime = useCallback(() => {
+      const d = new Date(date)
+      d.setSeconds(59)
+      d.setMinutes(59)
+      d.setHours(23)
+
+      return d
+    }, [date])
+
+    const minDateTime = useCallback(() => {
+      const d = new Date(date)
+      d.setSeconds(0)
+      d.setMinutes(1)
+      d.setHours(0)
+
+      return d
+    }, [date])
+
     return (
       <div>
         <span
@@ -152,11 +181,13 @@ const AddMeeting = observer(
           </li>
           <li data-cy='questionset-selector'>
             <CustomSelect
+              error={questionSet == 'null' && showErrors}
               defaultValue={questionSet}
-              error={questionSet === 'null' || questionSet === ''}
               fill
               placeholder='- Vælg spørgsmålssæt -'
-              onChange={value => setQuestionSet(value)}
+              onChange={value => {
+                setQuestionSet(value)
+              }}
               values={
                 QSetNames
                   ? QSetNames.filter(
@@ -176,7 +207,7 @@ const AddMeeting = observer(
             <CustomInput
               fill
               error={
-                validateTextInput(meeting?.name, 80, false).valid && showErrors
+                !validateTextInput(meeting?.name, 80, false).valid && showErrors
               }
               type='text'
               placeholder='Navn på mødet'
@@ -218,7 +249,7 @@ const AddMeeting = observer(
             <CustomTextarea
               fill
               error={
-                validateTextInput(meeting?.discription, 1500, true).valid &&
+                !validateTextInput(meeting?.discription, 1500, true).valid &&
                 showErrors
               }
               value={meeting?.discription}
@@ -240,12 +271,16 @@ const AddMeeting = observer(
             <span data-cy='meeting-start-time'>
               <p>Start tid</p>
               <CustomTimepicker
+                //   minValue={minDateTime()}
                 maxValue={endTime}
-                error={timeError}
+                error={
+                  !validateStartAndEndDate(startTime, endTime).valid &&
+                  showErrors
+                }
                 value={startTime}
                 onChange={newTime => {
                   setStartTime(newTime)
-                  setTimeError(!validateStartAndEndDate(newTime, endTime).valid)
+                  // setTimeError(!validateStartAndEndDate(newTime, endTime).valid)
                 }}
               />
             </span>
@@ -253,13 +288,17 @@ const AddMeeting = observer(
               <p>Slut tid</p>
               <CustomTimepicker
                 minValue={startTime}
-                error={timeError}
+                // maxValue={maxDateTime()}
+                error={
+                  !validateStartAndEndDate(startTime, endTime).valid &&
+                  showErrors
+                }
                 value={endTime}
                 onChange={newTime => {
                   setEndTime(newTime)
-                  setTimeError(
-                    !validateStartAndEndDate(startTime, newTime).valid
-                  )
+                  // setTimeError(
+                  //   !validateStartAndEndDate(startTime, newTime).valid
+                  // )
                 }}
               />
             </span>

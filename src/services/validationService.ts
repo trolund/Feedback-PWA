@@ -142,6 +142,18 @@ export const validDateRule = (
   rules.push(valid)
 }
 
+export const datesNotEqualRule = (
+  inputA: Date,
+  inputB: Date,
+  rules: boolean[],
+  validationErrors: string[]
+) => {
+  const valid = inputA !== inputB
+  if (!valid)
+    validationErrors.push(`start tidspunkt og slut tidspunkt må ikke være ens.`)
+  rules.push(valid)
+}
+
 /* Validaters */
 
 export const validateTextInput = (
@@ -152,7 +164,7 @@ export const validateTextInput = (
   const validationErrors: string[] = []
   const rules: boolean[] = []
 
-  if (allowZero) zeroLengthRule(input, rules, validationErrors)
+  if (!allowZero) zeroLengthRule(input, rules, validationErrors)
   maxLengthRule(input, rules, validationErrors, maxLength)
 
   return createResult(rules, validationErrors)
@@ -168,6 +180,7 @@ export const validateStartAndEndDate = (
   validDateRule(startTime, rules, validationErrors)
   validDateRule(endTime, rules, validationErrors)
   StartbeforeEndDateRule(startTime, endTime, rules, validationErrors)
+  datesNotEqualRule(startTime, endTime, rules, validationErrors)
 
   return createResult(rules, validationErrors)
 }

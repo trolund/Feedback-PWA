@@ -21,7 +21,7 @@ context('Create meeting', () => {
 
     cy.wait(600)
     cy.get('[data-cy="questionset-selector"] > .select-css > select').select(
-      'Foredrag ny'
+      'Foredrag'
     )
 
     cy.get('[data-cy=meeting-name] > div > input').type(
@@ -51,7 +51,7 @@ context('Create meeting', () => {
 
     cy.wait(600)
     cy.get('[data-cy="questionset-selector"] > .select-css > select').select(
-      'Foredrag ny'
+      'Foredrag'
     )
 
     cy.get('[data-cy=meeting-name] > div > input').type(
@@ -87,7 +87,7 @@ context('Create meeting', () => {
 
     cy.wait(600)
     cy.get('[data-cy="questionset-selector"] > .select-css > select').select(
-      'Foredrag ny'
+      'Foredrag'
     )
 
     cy.get('[data-cy=meeting-name] > div > input').type(
@@ -125,7 +125,7 @@ context('Create meeting', () => {
 
     cy.wait(600)
     cy.get('[data-cy="questionset-selector"] > .select-css > select').select(
-      'Foredrag ny'
+      'Foredrag'
     )
 
     cy.get('[data-cy="categories-selector"]').click()
@@ -159,7 +159,7 @@ context('Create meeting', () => {
 
     cy.wait(600)
     cy.get('[data-cy="questionset-selector"] > .select-css > select').select(
-      'Foredrag ny'
+      'Foredrag'
     )
 
     cy.get('[data-cy="comment"] textarea').type('test description')

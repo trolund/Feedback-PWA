@@ -12,6 +12,7 @@ import { validateEmail, validatePassword } from '../services/validationService'
 import CustomInput from '../components/Input/custom-input'
 import rootStore from '../stores/RootStore'
 import withRedirect from '../components/hoc/withRedirect'
+import Router from 'next/router'
 
 const Login: NextPage = withRedirect(
   observer(() => {
@@ -40,6 +41,11 @@ const Login: NextPage = withRedirect(
         !validatePassword(password) && !validatePassword(password)
       )
     }, [password, password.length, username.length])
+
+    useEffect(() => {
+      // Prefetch the dashboard page as the user will go there after the login
+      Router.prefetch('/home')
+    }, [])
 
     return (
       <Page showBottomNav={false} showBackButton title='login'>

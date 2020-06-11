@@ -1,7 +1,7 @@
 {
   "env": {
     "isLocal": "true",
-    "frontendLocal": "http://localhost:3000",
+    "frontendLocal": "http://localhost:5000",
     "frontendRemote": "https://feedbackspinoff.azurewebsites.net"
   }
 }

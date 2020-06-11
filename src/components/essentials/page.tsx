@@ -51,6 +51,14 @@ const Page = ({
   const fullscreenMain = fullscreen === undefined ? false : fullscreen
   const bgStyle = bgColor ? { backgroundColor: bgColor } : {}
 
+  useEffect(() => {
+    if (showBottomNaver) {
+      document.documentElement.style.setProperty('--bottom-bar-space', '72px')
+    } else {
+      document.documentElement.style.setProperty('--bottom-bar-space', '0px')
+    }
+  }, [showBottomNaver])
+
   return (
     <>
       {showHeader && (

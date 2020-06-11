@@ -19,7 +19,7 @@ export default class SettingsStore implements IStoreFetchState {
 
   @persist @observable showDefQuestionSets: boolean = false
 
-  @persist @observable hideTempQuestionSets: boolean = true
+  @persist @observable hideTempQuestionSets: boolean = false
 
   @persist @observable animation: boolean = false
 

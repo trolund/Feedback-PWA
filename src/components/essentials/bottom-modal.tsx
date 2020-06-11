@@ -84,7 +84,6 @@ const BottomModal = (props: BottomModalProps) => {
             overflow: scroll;
             max-height: 94vh;
             min-height: 400px;
-            padding-bottom: calc(env(safe-area-inset-bottom) + 75px) !important;
           }
 
            {

@@ -78,7 +78,7 @@ const DashboardFilter = observer(() => {
   ] as IOptionsValue[]
 
   return (
-    <ul>
+    <ul className='bottom-modal-content'>
       <li>
         <h3 className='float-left'>Filter muligheder</h3>
         <span className='float-right btn-group'>

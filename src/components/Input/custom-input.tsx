@@ -57,17 +57,17 @@ const CustomInput = ({
         .icon-container {
           border-top-left-radius: var(--border-radius);
           border-bottom-left-radius: var(--border-radius);
-          height: 52px;
+          height: 45px;
           background-color: #8a8b8e4f;
           max-width: 45px;
-          margin-top: -52px;
+          margin-top: -45px;
           margin-left: 0px;
         }
 
         .icon {
           height: 20px;
           width: 20px;
-          padding: 15px;
+          padding: 13px;
           padding-left: 12px;
         }
 

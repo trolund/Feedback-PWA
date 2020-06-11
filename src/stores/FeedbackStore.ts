@@ -6,6 +6,7 @@ import ApiRoutes from './api/ApiRoutes'
 import FeedbackModel from '../models/FeedbackModel'
 import { getToken } from '../services/authService'
 import IStoreFetchState from './StoreFetchState'
+import Question from '../components/feedback/question'
 
 // import authService from '../components/api-authorization/AuthorizeService'
 
@@ -70,7 +71,8 @@ export default class FeedbackStore implements IStoreFetchState {
   @action createFeedbackBatch = async (
     feedback: FeedbackModel[],
     meetingId: string,
-    fingerprint
+    fingerprint: string,
+    questionSetId: string
   ) => {
     this.fetchState = FetchStates.LOADING
 
@@ -79,7 +81,8 @@ export default class FeedbackStore implements IStoreFetchState {
       const json = JSON.stringify({
         meetingId,
         feedback,
-        userFingerprint: fingerprint
+        userFingerprint: fingerprint,
+        questionSetId
       })
       const response = await fetch(url, {
         method: 'POST',

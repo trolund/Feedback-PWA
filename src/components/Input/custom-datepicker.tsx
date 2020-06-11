@@ -39,6 +39,7 @@ const CustomDatepicker = ({ value, onChange, error, minValue }: Props) => {
             marginTop: '-70px',
             marginLeft: '15px'
           }}
+          onClick={() => setIsOpen(!isOpen)}
         />
       </div>
       <DatePicker

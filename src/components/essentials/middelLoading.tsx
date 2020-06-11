@@ -20,7 +20,7 @@ const MiddelLoader: React.FC<loadingprops> = ({ loading, text }) => {
       {loading && (
         <div className='container'>
           <Lottie options={defaultOptions} height={65} width={65} />
-          <p>{text || 'Henter...'}</p>
+          <p style={{ textAlign: 'center' }}>{text || 'Henter...'}</p>
           <style jsx>{`
             .container {
               border-radius: var(--border-radius);

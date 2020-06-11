@@ -176,7 +176,6 @@ const CalendarView = withAuth(
               // catState === FetchStates.LOADING
             }
           />
-
           <div className='fixed-cal' {...bind()}>
             <div
               className='bar'
