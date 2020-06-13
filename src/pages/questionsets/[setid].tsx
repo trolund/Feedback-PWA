@@ -16,7 +16,10 @@ import { auth } from '../../services/authService'
 import rootStore from '../../stores/RootStore'
 import QuestionListDrag from '../../components/questions/question-list-drag'
 import { sortQuestionsByIndex } from '../../services/sortService'
-import { makeid } from '../../services/utilsService'
+import {
+  makeid,
+  prepareQuestionSetforUpdate
+} from '../../services/utilsService'
 import CustomConfirmModal from '../../components/essentials/confirm-modal'
 import withAuth from '../../components/hoc/withAuth'
 
@@ -78,7 +81,10 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   }
 
   const updateClickHandler = () => {
-    updateQuestionSet(qset)
+    console.log('====================================')
+    console.log(prepareQuestionSetforUpdate(qset))
+    console.log('====================================')
+    updateQuestionSet(prepareQuestionSetforUpdate(qset))
       .then(res => {
         if (res === FetchStates.DONE) toast('Sættet er opdateret!')
         else toast('Der skete en fejl ved Opdateringen!')
@@ -224,6 +230,7 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
             type='button'
             className='button bottombtn'
             onClick={() => setShowConfirmModal(true)}
+            data-cy='delete-question-set'
           >
             <Trash
               style={{

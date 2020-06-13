@@ -1,4 +1,6 @@
 import IQuestionSet from '../models/QuestionSet'
+import QuestionSet from '../models/classes/QuestionSet'
+import IQuestion from '../models/Question'
 
 /* eslint-disable import/prefer-default-export */
 export const makeid = length => {
@@ -15,6 +17,20 @@ export const makeid = length => {
 export const filterTempletes = (n: IQuestionSet) =>
   n.companyId !== Number(process.env.spinOffCompenyId)
 
+export const prepareQuestionSetforUpdate = (set: IQuestionSet) => {
+  return {
+    ...set,
+    questions: set.questions.map(i => {
+      return i.questionId.length <= 10
+        ? ({
+            index: i.index,
+            questionSetId: i.questionSetId,
+            theQuestion: i.theQuestion
+          } as IQuestion)
+        : i
+    })
+  } as IQuestionSet
+}
 // export const copyImg = async src => {
 //   const img = await fetch(src)
 //   const imgBlob = await img.blob()

@@ -28,7 +28,7 @@ context('question sets as admin', () => {
     cy.get('.float-right > svg').click()
   })
 
-  it('modifi question set', () => {
+  it('modifiy question set', () => {
     cy.get('ul')
       .find('li')
       .find('.name')
@@ -53,7 +53,8 @@ context('question sets as admin', () => {
 
     cy.get('.back-icon').click()
 
-    cy.wait(3000)
+    cy.wait(1000)
+    cy.reload()
 
     cy.get('ul')
       .find('li')
@@ -61,6 +62,9 @@ context('question sets as admin', () => {
       .contains('test modified')
       .first()
       .click()
+
+    cy.wait(1000)
+    cy.reload()
 
     // check all values has been updated
     cy.get('.name').should('have.value', 'test modified')
@@ -75,5 +79,59 @@ context('question sets as admin', () => {
     cy.get('[data-rbd-droppable-id="list"]')
       .find('li')
       .should('have.length', 2)
+  })
+
+  it('Delete question set from index', () => {
+    cy.get('ul')
+      .find('li')
+      .contains('test modified')
+      .find('.del-btn')
+      .first()
+      .click()
+
+    cy.get('[data-cy="ok-btn"]').click()
+
+    cy.wait(200)
+    cy.reload()
+    cy.reload()
+
+    cy.get('ul')
+      .find('li')
+      .find('.name')
+      .contains('test')
+      .first()
+      .should('not.exist')
+  })
+
+  it('add and then Delete question set own page', () => {
+    cy.get('[data-cy="add-questionset"]').click()
+    cy.wait(2000)
+    cy.get('.name').type('test')
+    cy.get('.button').click()
+    cy.get('.button').click()
+    cy.get('.button').click()
+    cy.get('[data-rbd-droppable-id="list"] li:nth-child(1) input').type('1')
+    cy.get('[data-rbd-droppable-id="list"] li:nth-child(2) input').type('2')
+    cy.get('[data-rbd-droppable-id="list"] li:nth-child(3) input').type('3')
+    cy.get('.float-right > svg').click()
+
+    cy.get('ul')
+      .find('li')
+      .find('.name')
+      .contains('test')
+      .first()
+      .click()
+
+    cy.wait(500)
+
+    cy.get('[data-cy="delete-question-set"]').click()
+    cy.wait(500)
+
+    cy.get('ul')
+      .find('li')
+      .find('.name')
+      .contains('test')
+      .first()
+      .should('not.exist')
   })
 })

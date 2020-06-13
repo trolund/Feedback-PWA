@@ -12,7 +12,6 @@ import QuestionSetList from '../../components/questions/questionset-list'
 import IQuestionSet from '../../models/QuestionSet'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import { auth } from '../../services/authService'
-
 import FetchStates from '../../stores/requestState'
 import rootStore from '../../stores/RootStore'
 import withAuth from '../../components/hoc/withAuth'
@@ -101,7 +100,9 @@ AllQuestionSets.getInitialProps = async ctx => {
   }
   try {
     const response = await fetch(url, {
-      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      headers: !token
+        ? {}
+        : { Authorization: `Bearer ${token}`, cache: 'no-cache' },
       ...options
     })
     data = await response.json()

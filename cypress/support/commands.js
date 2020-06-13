@@ -23,7 +23,7 @@ Cypress.Commands.add("login", (email, password) => {
 
     cy.get('#submit').click()
 
-    cy.wait(3000)
+    cy.wait(5000)
 
     // wait for confimation of login and redirect
     cy.location('pathname', { timeout: 10000 }).should('include', '/home')
