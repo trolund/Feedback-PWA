@@ -5,7 +5,6 @@ type Props = {
 const Section = ({ children }: Props) => (
   <section>
     {children}
-
     <style jsx>{`
       @media only screen and (max-width: 450px) {
         section {

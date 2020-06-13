@@ -42,7 +42,7 @@ const More = withAuth(
           <ul>
             {links.map(item => (
               <Link href={item.href} key={item.href}>
-                <li>
+                <li data-cy={item.href}>
                   <p className='text'>{item.title}</p>
                   <div className='arrow'>
                     <ChevronRight />

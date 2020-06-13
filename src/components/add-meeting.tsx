@@ -97,15 +97,16 @@ const AddMeeting = observer(
       questionSet !== 'null'
 
     const createMeeting = () => {
-      console.log('====================================')
-      console.log(
-        validateStartAndEndDate(startTime, endTime).valid,
-        validateTextInput(meeting?.name, 80, false).valid,
-        validateTextInput(meeting?.discription, 1500, true).valid,
-        questionSet !== 'null',
-        questionSet
-      )
-      console.log('====================================')
+      // console.log('====================================')
+      // console.log(
+      //   validateStartAndEndDate(startTime, endTime).valid,
+      //   validateTextInput(meeting?.name, 80, false).valid,
+      //   validateTextInput(meeting?.discription, 1500, true).valid,
+      //   questionSet !== 'null',
+      //   questionSet
+      // )
+      // console.log('====================================')
+      console.log(validateTextInput(meeting?.discription, 1500, true))
       if (fuldformValid()) {
         const eTime = spliceDateAndTime(date, endTime)
         const sTime = spliceDateAndTime(date, startTime)

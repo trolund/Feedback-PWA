@@ -82,9 +82,13 @@ export const maxLengthRule = (
   validationErrors: string[],
   maxLength?: number
 ) => {
-  const valid = input?.length <= maxLength
+  const valid =
+    input?.length <= maxLength ||
+    input?.length === 0 ||
+    input?.length === null ||
+    input?.length === undefined
   if (!valid)
-    validationErrors.push(`Må bestå af minimum ${maxLength} karaktere.`)
+    validationErrors.push(`Må bestå af mindre end ${maxLength} karaktere.`)
   rules.push(valid)
 }
 

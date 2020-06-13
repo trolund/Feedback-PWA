@@ -54,7 +54,9 @@ const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
   return (
     <Page
       title='Alle spørgsmålssæt'
-      component={<Plus onClick={addQuestionSetClickHandler} />}
+      component={
+        <Plus data-cy='add-questionset' onClick={addQuestionSetClickHandler} />
+      }
     >
       <Section>
         <QuestionSetList
