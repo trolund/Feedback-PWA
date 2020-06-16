@@ -8,7 +8,7 @@ context('question sets as admin', () => {
     cy.viewport(width, height)
     cy.fixture('test-user-data.json').then(users => {
       const { admin } = users
-      ;(cy as any).login(admin.email, admin.password)
+      ;(cy as any).login(admin)
     })
     cy.get('[data-cy="/more"]').click()
     cy.get('[data-cy="/questionsets"]').click()

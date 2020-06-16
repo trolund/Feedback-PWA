@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, useCallback } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { Save, X } from 'react-feather'
 import { toast } from 'react-toastify'
 import CategoriesPicker from './Input/categories-picker'
@@ -23,12 +23,13 @@ import { filterTempletes } from '../services/utilsService'
 
 type AddMeetingProps = {
   callBack: () => void
+  optemistik?: (meeting: MeetingModel) => void
   setShowModal: (show: boolean) => void
   initDate?: Date
 }
 
 const AddMeeting = observer(
-  ({ callBack, setShowModal, initDate }: AddMeetingProps) => {
+  ({ callBack, setShowModal, initDate, optemistik }: AddMeetingProps) => {
     const {
       questionSetStore: { fetchQuestionSetNames, QSetNames },
       categoriesStore: { fetchCategories, fetchState: state, categories },
@@ -123,10 +124,11 @@ const AddMeeting = observer(
 
         meetingStore.create(newMeeting).then(res => {
           if (res === FetchStates.DONE) {
-            callBack()
+            if (optemistik) optemistik(newMeeting)
             reset()
             setShowModal(false)
             toast(`Mødet ${newMeeting.name} er nu oprettet.`)
+            callBack()
           } else if (res === FetchStates.FAILED) {
             toast('Der skete en fejl ved oprettelsen af møde prøv igen')
           }

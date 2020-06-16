@@ -142,13 +142,16 @@ export default class MeetingStore implements IStoreFetchState {
       this.msg = response.statusText
       if (response.status === 200) {
         this.meetingCreatedState = FetchStates.DONE
+        return FetchStates.DONE
       } else {
         this.meetingCreatedState = FetchStates.FAILED
+        return FetchStates.FAILED
       }
     } catch (e) {
       this.meetingCreatedState = FetchStates.FAILED
       this.msg = e.statusText
       this.meetings = []
+      return FetchStates.FAILED
     }
   }
 
@@ -197,7 +200,7 @@ export default class MeetingStore implements IStoreFetchState {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json'
             },
-        redirect: 'follow'
+        cache: 'reload'
       })
 
       this.msg = response.statusText
@@ -226,7 +229,7 @@ export default class MeetingStore implements IStoreFetchState {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json'
             },
-        redirect: 'follow'
+        cache: 'reload'
       })
 
       this.msg = response.statusText

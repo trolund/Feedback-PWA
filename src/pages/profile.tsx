@@ -188,6 +188,7 @@ const Profile = withAuth(
                   onClick={() => {
                     signout()
                   }}
+                  cy-data='logout-btn'
                 >
                   <LogOut
                     style={{

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
 import { observer } from 'mobx-react-lite'
 import { NextPage } from 'next'
@@ -15,6 +15,7 @@ import { auth } from '../../services/authService'
 import FetchStates from '../../stores/requestState'
 import rootStore from '../../stores/RootStore'
 import withAuth from '../../components/hoc/withAuth'
+import MiddelLoader from '../../components/essentials/middelLoading'
 
 type pageProps = {
   initPageProps: IQuestionSet[]
@@ -23,8 +24,21 @@ type pageProps = {
 const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
   const [list, setList] = useState(initPageProps)
   const {
-    questionSetStore: { deleteQuestionSet, fetchQuestionSetNames }
+    questionSetStore: {
+      deleteQuestionSet,
+      fetchQuestionSetNames,
+      QSetNames,
+      fetchState
+    }
   } = useContext(rootStore)
+
+  useEffect(() => {
+    fetchQuestionSetNames()
+  }, [Router])
+
+  useEffect(() => {
+    setList(QSetNames)
+  }, [QSetNames])
 
   const addQuestionSetClickHandler = () => {
     Router.push(`/questionsets/new`)
@@ -57,6 +71,7 @@ const AllQuestionSets: NextPage = observer(({ initPageProps }: pageProps) => {
         <Plus data-cy='add-questionset' onClick={addQuestionSetClickHandler} />
       }
     >
+      <MiddelLoader loading={fetchState === FetchStates.LOADING} />
       <Section>
         <QuestionSetList
           questionSetlist={list}

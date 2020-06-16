@@ -1,5 +1,3 @@
-/* eslint-disable import/no-duplicates */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useContext, useEffect, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import Router from 'next/router'
@@ -27,13 +25,6 @@ import { applyOffSet, spliceDateAndTime } from '../../services/dateService'
 import CustomConfirmModal from '../../components/essentials/confirm-modal'
 import withAuth from '../../components/hoc/withAuth'
 import MiddelLoader from '../../components/essentials/middelLoading'
-import dynamic from 'next/dynamic'
-
-// type initMeetingProps = {
-//   initMeeting: MeetingModel
-//   intitFeedback: FeedbackBatch[]
-//   initCategories: Category[]
-// }
 
 const Post: NextPage = observer(() => {
   const router = useRouter()
@@ -64,6 +55,13 @@ const Post: NextPage = observer(() => {
     categoriesStore: { fetchCategories, categories, fetchState: catFetchState },
     settingStore: { realtimeFeedbackDefault }
   } = useContext(rootStore)
+
+  // go back if meeting is not loaded
+  useEffect(() => {
+    if (state === FetchStates.FAILED) {
+      Router.back()
+    }
+  }, [state])
 
   useEffect(() => {
     fetchMeetingByShortId(String(mid))
@@ -237,17 +235,24 @@ const Post: NextPage = observer(() => {
   const updateMeetingClickHandler = () => {
     if (meeting) {
       update(meeting).then(res => {
-        if (res === FetchStates.DONE) toast('Møde er opdateret!')
-        else toast('Der skete en fejl ved Opdatering af mødet.')
+        if (res === FetchStates.DONE) {
+          toast('Møde er opdateret!')
+          fetchMeetingByShortId(String(mid))
+        } else toast('Der skete en fejl ved Opdatering af mødet.')
       })
     }
   }
 
   const deleteMeetingClickHandler = () => {
     if (meeting) {
-      deleteMeeting(meeting)
-      toast('Møde er slettet!')
-      Router.back()
+      deleteMeeting(meeting).then(r => {
+        if (r === FetchStates.DONE) {
+          toast('Møde er slettet!')
+          Router.back()
+        } else if (r === FetchStates.FAILED) {
+          toast('Der skete en fejl ved sletning af mødet.')
+        }
+      })
     }
   }
 
@@ -409,25 +414,27 @@ const Post: NextPage = observer(() => {
                 isRealtime={isRealTimeDateOn}
                 setIsRealtime={setRealTimeDateOn}
               />
-              <div style={{ width: '100%', padding: '10px' }}>
-                <button
-                  data-cy='meeting-delete'
-                  type='button'
-                  className='button bottombtn'
-                  onClick={() => setShowConfirmModal(true)}
-                >
-                  <Trash
-                    style={{
-                      height: '20px',
-                      width: '20px',
-                      marginRight: '-20px',
-                      marginTop: '2px',
-                      float: 'left'
-                    }}
-                  />
-                  Slet
-                </button>
-              </div>
+              {count === 0 && (
+                <div style={{ width: '100%', padding: '10px' }}>
+                  <button
+                    data-cy='meeting-delete'
+                    type='button'
+                    className='button bottombtn'
+                    onClick={() => setShowConfirmModal(true)}
+                  >
+                    <Trash
+                      style={{
+                        height: '20px',
+                        width: '20px',
+                        marginRight: '-20px',
+                        marginTop: '2px',
+                        float: 'left'
+                      }}
+                    />
+                    Slet
+                  </button>
+                </div>
+              )}
             </div>
             <div className='flex-item-right center'>
               <div className='qrbox'>

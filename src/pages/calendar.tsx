@@ -1,17 +1,10 @@
 import dynamic from 'next/dynamic'
-import Router from 'next/router'
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-  createRef
-} from 'react'
-import { observer } from 'mobx-react-lite'
-import { EventInput, Calendar } from '@fullcalendar/core'
-import { Plus, Search, ChevronLeft, ChevronRight } from 'react-feather'
+import Router, { useRouter } from 'next/router'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
+import { observer } from 'mobx-react'
+import { EventInput } from '@fullcalendar/core'
+import { Plus, ChevronLeft, ChevronRight } from 'react-feather'
 import daLocale from '@fullcalendar/core/locales/da'
-import MobileCalendar from '../components/mobile-calendar'
 import Page from '../components/essentials/page'
 import CalView from '../models/CalView'
 import MeetingModel from '../models/MeetingModel'
@@ -37,23 +30,25 @@ const CalendarView = withAuth(
   observer(() => {
     const mobileSwapPoint = 600
     var calRef = React.useRef<FullCalendar>()
-
     const { meetingStore, categoriesStore } = useContext(rootStore)
-    const {
-      meetingStore: { fetchState: meetingState }
-      // categoriesStore: { fetchState: catState }
-    } = useContext(rootStore)
     const [calViewProp, setCalViewProp] = useState({})
     const initEvent: EventInput[] = []
     const [events, setEvnets] = useState(initEvent)
     const [searchWord, setSearchWord] = useState('')
     const [inputOpen, setInputOpen] = useState(false)
+    const { pathname } = useRouter()
 
     const [showCal, setShowCal] = useState(false)
     const [windowDim, setWindowDim] = useState({
       width: 100000,
       height: 100000
     } as WindowDimensions)
+
+    const optemistikAdd = (meeting: MeetingModel) => {
+      const newEventList = mapEvents([meeting])
+      const newEvent = { ...newEventList[0], color: 'gray' } as EventInput
+      setEvnets([...events, newEvent])
+    }
 
     const bind = useDrag(({ movement: [mx] }) => {
       console.log(mx)
@@ -144,21 +139,14 @@ const CalendarView = withAuth(
         )
         .then(() => {
           setEvnets(mapEvents(meetingStore.meetings))
-          let calendarApi2 = calRef.current.getApi()
-          calendarApi2.refetchEvents()
+          // let calendarApi2 = calRef.current.getApi()
+          // calendarApi2.refetchEvents()
         })
     }
 
     useEffect(() => {
-      meetingStore
-        .fetchMeetings(
-          (calViewProp as CalView).activeStart,
-          (calViewProp as CalView).activeEnd
-        )
-        .then(() => {
-          setEvnets(mapEvents(meetingStore.meetings))
-        })
-    }, [calViewProp, meetingStore])
+      refreshMeetings()
+    }, [calViewProp, meetingStore, pathname])
 
     function clickOnEvent(event: any) {
       Router.push(`/meeting/${event.event.id}`)
@@ -171,7 +159,7 @@ const CalendarView = withAuth(
         <>
           <MiddelLoader
             loading={
-              !showCal || meetingState === FetchStates.LOADING
+              !showCal || meetingStore.fetchState === FetchStates.LOADING
               // ||
               // catState === FetchStates.LOADING
             }
@@ -299,7 +287,7 @@ const CalendarView = withAuth(
       // catState,
       events,
       filterEventsCallback,
-      meetingState,
+      meetingStore.fetchState,
       searchWord,
       showCal,
       windowDim.width
@@ -338,6 +326,7 @@ const CalendarView = withAuth(
           show={showModal}
           content={
             <MobileMultiSelecter
+              optemistik={optemistikAdd}
               callBack={refreshMeetings}
               setShowModal={setShowModal}
             />

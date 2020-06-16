@@ -38,7 +38,8 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
     questionSetStore: {
       fetchQuestionSet,
       updateQuestionSet,
-      deleteQuestionSet
+      deleteQuestionSet,
+      fetchQuestionSetNames
     },
     authStore: { getCompanyId }
   } = useContext(rootStore)
@@ -58,6 +59,10 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
       fetchQuestionSet(String(setid)).then(() => {
         setQset(qset as IQuestionSet)
       })
+    }
+
+    return () => {
+      fetchQuestionSetNames()
     }
   }, [fetchQuestionSet, qset, setid])
 
@@ -81,9 +86,6 @@ const QuestionSetPage: NextPage = observer(({ initQSet }: pageProps) => {
   }
 
   const updateClickHandler = () => {
-    console.log('====================================')
-    console.log(prepareQuestionSetforUpdate(qset))
-    console.log('====================================')
     updateQuestionSet(prepareQuestionSetforUpdate(qset))
       .then(res => {
         if (res === FetchStates.DONE) toast('Sættet er opdateret!')

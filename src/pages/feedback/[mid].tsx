@@ -1,4 +1,4 @@
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { useEffect, useContext, useState } from 'react'
 import { NextPage } from 'next'
 import Router, { useRouter } from 'next/router'
@@ -157,7 +157,7 @@ const Feedback: NextPage = observer(() => {
                   marginRight: 'auto'
                 }}
               />
-              <p className='msg'>Mødet blev ikke fundet.</p>
+              <p className='msg'>Mødet blev ikke fundet</p>
               <BackBtn />
             </div>
           )}

@@ -1,5 +1,4 @@
 import IQuestionSet from '../models/QuestionSet'
-import QuestionSet from '../models/classes/QuestionSet'
 import IQuestion from '../models/Question'
 
 /* eslint-disable import/prefer-default-export */

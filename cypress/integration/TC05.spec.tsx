@@ -8,7 +8,7 @@ context('Delete and validate meeting', () => {
     cy.viewport(width, height)
     cy.fixture('test-user-data.json').then(users => {
       const { facilitator } = users
-      ;(cy as any).login(facilitator.email, facilitator.password)
+      ;(cy as any).login(facilitator)
     })
   })
 
@@ -46,6 +46,9 @@ context('Delete and validate meeting', () => {
 
     cy.wait(200)
 
-    cy.location('pathname', { timeout: 10000 }).should('include', '/calendar')
+    cy.location('pathname', { timeout: 10000 }).should(
+      'include',
+      '/meeting/day'
+    )
   })
 })

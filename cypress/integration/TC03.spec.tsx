@@ -8,7 +8,7 @@ context('Create meeting', () => {
     cy.viewport(width, height)
     cy.fixture('test-user-data.json').then(users => {
       const { facilitator } = users
-      ;(cy as any).login(facilitator.email, facilitator.password)
+      ;(cy as any).login(facilitator)
     })
   })
 
@@ -36,6 +36,8 @@ context('Create meeting', () => {
       .trigger('mouseup')
 
     cy.get('body').click()
+
+    cy.wait(500)
 
     cy.get('[data-cy=create-meeting-btn]').click()
     cy.wait(200)
@@ -72,6 +74,8 @@ context('Create meeting', () => {
       .trigger('mouseup')
 
     cy.get('body').click()
+
+    cy.wait(500)
 
     cy.get('[data-cy=create-meeting-btn]').click()
     cy.wait(200)
@@ -111,6 +115,8 @@ context('Create meeting', () => {
 
     cy.get('body').click()
 
+    cy.wait(500)
+
     cy.get('[data-cy=create-meeting-btn]').click()
     cy.wait(200)
     cy.get('.toast').contains('er nu oprettet')
@@ -145,6 +151,8 @@ context('Create meeting', () => {
 
     cy.get('body').click()
 
+    cy.wait(500)
+
     cy.get('[data-cy=create-meeting-btn]').click()
     cy.wait(200)
     cy.get('.toast').contains('fejl')
@@ -173,6 +181,8 @@ context('Create meeting', () => {
 
     cy.get('body').click()
 
+    cy.wait(500)
+
     cy.get('[data-cy=create-meeting-btn]').click()
     cy.wait(200)
     cy.get('.toast').contains('fejl')
@@ -197,6 +207,8 @@ context('Create meeting', () => {
       .trigger('mouseup')
 
     cy.get('body').click()
+
+    cy.wait(500)
 
     cy.get('[data-cy=create-meeting-btn]').click()
     cy.wait(200)
