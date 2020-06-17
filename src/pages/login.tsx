@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useContext, useEffect } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { CheckCircle, User, Key, LogIn, UserPlus } from 'react-feather'
 import Link from 'next/link'
 import { NextPage } from 'next'

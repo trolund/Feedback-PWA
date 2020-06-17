@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import { Save, Search } from 'react-feather'
 import { toast } from 'react-toastify'

@@ -1,4 +1,4 @@
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { useContext, useEffect } from 'react'
 import { RefreshCw, DownloadCloud, Search, X } from 'react-feather'
 import CustomDatepicker from '../Input/custom-datepicker'

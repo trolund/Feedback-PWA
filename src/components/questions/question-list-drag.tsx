@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Trash, MoreVertical } from 'react-feather'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import IQuestion from '../../models/Question'
 import IQuestionSet from '../../models/QuestionSet'
 import rootStore from '../../stores/RootStore'

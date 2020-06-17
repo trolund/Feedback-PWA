@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { toast } from 'react-toastify'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import Router from 'next/router'
 import Page from '../components/essentials/page'
 import Section from '../components/essentials/section'

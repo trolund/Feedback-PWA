@@ -60,15 +60,17 @@ export class RootStore {
 
   // clear all personal data
   clearAll() {
-    this.authStore.clear()
-    this.dashboardStore.clear()
-    this.categoriesStore.clear()
-    this.feedbackStore.clear()
-    this.meetingStore.clear()
-    this.questionSetStore.clear()
-    this.questionStore.clear()
-    this.userAdminStore.clear()
-    this.settingStore.clear()
+    if (isServer) {
+      this.authStore?.clear()
+      this.dashboardStore?.clear()
+      this.categoriesStore?.clear()
+      this.feedbackStore?.clear()
+      this.meetingStore?.clear()
+      this.questionSetStore?.clear()
+      this.questionStore?.clear()
+      this.userAdminStore?.clear()
+      this.settingStore?.clear()
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { useContext } from 'react'
 import { X, Check } from 'react-feather'
 import Switch from 'react-switch'

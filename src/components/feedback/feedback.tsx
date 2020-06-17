@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Bar } from 'react-chartjs-2'
 import Collapsible from 'react-collapsible'
@@ -16,10 +16,9 @@ import CustomCheckbox from '../Input/checkbox'
 import CustomSwitch from '../Input/custom-switch'
 import { chartColors } from '../../services/colorContants'
 import { sortFeedbackByQuestionsIndex } from '../../services/sortService'
+import rootStore from '../../stores/RootStore'
 
 interface IProp {
-  feedback: Feedback[] | undefined
-  count: number
   feedbackLoading: FetchStates
   isRealtime: boolean
   setIsRealtime: (value: boolean) => void
@@ -30,6 +29,11 @@ const FeedbackView = observer((props: IProp) => {
   const [showModal, setShowModal] = useState(false)
   const [wWidth, setWWidth] = useState(0)
   const [, setWHeight] = useState(0)
+
+  const {
+    questionSetStore: { qSet },
+    feedbackStore: { feedbackBatch }
+  } = useContext(rootStore)
 
   const updateWindowSize = () => {
     setWWidth(window.innerWidth)
@@ -43,13 +47,57 @@ const FeedbackView = observer((props: IProp) => {
     return window.removeEventListener('resize', updateWindowSize)
   }, [])
 
+  const getAvg = (questionId: string) => {
+    const returnAvg = feedbackBatch
+      .map(i => i.feedback)
+      .flat()
+      .filter(x => x.questionId === questionId)
+      .reduce((avg, item, _, { length }) => {
+        return avg + item.answer / length
+      }, 0)
+    return returnAvg
+  }
+
+  const getComments = (questionId: string) => {
+    return feedbackBatch
+      ?.map(batch =>
+        batch.feedback.map(feed =>
+          feed.questionId === questionId ? feed.comment : null
+        )
+      )
+      .flat()
+      .filter(s => s !== null)
+      .filter(s => s?.length! > 1)
+  }
+
+  const feedback = useCallback(() => {
+    if (feedbackBatch !== null && qSet !== null) {
+      const theFeedback = qSet?.questions.map(item => {
+        return {
+          questionIndex: item.index,
+          questionId: item.questionId,
+          question: item.theQuestion,
+          comments: getComments(item.questionId),
+          voteAVG: getAvg(item.questionId)
+        } as Feedback
+      })
+      return theFeedback || []
+    } else {
+      return []
+    }
+  }, [getAvg, getComments, qSet, feedbackBatch])
+
   const avgRes = useCallback(() => {
-    return props.feedback
-      ? props.feedback.reduce((avg, item, _, { length }) => {
+    return feedback()
+      ? feedback().reduce((avg, item, _, { length }) => {
           return avg + item.voteAVG / length
         }, 0)
       : 0
-  }, [props.feedback])
+  }, [feedback])
+
+  const count = useCallback(() => (feedbackBatch ? feedbackBatch?.length : 0), [
+    feedbackBatch
+  ])()
 
   const commentTitelBar = (title: string, count: number) => {
     return (
@@ -80,10 +128,10 @@ const FeedbackView = observer((props: IProp) => {
 
   const getLabels = useCallback((): string[] => {
     if (wWidth < 550) {
-      return props.feedback.map((i, n) => String(n + 1))
+      return feedback().map((i, n) => String(n + 1))
     }
-    return props.feedback.map(i => i.question)
-  }, [props.feedback, wWidth])
+    return feedback().map(i => i.question)
+  }, [feedback, wWidth])
 
   const graphData = useCallback(
     (canvas: any) => {
@@ -104,12 +152,12 @@ const FeedbackView = observer((props: IProp) => {
             pointStrokeColor: chartColors.border,
             pointHighlightFill: '#fff',
             pointHighlightStroke: chartColors.hightlight,
-            data: props.feedback.map(i => i.voteAVG)
+            data: feedback().map(i => i.voteAVG)
           }
         ]
       }
     },
-    [getLabels, props.feedback]
+    [getLabels, feedback]
   )
 
   const chartOptions = {
@@ -136,7 +184,7 @@ const FeedbackView = observer((props: IProp) => {
           />
           <div className='counter-container'>
             <p>Antal besvarelser</p>
-            <h2 className='align-middle counter'>{props.count}</h2>
+            <h2 className='align-middle counter'>{count}</h2>
           </div>
         </div>
       </div>
@@ -168,8 +216,8 @@ const FeedbackView = observer((props: IProp) => {
         {activeTab === 1 && (
           <div className='tab-content'>
             <div className='questions'>
-              {props.count > 0 ? (
-                props.feedback
+              {feedback()?.length > 0 ? (
+                feedback()
                   ?.sort(sortFeedbackByQuestionsIndex)
                   .map((item, index) => (
                     <FeedbackProcessbar
@@ -188,8 +236,8 @@ const FeedbackView = observer((props: IProp) => {
         {activeTab === 2 && (
           <div className='tab-content'>
             <div className='questions'>
-              {props.count > 0 ? (
-                props.feedback
+              {feedback()?.length > 0 ? (
+                feedback()
                   ?.sort(sortFeedbackByQuestionsIndex)
                   .map((item: Feedback, index) => {
                     if (item.comments?.length > 0) {

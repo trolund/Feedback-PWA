@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import Lottie from 'react-lottie'
 import { Hash, Smile, Maximize } from 'react-feather'
 import Link from 'next/link'

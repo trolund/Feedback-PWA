@@ -58,13 +58,11 @@ export default class FeedbackStore implements IStoreFetchState {
           : {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json'
-            },
-        redirect: 'follow'
+            }
       })
       this.msg = response.statusText
 
       const data: FeedbackBatch[] = await response.json()
-
       this.feedbackBatch = data
     } catch (e) {
       this.fetchState = FetchStates.FAILED

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { NextPageContext } from 'next'
 import Router from 'next/router'
 import Page from '../../components/essentials/page'

@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useContext, useEffect } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { motion } from 'framer-motion'
 import Appbar from './appbar'
 import BottomNav from './bottom-nav'

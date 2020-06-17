@@ -1,5 +1,5 @@
 import { useContext, useCallback } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { Filter } from 'react-feather'
 import Page from '../components/essentials/page'
 import Section from '../components/essentials/section'

@@ -1,5 +1,5 @@
 import { useContext, useState, FormEvent } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { Key } from 'react-feather'
 import Lottie from 'react-lottie'
 import Router from 'next/router'

@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 import { useState, useContext, useEffect } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { Save } from 'react-feather'
 import Router from 'next/router'
 import CategoriesPicker from '../../components/Input/categories-picker'

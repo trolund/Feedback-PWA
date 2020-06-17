@@ -62,6 +62,24 @@ const AddMeeting = observer(
     // errors
     const [timeError, setTimeError] = useState(false)
 
+    const minDate = () => {
+      const d = new Date()
+      d.setHours(0)
+      d.setMinutes(1)
+      d.setSeconds(1)
+
+      return d
+    }
+
+    const maxDate = () => {
+      const d = new Date()
+      d.setHours(23)
+      d.setMinutes(59)
+      d.setSeconds(59)
+
+      return d
+    }
+
     useEffect(() => {
       if (initDate && initDate.toString() !== 'Invalid Date') {
         setDate(initDate)
@@ -139,32 +157,32 @@ const AddMeeting = observer(
       }
     }
 
-    const minDate = () => {
-      const d = new Date()
-      d.setSeconds(0)
-      d.setMinutes(0)
-      d.setHours(0)
+    // const minDate = () => {
+    //   const d = new Date()
+    //   d.setSeconds(0)
+    //   d.setMinutes(0)
+    //   d.setHours(0)
 
-      return d
-    }
+    //   return d
+    // }
 
-    const maxDateTime = useCallback(() => {
-      const d = new Date(date)
-      d.setSeconds(59)
-      d.setMinutes(59)
-      d.setHours(23)
+    // const maxDateTime = useCallback(() => {
+    //   const d = new Date(date)
+    //   d.setSeconds(59)
+    //   d.setMinutes(59)
+    //   d.setHours(23)
 
-      return d
-    }, [date])
+    //   return d
+    // }, [date])
 
-    const minDateTime = useCallback(() => {
-      const d = new Date(date)
-      d.setSeconds(0)
-      d.setMinutes(1)
-      d.setHours(0)
+    // const minDateTime = useCallback(() => {
+    //   const d = new Date(date)
+    //   d.setSeconds(0)
+    //   d.setMinutes(1)
+    //   d.setHours(0)
 
-      return d
-    }, [date])
+    //   return d
+    // }, [date])
 
     return (
       <div>
@@ -274,7 +292,7 @@ const AddMeeting = observer(
             <span data-cy='meeting-start-time'>
               <p>Start tid</p>
               <CustomTimepicker
-                //   minValue={minDateTime()}
+                minValue={minDate()}
                 maxValue={endTime}
                 error={
                   !validateStartAndEndDate(startTime, endTime).valid &&
@@ -291,7 +309,7 @@ const AddMeeting = observer(
               <p>Slut tid</p>
               <CustomTimepicker
                 minValue={startTime}
-                // maxValue={maxDateTime()}
+                maxValue={maxDate()}
                 error={
                   !validateStartAndEndDate(startTime, endTime).valid &&
                   showErrors

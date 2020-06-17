@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState, useCallback } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useDrag } from 'react-use-gesture'

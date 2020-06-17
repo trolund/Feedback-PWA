@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { View } from 'react-view-pager'
 import FeedbackModel from '../../models/FeedbackModel'
 import Bad from '../../../public/images/meget_sur.png'

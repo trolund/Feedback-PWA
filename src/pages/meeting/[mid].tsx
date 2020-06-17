@@ -1,7 +1,7 @@
 import { useContext, useEffect, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import Router from 'next/router'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { QRCode } from 'react-qr-svg'
 import { Save, Trash } from 'react-feather'
 import { NextPage } from 'next'
@@ -25,10 +25,33 @@ import { applyOffSet, spliceDateAndTime } from '../../services/dateService'
 import CustomConfirmModal from '../../components/essentials/confirm-modal'
 import withAuth from '../../components/hoc/withAuth'
 import MiddelLoader from '../../components/essentials/middelLoading'
+import {
+  validateStartAndEndDate,
+  validateTextInput
+} from '../../services/validationService'
 
 const Post: NextPage = observer(() => {
   const router = useRouter()
   const { mid } = router.query
+  const [showErrors, setshowErrors] = useState(false)
+
+  const minDate = () => {
+    const d = new Date()
+    d.setHours(0)
+    d.setMinutes(1)
+    d.setSeconds(1)
+
+    return d
+  }
+
+  const maxDate = () => {
+    const d = new Date()
+    d.setHours(23)
+    d.setMinutes(59)
+    d.setSeconds(59)
+
+    return d
+  }
 
   const hubConnection = new HubConnectionBuilder()
     .withUrl(ApiRoutes.liveFeedback, {
@@ -64,10 +87,13 @@ const Post: NextPage = observer(() => {
   }, [state])
 
   useEffect(() => {
+    fetchCategories(String(getCompanyId()))
+  }, [getCompanyId])
+
+  useEffect(() => {
     fetchMeetingByShortId(String(mid))
     fetchFeedback(String(mid))
-    fetchCategories(String(getCompanyId()))
-  }, [mid, getCompanyId])
+  }, [mid])
 
   // const [meeting, setMeeting] = useState(null)
   // const [meetingCategories] = useState(null)
@@ -174,72 +200,28 @@ const Post: NextPage = observer(() => {
     feedbackBatch
   ])()
 
-  const getAvg = useCallback(
-    (questionId: string) => {
-      const returnAvg = feedbackBatch
-        ?.map(i => i.feedback)
-        .flat()
-        .filter(x => x.questionId === questionId)
-        .reduce((avg, item, _, { length }) => {
-          return avg + item.answer / length
-        }, 0)
-
-      return returnAvg || 0
-    },
-    [feedbackBatch]
-  )
-
   useEffect(() => {
     return () => {
       setQSet(null)
     }
   }, [])
 
-  const getComments = useCallback(
-    (questionId: string) => {
-      return feedbackBatch
-        ?.map(batch =>
-          batch.feedback.map(feed =>
-            feed.questionId === questionId ? feed.comment : null
-          )
-        )
-        .flat()
-        .filter(s => s !== null)
-        .filter(s => s?.length! > 1)
-    },
-    [feedbackBatch]
-  )
-
-  const feedback = useCallback(() => {
-    const theFeedback = qSet?.questions.map(item => {
-      return {
-        questionIndex: item.index,
-        questionId: item.questionId,
-        question: item.theQuestion,
-        comments: getComments(item.questionId),
-        voteAVG: getAvg(item.questionId)
-      } as Feedback
-    })
-    return theFeedback || []
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getAvg, getComments, qSet])
-
-  // useEffect(() => {
-  //   setMeeting({
-  //     ...meeting,
-  //     endTime: spliceDateAndTime(applyOffSet(date), endTime),
-  //     startTime: spliceDateAndTime(applyOffSet(date), startTime)
-  //   } as MeetingModel)
-  // }, [date, endTime, startTime])
+  const fuldformValid = (): boolean =>
+    validateStartAndEndDate(meeting?.startTime, meeting?.endTime).valid &&
+    validateTextInput(meeting?.name, 80, false).valid &&
+    validateTextInput(meeting?.discription, 1500, true).valid
 
   const updateMeetingClickHandler = () => {
-    if (meeting) {
+    if (meeting && fuldformValid()) {
       update(meeting).then(res => {
         if (res === FetchStates.DONE) {
           toast('Møde er opdateret!')
           fetchMeetingByShortId(String(mid))
         } else toast('Der skete en fejl ved Opdatering af mødet.')
       })
+    } else {
+      setshowErrors(true)
+      toast('Data inputet overholder ikke regler.')
     }
   }
 
@@ -359,6 +341,14 @@ const Post: NextPage = observer(() => {
                         <div>
                           <label htmlFor='exampleText'>Start tidspunkt</label>
                           <CustomTimepicker
+                            error={
+                              !validateStartAndEndDate(
+                                meeting?.startTime || new Date(),
+                                meeting?.endTime || new Date()
+                              ).valid && showErrors
+                            }
+                            minValue={minDate()}
+                            maxValue={maxDate()}
                             value={meeting?.startTime || new Date()}
                             onChange={newTime => {
                               setMeeting({
@@ -371,6 +361,14 @@ const Post: NextPage = observer(() => {
                         <div>
                           <label htmlFor='exampleText'>Slut tidspunkt</label>
                           <CustomTimepicker
+                            error={
+                              !validateStartAndEndDate(
+                                meeting?.startTime || new Date(),
+                                meeting?.endTime || new Date()
+                              ).valid && showErrors
+                            }
+                            minValue={minDate()}
+                            maxValue={maxDate()}
                             value={meeting?.endTime || new Date()}
                             onChange={newTime => {
                               setMeeting({
@@ -408,8 +406,8 @@ const Post: NextPage = observer(() => {
               </form>
               <hr />
               <FeedbackView
-                feedback={feedback()}
-                count={count}
+                // feedback={feedback()}
+                // count={count}
                 feedbackLoading={FeedbackFetchState}
                 isRealtime={isRealTimeDateOn}
                 setIsRealtime={setRealTimeDateOn}
