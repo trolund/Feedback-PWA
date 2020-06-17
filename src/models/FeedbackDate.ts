@@ -5,4 +5,5 @@ export default interface FeedbackDate {
   questionId: string
   feedbackBatchId: string
   questionSetId: string
+  meetingId: string
 }

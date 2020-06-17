@@ -15,13 +15,15 @@ const DashboardExcelDownload = ({ data, downloadBtn }: excelDataset) => {
     return {
       answer: item.answer,
       date: item.date,
-      categories: item.categories.join(',')
+      categories: item.categories.join(','),
+      meetingId: item.meetingId
     }
   })
 
   return (
     <ExcelFile element={downloadBtn}>
       <ExcelSheet data={exportData} name='Feedback'>
+        <ExcelColumn label='Møde ID' value='meetingId' />
         <ExcelColumn label='Dato' value='date' />
         <ExcelColumn label='Tilbagemelding' value='answer' />
         <ExcelColumn label='Kategorier' value='categories' />
