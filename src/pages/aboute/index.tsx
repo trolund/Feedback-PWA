@@ -6,7 +6,7 @@ const Aboute = () => {
   return (
     <Page title='Om Opino' showBottomNav={savedTokenValid()}>
       <Section>
-        <div className='img-container'>
+        <div className='img-container center'>
           <img src='/images/logo.png' />
         </div>
 
@@ -27,7 +27,7 @@ const Aboute = () => {
         <b>
           Kontakt os på <a href='mailto: info@spinoff.nu'>info@spinoff.nu</a>.
         </b>
-        <div className='img-container2'>
+        <div className='img-container2 center'>
           <a href='http://spinoff.nu'>
             <img src='/images/spinoff_logo_color.gif' />
           </a>
@@ -49,13 +49,15 @@ const Aboute = () => {
           padding: var(--gap);
           margin-bottom: var(--gap);
           border-radius: var(--border-radius);
+          max-width: 350px;
         }
 
         .img-container2 {
-          background-color: var(--surface);
+          background-color: #ccc;
           padding: var(--gap);
           margin-top: var(--gap);
           border-radius: var(--border-radius);
+          max-width: 350px;
         }
 
         .cam-view section div {

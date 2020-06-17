@@ -649,3 +649,10 @@ td {
 .fc-row {
   padding-bottom: 0px;
 } */
+
+.cam-view {
+  max-height: 450px !important;
+  max-width: 450px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
