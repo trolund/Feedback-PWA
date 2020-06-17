@@ -212,7 +212,9 @@ export default class MeetingStore implements IStoreFetchState {
 
       const data: MeetingModel[] = await response.json()
 
-      this.meetings = data
+      this.meetings = data.map(item => {
+        return applyOffSetToMeeting(applyDates(item))
+      })
     } catch (e) {
       this.fetchState = FetchStates.FAILED
       this.msg = e.statusText
@@ -272,7 +274,7 @@ export default class MeetingStore implements IStoreFetchState {
       this.fetchState = FetchStates.DONE
 
       const data: MeetingModel[] = await response.json()
-      this.meetings = data
+      this.meetings = data.map(item => applyOffSetToMeeting(applyDates(item)))
     } catch (e) {
       this.fetchState = FetchStates.FAILED
       this.msg = e.statusText

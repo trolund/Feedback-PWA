@@ -121,18 +121,6 @@ const Post: NextPage = observer(() => {
     if (newVal) setMeetingCategories([...newVal])
   }, [meeting, categories])
 
-  // useEffect(() => {
-  //   if (meeting) {
-  //     setDate(new Date(meeting?.startTime))
-  //     setStartTime(new Date(meeting?.startTime))
-  //     setEndTime(new Date(meeting?.endTime))
-  //   }
-  // }, [meeting])
-
-  // const [date, setDate] = useState(new Date())
-  // const [startTime, setStartTime] = useState(new Date())
-  // const [endTime, setEndTime] = useState(new Date())
-
   const joinMeetingRoom = useCallback(() => {
     hubConnection
       .invoke('JoinRoom', String(mid))
