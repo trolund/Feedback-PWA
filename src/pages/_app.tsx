@@ -19,7 +19,8 @@ const App = ({ Component, pageProps }: AppProps) => {
         <title>Opino</title>
         <meta charSet='utf-8' />
         <meta name='mobile-web-app-capable' content='yes' />
-        {/* <meta name='apple-mobile-web-app-capable' content='yes' />  https://bugs.webkit.org/show_bug.cgi?id=185448 - gets the camera too work */}
+        <meta name='apple-mobile-web-app-capable' content='yes' />
+        {/*https://bugs.webkit.org/show_bug.cgi?id=185448 - gets the camera too work */}
         <meta
           name='apple-mobile-web-app-status-bar-style'
           content='black-translucent'
@@ -35,7 +36,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         <link rel='apple-touch-icon' href='/images/icon-192.png' />
         <link rel='icon' type='image/png' href='/favicon.png' />
         <link rel='manifest' href='/manifest.json' />
-
         <link
           rel='apple-touch-icon'
           sizes='180x180'
@@ -56,7 +56,6 @@ const App = ({ Component, pageProps }: AppProps) => {
           sizes='120x120'
           href='/images/pwa/apple-icon-120.png'
         />
-
         <link
           rel='apple-touch-startup-image'
           href='/images/pwa/apple-splash-2048-2732.png'
