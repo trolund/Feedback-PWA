@@ -6,15 +6,27 @@ import MeetingModel from '../models/MeetingModel'
 export const applyDates = (meeting: MeetingModel) => {
   return {
     ...meeting,
-    startTime: new Date(meeting.startTime),
-    endTime: new Date(meeting.endTime)
+    startTime: Moment(meeting.startTime)
+      .utc(true)
+      .toDate(),
+    endTime: Moment(meeting.endTime)
+      .utc(true)
+      .toDate()
   } as MeetingModel
 }
 
 export const applyOffSet = (date: Date): Date => {
-  const utcOffset = Moment().utcOffset()
-  const localTime = Moment(date).add(utcOffset, 'minutes')
-  return Moment(localTime).toDate()
+  console.log(Moment(date).isUTC(), date)
+
+  // only add offset if utc
+  if (Moment(date).isUTC()) {
+    const utcOffset = Moment().utcOffset()
+    const localTime = Moment(date).add(utcOffset, 'minutes')
+    const dateres = Moment(localTime).toDate()
+    return Moment(localTime).toDate()
+  } else {
+    return Moment(date).toDate()
+  }
 }
 
 export const applyOffSetToMeeting = (meeting: MeetingModel) => {

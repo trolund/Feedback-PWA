@@ -6,6 +6,7 @@ import ApiRoutes from './api/ApiRoutes'
 import IOptionsValue from '../models/OptionsValue'
 import { applyDates, applyOffSetToMeeting } from '../services/dateService'
 import IStoreFetchState from './StoreFetchState'
+import { jsonDateParser } from 'json-date-parser'
 
 export default class MeetingStore implements IStoreFetchState {
   // status
@@ -211,6 +212,7 @@ export default class MeetingStore implements IStoreFetchState {
       this.fetchState = FetchStates.DONE
 
       const data: MeetingModel[] = await response.json()
+
       this.meetings = data
     } catch (e) {
       this.fetchState = FetchStates.FAILED

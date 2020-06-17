@@ -97,7 +97,7 @@ const FeedbackView = observer((props: IProp) => {
 
   const count = useCallback(() => (feedbackBatch ? feedbackBatch?.length : 0), [
     feedbackBatch
-  ])()
+  ])
 
   const commentTitelBar = (title: string, count: number) => {
     return (
@@ -184,7 +184,7 @@ const FeedbackView = observer((props: IProp) => {
           />
           <div className='counter-container'>
             <p>Antal besvarelser</p>
-            <h2 className='align-middle counter'>{count}</h2>
+            <h2 className='align-middle counter'>{count()}</h2>
           </div>
         </div>
       </div>
@@ -216,7 +216,7 @@ const FeedbackView = observer((props: IProp) => {
         {activeTab === 1 && (
           <div className='tab-content'>
             <div className='questions'>
-              {feedback()?.length > 0 ? (
+              {count() > 0 ? (
                 feedback()
                   ?.sort(sortFeedbackByQuestionsIndex)
                   .map((item, index) => (
@@ -236,7 +236,7 @@ const FeedbackView = observer((props: IProp) => {
         {activeTab === 2 && (
           <div className='tab-content'>
             <div className='questions'>
-              {feedback()?.length > 0 ? (
+              {count() > 0 ? (
                 feedback()
                   ?.sort(sortFeedbackByQuestionsIndex)
                   .map((item: Feedback, index) => {

@@ -89,8 +89,7 @@ const AddMeeting = observer(
     useEffect(() => {
       fetchCategories(String(getCompanyId()))
       fetchQuestionSetNames()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchCategories, fetchQuestionSetNames])
+    }, [])
 
     // useEffect(() => {
     //   const newVal = getMeetingCategories()
@@ -116,20 +115,9 @@ const AddMeeting = observer(
       questionSet !== 'null'
 
     const createMeeting = () => {
-      // console.log('====================================')
-      // console.log(
-      //   validateStartAndEndDate(startTime, endTime).valid,
-      //   validateTextInput(meeting?.name, 80, false).valid,
-      //   validateTextInput(meeting?.discription, 1500, true).valid,
-      //   questionSet !== 'null',
-      //   questionSet
-      // )
-      // console.log('====================================')
-      console.log(validateTextInput(meeting?.discription, 1500, true))
       if (fuldformValid()) {
         const eTime = spliceDateAndTime(date, endTime)
         const sTime = spliceDateAndTime(date, startTime)
-        console.log(sTime, eTime)
         const newMeeting: MeetingModel = {
           ...meeting,
           endTime: eTime,

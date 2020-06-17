@@ -10,7 +10,6 @@ import { HubConnectionBuilder, HubConnectionState } from '@aspnet/signalr'
 import Page from '../../components/essentials/page'
 import Section from '../../components/essentials/section'
 import FeedbackView from '../../components/feedback/feedback'
-import Feedback from '../../models/Feedback'
 import ApiRoutes from '../../stores/api/ApiRoutes'
 import FetchStates from '../../stores/requestState'
 import CustomDatepicker from '../../components/Input/custom-datepicker'
@@ -321,19 +320,24 @@ const Post: NextPage = observer(() => {
                       <div className='date'>
                         <label htmlFor='exampleText'>Dato</label>
                         <CustomDatepicker
-                          value={meeting?.startTime || new Date()}
+                          value={applyOffSet(meeting?.startTime) || new Date()}
                           onChange={newDate => {
-                            setMeeting({
-                              ...meeting,
-                              endTime: spliceDateAndTime(
-                                applyOffSet(newDate),
-                                meeting.endTime
-                              ),
-                              startTime: spliceDateAndTime(
-                                applyOffSet(newDate),
-                                meeting.startTime
-                              )
-                            })
+                            console.log('====================================')
+                            console.log(newDate)
+                            console.log('====================================')
+                            if (newDate !== meeting?.startTime) {
+                              setMeeting({
+                                ...meeting,
+                                endTime: spliceDateAndTime(
+                                  applyOffSet(newDate),
+                                  meeting.endTime
+                                ),
+                                startTime: spliceDateAndTime(
+                                  applyOffSet(newDate),
+                                  meeting.startTime
+                                )
+                              })
+                            }
                           }}
                         />
                       </div>
@@ -349,7 +353,9 @@ const Post: NextPage = observer(() => {
                             }
                             minValue={minDate()}
                             maxValue={maxDate()}
-                            value={meeting?.startTime || new Date()}
+                            value={
+                              applyOffSet(meeting?.startTime) || new Date()
+                            }
                             onChange={newTime => {
                               setMeeting({
                                 ...meeting,
