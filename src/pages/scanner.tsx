@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { toast } from 'react-toastify'
 import { observer } from 'mobx-react'
@@ -26,6 +26,13 @@ const Scanner = observer(() => {
       Router.push(`/feedback/${parts[parts.length - 1]}`)
     }
   }
+
+  useEffect(() => {
+    setLoadingmsg('Åbner Kamera')
+    return () => {
+      setLoading(false)
+    }
+  }, [])
 
   const handleError = err => {
     console.error(err)
