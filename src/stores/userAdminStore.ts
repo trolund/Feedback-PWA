@@ -13,6 +13,10 @@ export default class UserAdminStore implements IStoreFetchState {
 
   @observable users: UserAdmin[] = null
 
+  @action clear = () => {
+    this.users = []
+  }
+
   @action fetchUsers = async (query: userAdminQuery): Promise<FetchStates> => {
     this.fetchState = FetchStates.LOADING
     try {

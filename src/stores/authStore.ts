@@ -11,6 +11,7 @@ import NewPasswordModel from '../models/NewPasswordModel'
 import User from '../models/classes/User'
 import { logEvent } from '../utils/analytics'
 import IStoreFetchState from './StoreFetchState'
+import { ThirdPartyDraggable } from '@fullcalendar/interaction'
 
 export default class AuthStore implements IStoreFetchState {
   @observable fetchState: FetchStates = FetchStates.DONE
@@ -32,6 +33,14 @@ export default class AuthStore implements IStoreFetchState {
   // @computed getToken = (): string => {
   //   return this.user.token
   // }
+
+  @action clear = () => {
+    this.user = null
+    this.token = null
+    this.isAdmin = null
+    this.isFacilitator = null
+    this.isVAdmin = null
+  }
 
   @action setState = (state: FetchStates) => {
     this.fetchState = state
@@ -135,21 +144,21 @@ export default class AuthStore implements IStoreFetchState {
   @action signout = async () => {
     this.fetchState = FetchStates.LOADING
     try {
-      const url = ApiRoutes.signout
+      // const url = ApiRoutes.signout
 
-      const token = getToken()
+      // const token = getToken()
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: !token
-          ? {}
-          : {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-      })
+      // const response = await fetch(url, {
+      //   method: 'POST',
+      //   headers: !token
+      //     ? {}
+      //     : {
+      //         Authorization: `Bearer ${token}`,
+      //         'Content-Type': 'application/json'
+      //       }
+      // })
 
-      this.msg = response.statusText
+      // this.msg = response.statusText
 
       logout()
       this.user = null

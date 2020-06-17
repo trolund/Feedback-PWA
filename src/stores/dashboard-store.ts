@@ -46,6 +46,20 @@ export default class DashboardStore implements IStoreFetchState {
   // data
   @observable data: FeedbackDate[] = []
 
+  @action clear = () => {
+    this.showFilter = false
+    this.startdateValue = new Date('2019-01-08T10:09:30.000Z').getTime()
+    this.enddateValue = new Date().getTime()
+    this.cutoff = true
+    this.useFixedYAxis = true
+    this.xAxisScale = GraphXScale.weeks
+    this.useSkipZero = true
+    this.searchWord = ''
+    this.tags = []
+    this.ownData = true
+    this.rating = 0
+  }
+
   @computed get startdate() {
     return new Date(this.startdateValue)
   }

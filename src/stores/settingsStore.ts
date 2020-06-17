@@ -25,6 +25,10 @@ export default class SettingsStore implements IStoreFetchState {
 
   @persist @observable bottombarVisable: boolean = false
 
+  @action clear = () => {
+    // do not clear the settings!
+  }
+
   @action setBottombarVisable = (value: boolean) => {
     this.bottombarVisable = value
   }

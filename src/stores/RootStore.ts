@@ -10,6 +10,7 @@ import QuestionSetStore from './QuestionSetStore'
 import QuestionStore from './QuestionStore'
 import UserAdminStore from './userAdminStore'
 import SettingsStore from './settingsStore'
+import { auth } from '../services/authService'
 
 const isServer = typeof window === 'undefined'
 
@@ -55,6 +56,19 @@ export class RootStore {
 
   constructor() {
     doHydration(this)
+  }
+
+  // clear all personal data
+  clearAll() {
+    this.authStore.clear()
+    this.dashboardStore.clear()
+    this.categoriesStore.clear()
+    this.feedbackStore.clear()
+    this.meetingStore.clear()
+    this.questionSetStore.clear()
+    this.questionStore.clear()
+    this.userAdminStore.clear()
+    this.settingStore.clear()
   }
 }
 

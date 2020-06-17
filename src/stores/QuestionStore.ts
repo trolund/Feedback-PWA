@@ -18,6 +18,11 @@ export default class QuestionStore implements IStoreFetchState {
   // data
   @observable questions: IQuestionSet = null
 
+  @action clear = () => {
+    this.meetingId = null
+    this.questions = null
+  }
+
   @action fetchQuestions = async (
     meetingId: string,
     fingerprint: string

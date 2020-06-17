@@ -21,6 +21,11 @@ export default class QuestionSetStore implements IStoreFetchState {
   // @persist('object', QuestionSet)
   @observable qSet: IQuestionSet | null = null
 
+  @action clear = () => {
+    this.QSetNames = []
+    this.qSet = null
+  }
+
   @action setQSet = (val: IQuestionSet | null) => {
     this.qSet = val
   }

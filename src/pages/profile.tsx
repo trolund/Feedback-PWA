@@ -25,6 +25,7 @@ import { logEvent } from '../utils/analytics'
 const Profile = withAuth(
   observer(() => {
     const {
+      clearAll,
       authStore: { signout, user, updateUserInfo, setUser }
     } = useContext(rootStore)
     const SettingsBtn = () => {
@@ -186,7 +187,9 @@ const Profile = withAuth(
                   type='button'
                   className='button bottombtn'
                   onClick={() => {
-                    signout()
+                    signout().then(() => {
+                      clearAll()
+                    })
                   }}
                   cy-data='logout-btn'
                 >

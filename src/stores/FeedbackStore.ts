@@ -21,6 +21,11 @@ export default class FeedbackStore implements IStoreFetchState {
 
   @observable feedback: FeedbackModel[] = []
 
+  @action clear = () => {
+    this.feedbackBatch = null
+    this.feedback = null
+  }
+
   @action setFeedbackItem = (item: FeedbackModel) => {
     const oldElm = this.feedback.find(f => f.questionId === item.questionId)
 

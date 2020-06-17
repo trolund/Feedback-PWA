@@ -18,6 +18,10 @@ export default class CategoriesStore implements IStoreFetchState {
     this.categories = values
   }
 
+  @action clear = () => {
+    this.categories = null
+  }
+
   @action fetchCategories = async (companyId: string) => {
     this.fetchState = FetchStates.LOADING
     try {

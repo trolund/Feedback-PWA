@@ -20,7 +20,11 @@ export default class MeetingStore implements IStoreFetchState {
 
   @observable meeting: MeetingModel | null = null
 
-  // /Api/Meeting/ByDate
+  @action clear = () => {
+    this.meetingCreatedState = null
+    this.meeting = null
+    this.meetings = null
+  }
 
   @action setMeeting = (meeting: MeetingModel) => {
     this.meeting = meeting
