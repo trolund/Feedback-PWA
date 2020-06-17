@@ -6,7 +6,6 @@ import ApiRoutes from './api/ApiRoutes'
 import IOptionsValue from '../models/OptionsValue'
 import { applyDates, applyOffSetToMeeting } from '../services/dateService'
 import IStoreFetchState from './StoreFetchState'
-import { jsonDateParser } from 'json-date-parser'
 
 export default class MeetingStore implements IStoreFetchState {
   // status
