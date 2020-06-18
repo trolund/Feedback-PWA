@@ -12,6 +12,7 @@ import User from '../models/classes/User'
 import { logEvent } from '../utils/analytics'
 import IStoreFetchState from './StoreFetchState'
 import { ThirdPartyDraggable } from '@fullcalendar/interaction'
+import Roles from '../models/enums/roles'
 
 export default class AuthStore implements IStoreFetchState {
   @observable fetchState: FetchStates = FetchStates.DONE
@@ -20,7 +21,7 @@ export default class AuthStore implements IStoreFetchState {
 
   @persist('object', User) @observable user: IUser = null
 
-  @persist @observable token: string = null
+  // @persist @observable token: string = null
 
   // @persist('object', Fingerprint) @observable fingerprint: Fingerprint = null
 
@@ -36,7 +37,7 @@ export default class AuthStore implements IStoreFetchState {
 
   @action clear = () => {
     this.user = null
-    this.token = null
+    // this.token = null
     this.isAdmin = null
     this.isFacilitator = null
     this.isVAdmin = null
@@ -104,12 +105,36 @@ export default class AuthStore implements IStoreFetchState {
         // localStorage.setItem('user', JSON.stringify(this.user))
         this.msg = `Velkommen! ${this.user.firstname}`
 
-        this.token = this.user.token
+        console.log(
+          `Velkommen! ${this.user.firstname} ${this.user.lastname} from ${this.user.companyName}`
+        )
+
         const token: TokenModel = JwtDecode(this.user.token)
 
-        this.isFacilitator = token.role.includes('Facilitator')
-        this.isVAdmin = token.role.includes('VAdmin')
-        this.isAdmin = token.role.includes('Admin')
+        if (Array.isArray(token.role)) {
+          this.isFacilitator = token.role.includes('Facilitator')
+          this.isVAdmin = token.role.includes('VAdmin')
+          this.isAdmin =
+            token.role.filter(e => e === 'admin' && e.length === 5).length > 0
+        } else {
+          if ('Facilitator' === String(token.role)) {
+            this.isFacilitator = true
+            this.isVAdmin = false
+            this.isAdmin = false
+          } else if ('VAdmin' === String(token.role)) {
+            this.isFacilitator = false
+            this.isVAdmin = true
+            this.isAdmin = false
+          } else if ('Admin' === String(token.role)) {
+            this.isFacilitator = false
+            this.isVAdmin = false
+            this.isAdmin = true
+          } else {
+            this.isFacilitator = false
+            this.isVAdmin = false
+            this.isAdmin = false
+          }
+        }
 
         login({ token: this.user.token })
         this.fetchState = FetchStates.DONE
@@ -162,6 +187,9 @@ export default class AuthStore implements IStoreFetchState {
 
       logout()
       this.user = null
+      this.isAdmin = null
+      this.isFacilitator = null
+      this.isVAdmin = null
 
       this.fetchState = FetchStates.DONE
       return FetchStates.DONE

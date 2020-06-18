@@ -17,7 +17,7 @@ const QuestionSetList: React.FC<QuestionList> = ({
   deleteFunc
 }) => {
   const {
-    authStore: { getCompanyId }
+    authStore: { getCompanyId, isAdmin }
   } = useContext(rootStore)
   const [showModal, setShowModal] = useState(false)
   const [itemIndex, setItemIndex] = useState(-1)
@@ -45,8 +45,9 @@ const QuestionSetList: React.FC<QuestionList> = ({
                   <p className='name'>{item.name}</p>
                   <span className='float-right'>
                     {(getCompanyId() === item.companyId ||
-                      getCompanyId() ===
-                        Number(process.env.spinOffCompenyId)) && (
+                      (getCompanyId() ===
+                        Number(process.env.spinOffCompenyId) &&
+                        isAdmin)) && (
                       <Trash
                         className='del-btn'
                         role='button'

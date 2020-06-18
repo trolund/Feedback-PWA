@@ -23,17 +23,19 @@ const withAuth = (WrappedComponent, roles?: Roles[]) => {
       }
     }
 
-    useEffect(() => {
-      // if roles is not set set them
-      if (isAdmin === null) {
-        const token: TokenModel = JwtDecode(props.token)
-        setRoles(
-          token.role.includes(Roles.ADMIN),
-          token.role.includes(Roles.FACILITATOR),
-          token.role.includes(Roles.VADMIN)
-        )
-      }
-    }, [isAdmin, props.token, setRoles])
+    // useEffect(() => {
+    //   // if roles is not set set them
+    //   if (isAdmin === null) {
+    //     const token: TokenModel = JwtDecode(props.token)
+    //     var regex = /^(Admin)/
+    //     var isAdmin = token.role.some(e => regex.test(e))
+    //     setRoles(
+    //       isAdmin,
+    //       token.role.includes(Roles.FACILITATOR),
+    //       token.role.includes(Roles.VADMIN)
+    //     )
+    //   }
+    // }, [isAdmin, props.token, setRoles])
 
     useEffect(() => {
       window.addEventListener('storage', syncLogout)

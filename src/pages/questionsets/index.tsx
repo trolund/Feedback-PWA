@@ -115,9 +115,7 @@ AllQuestionSets.getInitialProps = async ctx => {
   }
   try {
     const response = await fetch(url, {
-      headers: !token
-        ? {}
-        : { Authorization: `Bearer ${token}`, cache: 'no-cache' },
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
       ...options
     })
     data = await response.json()
