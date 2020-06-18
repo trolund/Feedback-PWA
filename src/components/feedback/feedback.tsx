@@ -47,45 +47,47 @@ const FeedbackView = observer((props: IProp) => {
     return window.removeEventListener('resize', updateWindowSize)
   }, [])
 
-  const getAvg = (questionId: string) => {
-    const returnAvg = feedbackBatch
-      .map(i => i.feedback)
-      .flat()
-      .filter(x => x.questionId === questionId)
-      .reduce((avg, item, _, { length }) => {
-        return avg + item.answer / length
-      }, 0)
-    return returnAvg
-  }
+  const getAvg = useCallback(
+    (questionId: string) => {
+      const returnAvg = feedbackBatch
+        .map(i => i.feedback)
+        .flat()
+        .filter(x => x.questionId === questionId)
+        .reduce((avg, item, _, { length }) => {
+          return avg + item.answer / length
+        }, 0)
+      return returnAvg
+    },
+    [feedbackBatch]
+  )
 
-  const getComments = (questionId: string) => {
-    return feedbackBatch
-      ?.map(batch =>
-        batch.feedback.map(feed =>
-          feed.questionId === questionId ? feed.comment : null
+  const getComments = useCallback(
+    (questionId: string) => {
+      return feedbackBatch
+        ?.map(batch =>
+          batch.feedback.map(feed =>
+            feed.questionId === questionId ? feed.comment : null
+          )
         )
-      )
-      .flat()
-      .filter(s => s !== null)
-      .filter(s => s?.length! > 1)
-  }
+        .flat()
+        .filter(s => s !== null)
+        .filter(s => s?.length! > 1)
+    },
+    [feedbackBatch]
+  )
 
   const feedback = useCallback(() => {
-    if (feedbackBatch !== null && qSet !== null) {
-      const theFeedback = qSet?.questions.map(item => {
-        return {
-          questionIndex: item.index,
-          questionId: item.questionId,
-          question: item.theQuestion,
-          comments: getComments(item.questionId),
-          voteAVG: getAvg(item.questionId)
-        } as Feedback
-      })
-      return theFeedback || []
-    } else {
-      return []
-    }
-  }, [getAvg, getComments, qSet, feedbackBatch])
+    const theFeedback = qSet?.questions.map(item => {
+      return {
+        questionIndex: item.index,
+        questionId: item.questionId,
+        question: item.theQuestion,
+        comments: getComments(item.questionId),
+        voteAVG: getAvg(item.questionId)
+      } as Feedback
+    })
+    return theFeedback || []
+  }, [qSet])
 
   const avgRes = useCallback(() => {
     return feedback()

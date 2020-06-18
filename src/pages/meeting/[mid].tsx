@@ -94,8 +94,6 @@ const Post: NextPage = observer(() => {
     fetchFeedback(String(mid))
   }, [mid])
 
-  // const [meeting, setMeeting] = useState(null)
-  // const [meetingCategories] = useState(null)
   const [isRealTimeDateOn, setRealTimeDateOn] = useState(
     realtimeFeedbackDefault
   )
@@ -310,9 +308,6 @@ const Post: NextPage = observer(() => {
                         <CustomDatepicker
                           value={applyOffSet(meeting?.startTime) || new Date()}
                           onChange={newDate => {
-                            console.log('====================================')
-                            console.log(newDate)
-                            console.log('====================================')
                             if (newDate !== meeting?.startTime) {
                               setMeeting({
                                 ...meeting,

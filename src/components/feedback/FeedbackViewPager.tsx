@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react'
 import { ViewPager, Frame, Track } from 'react-view-pager'
 import { X, Send } from 'react-feather'
@@ -26,7 +26,6 @@ const FeedbackViewPager = observer(
     } = useContext(rootStore)
 
     const [questions] = useState(initQuestions)
-
     const [success, setSuccess] = useState(false)
     const [overlayText, setOverlayText] = useState('')
 
@@ -83,8 +82,6 @@ const FeedbackViewPager = observer(
       } else {
         increment()
       }
-
-      console.debug(feedback)
     }
 
     const prev = () => {

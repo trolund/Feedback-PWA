@@ -44,6 +44,12 @@ export default class FeedbackStore implements IStoreFetchState {
     }
   }
 
+  @action setFeedback = (data: FeedbackModel[]) => {
+    if (data != null) {
+      this.feedback = data
+    }
+  }
+
   @action fetchFeedback = async (meetingId: string) => {
     this.fetchState = FetchStates.LOADING
     try {
