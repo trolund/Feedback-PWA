@@ -80,7 +80,7 @@ const DashboardFilter = observer(() => {
   return (
     <ul className='bottom-modal-content'>
       <li>
-        <h3 className='float-left'>Filter muligheder</h3>
+        <h3 className='float-left modal-header'>Filter muligheder</h3>
         <span className='float-right btn-group'>
           <span>
             <DashboardExcelDownload
