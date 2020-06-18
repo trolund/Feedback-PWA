@@ -236,7 +236,7 @@ const FeedbackView = observer((props: IProp) => {
         {activeTab === 2 && (
           <div className='tab-content'>
             <div className='questions'>
-              {count() > 0 ? (
+              {feedback().reduce((a, b) => a + b.comments.length, 0) > 0 ? (
                 feedback()
                   ?.sort(sortFeedbackByQuestionsIndex)
                   .map((item: Feedback, index) => {
@@ -271,8 +271,10 @@ const FeedbackView = observer((props: IProp) => {
                     }
                     return null
                   })
-              ) : (
+              ) : feedback().reduce((a, b) => a + b.comments.length, 0) > 0 ? (
                 <p>Ingen tilbagemeldinger</p>
+              ) : (
+                <p>Der er ingen kommentare tilkyttet tilbagemeldingerne</p>
               )}
             </div>
           </div>
