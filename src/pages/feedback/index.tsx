@@ -64,10 +64,7 @@ const Task = withAuth(
                     </div>
                   ) : (
                     // <Loader />
-                    <Hash
-                      style={{ width: '20px', height: '20px' }}
-                      color='white'
-                    />
+                    <Hash style={{ width: '20px', height: '20px' }} />
                   )
                 }
                 center
