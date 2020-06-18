@@ -185,7 +185,7 @@ const AddMeeting = observer(
           <X onClick={() => setShowModal(false)} />
         </span>
         <ul>
-          <li>
+          <li className='modal-header'>
             <h3>Opret møde</h3>
           </li>
           <li data-cy='questionset-selector'>

@@ -58,10 +58,10 @@ const CustomInput = ({
           border-top-left-radius: var(--border-radius);
           border-bottom-left-radius: var(--border-radius);
           height: 44px;
-          background-color: #8a8b8e4f;
           max-width: 45px;
           margin-top: -44px;
           margin-left: 0px;
+          background: none;
         }
 
         .icon {

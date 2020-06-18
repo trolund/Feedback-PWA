@@ -94,6 +94,7 @@ const CustomSelect = ({
           width: 100%;
           padding: var(--gap-small);
           background: none;
+          color: var(--text);
         }
 
         .select-css::-ms-expand {

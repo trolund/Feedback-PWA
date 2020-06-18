@@ -53,7 +53,7 @@ const Login: NextPage = withRedirect(
           <form onSubmit={loginHandler}>
             <CustomInput
               id='email'
-              logo={<User color='white' />}
+              logo={<User />}
               className='center'
               type='text'
               placeholder='Email'
@@ -64,7 +64,7 @@ const Login: NextPage = withRedirect(
             />
             <CustomInput
               id='password'
-              logo={<Key color='white' />}
+              logo={<Key />}
               className='center'
               type='password'
               placeholder='Kodeord'

@@ -656,3 +656,15 @@ td {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* 
+@media only screen and (max-width: 600px) {
+  .fc-event {
+    height: 5px;
+    font-size: 0px;
+    border-radius: 3px;
+  }
+
+} */
+
+/* // modal-header */

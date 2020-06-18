@@ -51,6 +51,35 @@ const BottomModal = (props: BottomModalProps) => {
               max-width: 320px !important;
             }
           }
+
+          @media only screen and (max-height: 670px) {
+            .content-container {
+              transform: scale(0.95);
+              margin-top: calc(-5%);
+              --gap-small: 0.7em;
+            }
+
+            .modal-header{
+              height: 35px;
+            }
+          }
+
+
+
+          @media only screen and (max-height: 568px) {
+            .content-container {
+              transform: scale(0.90);
+              margin-top: calc(-10%);
+              --gap-small: 0.5em;
+            }
+
+            .modal-header{
+              height: 30px;
+            }
+          }
+
+          
+
           .bottom-modal-container {
             padding: 5px;
             height: contain;
@@ -84,6 +113,7 @@ const BottomModal = (props: BottomModalProps) => {
             overflow: scroll;
             max-height: 94vh;
             min-height: 400px;
+            padding-bottom: calc(var(--safe-area-inset-bottom) + var(--bottom-bar-space)):
           }
 
            {
