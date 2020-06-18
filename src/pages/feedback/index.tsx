@@ -63,7 +63,6 @@ const Task = withAuth(
                       <Lottie options={defaultOptions} height={35} width={35} />
                     </div>
                   ) : (
-                    // <Loader />
                     <Hash style={{ width: '20px', height: '20px' }} />
                   )
                 }

@@ -93,6 +93,39 @@ const FeedbackViewPager = observer(
 
     return (
       <>
+        <div
+          className='indicator'
+          style={{
+            width: '100vw',
+            height: 'calc(var(--safe-area-inset-top) + 5px)',
+            position: 'fixed',
+            top: '0px',
+            left: '0px'
+          }}
+        >
+          <div
+            style={{
+              transition: 'width 200ms',
+              backgroundColor: 'var(--accent)',
+              width: `${(questions?.questions.length / 100) *
+                (page + 1) *
+                105 *
+                2}%`,
+              height: '100%'
+            }}
+          ></div>
+        </div>
+        <div
+          style={{
+            width: 'fit-content',
+            position: 'fixed',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            top: 'calc(var(--safe-area-inset-top) + 20px)',
+            color: 'var(--surface)',
+            fontWeight: 'bold'
+          }}
+        >{`${page + 1}/${questions?.questions.length}`}</div>
         <ViewPager tag='main'>
           <Frame className='frame' autoSize>
             <Track

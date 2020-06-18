@@ -101,7 +101,7 @@ const Feedback: NextPage = observer(() => {
   return (
     <>
       <MiddelLoader
-        loading={fetchState === FetchStates.LOADING}
+        loading={fetchState === FetchStates.LOADING || fingerprint === ''}
         text='Tilbagemeldinger er anonyme'
       />
       <span className='fingerprint-indicator'>
@@ -204,6 +204,26 @@ const Feedback: NextPage = observer(() => {
             top: env(safe-area-inset-top, 25px);
             left: 25px;
           }
+
+          .pager-controls {
+            padding-right: calc(
+              var(--safe-area-inset-right) + var(--gap-small)
+            );
+            padding-left: calc(var(--safe-area-inset-left) + var(--gap-small));
+            position: fixed;
+            height: 50px;
+            bottom: calc(var(--safe-area-inset-bottom) + var(--gap));
+            left: 0px;
+            right: 0px;
+            width: 100%;
+
+            max-width: 800px !important;
+            margin-left: auto;
+            margin-right: auto;
+          }
+          .pager-control {
+            text-align: center;
+          }
         `}</style>
         <style jsx>{`
           .msg-container {
@@ -228,22 +248,6 @@ const Feedback: NextPage = observer(() => {
             margin-right: auto;
           }
 
-          .pager-controls {
-            padding-right: calc(
-              var(--safe-area-inset-right) + var(--gap-small)
-            );
-            padding-left: calc(var(--safe-area-inset-left) + var(--gap-small));
-            position: fixed;
-            height: 50px;
-            bottom: calc(var(--safe-area-inset-bottom) + var(--gap));
-            left: 0px;
-            right: 0px;
-            width: 100%;
-          }
-          .pager-control {
-            text-align: center;
-            width: 120px;
-          }
           .main {
             width: 100%;
             height: 100%;
