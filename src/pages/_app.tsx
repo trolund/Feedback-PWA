@@ -30,9 +30,10 @@ const App = ({ Component, pageProps }: AppProps) => {
           name='viewport'
           content='width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover'
         />
-        <link rel='apple-touch-icon' href='/images/icon-192.png' />
+
         <link rel='icon' type='image/png' href='/favicon.png' />
         <link rel='manifest' href='/manifest.json' />
+        <link rel='apple-touch-icon' href='/images/pwa/icon-192.png' />
         <link
           rel='apple-touch-icon'
           sizes='180x180'
