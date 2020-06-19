@@ -21,25 +21,10 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta charSet='utf-8' />
         <meta name='mobile-web-app-capable' content='yes' />
         <meta name='apple-mobile-web-app-capable' content='yes' />
-        {/*https://bugs.webkit.org/show_bug.cgi?id=185448 - gets the camera too work */}
-        {!isServer ? (
-          window.isDark ? (
-            <meta
-              name='apple-mobile-web-app-status-bar-style'
-              content='black-translucent'
-            />
-          ) : (
-            <meta
-              name='apple-mobile-web-app-status-bar-style'
-              content='default'
-            />
-          )
-        ) : (
-          <meta
-            name='apple-mobile-web-app-status-bar-style'
-            content='default'
-          />
-        )}
+        {/* https://bugs.webkit.org/show_bug.cgi?id=185448 - gets the camera too work */}
+        {/* https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html */}
+
+        <meta name='apple-mobile-web-app-status-bar-style' content='default' />
 
         <meta name='apple-mobile-web-app-title' content='pub' />
         <meta name='application-name' content='pub' />
