@@ -86,13 +86,19 @@ const Post: NextPage = observer(() => {
   }, [state])
 
   useEffect(() => {
-    fetchCategories(String(getCompanyId()))
-  }, [getCompanyId])
-
-  useEffect(() => {
     fetchMeetingByShortId(String(mid))
     fetchFeedback(String(mid))
   }, [mid])
+
+  useEffect(() => {
+    if (meeting?.questionsSetId) {
+      fetchQuestionSet(meeting?.questionsSetId)
+    }
+  }, [meeting, qSet])
+
+  useEffect(() => {
+    fetchCategories(String(getCompanyId()))
+  }, [getCompanyId])
 
   const [isRealTimeDateOn, setRealTimeDateOn] = useState(
     realtimeFeedbackDefault
@@ -174,12 +180,6 @@ const Post: NextPage = observer(() => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRealTimeDateOn])
-
-  useEffect(() => {
-    if (meeting?.questionsSetId && qSet === null) {
-      fetchQuestionSet(meeting?.questionsSetId)
-    }
-  }, [meeting])
 
   const count = useCallback(() => (feedbackBatch ? feedbackBatch?.length : 0), [
     feedbackBatch

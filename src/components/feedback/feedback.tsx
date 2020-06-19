@@ -87,7 +87,7 @@ const FeedbackView = observer((props: IProp) => {
       } as Feedback
     })
     return theFeedback || []
-  }, [qSet])
+  }, [qSet, feedbackBatch])
 
   const avgRes = useCallback(() => {
     return feedback()
