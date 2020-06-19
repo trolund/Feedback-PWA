@@ -1,5 +1,6 @@
 import { Check, X } from 'react-feather'
 import Switch from 'react-switch'
+import { observer } from 'mobx-react'
 
 type initState = {
   checked: boolean
@@ -37,4 +38,4 @@ const CustomSwitch = ({ checked, onChange }: initState) => {
   )
 }
 
-export default CustomSwitch
+export default observer(CustomSwitch)

@@ -70,13 +70,22 @@ const Post: NextPage = observer(() => {
       deleteMeeting,
       update,
       fetchState: state,
-      meeting,
-      setMeeting,
+      meeting: globalMeeting,
+      setMeeting: globalSetMeeting,
       fetchMeetingByShortId
     },
     categoriesStore: { fetchCategories, categories, fetchState: catFetchState },
     settingStore: { realtimeFeedbackDefault }
   } = useContext(rootStore)
+
+  const [meeting, setMeeting] = useState(globalMeeting)
+
+  useEffect(() => {
+    setMeeting(globalMeeting)
+    return () => {
+      setMeeting(null)
+    }
+  }, [globalMeeting])
 
   // go back if meeting is not loaded
   useEffect(() => {
@@ -91,10 +100,10 @@ const Post: NextPage = observer(() => {
   }, [mid])
 
   useEffect(() => {
-    if (meeting?.questionsSetId) {
-      fetchQuestionSet(meeting?.questionsSetId)
+    if (globalMeeting !== null || globalMeeting !== undefined) {
+      fetchQuestionSet(globalMeeting?.questionsSetId)
     }
-  }, [meeting, qSet])
+  }, [globalMeeting])
 
   useEffect(() => {
     fetchCategories(String(getCompanyId()))
@@ -103,6 +112,11 @@ const Post: NextPage = observer(() => {
   const [isRealTimeDateOn, setRealTimeDateOn] = useState(
     realtimeFeedbackDefault
   )
+
+  useEffect(() => {
+    setRealTimeDateOn(realtimeFeedbackDefault)
+  }, [realtimeFeedbackDefault])
+
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   const getMeetingCategories = () =>
@@ -308,7 +322,9 @@ const Post: NextPage = observer(() => {
                         <CustomDatepicker
                           value={applyOffSet(meeting?.startTime) || new Date()}
                           onChange={newDate => {
-                            if (newDate !== meeting?.startTime) {
+                            if (
+                              newDate.getTime() !== meeting?.startTime.getTime()
+                            ) {
                               setMeeting({
                                 ...meeting,
                                 endTime: spliceDateAndTime(
@@ -398,8 +414,8 @@ const Post: NextPage = observer(() => {
                 // feedback={feedback()}
                 // count={count}
                 feedbackLoading={FeedbackFetchState}
-                isRealtime={isRealTimeDateOn}
-                setIsRealtime={setRealTimeDateOn}
+                // isRealtime={isRealTimeDateOn}
+                // setIsRealtime={setRealTimeDateOn}
               />
               {count === 0 && (
                 <div style={{ width: '100%', padding: '10px' }}>

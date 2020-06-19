@@ -21,8 +21,8 @@ import Comment from '../../models/Comment'
 
 interface IProp {
   feedbackLoading: FetchStates
-  isRealtime: boolean
-  setIsRealtime: (value: boolean) => void
+  // isRealtime: boolean
+  // setIsRealtime: (value: boolean) => void
 }
 
 const FeedbackView = observer((props: IProp) => {
@@ -33,7 +33,8 @@ const FeedbackView = observer((props: IProp) => {
 
   const {
     questionSetStore: { qSet },
-    feedbackStore: { feedbackBatch }
+    feedbackStore: { feedbackBatch },
+    settingStore: { realtimeFeedbackDefault, setRealtimeFeedbackDefault }
   } = useContext(rootStore)
 
   const updateWindowSize = () => {
@@ -184,8 +185,10 @@ const FeedbackView = observer((props: IProp) => {
             onClick={() => setShowModal(true)}
           />
           <CustomSwitch
-            onChange={props.setIsRealtime}
-            checked={props.isRealtime}
+            onChange={e => {
+              setRealtimeFeedbackDefault(e)
+            }}
+            checked={realtimeFeedbackDefault}
           />
           <div className='counter-container'>
             <p>Antal besvarelser</p>

@@ -16,8 +16,6 @@ export const applyDates = (meeting: MeetingModel) => {
 }
 
 export const applyOffSet = (date: Date): Date => {
-  console.log(Moment(date).isUTC(), date)
-
   // only add offset if utc
   if (Moment(date).isUTC()) {
     const utcOffset = Moment().utcOffset()
