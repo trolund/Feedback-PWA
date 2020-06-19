@@ -105,10 +105,8 @@ const FeedbackViewPager = observer(
             style={{
               transition: 'width 200ms',
               backgroundColor: 'var(--accent)',
-              width: `${(questions?.questions.length / 100) *
-                (page + 1) *
-                105 *
-                2}%`,
+              width: `calc(100vw / ${questions?.questions.length} * ${page +
+                1}`,
               height: '100%'
             }}
           ></div>
@@ -225,6 +223,10 @@ const FeedbackViewPager = observer(
             .frame {
               margin-top: var(--safe-area-inset-top) + 15px;
             }
+          }
+
+          .view {
+            width: 100vw !important;
           }
         `}</style>
       </>
