@@ -185,21 +185,24 @@ const Feedback: NextPage = observer(() => {
         </Section>
         <style jsx global>{`
           .frame {
-            margin-top: 12vh;
             margin-top: env(safe-area-inset-top + 75px, 12vh);
-            height: 75vh !important;
+
             padding-bottom: 10px;
             outline: none;
+            position: fixed !important;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
           }
           .exit-btn {
-            position: absolute;
+            position: fixed;
             margin-top: 15px;
             top: env(safe-area-inset-top, 25px);
             right: 25px;
           }
 
           .fingerprint-indicator {
-            position: absolute;
+            position: fixed;
             margin-top: 15px;
             top: env(safe-area-inset-top, 25px);
             left: 25px;

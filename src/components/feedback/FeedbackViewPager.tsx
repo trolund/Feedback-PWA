@@ -97,7 +97,8 @@ const FeedbackViewPager = observer(
             height: 'calc(var(--safe-area-inset-top) + 5px)',
             position: 'fixed',
             top: '0px',
-            left: '0px'
+            left: '0px',
+            backgroundColor: 'var(--surface)'
           }}
         >
           <div
@@ -119,7 +120,7 @@ const FeedbackViewPager = observer(
             left: '50%',
             transform: 'translateX(-50%)',
             top: 'calc(var(--safe-area-inset-top) + 20px)',
-            color: 'var(--surface)',
+            color: 'var(--text)',
             fontWeight: 'bold'
           }}
         >{`${page + 1}/${questions?.questions.length}`}</div>
