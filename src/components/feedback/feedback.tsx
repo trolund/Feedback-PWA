@@ -17,6 +17,7 @@ import CustomSwitch from '../Input/custom-switch'
 import { chartColors } from '../../services/colorContants'
 import { sortFeedbackByQuestionsIndex } from '../../services/sortService'
 import rootStore from '../../stores/RootStore'
+import Comment from '../../models/Comment'
 
 interface IProp {
   feedbackLoading: FetchStates
@@ -66,12 +67,14 @@ const FeedbackView = observer((props: IProp) => {
       return feedbackBatch
         ?.map(batch =>
           batch.feedback.map(feed =>
-            feed.questionId === questionId ? feed.comment : null
+            feed.questionId === questionId
+              ? ({ comment: feed.comment, vote: feed.answer } as Comment)
+              : null
           )
         )
         .flat()
         .filter(s => s !== null)
-        .filter(s => s?.length! > 1)
+        .filter(s => s?.comment.length! > 0)
     },
     [feedbackBatch]
   )
@@ -252,8 +255,8 @@ const FeedbackView = observer((props: IProp) => {
                           )}
                         >
                           <div className='collapsible-content'>
-                            {item.comments.map((comment: string) => (
-                              <div key={comment} className='comment'>
+                            {item.comments.map((comment: Comment, index) => (
+                              <div key={index} className='comment'>
                                 <MessageCircle className='float-left' />
                                 <li style={{ listStyle: 'none' }}>
                                   <p
@@ -262,7 +265,7 @@ const FeedbackView = observer((props: IProp) => {
                                       marginBottom: '0px'
                                     }}
                                   >
-                                    {comment}
+                                    {comment.vote} - {comment.comment}
                                   </p>
                                 </li>
                               </div>
