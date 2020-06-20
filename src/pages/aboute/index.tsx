@@ -1,6 +1,7 @@
 import Page from '../../components/essentials/page'
 import Section from '../../components/essentials/section'
 import { savedTokenValid } from '../../services/authService'
+import { fontsize } from '*.jpg'
 
 const Aboute = () => {
   return (
@@ -32,6 +33,16 @@ const Aboute = () => {
             <img src='/images/spinoff_logo_color.gif' />
           </a>
         </div>
+        <p
+          style={{
+            fontSize: '10px',
+            color: 'var(--label)',
+            textAlign: 'center',
+            padding: '12px'
+          }}
+        >
+          Beta - V0.1
+        </p>
       </Section>
       <style jsx>{`
         .container {

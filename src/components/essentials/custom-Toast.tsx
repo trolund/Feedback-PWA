@@ -11,10 +11,12 @@ const CustomToast = () => {
         position={toast.POSITION.BOTTOM_RIGHT}
       />
       <style jsx global>{`
-        @media only screen and (max-width: 480px) {
+         {
+          /* @media only screen and (max-width: 480px) {
           .toast-container {
             bottom: calc(env(safe-area-inset-bottom) + 75px) !important;
           }
+        } */
         }
 
         .toast-body {
@@ -26,7 +28,9 @@ const CustomToast = () => {
         }
 
         .toast-container {
-          bottom: calc(env(safe-area-inset-bottom) + 75px) !important;
+          bottom: calc(
+            var(--safe-area-inset-bottom) + var(--bottom-bar-space)
+          ) !important;
         }
 
         .toast-progress {

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Check } from 'react-feather'
 
 type initState = {
@@ -24,10 +24,15 @@ const CustomCheckbox = (props: initState) => {
     [state]
   )
 
+  useEffect(() => {
+    setState(checked)
+  }, [checked])
+
   return (
     <div
       id={id || ''}
-      className='container'
+      className='container noSelect'
+      style={{ cursor: 'pointer' }}
       role='button'
       tabIndex={0}
       onKeyDown={() => {

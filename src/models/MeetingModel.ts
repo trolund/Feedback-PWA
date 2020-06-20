@@ -11,4 +11,6 @@ export default interface MeetingModel {
   topic?: string
   questionsSetId?: string
   meetingCategories?: MeetingCategory[]
+  companyName?: string
+  userEmail?: string
 }

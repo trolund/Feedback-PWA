@@ -127,11 +127,12 @@ export default observer(() => {
       top: '50%',
       left: '50%',
       right: 'auto',
-      width: '100%',
-      height: '100%',
       bottom: 'auto',
       marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
+      transform: 'translate(-50%, -50%)',
+      padding: 'var(--gap)',
+      maxWidth: '800px',
+      userSelect: 'none'
     }
   }
 
@@ -301,7 +302,12 @@ export default observer(() => {
             role='button'
             onKeyDown={() => setShowGDPR(true)}
             onClick={() => setShowGDPR(true)}
-            style={{ color: 'var(--accent)', margin: '10px' }}
+            style={{
+              color: 'var(--accent)',
+              margin: '10px',
+              cursor: 'pointer'
+            }}
+            className='noSelect'
           >
             Læs vilkår
           </a>
@@ -323,19 +329,50 @@ export default observer(() => {
           <Modal
             isOpen={showGDPR}
             contentLabel='Example Modal'
-            className='modal'
+            className='modal noSelect'
             overlayClassName='Overlay'
             style={customStyles}
           >
-            <h2>Besvarelse ikke klar!</h2>
-            <button
-              type='button'
-              tabIndex={0}
+            <h2>Vilkår</h2>
+            <X
               onClick={() => setShowGDPR(false)}
+              style={{
+                float: 'right',
+                margin: 'var(--gap-small)',
+                position: 'absolute',
+                right: '0',
+                top: 0
+              }}
+            />
+            <div>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
+              quis lectus quis sem lacinia nonummy. Proin mollis lorem non
+              dolor. In hac habitasse platea dictumst. Nulla ultrices odio.
+              Donec augue. Phasellus dui. Maecenas facilisis nisl vitae nibh.
+              Proin vel seo est vitae eros pretium dignissim. Aliquam aliquam
+              sodales orci. Suspendisse potenti. Nunc adipiscing euismod arcu.
+              Quisque facilisis mattis lacus. Fusce bibendum, velit in venenatis
+              viverra, tellus ligula dignissim felis, quis euismod mauris tellus
+              ut urna. Proin scelerisque. Nulla in mi. Integer ac leo. Nunc urna
+              ligula, gravida a, pretium vitae, bibendum nec, ante. Aliquam
+              ullamcorper iaculis lectus. Sed vel dui. Etiam lacinia risus vitae
+              lacus. Aliquam elementum imperdiet turpis. In id metus. Mauris eu
+              nisl. Nam pharetra nisi nec enim. Nulla aliquam, tellus sed
+              laoreet blandit, eros urna vehicula lectus, et vulputate mauris
+              arcu ut arcu. Praesent eros metus lirum larum, accumsan a,
+              malesuada et, commodo vel, nulla. Aliquam sagittis auctor sapien.
+              Morbi a nibh.
+            </div>
+            <button
+              className='button bottombtn'
+              onClick={() => {
+                setAccept(true)
+                setShowGDPR(false)
+              }}
+              style={{ marginTop: 'var(--gap)' }}
             >
-              <X /> close
+              Accepter
             </button>
-            <div>det du skal acceptere..</div>
           </Modal>
         </li>
 

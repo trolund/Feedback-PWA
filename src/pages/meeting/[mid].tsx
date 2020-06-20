@@ -28,6 +28,7 @@ import {
   validateStartAndEndDate,
   validateTextInput
 } from '../../services/validationService'
+import isServer from '../../utils/helper'
 
 const Post: NextPage = observer(() => {
   const router = useRouter()
@@ -75,7 +76,8 @@ const Post: NextPage = observer(() => {
       fetchMeetingByShortId
     },
     categoriesStore: { fetchCategories, categories, fetchState: catFetchState },
-    settingStore: { realtimeFeedbackDefault }
+    settingStore: { realtimeFeedbackDefault },
+    authStore: { isAdmin, isVAdmin }
   } = useContext(rootStore)
 
   const [meeting, setMeeting] = useState(globalMeeting)
@@ -100,8 +102,8 @@ const Post: NextPage = observer(() => {
   }, [mid])
 
   useEffect(() => {
-    if (globalMeeting !== null || globalMeeting !== undefined) {
-      fetchQuestionSet(globalMeeting?.questionsSetId)
+    if (globalMeeting !== null && globalMeeting !== undefined) {
+      fetchQuestionSet(globalMeeting.questionsSetId)
     }
   }, [globalMeeting])
 
@@ -267,6 +269,22 @@ const Post: NextPage = observer(() => {
         <Section>
           <div className='flex-container'>
             <div className='flex-item-left'>
+              <span
+                style={{
+                  position: 'relative',
+                  float: 'right',
+                  margin: 0,
+                  color: meeting ? 'var(--text)' : 'var(--label)',
+                  width: '100%',
+                  textAlign: 'right'
+                }}
+              >
+                {isAdmin && (
+                  <p>{`${meeting?.companyName || ' '} - ${meeting?.userEmail ||
+                    'Oprettet af'}`}</p>
+                )}
+                {isVAdmin && <p>{`${meeting?.userEmail || 'Oprettet af'}`}</p>}
+              </span>
               <form>
                 <ul className='basic-list'>
                   <li>
@@ -309,7 +327,7 @@ const Post: NextPage = observer(() => {
                       data-cy='discription'
                       name='text'
                       id='exampleText'
-                      value={meeting?.discription}
+                      value={meeting?.discription || ''}
                       onChange={e =>
                         setMeeting({ ...meeting, discription: e.target.value })
                       }
@@ -555,7 +573,6 @@ const Post: NextPage = observer(() => {
             padding: 5px;
             min-width: 50%;
             width: 600px;
-            margin-top: 10px;
           }
         `}</style>
       </Page>
