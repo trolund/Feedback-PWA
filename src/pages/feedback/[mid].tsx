@@ -103,6 +103,7 @@ const Feedback: NextPage = observer(() => {
       <MiddelLoader
         loading={fetchState === FetchStates.LOADING || fingerprint === ''}
         text='Tilbagemeldinger er anonyme'
+        showOverlay={true}
       />
       <span className='fingerprint-indicator'>
         {fingerprint.length > 0 ? (
