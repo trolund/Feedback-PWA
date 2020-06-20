@@ -98,6 +98,9 @@ const BottomModal = (props: BottomModalProps) => {
             max-width: 600px;
             left: 50%;
             transform: translateX(-50%);
+            overscroll-behavior: contain ;
+            -ms-scroll-chaining: contain;
+            touch-action: none; /* danger!!!! */
           }
 
           .bottom-modal-ovelay {

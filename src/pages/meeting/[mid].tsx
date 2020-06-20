@@ -241,7 +241,10 @@ const Post: NextPage = observer(() => {
 
   return (
     <>
-      <MiddelLoader loading={state === FetchStates.LOADING} />
+      <MiddelLoader
+        showOverlay={true}
+        loading={state === FetchStates.LOADING}
+      />
       <Page
         showBottomNav={false}
         title={meeting?.name ?? 'loading...'}

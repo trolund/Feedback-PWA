@@ -7,6 +7,7 @@ import Section from '../components/essentials/section'
 import ThemeButton from '../components/theme-button'
 
 import rootStore from '../stores/RootStore'
+import CustomSwitch from '../components/Input/custom-switch'
 
 const Settings = observer(() => {
   const {
@@ -35,95 +36,25 @@ const Settings = observer(() => {
           <li>
             <h4 className='float-left'>Live tilbagemeldinger</h4>
             <span className='float-right'>
-              <Switch
+              <CustomSwitch
                 onChange={setRealtimeFeedbackDefault}
                 checked={realtimeFeedbackDefault}
-                onColor='#19896f'
-                offColor='#6a6b6e'
-                uncheckedIcon={
-                  <X
-                    style={{
-                      width: '27px',
-                      height: '27px',
-                      padding: '5px',
-                      color: 'white'
-                    }}
-                  />
-                }
-                checkedIcon={
-                  <Check
-                    style={{
-                      width: '27px',
-                      height: '27px',
-                      padding: '5px',
-                      color: 'white'
-                    }}
-                  />
-                }
               />
             </span>
           </li>
           <li>
             <h4 className='float-left'>Vis ikke template spørgsmålssæt</h4>
             <div className='float-right'>
-              <Switch
-                key='hej'
+              <CustomSwitch
                 onChange={setHideTempQuestionSets}
                 checked={hideTempQuestionSets}
-                onColor='#19896f'
-                offColor='#6a6b6e'
-                uncheckedIcon={
-                  <X
-                    style={{
-                      width: '27px',
-                      height: '27px',
-                      padding: '5px',
-                      color: 'white'
-                    }}
-                  />
-                }
-                checkedIcon={
-                  <Check
-                    style={{
-                      width: '27px',
-                      height: '27px',
-                      padding: '5px',
-                      color: 'white'
-                    }}
-                  />
-                }
               />
             </div>
           </li>
           <li>
             <h4 className='float-left'>Brug animationer</h4>
             <div className='float-right'>
-              <Switch
-                onChange={setAnimation}
-                checked={animation}
-                onColor='#19896f'
-                offColor='#6a6b6e'
-                uncheckedIcon={
-                  <X
-                    style={{
-                      width: '27px',
-                      height: '27px',
-                      padding: '5px',
-                      color: 'white'
-                    }}
-                  />
-                }
-                checkedIcon={
-                  <Check
-                    style={{
-                      width: '27px',
-                      height: '27px',
-                      padding: '5px',
-                      color: 'white'
-                    }}
-                  />
-                }
-              />
+              <CustomSwitch onChange={setAnimation} checked={animation} />
             </div>
           </li>
           {/* <li>
@@ -133,31 +64,9 @@ const Settings = observer(() => {
           <li>
             <h4 className='float-left'>Vis titler i menuen</h4>
             <div className='float-right'>
-              <Switch
+              <CustomSwitch
                 onChange={setShowTitleInBottomNav}
                 checked={showTitleInBottomNav}
-                onColor='#19896f'
-                offColor='#6a6b6e'
-                uncheckedIcon={
-                  <X
-                    style={{
-                      width: '27px',
-                      height: '27px',
-                      padding: '5px',
-                      color: 'white'
-                    }}
-                  />
-                }
-                checkedIcon={
-                  <Check
-                    style={{
-                      width: '27px',
-                      height: '27px',
-                      padding: '5px',
-                      color: 'white'
-                    }}
-                  />
-                }
               />
             </div>
           </li>

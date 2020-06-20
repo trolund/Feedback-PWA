@@ -18,6 +18,8 @@
   --backdrop: rgba(230, 230, 230, 0.75);
   --backdrop-trans: rgba(230, 230, 230, 0.25);
 
+  --loading-overlay: #14141485;
+
   --star: #adadad;
 
   --gradiant-start-color: #0594a6;

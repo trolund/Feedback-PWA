@@ -22,7 +22,7 @@ const DashboardOverview = (props: overviewprops) => {
         <div
           role='button'
           tabIndex={0}
-          className='float-right'
+          className='float-right noSelect'
           onClick={() => setShowBarChart(!showBarChart)}
           onKeyDown={() => setShowBarChart(!showBarChart)}
         >

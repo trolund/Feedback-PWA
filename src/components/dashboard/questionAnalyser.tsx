@@ -23,14 +23,13 @@ const QuestionAnalyser = observer(({ data }: Props) => {
 
   useEffect(() => {
     fetchQuestionSetNames()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    console.log('====================================')
-    console.log(QSetNames)
-    console.log('====================================')
-  }, [QSetNames])
+  // useEffect(() => {
+  //   console.log('====================================')
+  //   console.log(QSetNames)
+  //   console.log('====================================')
+  // }, [QSetNames])
 
   const chartOptions = {
     responsive: true,

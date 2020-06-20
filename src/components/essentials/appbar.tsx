@@ -29,7 +29,7 @@ const Header = (props: appbarProps) => {
           aria-label='Profile'
           onClick={backClickHandler}
           onKeyDown={backClickHandler}
-          className='back-btn'
+          className='back-btn noSelect'
           data-cy='back-btn'
         >
           <ChevronLeft fontSize='inherit' className='back-icon' />
@@ -38,7 +38,7 @@ const Header = (props: appbarProps) => {
         leftComponent && <div className='left-component'>{leftComponent}</div>
       )}
       {title && <h3>{title}</h3>}
-      <div className='float-right right-component'>{component}</div>
+      <div className='float-right right-component noSelect'>{component}</div>
 
       <div style={{ flex: 1 }} />
       <style jsx>{`

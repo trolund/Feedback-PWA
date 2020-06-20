@@ -85,7 +85,7 @@ const Rating: React.FC<IProp> = observer(() => {
         <div
           role='button'
           tabIndex={0}
-          className='float-right'
+          className='float-right noSelect'
           onClick={() => setIsOpen(!isOpen)}
           onKeyDown={() => setIsOpen(!isOpen)}
         >
@@ -100,7 +100,10 @@ const Rating: React.FC<IProp> = observer(() => {
           >
             {isOpen ? 'Skjul' : 'Vis'}
           </p>
-          <PieChart style={{ color: 'white' }} className='float-right' />
+          <PieChart
+            style={{ color: 'white' }}
+            className='float-right noSelect'
+          />
         </div>
       </h5>
 
