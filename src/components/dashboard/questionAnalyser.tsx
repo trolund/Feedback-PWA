@@ -36,6 +36,16 @@ const QuestionAnalyser = observer(({ data }: Props) => {
     maintainAspectRatio: false,
     legend: {
       display: false
+    },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            max: 3,
+            min: 0
+          }
+        }
+      ]
     }
   }
 
@@ -101,6 +111,7 @@ const QuestionAnalyser = observer(({ data }: Props) => {
       )}
       <style jsx>{`
         .container {
+          max-height: 400px;
         }
 
         .container h5 {

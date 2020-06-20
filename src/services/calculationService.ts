@@ -164,7 +164,7 @@ class CalculationService {
       const answerOnQuestion = data.filter(f => f.questionId === q)
       return (
         answerOnQuestion.reduce((sum, item) => sum + item.answer, 0) /
-        (answerOnQuestion.length + 1)
+        answerOnQuestion.length
       )
     })
 
