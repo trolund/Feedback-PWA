@@ -41,7 +41,7 @@ const Aboute = () => {
             padding: '12px'
           }}
         >
-          Beta - V0.1
+          Beta - V0.1.1
         </p>
       </Section>
       <style jsx>{`
