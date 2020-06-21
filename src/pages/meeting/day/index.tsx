@@ -16,6 +16,7 @@ import FetchStates from '../../../stores/requestState'
 import BottomModal from '../../../components/essentials/bottom-modal'
 import { sortEventByDate } from '../../../services/sortService'
 import { applyOffSet } from '../../../services/dateService'
+import withAuth from '../../../components/hoc/withAuth'
 
 const Day: NextPage = observer(() => {
   const router = useRouter()
@@ -178,7 +179,6 @@ const Day: NextPage = observer(() => {
         <style jsx>{`
           ul {
             margin-top: 40px;
-            height: 100%;
           }
           .text {
             width: fit-content;
@@ -252,4 +252,4 @@ const Day: NextPage = observer(() => {
   )
 })
 
-export default Day
+export default withAuth(Day)

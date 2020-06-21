@@ -139,6 +139,10 @@ const DashboardFilter = observer(() => {
           <CustomDatepicker
             value={startdate}
             onChange={date => {
+              date.setHours(0)
+              date.setMinutes(0)
+              date.setSeconds(0)
+
               setStartdate(date)
             }}
           />
@@ -148,6 +152,10 @@ const DashboardFilter = observer(() => {
           <CustomDatepicker
             value={enddate}
             onChange={date => {
+              date.setHours(23)
+              date.setMinutes(59)
+              date.setSeconds(59)
+
               setEnddate(date)
             }}
           />

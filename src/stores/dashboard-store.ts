@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-console */
 import { observable, action, computed } from 'mobx'
+import Moment from 'moment'
 // import { createContext } from 'react'
 import { persist } from 'mobx-persist'
 import ApiRoutes from './api/ApiRoutes'
@@ -191,8 +192,16 @@ export default class DashboardStore implements IStoreFetchState {
     this.fetchState = FetchStates.LOADING
     try {
       const url = ApiRoutes.DashboardDate(
-        applyOffSet(start),
-        applyOffSet(end),
+        applyOffSet(
+          Moment(start)
+            .utc(true)
+            .toDate()
+        ),
+        applyOffSet(
+          Moment(end)
+            .utc(true)
+            .toDate()
+        ),
         categories,
         searchWord,
         ownData

@@ -25,12 +25,6 @@ const QuestionAnalyser = observer(({ data }: Props) => {
     fetchQuestionSetNames()
   }, [])
 
-  // useEffect(() => {
-  //   console.log('====================================')
-  //   console.log(QSetNames)
-  //   console.log('====================================')
-  // }, [QSetNames])
-
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
