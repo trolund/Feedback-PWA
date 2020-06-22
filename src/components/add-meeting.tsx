@@ -55,7 +55,7 @@ const AddMeeting = observer(
     const [date, setDate] = useState(initDate || new Date())
     const [startTime, setStartTime] = useState(new Date())
     const [endTime, setEndTime] = useState(new Date())
-    const [questionSet, setQuestionSet] = useState('')
+    const [questionSet, setQuestionSet] = useState('null')
     const [showErrors, setShowErrors] = useState(false)
     //  const [Selecter, setSelecter] = useState('null')
 
@@ -281,7 +281,7 @@ const AddMeeting = observer(
               <p>Start tid</p>
               <CustomTimepicker
                 minValue={minDate()}
-                maxValue={endTime}
+                maxValue={maxDate()}
                 error={
                   !validateStartAndEndDate(startTime, endTime).valid &&
                   showErrors

@@ -31,7 +31,7 @@ const CustomSelect = ({
       }}
     >
       <select
-        className={error ? 'input-error' : ''}
+        className={error ? 'noSelect' : 'noSelect'}
         name='select'
         value={defaultValue}
         style={{ zIndex: 2, fontWeight: 300 }}
