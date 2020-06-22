@@ -49,7 +49,7 @@ export default class QuestionSetStore implements IStoreFetchState {
 
       const data: IQuestionSet[] = await response.json()
       this.QSetNames = data
-      console.log(this.msg, this.QSetNames)
+      // console.log(this.msg, this.QSetNames)
 
       this.fetchState = FetchStates.DONE
     } catch (e) {

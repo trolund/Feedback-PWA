@@ -103,7 +103,7 @@ const ApiRoutes = {
       returnStr += `&searchWord=${searchWord}`
     }
     if (categories) {
-      console.log(categories)
+      // console.log(categories)
 
       returnStr = appendCategoriesParms(returnStr, categories)
     }

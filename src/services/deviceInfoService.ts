@@ -14,7 +14,7 @@ export const getIOSVersion = (): number => {
       start > -1
     ) {
       const res = window.Number(agent.substr(start + 3, 3).replace('_', '.'))
-      console.log(res)
+      // console.log(res)
 
       return res
     }

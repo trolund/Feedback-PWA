@@ -30,7 +30,7 @@ const MobileCalendarV2 = ({ dim, events }: props) => {
 
   const onDaySelect = (date: Date) => {
     Router.push(`/meeting/day?date=${date.getTime()}`)
-    console.log(date.toDateString())
+    // console.log(date.toDateString())
   }
 
   FullCalendarNoSSRWrapper = dynamic({
@@ -99,9 +99,9 @@ const MobileCalendarV2 = ({ dim, events }: props) => {
           //   setfirst(false)
           // }
           // console.log(first)
-          console.log(v, s)
+          //console.log(v, s)
         }}
-        onChange={v => console.log(v)}
+        onChange={v => {}}
       />
       <style jsx>{``}</style>
     </>

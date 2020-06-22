@@ -63,7 +63,7 @@ export const convertAllDatesToLocal = (
   meetings: MeetingModel[]
 ): MeetingModel[] => {
   const list = meetings.map(m => applyOffSetToMeeting(m))
-  console.log(list)
+  // console.log(list)
 
   return list
 }

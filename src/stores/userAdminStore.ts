@@ -37,12 +37,12 @@ export default class UserAdminStore implements IStoreFetchState {
               'Content-Type': 'application/json'
             }
       })
-      console.log(response)
+      // console.log(response)
 
       this.msg = response.statusText
       const data = await response.json()
 
-      console.log(response, data)
+      // console.log(response, data)
 
       this.users = data
       this.fetchState = FetchStates.DONE

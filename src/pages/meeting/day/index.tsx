@@ -45,7 +45,7 @@ const Day: NextPage = observer(() => {
   }
 
   const arrowKeys = (e: any) => {
-    console.log(e)
+    //console.log(e)
 
     if (e.charCode === 37) {
       nextDay()

@@ -31,14 +31,14 @@ export default class MeetingStore implements IStoreFetchState {
   }
 
   @action create = async (entity: MeetingModel) => {
-    console.log('to create: ', entity)
+    // console.log('to create: ', entity)
 
     this.meetingCreatedState = FetchStates.LOADING
     try {
       const url = ApiRoutes.createMeeting
       const token = getToken()
       const json = JSON.stringify(entity)
-      console.log(json)
+      // console.log(json)
 
       const response = await fetch(url, {
         method: 'POST',
@@ -51,7 +51,7 @@ export default class MeetingStore implements IStoreFetchState {
         body: json,
         redirect: 'follow'
       })
-      console.log(response)
+      //console.log(response)
       this.msg = response.statusText
       if (response.status === 200) {
         this.meetingCreatedState = FetchStates.DONE
@@ -245,7 +245,7 @@ export default class MeetingStore implements IStoreFetchState {
       const data: MeetingModel = applyOffSetToMeeting(
         applyDates(await response.json())
       )
-      console.log('fetch mmeting response: ', data)
+      //('fetch mmeting response: ', data)
       this.meeting = data
     } catch (e) {
       this.fetchState = FetchStates.FAILED

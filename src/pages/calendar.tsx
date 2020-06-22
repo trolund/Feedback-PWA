@@ -51,8 +51,6 @@ const CalendarView = withAuth(
     }
 
     const bind = useDrag(({ movement: [mx] }) => {
-      console.log(mx)
-
       if (mx > 190) {
         let calendarApi2 = calRef.current.getApi()
         calendarApi2.prev()
