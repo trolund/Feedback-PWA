@@ -80,9 +80,9 @@
 } */
 
 .dark {
-  --accent: #19896f;
-  --accent-low: #19896f2f;
-  --accent-dark: #126451;
+  --accent: #0594a6;
+  --accent-low: #0594a62f;
+  --accent-dark: #067988;
   --text: #eeeff1;
   --label: #8a8b8e;
   --backdrop: rgba(10, 10, 10, 0.75);
