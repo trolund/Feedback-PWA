@@ -25,7 +25,7 @@ export default class DashboardStore implements IStoreFetchState {
 
   @persist @observable cutoff: boolean = true
 
-  @persist @observable useFixedYAxis: boolean = true
+  @persist @observable useFixedYAxis: boolean = false
 
   @persist @observable xAxisScale: GraphXScale = GraphXScale.weeks
 

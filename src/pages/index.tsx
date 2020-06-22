@@ -176,9 +176,10 @@ export default withRedirect(
           </div>
           <div>
             <div className='spin'>
-              <a href='http://spinoff.nu'>
+              {/* <a href='http://spinoff.nu'>
                 <img src='/images/spinoff_logo.svg' />
-              </a>
+              </a> */}
+              <a href='http://spinoff.nu'>Powered by Spinoff.nu</a>
             </div>
           </div>
         </Section>

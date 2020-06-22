@@ -1,5 +1,6 @@
 import Lottie from 'react-lottie'
 import * as loadingAni from '../../../public/Animations/loading.json'
+import { useEffect } from 'react'
 
 type loadingprops = {
   loading: boolean
@@ -22,7 +23,7 @@ const MiddelLoader: React.FC<loadingprops> = ({
   }
   return (
     <>
-      {loading && (
+      {loading && showOverlay && (
         <div
           className='loading-overlay'
           style={{ display: showOverlay ? 'block' : 'none' }}

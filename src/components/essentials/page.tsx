@@ -112,7 +112,6 @@ const Page = ({
           padding-bottom: calc(env(safe-area-inset-bottom) + 73px);
           max-width: 90em;
           height: 100%;
-          min-height: 100vh;
           background: var(--base);
           transition: var(--transition-colors);
         }

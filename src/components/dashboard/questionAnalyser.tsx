@@ -80,7 +80,7 @@ const QuestionAnalyser = observer(({ data }: Props) => {
   )
   return (
     <div className='container card'>
-      <h5>Feedback fordelt på spørgsmål</h5>
+      <h5>Gennemsnit af feedback</h5>
       <div className='select-css'>
         <select
           name='select'
