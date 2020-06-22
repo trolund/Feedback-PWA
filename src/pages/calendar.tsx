@@ -161,7 +161,7 @@ const CalendarView = withAuth(
               // ||
               // catState === FetchStates.LOADING
             }
-            showOverlay={true}
+            showOverlay={windowDim.width < mobileSwapPoint}
           />
           <div className='fixed-cal' {...bind()}>
             <div
