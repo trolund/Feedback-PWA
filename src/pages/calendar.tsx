@@ -163,6 +163,7 @@ const CalendarView = withAuth(
               // ||
               // catState === FetchStates.LOADING
             }
+            showOverlay={true}
           />
           <div className='fixed-cal' {...bind()}>
             <div
@@ -172,8 +173,9 @@ const CalendarView = withAuth(
               }}
             >
               <div className='date'>{(calViewProp as CalView).title}</div>
-              <div className='float-left arrowbtn'>
+              <div className='float-left arrowbtn noSelect'>
                 <ChevronLeft
+                  className='noSelect'
                   tabIndex={0}
                   onKeyPress={e => console.log(e)}
                   onClick={() => {
@@ -184,8 +186,9 @@ const CalendarView = withAuth(
                 />
               </div>
 
-              <div className='float-right arrowbtn'>
+              <div className='float-right arrowbtn noSelect'>
                 <ChevronRight
+                  className='noSelect'
                   tabIndex={0}
                   onClick={() => {
                     let calendarApi2 = calRef.current.getApi()

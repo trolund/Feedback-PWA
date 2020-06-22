@@ -143,6 +143,7 @@ const Day: NextPage = observer(() => {
           </div>
           <div className='float-left arrowbtn'>
             <ChevronLeft
+              className='noSelect'
               tabIndex={0}
               onKeyPress={e => console.log(e)}
               onClick={prevDay}
@@ -152,6 +153,7 @@ const Day: NextPage = observer(() => {
 
           <div className='float-right arrowbtn'>
             <ChevronRight
+              className='noSelect'
               tabIndex={0}
               onKeyPress={arrowKeys}
               onClick={nextDay}

@@ -18,7 +18,7 @@
   --backdrop: rgba(230, 230, 230, 0.75);
   --backdrop-trans: rgba(230, 230, 230, 0.25);
 
-  --loading-overlay: #14141485;
+  --loading-overlay: #e6e6e685;
 
   --star: #adadad;
 
@@ -92,6 +92,7 @@
   --base: #1f2022;
   --base-low: #1f20222a;
   --overflow: #101015;
+  --loading-overlay: #14141485;
 }
 
 /* body::-webkit-scrollbar {
