@@ -185,9 +185,7 @@ const FeedbackView = observer((props: IProp) => {
             onClick={() => setShowModal(true)}
           />
           <CustomSwitch
-            onChange={e => {
-              setRealtimeFeedbackDefault(e)
-            }}
+            onChange={setRealtimeFeedbackDefault}
             checked={realtimeFeedbackDefault}
           />
           <div className='counter-container'>
