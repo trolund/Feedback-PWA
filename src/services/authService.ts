@@ -89,6 +89,13 @@ export const auth = (ctx: NextPageContext, roles?: Roles[]) => {
   return token
 }
 
+export const redirect = (ctx: NextPageContext) => {
+  const { token } = nextCookie(ctx)
+  if (token !== undefined && tokenValid(token)) {
+    safeRedirect('/home', ctx)
+  }
+}
+
 export const logout = () => {
   cookie.remove(TOKENKEY)
   // to support logging out from all windows
