@@ -49,7 +49,7 @@ const Page = ({
   const showBottomNaver = showBottomNav === undefined ? true : showBottomNav
   const showTheBackButton = showBackButton === undefined ? true : showBackButton
   const fullscreenMain = fullscreen === undefined ? false : fullscreen
-  const bgStyle = bgColor ? { backgroundColor: bgColor } : {}
+  const bgStyle = bgColor ? { backgroundColor: bgColor, height: '100vh' } : {}
 
   useEffect(() => {
     if (showBottomNaver) {
