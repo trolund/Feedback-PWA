@@ -68,12 +68,12 @@ export default withAuth(
         component={<ShowAndHideFilterBtn />}
         title='Oversigt'
       >
-        <MiddelLoader loading={state === FetchStates.LOADING} />
         <BottomModal
           show={showFilter}
           setShow={setShowFilter}
           content={<DashboardFilter />}
         />
+        <MiddelLoader loading={state === FetchStates.LOADING} />
         <Section>
           <Rating />
           <DashboardOverview

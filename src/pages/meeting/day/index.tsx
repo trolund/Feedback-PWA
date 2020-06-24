@@ -119,8 +119,8 @@ const Day: NextPage = observer(() => {
   }
 
   return (
-    <div {...bind()}>
-      <Page title='Møder' showBackButton component={<AddBtn />}>
+    <Page title='Møder' showBackButton component={<AddBtn />}>
+      <div style={{ display: showModal ? 'block' : 'none' }}>
         <BottomModal
           show={showModal}
           content={
@@ -132,9 +132,16 @@ const Day: NextPage = observer(() => {
           }
           setShow={setShowModal}
         />
-        <MiddelLoader
-          loading={meetingStore.fetchState === FetchStates.LOADING}
-        />
+      </div>
+      <MiddelLoader loading={meetingStore.fetchState === FetchStates.LOADING} />
+      <div
+        {...bind()}
+        style={{
+          height:
+            'calc(100vh - var(--top-bar-height) - var(--bottom-bar-height) - 2px)'
+        }}
+        className='box'
+      >
         <div className='bar'>
           <div className='date'>
             {selectedDay.toString() !== 'Invalid Date'
@@ -178,79 +185,79 @@ const Day: NextPage = observer(() => {
             ))}
           </ul>
         </Section>
-        <style jsx>{`
-          ul {
-            margin-top: 40px;
-          }
-          .text {
-            width: fit-content;
-            max-width: 90vw;
-            display: inline;
-            margin-left: 15px;
-          }
+      </div>
+      <style jsx>{`
+        ul {
+          margin-top: 40px;
+        }
+        .text {
+          width: fit-content;
+          max-width: 90vw;
+          display: inline;
+          margin-left: 15px;
+        }
 
-          .arrow {
-            float: right;
-            display: inline-block;
-            white-space: nowrap;
-          }
-          .date {
-            margin-top: 3px;
-            width: 100px;
-            left: 50%;
-            margin-left: -50px;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 1;
-            color: white;
-          }
-          .arrowbtn {
-            z-index: 10;
-          }
-          .bar {
-            background-color: var(--accent);
-            height: 35px;
-            width: 100%;
-            left: 0;
-            top: calc(var(--safe-area-inset-top) / 2 + var(--top-bar-height));
-            position: fixed;
-          }
+        .arrow {
+          float: right;
+          display: inline-block;
+          white-space: nowrap;
+        }
+        .date {
+          margin-top: 3px;
+          width: 100px;
+          left: 50%;
+          margin-left: -50px;
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          z-index: 1;
+          color: white;
+        }
+        .arrowbtn {
+          z-index: 10;
+        }
+        .bar {
+          background-color: var(--accent);
+          height: 35px;
+          width: 100%;
+          left: 0;
+          top: calc(var(--safe-area-inset-top) / 2 + var(--top-bar-height));
+          position: fixed;
+        }
 
-          .bar div {
-            padding: 5px;
-          }
-          .label {
-            display: block;
-            width: 100%;
-          }
-          .info {
-            width: 100%;
-          }
-          li {
-            color: var(--fg);
-            padding: var(--gap-small);
-            background: var(--base);
-            display: flex;
-            align-items: center;
-            transition: var(--transition-colors);
-          }
+        .bar div {
+          padding: 5px;
+        }
+        .label {
+          display: block;
+          width: 100%;
+        }
+        .info {
+          width: 100%;
+        }
+        li {
+          color: var(--fg);
+          padding: var(--gap-small);
+          background: var(--base);
+          display: flex;
+          align-items: center;
+          transition: var(--transition-colors);
+        }
 
-          li:not(:last-child) {
-            border-bottom: 1px solid var(--divider);
-          }
+        li:not(:last-child) {
+          border-bottom: 1px solid var(--divider);
+        }
 
-          h4 {
-            color: var(--fg);
-            margin-left: var(--gap-small);
-            font-weight: 500;
-            letter-spacing: 0.0035em;
-          }
-        `}</style>
-      </Page>
-    </div>
+        h4 {
+          color: var(--fg);
+          margin-left: var(--gap-small);
+          font-weight: 500;
+          letter-spacing: 0.0035em;
+        }
+      `}</style>
+    </Page>
   )
 })
 
