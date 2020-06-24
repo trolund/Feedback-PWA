@@ -227,6 +227,7 @@ const FeedbackViewPager = observer(
 
           .view {
             width: 100vw !important;
+            padding: 5px;
           }
         `}</style>
       </>
