@@ -49,6 +49,7 @@ context('question sets as admin', () => {
       '[data-rbd-droppable-id="list"] li:nth-child(3) svg:last-child'
     ).click()
     cy.get('.float-right > svg').click()
+    cy.wait(300)
     cy.get('.toast').contains('opdateret')
 
     cy.get('.back-icon').click()
@@ -115,6 +116,8 @@ context('question sets as admin', () => {
     cy.get('[data-rbd-droppable-id="list"] li:nth-child(3) input').type('3')
     cy.get('.float-right > svg').click()
 
+    cy.wait(2000)
+
     cy.get('ul')
       .find('li')
       .find('.name')
@@ -125,7 +128,8 @@ context('question sets as admin', () => {
     cy.wait(500)
 
     cy.get('[data-cy="delete-question-set"]').click()
-    cy.wait(500)
+
+    cy.wait(2000)
 
     cy.get('ul')
       .find('li')

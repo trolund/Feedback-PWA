@@ -154,12 +154,23 @@ context('Deliver feedback', () => {
 
     const date = new Date()
     date.setDate(date.getDate() + 1)
+    ;(cy as any).goto(`/meeting/day?date=${date.getTime()}`)
+    cy.wait(2000)
+    cy.get('[data-cy="meeting-list"] li')
+      .contains('test')
+      .first()
+      .click()
 
-    const meetingId = getIdByDay(meetingName, date)
-    ;(cy as any).goto(`/feedback/${meetingId}`)
+    cy.wait(2000)
+
+    cy.get('[data-cy="meetingId"]').then(element => {
+      const meetingId = element.text()
+      return meetingId
+    })
+
+    cy.get('[data-cy=feedback-link]').click()
+    cy.wait(1000)
     cy.get('.msg').contains('Mødet er ikke åben')
-
-    deleteMeetingDate(name, date)
   })
 })
 
