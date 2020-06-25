@@ -4,7 +4,7 @@ import Fingerprint2 from 'fingerprintjs2'
 
 describe('validate date manipulation', () => {
   describe('test password validation', () => {
-    it('should combine DateAndTime', function() {
+    it('should create', function() {
       if (window != null) {
         //   requestIdleCallback(function() {
         //     Fingerprint2.get(function(components) {

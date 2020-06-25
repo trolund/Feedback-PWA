@@ -13,8 +13,8 @@ export const makeid = length => {
   return result
 }
 
-export const filterTempletes = (n: IQuestionSet) =>
-  n.companyId !== Number(process.env.spinOffCompenyId)
+export const filterTempletes = (n: IQuestionSet, companyId?: number) =>
+  n.companyId !== companyId || Number(process.env.spinOffCompenyId)
 
 export const prepareQuestionSetforUpdate = (set: IQuestionSet) => {
   return {
