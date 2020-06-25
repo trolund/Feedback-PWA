@@ -1,0 +1,62 @@
+[
+  {
+    "companyName": null,
+    "userEmail": null,
+    "meetingId": 3,
+    "shortId": "yM",
+    "createdBy": "510c5c47-5581-4c6c-8778-bf5a1e24ac7e",
+    "name": "test møde 45",
+    "startTime": "2020-06-23T07:50:00",
+    "endTime": "2020-06-23T15:50:00",
+    "discription": "ewfwefewf",
+    "topic": "emne",
+    "questionsSetId": "60bf25ce-b336-4e17-a01a-a92956b85bab",
+    "meetingCategoryId": "00000000-0000-0000-0000-000000000000",
+    "meetingCategories": []
+  },
+  {
+    "companyName": null,
+    "userEmail": null,
+    "meetingId": 45,
+    "shortId": "GPP",
+    "createdBy": "f4189e32-d76a-4623-b6c4-1b77ddb7b48b",
+    "name": "hej",
+    "startTime": "2020-06-23T07:34:00",
+    "endTime": "2020-06-23T07:36:00",
+    "discription": null,
+    "topic": "emne",
+    "questionsSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingCategoryId": "00000000-0000-0000-0000-000000000000",
+    "meetingCategories": []
+  },
+  {
+    "companyName": null,
+    "userEmail": null,
+    "meetingId": 41,
+    "shortId": "M5",
+    "createdBy": "f2960714-3a2c-492e-808a-b7347be8f2e5",
+    "name": "Ny test",
+    "startTime": "2020-06-23T07:21:00",
+    "endTime": "2020-06-23T07:34:00",
+    "discription": null,
+    "topic": "emne",
+    "questionsSetId": "60bf25ce-b336-4e17-a01a-a92956b85bab",
+    "meetingCategoryId": "00000000-0000-0000-0000-000000000000",
+    "meetingCategories": []
+  },
+  {
+    "companyName": null,
+    "userEmail": null,
+    "meetingId": 38,
+    "shortId": "zd",
+    "createdBy": "11770397-08ac-4c04-9700-42f19b7a4506",
+    "name": "Opsamling ",
+    "startTime": "2020-06-23T06:58:00",
+    "endTime": "2020-06-23T07:58:00",
+    "discription": "Test af ændringer",
+    "topic": "emne",
+    "questionsSetId": "60bf25ce-b336-4e17-a01a-a92956b85bab",
+    "meetingCategoryId": "00000000-0000-0000-0000-000000000000",
+    "meetingCategories": []
+  }
+]

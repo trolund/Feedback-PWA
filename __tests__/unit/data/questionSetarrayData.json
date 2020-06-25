@@ -1,0 +1,152 @@
+[
+  {
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "name": "Foredrag",
+    "version": 0,
+    "companyId": 1,
+    "questions": [
+      {
+        "questionId": "471dbad2-9d64-4f09-acdb-031cd0a79ed6",
+        "index": 2,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du foredragsholderens engagement?"
+      },
+      {
+        "questionId": "998a24e9-d882-4cda-99dc-049ace0d2c4a",
+        "index": 3,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du foredragsholderens faglighed?"
+      },
+      {
+        "questionId": "770e4064-5335-4edf-bac7-3c6ac654374f",
+        "index": 0,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du overordnet foredraget?"
+      },
+      {
+        "questionId": "69531f88-7956-4296-838a-738a386ac0d2",
+        "index": 4,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du foredragsholderens formidlingsevne?"
+      },
+      {
+        "questionId": "a60ad625-0ec8-4f47-8a17-e6dbbac7aef4",
+        "index": 5,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du dit udbytte af foredraget?"
+      },
+      {
+        "questionId": "395ede25-67b0-4605-95d2-f74ec7617637",
+        "index": 6,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du tidsstyringen?"
+      },
+      {
+        "questionId": "7fcb5b72-7af1-42da-8b91-f8e191718270",
+        "index": 1,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du relevansen af indholdet?"
+      }
+    ]
+  },
+  {
+    "questionSetId": "60bf25ce-b336-4e17-a01a-a92956b85bab",
+    "name": "Møder",
+    "version": 0,
+    "companyId": 1,
+    "questions": [
+      {
+        "questionId": "79363512-8a95-4f1f-8d74-1092193c6059",
+        "index": 3,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du kommunikationen på mødet?"
+      },
+      {
+        "questionId": "faff713e-299a-45b0-9060-31dd35011cbd",
+        "index": 5,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du værdien af mødet?"
+      },
+      {
+        "questionId": "a1b57b29-d004-4b1d-b3ec-35cb894d7afe",
+        "index": 1,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du din mulighed for at forberede dig?"
+      },
+      {
+        "questionId": "b035437d-cf97-4104-97b2-91565064559b",
+        "index": 6,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du din indsats?"
+      },
+      {
+        "questionId": "e4b6cb92-518a-433b-b35f-9fc3fbc60d4e",
+        "index": 0,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du mødeledelsen?"
+      },
+      {
+        "questionId": "84714d7b-19f6-4ee5-ad03-c1753b88dc24",
+        "index": 2,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du indholdet?"
+      },
+      {
+        "questionId": "7bc3c91f-7f4a-4907-a56b-d661f4fcc33c",
+        "index": 4,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Overordnet hvordan vurderer du mødet?"
+      }
+    ]
+  },
+  {
+    "questionSetId": "0a348d75-db35-465e-8150-ed738e514bf0",
+    "name": "Undervisning",
+    "version": 0,
+    "companyId": 1,
+    "questions": [
+      {
+        "questionId": "36a85ea8-05a9-4a69-ad86-152782491c40",
+        "index": 0,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du tidsstyringen?"
+      },
+      {
+        "questionId": "39b76664-a408-4f84-b09d-173c43730813",
+        "index": 6,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du din egen indsats?"
+      },
+      {
+        "questionId": "01e8a3ca-796f-4579-8fd5-4966e56f48d8",
+        "index": 4,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du underviserens formidlingsevne?"
+      },
+      {
+        "questionId": "16c17eee-6fb3-4a4a-b81d-5b8c58e714bb",
+        "index": 5,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du dit udbytte af undervisningen?"
+      },
+      {
+        "questionId": "8c309d48-6f0c-4a76-a74d-6e1133537912",
+        "index": 3,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du underviserens faglighed?"
+      },
+      {
+        "questionId": "125424a1-33fa-49a0-a507-bc89e1c018ce",
+        "index": 1,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du overordnet undervisningen?"
+      },
+      {
+        "questionId": "e05bace9-3ab2-4a74-9214-e4356ae90d57",
+        "index": 2,
+        "questionSetId": "00000000-0000-0000-0000-000000000000",
+        "theQuestion": "Hvordan vurderer du relevansen af indholdet?"
+      }
+    ]
+  }
+]

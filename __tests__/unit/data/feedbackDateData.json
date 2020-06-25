@@ -1,0 +1,569 @@
+[
+  {
+    "date": "2020-06-17T14:09:46.4833328",
+    "answer": 3,
+    "categories": ["Undervisning"],
+    "questionId": "770e4064-5335-4edf-bac7-3c6ac654374f",
+    "feedbackBatchId": "e4ca05ef-b93d-476d-649e-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T14:09:46.4833347",
+    "answer": 2,
+    "categories": ["Undervisning"],
+    "questionId": "7fcb5b72-7af1-42da-8b91-f8e191718270",
+    "feedbackBatchId": "e4ca05ef-b93d-476d-649e-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T14:09:46.4833365",
+    "answer": 3,
+    "categories": ["Undervisning"],
+    "questionId": "471dbad2-9d64-4f09-acdb-031cd0a79ed6",
+    "feedbackBatchId": "e4ca05ef-b93d-476d-649e-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T14:09:46.4833383",
+    "answer": 3,
+    "categories": ["Undervisning"],
+    "questionId": "998a24e9-d882-4cda-99dc-049ace0d2c4a",
+    "feedbackBatchId": "e4ca05ef-b93d-476d-649e-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T14:09:46.4833402",
+    "answer": 3,
+    "categories": ["Undervisning"],
+    "questionId": "69531f88-7956-4296-838a-738a386ac0d2",
+    "feedbackBatchId": "e4ca05ef-b93d-476d-649e-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T14:09:46.483342",
+    "answer": 3,
+    "categories": ["Undervisning"],
+    "questionId": "a60ad625-0ec8-4f47-8a17-e6dbbac7aef4",
+    "feedbackBatchId": "e4ca05ef-b93d-476d-649e-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T14:09:46.4833438",
+    "answer": 2,
+    "categories": ["Undervisning"],
+    "questionId": "395ede25-67b0-4605-95d2-f74ec7617637",
+    "feedbackBatchId": "e4ca05ef-b93d-476d-649e-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:46:24.3904852",
+    "answer": 3,
+    "categories": ["Undervisning"],
+    "questionId": "770e4064-5335-4edf-bac7-3c6ac654374f",
+    "feedbackBatchId": "1a0431be-af10-4608-64a0-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:46:24.3904874",
+    "answer": 2,
+    "categories": ["Undervisning"],
+    "questionId": "7fcb5b72-7af1-42da-8b91-f8e191718270",
+    "feedbackBatchId": "1a0431be-af10-4608-64a0-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:46:24.3904895",
+    "answer": 3,
+    "categories": ["Undervisning"],
+    "questionId": "471dbad2-9d64-4f09-acdb-031cd0a79ed6",
+    "feedbackBatchId": "1a0431be-af10-4608-64a0-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:46:24.3904915",
+    "answer": 2,
+    "categories": ["Undervisning"],
+    "questionId": "998a24e9-d882-4cda-99dc-049ace0d2c4a",
+    "feedbackBatchId": "1a0431be-af10-4608-64a0-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:46:24.3904935",
+    "answer": 3,
+    "categories": ["Undervisning"],
+    "questionId": "69531f88-7956-4296-838a-738a386ac0d2",
+    "feedbackBatchId": "1a0431be-af10-4608-64a0-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:46:24.3904955",
+    "answer": 3,
+    "categories": ["Undervisning"],
+    "questionId": "a60ad625-0ec8-4f47-8a17-e6dbbac7aef4",
+    "feedbackBatchId": "1a0431be-af10-4608-64a0-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:46:24.3904973",
+    "answer": 3,
+    "categories": ["Undervisning"],
+    "questionId": "395ede25-67b0-4605-95d2-f74ec7617637",
+    "feedbackBatchId": "1a0431be-af10-4608-64a0-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:47:34.3644744",
+    "answer": 0,
+    "categories": ["Undervisning"],
+    "questionId": "770e4064-5335-4edf-bac7-3c6ac654374f",
+    "feedbackBatchId": "06d070ea-994d-4c03-64a1-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:47:34.3644763",
+    "answer": 0,
+    "categories": ["Undervisning"],
+    "questionId": "7fcb5b72-7af1-42da-8b91-f8e191718270",
+    "feedbackBatchId": "06d070ea-994d-4c03-64a1-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:47:34.3644782",
+    "answer": 0,
+    "categories": ["Undervisning"],
+    "questionId": "471dbad2-9d64-4f09-acdb-031cd0a79ed6",
+    "feedbackBatchId": "06d070ea-994d-4c03-64a1-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:47:34.36448",
+    "answer": 1,
+    "categories": ["Undervisning"],
+    "questionId": "998a24e9-d882-4cda-99dc-049ace0d2c4a",
+    "feedbackBatchId": "06d070ea-994d-4c03-64a1-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:47:34.3644947",
+    "answer": 1,
+    "categories": ["Undervisning"],
+    "questionId": "69531f88-7956-4296-838a-738a386ac0d2",
+    "feedbackBatchId": "06d070ea-994d-4c03-64a1-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:47:34.3645148",
+    "answer": 0,
+    "categories": ["Undervisning"],
+    "questionId": "a60ad625-0ec8-4f47-8a17-e6dbbac7aef4",
+    "feedbackBatchId": "06d070ea-994d-4c03-64a1-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-17T20:47:34.3645166",
+    "answer": 0,
+    "categories": ["Undervisning"],
+    "questionId": "395ede25-67b0-4605-95d2-f74ec7617637",
+    "feedbackBatchId": "06d070ea-994d-4c03-64a1-08d812c81714",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "GP"
+  },
+  {
+    "date": "2020-06-18T12:22:18.8921049",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "770e4064-5335-4edf-bac7-3c6ac654374f",
+    "feedbackBatchId": "b907c0c1-a8fe-4ede-54eb-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:18.8921404",
+    "answer": 1,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "7fcb5b72-7af1-42da-8b91-f8e191718270",
+    "feedbackBatchId": "b907c0c1-a8fe-4ede-54eb-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:18.8921765",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "471dbad2-9d64-4f09-acdb-031cd0a79ed6",
+    "feedbackBatchId": "b907c0c1-a8fe-4ede-54eb-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:18.8921859",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "998a24e9-d882-4cda-99dc-049ace0d2c4a",
+    "feedbackBatchId": "b907c0c1-a8fe-4ede-54eb-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:18.8921886",
+    "answer": 1,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "69531f88-7956-4296-838a-738a386ac0d2",
+    "feedbackBatchId": "b907c0c1-a8fe-4ede-54eb-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:18.8921907",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "a60ad625-0ec8-4f47-8a17-e6dbbac7aef4",
+    "feedbackBatchId": "b907c0c1-a8fe-4ede-54eb-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:18.8921927",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "395ede25-67b0-4605-95d2-f74ec7617637",
+    "feedbackBatchId": "b907c0c1-a8fe-4ede-54eb-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:51.9346014",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "770e4064-5335-4edf-bac7-3c6ac654374f",
+    "feedbackBatchId": "3fa2c519-1c09-4693-54ec-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:51.9346034",
+    "answer": 0,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "7fcb5b72-7af1-42da-8b91-f8e191718270",
+    "feedbackBatchId": "3fa2c519-1c09-4693-54ec-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:51.9346053",
+    "answer": 1,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "471dbad2-9d64-4f09-acdb-031cd0a79ed6",
+    "feedbackBatchId": "3fa2c519-1c09-4693-54ec-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:51.9346072",
+    "answer": 1,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "998a24e9-d882-4cda-99dc-049ace0d2c4a",
+    "feedbackBatchId": "3fa2c519-1c09-4693-54ec-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:51.9346091",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "69531f88-7956-4296-838a-738a386ac0d2",
+    "feedbackBatchId": "3fa2c519-1c09-4693-54ec-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:51.9346109",
+    "answer": 1,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "a60ad625-0ec8-4f47-8a17-e6dbbac7aef4",
+    "feedbackBatchId": "3fa2c519-1c09-4693-54ec-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T12:22:51.9346128",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "395ede25-67b0-4605-95d2-f74ec7617637",
+    "feedbackBatchId": "3fa2c519-1c09-4693-54ec-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "do"
+  },
+  {
+    "date": "2020-06-18T20:23:05.2867635",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "770e4064-5335-4edf-bac7-3c6ac654374f",
+    "feedbackBatchId": "7a0d1ac2-cd51-4573-54ef-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:23:05.2867658",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "7fcb5b72-7af1-42da-8b91-f8e191718270",
+    "feedbackBatchId": "7a0d1ac2-cd51-4573-54ef-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:23:05.2867681",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "471dbad2-9d64-4f09-acdb-031cd0a79ed6",
+    "feedbackBatchId": "7a0d1ac2-cd51-4573-54ef-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:23:05.2868001",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "998a24e9-d882-4cda-99dc-049ace0d2c4a",
+    "feedbackBatchId": "7a0d1ac2-cd51-4573-54ef-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:23:05.2868039",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "69531f88-7956-4296-838a-738a386ac0d2",
+    "feedbackBatchId": "7a0d1ac2-cd51-4573-54ef-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:23:05.2868058",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "a60ad625-0ec8-4f47-8a17-e6dbbac7aef4",
+    "feedbackBatchId": "7a0d1ac2-cd51-4573-54ef-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:23:05.2868082",
+    "answer": 1,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "395ede25-67b0-4605-95d2-f74ec7617637",
+    "feedbackBatchId": "7a0d1ac2-cd51-4573-54ef-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:24:37.8028817",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "770e4064-5335-4edf-bac7-3c6ac654374f",
+    "feedbackBatchId": "afa5ed3e-a3bd-4b6f-54f0-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:24:37.8028839",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "7fcb5b72-7af1-42da-8b91-f8e191718270",
+    "feedbackBatchId": "afa5ed3e-a3bd-4b6f-54f0-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:24:37.8028859",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "471dbad2-9d64-4f09-acdb-031cd0a79ed6",
+    "feedbackBatchId": "afa5ed3e-a3bd-4b6f-54f0-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:24:37.8028879",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "998a24e9-d882-4cda-99dc-049ace0d2c4a",
+    "feedbackBatchId": "afa5ed3e-a3bd-4b6f-54f0-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:24:37.8028898",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "69531f88-7956-4296-838a-738a386ac0d2",
+    "feedbackBatchId": "afa5ed3e-a3bd-4b6f-54f0-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:24:37.8028919",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "a60ad625-0ec8-4f47-8a17-e6dbbac7aef4",
+    "feedbackBatchId": "afa5ed3e-a3bd-4b6f-54f0-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:24:37.8028938",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "395ede25-67b0-4605-95d2-f74ec7617637",
+    "feedbackBatchId": "afa5ed3e-a3bd-4b6f-54f0-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:26:19.2332238",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "770e4064-5335-4edf-bac7-3c6ac654374f",
+    "feedbackBatchId": "1432cd69-9aca-46b2-54f1-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:26:19.2332257",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "7fcb5b72-7af1-42da-8b91-f8e191718270",
+    "feedbackBatchId": "1432cd69-9aca-46b2-54f1-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:26:19.2332276",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "471dbad2-9d64-4f09-acdb-031cd0a79ed6",
+    "feedbackBatchId": "1432cd69-9aca-46b2-54f1-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:26:19.2332294",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "998a24e9-d882-4cda-99dc-049ace0d2c4a",
+    "feedbackBatchId": "1432cd69-9aca-46b2-54f1-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:26:19.2332312",
+    "answer": 1,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "69531f88-7956-4296-838a-738a386ac0d2",
+    "feedbackBatchId": "1432cd69-9aca-46b2-54f1-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:26:19.2332331",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "a60ad625-0ec8-4f47-8a17-e6dbbac7aef4",
+    "feedbackBatchId": "1432cd69-9aca-46b2-54f1-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-18T20:26:19.2332348",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "395ede25-67b0-4605-95d2-f74ec7617637",
+    "feedbackBatchId": "1432cd69-9aca-46b2-54f1-08d8136a352e",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "JO"
+  },
+  {
+    "date": "2020-06-23T17:51:43.9030471",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "770e4064-5335-4edf-bac7-3c6ac654374f",
+    "feedbackBatchId": "3cf9a517-912c-4bcd-427a-08d81747ec2d",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "yWM"
+  },
+  {
+    "date": "2020-06-23T17:51:43.9030491",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "7fcb5b72-7af1-42da-8b91-f8e191718270",
+    "feedbackBatchId": "3cf9a517-912c-4bcd-427a-08d81747ec2d",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "yWM"
+  },
+  {
+    "date": "2020-06-23T17:51:43.903051",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "471dbad2-9d64-4f09-acdb-031cd0a79ed6",
+    "feedbackBatchId": "3cf9a517-912c-4bcd-427a-08d81747ec2d",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "yWM"
+  },
+  {
+    "date": "2020-06-23T17:51:43.9038986",
+    "answer": 2,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "998a24e9-d882-4cda-99dc-049ace0d2c4a",
+    "feedbackBatchId": "3cf9a517-912c-4bcd-427a-08d81747ec2d",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "yWM"
+  },
+  {
+    "date": "2020-06-23T17:51:43.9039035",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "69531f88-7956-4296-838a-738a386ac0d2",
+    "feedbackBatchId": "3cf9a517-912c-4bcd-427a-08d81747ec2d",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "yWM"
+  },
+  {
+    "date": "2020-06-23T17:51:43.9039055",
+    "answer": 1,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "a60ad625-0ec8-4f47-8a17-e6dbbac7aef4",
+    "feedbackBatchId": "3cf9a517-912c-4bcd-427a-08d81747ec2d",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "yWM"
+  },
+  {
+    "date": "2020-06-23T17:51:43.9039075",
+    "answer": 3,
+    "categories": ["Undervisning", "Foredrag"],
+    "questionId": "395ede25-67b0-4605-95d2-f74ec7617637",
+    "feedbackBatchId": "3cf9a517-912c-4bcd-427a-08d81747ec2d",
+    "questionSetId": "9d307d10-c0a2-4208-b3c0-8bb671d53cfa",
+    "meetingId": "yWM"
+  }
+]
