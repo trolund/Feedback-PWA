@@ -21,11 +21,11 @@ import Switch from 'react-switch'
 
 interface IProp {
   feedbackLoading: FetchStates
-  // isRealtime: boolean
+  isRealtime: boolean
   // setIsRealtime: (value: boolean) => void
 }
 
-const FeedbackView = observer((props: IProp) => {
+const FeedbackView = observer(({ isRealtime }: IProp) => {
   const [activeTab, setActiveTab] = useState(1)
   const [showModal, setShowModal] = useState(false)
   const [wWidth, setWWidth] = useState(0)
@@ -186,7 +186,7 @@ const FeedbackView = observer((props: IProp) => {
           />
           <Switch
             onChange={setRealtimeFeedbackDefault}
-            checked={realtimeFeedbackDefault}
+            checked={isRealtime}
             onColor='#0594A6'
             offColor='#6a6b6e'
             uncheckedIcon={

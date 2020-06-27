@@ -80,7 +80,6 @@ const CustomTimepicker = ({
           }
         }}
       />
-
       <style jsx>{`
         .input-error {
           box-shadow: 0 0 0 2px var(--error) !important;

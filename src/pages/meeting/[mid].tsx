@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Router from 'next/router'
 import { observer } from 'mobx-react'
 import { QRCode } from 'react-qr-svg'
-import { Save, Trash } from 'react-feather'
+import { Save, Trash, Zap, ZapOff } from 'react-feather'
 import { NextPage } from 'next'
 import { toast } from 'react-toastify'
 import { HubConnectionBuilder, HubConnectionState } from '@aspnet/signalr'
@@ -28,30 +28,12 @@ import {
   validateStartAndEndDate,
   validateTextInput
 } from '../../services/validationService'
-import isServer from '../../utils/helper'
 
 const Post: NextPage = observer(() => {
   const router = useRouter()
   const { mid } = router.query
   const [showErrors, setshowErrors] = useState(false)
-
-  const minDate = () => {
-    const d = new Date()
-    d.setHours(0)
-    d.setMinutes(1)
-    d.setSeconds(1)
-
-    return d
-  }
-
-  const maxDate = () => {
-    const d = new Date()
-    d.setHours(23)
-    d.setMinutes(59)
-    d.setSeconds(59)
-
-    return d
-  }
+  const [live, setLive] = useState(false)
 
   const hubConnection = new HubConnectionBuilder()
     .withUrl(ApiRoutes.liveFeedback, {
@@ -81,6 +63,32 @@ const Post: NextPage = observer(() => {
   } = useContext(rootStore)
 
   const [meeting, setMeeting] = useState(globalMeeting)
+
+  const minDate = useCallback(() => {
+    const d = new Date()
+    d.setHours(0)
+    d.setMinutes(1)
+    d.setSeconds(1)
+
+    d.setDate(meeting?.startTime.getDate())
+    d.setMonth(meeting?.startTime.getMonth())
+    d.setFullYear(meeting?.startTime.getFullYear())
+
+    return d
+  }, [meeting])
+
+  const maxDate = useCallback(() => {
+    const d = new Date()
+    d.setHours(23)
+    d.setMinutes(59)
+    d.setSeconds(59)
+
+    d.setDate(meeting?.startTime.getDate())
+    d.setMonth(meeting?.startTime.getMonth())
+    d.setFullYear(meeting?.startTime.getFullYear())
+
+    return d
+  }, [meeting])
 
   useEffect(() => {
     setMeeting(globalMeeting)
@@ -174,6 +182,7 @@ const Post: NextPage = observer(() => {
     hubConnection.start().then(() => {
       joinMeetingRoom()
       subscripeToEvents()
+      setLive(true)
     })
   }, [hubConnection, joinMeetingRoom, subscripeToEvents])
 
@@ -182,6 +191,7 @@ const Post: NextPage = observer(() => {
       hubConnection.off('sendfeedback')
       hubConnection.off('memberJoind')
       leaveMeetingRoom()
+      setLive(false)
     }
   }, [hubConnection, leaveMeetingRoom])
 
@@ -431,11 +441,16 @@ const Post: NextPage = observer(() => {
                 </ul>
               </form>
               <hr />
+              {live ? (
+                <Zap style={{ float: 'right' }} />
+              ) : (
+                <ZapOff style={{ float: 'right' }} />
+              )}
               <FeedbackView
                 // feedback={feedback()}
                 // count={count}
                 feedbackLoading={FeedbackFetchState}
-                // isRealtime={isRealTimeDateOn}
+                isRealtime={live}
                 // setIsRealtime={setRealTimeDateOn}
               />
               {count === 0 && (
