@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useContext } from 'react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { Bar } from 'react-chartjs-2'
 import Collapsible from 'react-collapsible'
 import Modal from 'react-modal'
@@ -12,12 +12,12 @@ import { MessageCircle, Monitor, X, Check } from 'react-feather'
 import Feedback from '../../models/Feedback'
 import FetchStates from '../../stores/requestState'
 import FeedbackProcessbar from './feedback-progressbar'
-import CustomCheckbox from '../Input/checkbox'
 import CustomSwitch from '../Input/custom-switch'
 import { chartColors } from '../../services/colorContants'
 import { sortFeedbackByQuestionsIndex } from '../../services/sortService'
 import rootStore from '../../stores/RootStore'
 import Comment from '../../models/Comment'
+import Switch from 'react-switch'
 
 interface IProp {
   feedbackLoading: FetchStates
@@ -184,9 +184,31 @@ const FeedbackView = observer((props: IProp) => {
             style={{ margin: '0px', marginRight: '10px' }}
             onClick={() => setShowModal(true)}
           />
-          <CustomSwitch
+          <Switch
             onChange={setRealtimeFeedbackDefault}
             checked={realtimeFeedbackDefault}
+            onColor='#0594A6'
+            offColor='#6a6b6e'
+            uncheckedIcon={
+              <X
+                style={{
+                  width: '27px',
+                  height: '27px',
+                  padding: '5px',
+                  color: 'white'
+                }}
+              />
+            }
+            checkedIcon={
+              <Check
+                style={{
+                  width: '27px',
+                  height: '27px',
+                  padding: '5px',
+                  color: 'white'
+                }}
+              />
+            }
           />
           <div className='counter-container'>
             <p>Antal besvarelser</p>

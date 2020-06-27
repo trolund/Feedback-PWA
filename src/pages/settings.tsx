@@ -1,7 +1,5 @@
 import { observer } from 'mobx-react'
 import { useContext } from 'react'
-import { X, Check } from 'react-feather'
-import Switch from 'react-switch'
 import Page from '../components/essentials/page'
 import Section from '../components/essentials/section'
 import ThemeButton from '../components/theme-button'
